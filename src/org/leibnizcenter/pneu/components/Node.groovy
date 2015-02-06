@@ -21,7 +21,12 @@
 
 package org.leibnizcenter.pneu.components
 
+import org.leibnizcenter.pneu.graphics.components.Area
+import org.leibnizcenter.pneu.graphics.components.Point
+
 class Node {
     String id
     String name
+    Point position
+    Area dimension
 }

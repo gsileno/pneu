@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="pneu">
+    <output-path>$PROJECT_DIR$/out/artifacts/pneu</output-path>
+    <root id="archive" name="pneu.jar">
+      <element id="library" level="application" name="groovy-2.3.7" />
+      <element id="module-output" name="pneu" />
+    </root>
+  </artifact>
+</component>

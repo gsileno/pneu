@@ -21,10 +21,6 @@
 
 package org.leibnizcenter.pneu.components
 
-import org.leibnizcenter.pneu.graphics.components.Area
-import org.leibnizcenter.pneu.graphics.components.Point
-
 class Place extends Node {
-    Point position
-    Area dimension
+
 }

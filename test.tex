@@ -1,0 +1,40 @@
+\begin{tikzpicture}[node distance=1.3cm,>=stealth',shorten >=1pt,thick,bend angle=45,auto]
+  \tikzstyle{place}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=5mm]
+  \tikzstyle{red place}=[place,draw=red!75,fill=red!20]
+  \tikzstyle{transition}=[rectangle,thick,draw=black!75,fill=black!20,minimum size=5mm]
+
+  \tikzstyle{every label}=[font=\footnotesize,align=center,black]
+  \begin{scope}
+    \node	[place]	(pl4)	[label={below:person is sole\\shareholder}]	 at (3.25, 5.85)	{};
+    \node	[place]	(pl5)	[label={below:company\\fulfilling\\publication\\requirements}]	 at (4.55, 7.8)	{};
+    \node	[place]	(pl7)	[label={below:obligation}]	 at (3.25, 3.9)	{};
+    \node	[place]	(pl11)	 at (4.55, 1.95)	{};
+
+    \node	[transition]	(tr1)	 at (1.95, 5.85)	[label={below:pss+}]	{}
+      edge	[post]	(pl4);
+
+
+    \node	[transition]	(tr2)	 at (4.55, 5.85)	[label={below:pss-}]	{}
+      edge	[pre]	(pl4);
+
+
+    \node	[transition]	(tr4)	 at (3.25, 7.8)	[label={below:cfpr+}]	{}
+      edge	[post]	(pl5);
+
+
+    \node	[transition]	(tr6)	 at (1.95, 3.9)	[label={below:oi+}]	{}
+      edge	[post]	(pl7);
+
+
+    \node	[transition]	(tr7)	 at (4.55, 3.9)	[label={below:oi-}]	{}
+      edge	[pre]	(pl7);
+
+
+    \node	[transition]	(tr8)	 at (3.25, 1.95)	[label={below:company gets\\insolvent}]	{}
+      edge	[post]	(pl11);
+
+
+  \end{scope}
+
+\end{tikzpicture}
+

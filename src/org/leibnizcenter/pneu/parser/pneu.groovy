@@ -60,10 +60,23 @@ class pneu {
             if (!target) target = net.transitionList.find{ it.id == id }
             if (!target) println ("I haven't found the target node $id!")
 
+            List<Point> pointList = []
+
+            def pointRecs = rec.graphics.position.findAll()
+
+            for (pointRec in pointRecs) {
+                Point point = new Point(
+                        x: pointRec.'@x'.toInteger(),
+                        y: pointRec.'@y'.toInteger()
+                )
+                pointList << point
+            }
+
             Arc a = new Arc(
                     id: rec.'@id',
                     source: source,
-                    target: target
+                    target: target,
+                    pointList: pointList
             );
             net.arcList.add(a)
         }
@@ -72,30 +85,42 @@ class pneu {
     }
 
     static void main(String[] args) {
-        args += "./examples/events.pnml";
 
         Net net
 
-        if (args.length == 0) {
-            println("pneu - PNML petri net loader\nreading from standard input...");
-            net = parseText(System.in);
-        } else if (args.length == 1) {
-            println("pneu - PNML petri net loader\nreading from file " + args[0] + "...");
-            try {
-                net = parseFile(args[0]);
-            } catch (java.io.FileNotFoundException e) {
-                println("sorry, file " + args[0] + " not found.");
-            }
+        def cli = new CliBuilder(header:'\nOptions:', usage:'pneu [options] <pnmlfile>')
+        // cli.P(longOpt:'svg', 'Create a SVG file')
+        cli.L(longOpt:'latex', 'export to LaTeX (tikz)')
+        cli.o(longOpt:'output', args:1, argName:'file', 'Set the output file')
+        def options = cli.parse(args)
+
+        List<String> inputFileList = options.arguments()
+        String outputFile = options.o
+
+        println("pneu - PNML petri net loader")
+
+        if (options.arguments().size() == 0) {
+            cli.usage()
         } else {
-            println("neu - PNML petri net loader\nUsage is one of:");
-            println("\$ pneu < inputfile");
-            println("OR");
-            println("\$ pneu inputfile");
-            return
+
+            for (file in inputFileList) {
+                print("reading from file " + file + "... ");
+                try {
+                    net = parseFile(file);
+                } catch (java.io.FileNotFoundException e) {
+                    println("sorry, file " + file + " not found or not valid.");
+                }
+
+                print("petri net loaded... ")
+
+                if (outputFile == 'false') outputFile = file.replaceFirst(~/\.[^\.]+$/, '') + ".tex"
+
+                new File(outputFile).withWriter { out ->
+                    out.println(PN2LaTeX.convertabsolute(net))
+                }
+                println("petri net exported to " + outputFile)
+
+            }
         }
-
-        println("petri net correctly loaded.")
-
-        println(PN2LaTeX.convert(net))
     }
 }
