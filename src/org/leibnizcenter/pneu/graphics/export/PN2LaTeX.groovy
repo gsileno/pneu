@@ -2,15 +2,67 @@ package org.leibnizcenter.pneu.graphics.export
 
 import org.leibnizcenter.pneu.components.Net
 import org.leibnizcenter.pneu.components.Place
+import org.leibnizcenter.pneu.graphics.components.Cardinality
+import org.leibnizcenter.pneu.graphics.components.Compass
+import org.leibnizcenter.pneu.graphics.components.Point
 
 /* See on http://www.texample.net/tikz/examples/nodetutorial/ for the preamble */
-
+/* modified with this http://tex.stackexchange.com/questions/119764/overlapping-nodes-in-tikz */
 
 class PN2LaTeX {
 
-    static enum Cardinality { NORTH, EAST, SOUTH, WEST }
+    static final int maxCharPerLine = 16
+
+    static String helperOptions(String label, List<Cardinality> directions, String id) {
+        String code = ""
+
+        if (label.trim() == "") label = null
+
+        if (directions.size() > 0 || label != null) {
+            code += "["
+
+            for (direction in directions) {
+                if (direction == Cardinality.EAST) code += "left "
+                else if (direction == Cardinality.WEST) code += "right "
+                else if (direction == Cardinality.NORTH) code += "above "
+                else if (direction == Cardinality.SOUTH) code += "below "
+            }
+            if (directions.size() > 0) {
+                code += "= of "+id
+                code +=","
+            }
+
+
+            if (label != null) {
+                List<String> words = label.split(" ");
+                List<String> lines = []
+
+                String line = ""
+                for (word in words) {
+                    if (line.length() + word.trim().length() > maxCharPerLine) {
+                        lines << line
+                        line = ""
+                    }
+                    if (line.length() > 0) line += " "
+                    line += word.trim()
+                }
+                lines << line
+
+                code += "label={below:"+lines.join("\\\\")+"}"
+            } else {
+                code = code[0..-2]
+            }
+
+            code += "]\t"
+        }
+
+        code
+    }
 
     static convert(Net net) {
+
+        Compass compass = new Compass()
+
         String code = ""
 
         code += header+"\n"
@@ -18,101 +70,35 @@ class PN2LaTeX {
         code += "  \\begin{scope}\n"
 
         for (int i = 0; i < net.placeList.size(); i++) {
+
             Place pl = net.placeList.get(i)
 
             code += "    \\node\t"
             code += "[place]\t"
             code += "("+pl.id+")\t"
 
-            println "new place @@@@@@@@"
+            String proxiestId
+            List<Cardinality> directions = []
+            Integer dmin
 
-            // find the nearest from the remaining nodes
-            Place proxiestx, proxiesty
-            Integer minx, miny
-            Cardinality dirx, diry
-            Integer dx, dy
+            // find the nearest from the known places
+            for (int j = 0; j < i; j++) {
+                Place proxy = net.placeList.get(j)
 
-            if (i > 0) {
-
-                for (int j = i - 1; j >= 0; j--) {
-                    dx = dy = null
-
-                    Place proxy = net.placeList.get(j)
-
-                    if (proxy.id != pl.id) {
-                        dx = proxy.position.x - pl.position.x
-                        dy = proxy.position.y - pl.position.y
-
-                        println "minX: "+minx +" - dX: "+dx
-                        println "minY: "+miny +" - dY: "+dy
-
-                        if (minx == null) minx = dx.abs()
-                        else if (minx != 0) {
-                            if (dx.abs() < minx) {
-                                minx = dx.abs()
-                                println "X: "+minx +": "+dx
-                                if (dx > 0) {
-                                    dirx = Cardinality.EAST
-                                    proxiestx = proxy
-                                } else if (dx < 0) {
-                                    dirx = Cardinality.WEST
-                                    proxiestx = proxy
-                                } else {
-                                    dirx = null
-                                    proxiestx = null
-                                }
-                            }
-                        }
-
-                        if (miny == null) miny = dy.abs()
-                        else if (miny != 0) {
-                            if (dy.abs() < miny) {
-                                miny = dy.abs()
-                                println "Y: "+miny +": "+dy
-                                if (dy > 0) {
-                                    diry = Cardinality.NORTH
-                                    proxiesty = proxy
-                                } else if (dy < 0) {
-                                    diry = Cardinality.SOUTH
-                                    proxiesty = proxy
-                                } else {
-                                    diry = null
-                                    proxiesty = null
-                                }
-                            }
-                        }
+                if (proxy != pl) {
+                    int d = Point.squaredDistance(pl.position, proxy.position)
+                    if (dmin == null || d < dmin) {
+                        dmin = d
+                        proxiestId = proxy.id
+                        directions = compass.transformDirections(Point.getDirections(pl.position, proxy.position))
                     }
                 }
-
             }
 
-            if (pl.name.trim() == "") pl.name = null
-
-            if (dirx != null || diry != null || pl.name != null) {
-                code += "["
-
-                if (dirx != null) {
-                    if (dirx == Cardinality.EAST) code += "left of="
-                    if (dirx == Cardinality.WEST) code += "right of="
-                    code += proxiestx.id
-                    if (diry != null || pl.name != null) { code +="," }
-                }
-
-                if (diry != null) {
-                    if (diry == Cardinality.NORTH) code += "above of="
-                    if (diry == Cardinality.SOUTH) code += "below of="
-                    code += proxiesty.id
-                    if (pl.name != null) { code +="," }
-                }
-
-                if (pl.name != null) {
-                    code += "label="+pl.name.trim()
-                }
-
-                code += "]\t"
-            }
+            code += helperOptions(pl.name, directions, proxiestId)
 
             code += "{};\n"
+
         }
 
         code += "\n"
@@ -120,7 +106,25 @@ class PN2LaTeX {
         net.transitionList.each() { tr ->
             code += "    \\node\t"
             code += "[transition]\t"
-            code += "("+tr.id+")  "
+            code += "("+tr.id+")\t"
+
+            String proxiestId
+            List<Cardinality> directions = []
+            Integer dmin
+
+            // find the nearest of all places
+            for (pl in net.placeList) {
+                int d = Point.squaredDistance(tr.position, pl.position)
+
+                if (dmin == null || d < dmin) {
+                    dmin = d
+                    proxiestId = pl.id
+                    directions = compass.transformDirections(Point.getDirections(tr.position, pl.position))
+                }
+            }
+
+            code += helperOptions(tr.name, directions, proxiestId)
+
             code += "{}\n"
 
             def edgesIn = net.arcList.findAll { arc -> arc.source.id == tr.id }
@@ -153,10 +157,9 @@ class PN2LaTeX {
     static String header = '''\\begin{tikzpicture}[node distance=1.3cm,>=stealth',bend angle=45,auto]
   \\tikzstyle{place}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
   \\tikzstyle{red place}=[place,draw=red!75,fill=red!20]
-  \\tikzstyle{transition}=[rectangle,thick,draw=black!75,
-  \t\t\t  fill=black!20,minimum size=4mm]
+  \\tikzstyle{transition}=[rectangle,thick,draw=black!75,fill=black!20,minimum size=4mm]
 
-  \\tikzstyle{every label}=[red]'''
+  \\tikzstyle{every label}=[font=\\footnotesize,align=center,black]'''
 
     static String footer = '''
 \\end{tikzpicture}'''

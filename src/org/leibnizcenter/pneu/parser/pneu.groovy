@@ -72,7 +72,7 @@ class pneu {
     }
 
     static void main(String[] args) {
-        args += "./mock/events.pnml";
+        args += "./examples/events.pnml";
 
         Net net
 
