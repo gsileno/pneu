@@ -356,9 +356,7 @@ class PN2LaTeX {
             def edgesIn = net.arcList.findAll { arc -> arc.target.id == tr.id }
             edgesIn.each() { edge ->
                 if (edge.pointList.size() > 0) {
-
                     // for the incoming edges, the order of points should be inversed
-
                     postcode += "    \\draw\t[pre]\t("+tr.id+")"
                     edge.pointList.reverse().each() { point ->
                         postcode += "\t"
@@ -401,15 +399,13 @@ class PN2LaTeX {
         code += footer+"\n"
     }
 
-
     // preambles
 
     static String header = '''\\begin{tikzpicture}[node distance=1.3cm,>=stealth',shorten >=1pt,thick,bend angle=45,auto]
-  \\tikzstyle{place}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=5mm]
-  \\tikzstyle{red place}=[place,draw=red!75,fill=red!20]
-  \\tikzstyle{transition}=[rectangle,thick,draw=black!75,fill=black!20,minimum size=5mm]
+  \\tikzstyle{place}=[circle,thick,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=5mm]
+  \\tikzstyle{transition}=[rectangle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},thick,draw=black!100,fill=white!20,minimum size=5mm]
 
-  \\tikzstyle{every label}=[font=\\footnotesize,align=center,black]'''
+  \\tikzstyle{every label}=[font=\\scriptsize,align=center,black]'''
 
     static String footer = '''
 \\end{tikzpicture}'''

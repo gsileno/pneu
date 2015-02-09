@@ -1,9 +1,8 @@
 \begin{tikzpicture}[node distance=1.3cm,>=stealth',shorten >=1pt,thick,bend angle=45,auto]
-  \tikzstyle{place}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=5mm]
-  \tikzstyle{red place}=[place,draw=red!75,fill=red!20]
-  \tikzstyle{transition}=[rectangle,thick,draw=black!75,fill=black!20,minimum size=5mm]
+  \tikzstyle{place}=[circle,thick,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=5mm]
+  \tikzstyle{transition}=[rectangle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},thick,draw=black!100,fill=white!20,minimum size=5mm]
 
-  \tikzstyle{every label}=[font=\footnotesize,align=center,black]
+  \tikzstyle{every label}=[font=\scriptsize,align=center,black]
   \begin{scope}
     \node	[place]	(pl4)	[label={below:person is sole\\shareholder}]	 at (3.25, 5.85)	{};
     \node	[place]	(pl5)	[label={below:company\\fulfilling\\publication\\requirements}]	 at (4.55, 7.8)	{};

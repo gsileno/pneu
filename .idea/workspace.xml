@@ -7,15 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c4760a0-6062-49d7-bf30-4bc91a53d0af" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TODO" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/pneu.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/pneu_jar.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/export/PN2LaTeX$_convert_closure1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/export/PN2LaTeX$_convert_closure1_closure2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/export/PN2LaTeX$_convert_closure1_closure3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/export/PN2LaTeX$_convert_closure1_closure4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/export/PN2LaTeX$_convert_closure1_closure5.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/artifacts/pneu.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Arc.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Arc.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/components/Area.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/components/Area.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Net.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Net.class" />
@@ -26,14 +18,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/components/Point.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/components/Point.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Transition.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Transition.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/parser/pneu.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/parser/pneu.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/Arc.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/Arc.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/Node.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/Node.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/Place.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/Place.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/components/Point.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/components/Point.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/Transition.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/Transition.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/parser/pneu.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/parser/pneu.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pneu.iml" afterPath="$PROJECT_DIR$/pneu.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.tex" afterPath="$PROJECT_DIR$/test.tex" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="pneu.iws" />
@@ -70,12 +56,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PN2LaTeX.groovy" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PN2LaTeX.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6375">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.115340255" vertical-offset="5435" max-vertical-offset="6315">
+              <caret line="369" column="28" selection-start-line="369" selection-start-column="28" selection-end-line="369" selection-end-column="28" />
+              <folding>
+                <element signature="e#48#78#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -83,17 +71,17 @@
       <file leaf-file-name="Transition.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/Transition.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="465">
+            <state vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="465">
               <caret line="23" column="6" selection-start-line="23" selection-start-column="6" selection-end-line="23" selection-end-column="6" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pneu.groovy" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pneu.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/parser/pneu.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.55341506" vertical-offset="1154" max-vertical-offset="1890">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1139" max-vertical-offset="1890">
               <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
               <folding />
             </state>
@@ -103,7 +91,7 @@
       <file leaf-file-name="TODO" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TODO">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
+            <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="210">
               <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
               <folding />
             </state>
@@ -133,9 +121,10 @@
         <option value="$PROJECT_DIR$/src/logging.properties" />
         <option value="$PROJECT_DIR$/TODO" />
         <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/Arc.groovy" />
-        <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.groovy" />
         <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/components/Point.groovy" />
         <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/parser/pneu.groovy" />
+        <option value="$PROJECT_DIR$/test.tex" />
+        <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.groovy" />
       </list>
     </option>
   </component>
@@ -144,9 +133,10 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
+    <option name="x" value="-1" />
     <option name="y" value="29" />
-    <option name="width" value="1280" />
-    <option name="height" value="995" />
+    <option name="width" value="1282" />
+    <option name="height" value="1001" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -174,7 +164,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -208,6 +197,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pneu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pneu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="out" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -228,6 +231,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -263,7 +267,7 @@
     <configuration default="false" name="pneu" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.leibnizcenter.pneu.parser.pneu" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="-o test.tex ./examples/events.pnml" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -282,15 +286,6 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workDir" value="file://$PROJECT_DIR$" />
-      <setting name="debug" value="false" />
-      <method />
-    </configuration>
     <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails">
       <module name="" />
       <setting name="vmparams" value="" />
@@ -298,6 +293,15 @@
       <setting name="depsClasspath" value="false" />
       <setting name="passParentEnv" value="true" />
       <setting name="launchBrowser" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -357,15 +361,6 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <pass-parent-envs>true</pass-parent-envs>
-      <envs />
-      <method />
-    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -384,6 +379,15 @@
       </option>
       <envs />
       <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <pass-parent-envs>true</pass-parent-envs>
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
@@ -452,15 +456,16 @@
       <workItem from="1423167819150" duration="4043000" />
       <workItem from="1423211527724" duration="161000" />
       <workItem from="1423211703097" duration="22000" />
-      <workItem from="1423212137595" duration="21043000" />
+      <workItem from="1423212137595" duration="23707000" />
+      <workItem from="1423240789444" duration="658000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35031000" />
+    <option name="totallyTimeSpent" value="38353000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="29" width="1280" height="995" extended-state="6" />
+    <frame x="-1" y="29" width="1282" height="1001" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -477,14 +482,14 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3263506" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3263506" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -514,11 +519,26 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/parser/pneu.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1139" max-vertical-offset="1890">
+          <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TODO">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="210">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/components/Area.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="180">
           <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -526,7 +546,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1155">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#48#78#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -534,7 +556,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="195">
           <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -542,7 +563,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="525">
           <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -592,7 +612,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="50" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -600,7 +619,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="1155">
           <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
-          <folding />
+          <folding>
+            <element signature="e#48#78#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -608,7 +629,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="195">
           <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -616,7 +636,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="540">
           <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -666,7 +685,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="50" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -674,7 +692,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="185" max-vertical-offset="1515">
           <caret line="92" column="24" selection-start-line="92" selection-start-column="24" selection-end-line="92" selection-end-column="24" />
-          <folding />
+          <folding>
+            <element signature="e#48#78#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -682,7 +702,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="195">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -690,7 +709,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="540">
           <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -747,7 +765,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="50" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -755,7 +772,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="540">
           <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -805,7 +821,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.03409091" vertical-offset="0" max-vertical-offset="880">
           <caret line="2" column="3" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -823,7 +838,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="480">
           <caret line="23" column="6" selection-start-line="23" selection-start-column="6" selection-end-line="23" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -831,7 +845,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
           <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -847,7 +860,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2070">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -863,7 +875,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.12842466" vertical-offset="0" max-vertical-offset="584">
           <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -871,14 +882,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="465">
           <caret line="23" column="6" selection-start-line="23" selection-start-column="6" selection-end-line="23" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6375">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -901,9 +904,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/parser/pneu.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55341506" vertical-offset="1154" max-vertical-offset="1890">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1139" max-vertical-offset="1890">
           <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.tex">
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.029013539" vertical-offset="0" max-vertical-offset="675">
+          <caret line="1" column="144" selection-start-line="1" selection-start-column="144" selection-end-line="1" selection-end-column="144" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.115340255" vertical-offset="5435" max-vertical-offset="6315">
+          <caret line="369" column="28" selection-start-line="369" selection-start-column="28" selection-end-line="369" selection-end-column="28" />
+          <folding>
+            <element signature="e#48#78#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -914,10 +937,10 @@
         <settings>
           <artifact-editor>
             <show-content>
-              <type id="artifact" />
-              <type id="jpa-descriptors" />
               <type id="javaee-facet-resources" />
+              <type id="artifact" />
               <type id="library" />
+              <type id="jpa-descriptors" />
             </show-content>
           </artifact-editor>
           <last-edited>pneu:jar</last-edited>
