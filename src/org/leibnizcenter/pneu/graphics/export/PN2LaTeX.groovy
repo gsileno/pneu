@@ -6,6 +6,7 @@ import org.leibnizcenter.pneu.components.Place
 import org.leibnizcenter.pneu.components.Transition
 import org.leibnizcenter.pneu.graphics.components.Cardinality
 import org.leibnizcenter.pneu.graphics.components.Compass
+import org.leibnizcenter.pneu.graphics.components.Grid
 import org.leibnizcenter.pneu.graphics.components.Point
 
 /* See on http://www.texample.net/tikz/examples/nodetutorial/ for the preamble */
@@ -317,7 +318,8 @@ class PN2LaTeX {
 
     static convertabsolute(Net net) {
 
-        Compass compass = new Compass()
+        Grid grid = new Grid(net: net, zoomRatio: 0.65, inputDotGranularity: 33)
+        grid.setTransformation(grid.rotate90AntiClockWise)
 
         String code = ""
 
@@ -335,7 +337,7 @@ class PN2LaTeX {
 
             code += helperLabel(pl.name)
 
-            code += " at ("+pl.position.printScaled()+")\t"
+            code += " at ("+grid.printScaled(pl.position)+")\t"
             code += "{};\n"
 
         }
@@ -347,7 +349,7 @@ class PN2LaTeX {
             code += "    \\node\t"
             code += "[transition]\t"
             code += "("+tr.id+")\t"
-            code += " at ("+tr.position.printScaled()+")\t"
+            code += " at ("+grid.printScaled(tr.position)+")\t"
             code += helperLabel(tr.name)
             code += "{}\n"
 
@@ -360,7 +362,7 @@ class PN2LaTeX {
                     postcode += "    \\draw\t[pre]\t("+tr.id+")"
                     edge.pointList.reverse().each() { point ->
                         postcode += "\t"
-                        postcode += " -- ("+point.printScaled()+")"
+                        postcode += " -- ("+grid.printScaled(point)+")"
                     }
                     postcode += " -- ("+edge.source.id+");\n"
                 } else {
@@ -377,7 +379,7 @@ class PN2LaTeX {
                     postcode += "    \\draw\t[post]\t(" + tr.id +")"
                     edge.pointList.each() { point ->
                         postcode += "\t"
-                        postcode += " -- (" + point.printScaled() + ")"
+                        postcode += " -- (" + grid.printScaled(point) + ")"
                     }
                     postcode += " -- (" + edge.target.id + ");\n"
                 } else {

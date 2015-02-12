@@ -9,13 +9,6 @@ class Point {
     // 1/tgRange < tg < tgRange
     static final tgRange = 4
 
-    // to re-estabilish coordinates in another measure
-    static final int conversionRatio = 33     // pnml position / conversionRatio = intermediate position
-                                              // Yasper use 33 dots per square
-
-    // to zoom as pleasure
-    static final float zoomRatio = 0.65       // tikz posizion = intermediate position * zoomRatio
-
     Integer x
     Integer y
 
@@ -66,7 +59,4 @@ class Point {
         directions
     }
 
-    String printScaled() {
-        return Math.round(Math.round(x/conversionRatio)*zoomRatio * 100)/100 +", "+Math.round(Math.round(y/conversionRatio)*zoomRatio * 100)/100
-    }
 }

@@ -25,4 +25,20 @@ class Net {
     List<Transition> transitionList = []
     List<Place> placeList = []
     List<Arc> arcList = []
+
+    // Grid dimensions
+    Integer minX, maxX
+    Integer minY, maxY
+
+    void testMinMax(Integer x, Integer y) {
+        if (minX == null) minX = x
+        else if (x < minX) minX = x
+        if (maxX == null) maxX = x
+        else if (x > maxX) maxX = x
+        if (minY == null) minY = y
+        else if (y < minY) minY = y
+        if (maxY == null) maxY = y
+        else if (y > maxY) maxY = y
+    }
+
 }

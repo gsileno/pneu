@@ -27,10 +27,16 @@ class pneu {
 
         def tRecs = firstNet.transition
         for (rec in tRecs) {
+
+            Integer x = rec.graphics.position.'@x'[0].toInteger()
+            Integer y = rec.graphics.position.'@y'[0].toInteger()
+
+            net.testMinMax(x, y)
+
             Transition t = new Transition(
                     id: rec.'@id',
                     name: rec.name.text(),
-                    position: new Point(x: rec.graphics.position.'@x'[0].toInteger(), y: rec.graphics.position.'@y'[0].toInteger()),
+                    position: new Point(x: x, y: y),
                     dimension: new Area(x: rec.graphics.dimension.'@x'[0].toInteger(), y: rec.graphics.dimension.'@y'[0].toInteger())
             );
             net.transitionList.add(t)
@@ -38,10 +44,16 @@ class pneu {
 
         def pRecs = firstNet.place
         for (rec in pRecs) {
+
+            Integer x = rec.graphics.position.'@x'[0].toInteger()
+            Integer y = rec.graphics.position.'@y'[0].toInteger()
+
+            net.testMinMax(x, y)
+
             Place p = new Place(
                     id: rec.'@id',
                     name: rec.name.text(),
-                    position: new Point(x: rec.graphics.position.'@x'[0].toInteger(), y: rec.graphics.position.'@y'[0].toInteger()),
+                    position: new Point(x: x, y: y),
                     dimension: new Area(x: rec.graphics.dimension.'@x'[0].toInteger(), y: rec.graphics.dimension.'@y'[0].toInteger())
             );
             net.placeList.add(p)
@@ -65,9 +77,14 @@ class pneu {
             def pointRecs = rec.graphics.position.findAll()
 
             for (pointRec in pointRecs) {
+                Integer x = pointRec.'@x'.toInteger()
+                Integer y = pointRec.'@y'.toInteger()
+
+                net.testMinMax(x, y)
+
                 Point point = new Point(
-                        x: pointRec.'@x'.toInteger(),
-                        y: pointRec.'@y'.toInteger()
+                        x: x,
+                        y: y
                 )
                 pointList << point
             }
