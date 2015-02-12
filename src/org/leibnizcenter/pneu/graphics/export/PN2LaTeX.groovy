@@ -319,7 +319,7 @@ class PN2LaTeX {
     static convertabsolute(Net net) {
 
         Grid grid = new Grid(net: net, zoomRatio: 0.65, inputDotGranularity: 33)
-        grid.setTransformation(grid.rotate90AntiClockWise)
+        grid.setTransformation(grid.flipVertical)
 
         String code = ""
 

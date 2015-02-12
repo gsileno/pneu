@@ -7,27 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c4760a0-6062-49d7-bf30-4bc91a53d0af" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/components/Grid.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Arc.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Arc.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/components/Area.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/components/Area.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Net.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Net.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Node.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Node.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/export/PN2SVG.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/export/PN2SVG.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Place.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Place.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/components/Point.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/graphics/components/Point.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Transition.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/components/Transition.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/parser/pneu$_loadPNML_closure1.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/parser/pneu$_loadPNML_closure1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/parser/pneu$_loadPNML_closure2.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/parser/pneu$_loadPNML_closure2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/parser/pneu$_loadPNML_closure3.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/parser/pneu$_loadPNML_closure3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/parser/pneu$_loadPNML_closure4.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/parser/pneu$_loadPNML_closure4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/parser/pneu.class" afterPath="$PROJECT_DIR$/out/production/pneu/org/leibnizcenter/pneu/parser/pneu.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/Net.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/Net.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/components/Point.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/components/Point.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/parser/pneu.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/parser/pneu.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.tex" afterPath="$PROJECT_DIR$/test.tex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="pneu.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,11 +44,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PN2LaTeX.groovy" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PN2LaTeX.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4626" max-vertical-offset="6345">
-              <caret line="308" column="17" selection-start-line="308" selection-start-column="17" selection-end-line="308" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.8563923" vertical-offset="3996" max-vertical-offset="6345">
+              <caret line="299" column="0" selection-start-line="299" selection-start-column="0" selection-end-line="299" selection-end-column="0" />
               <folding>
                 <element signature="e#48#78#0" expanded="true" />
               </folding>
@@ -78,7 +59,7 @@
       <file leaf-file-name="Compass.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/components/Compass.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="930">
+            <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="930">
               <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="45" />
               <folding />
             </state>
@@ -88,7 +69,7 @@
       <file leaf-file-name="Grid.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/components/Grid.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="975">
+            <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="975">
               <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
               <folding />
             </state>
@@ -105,11 +86,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pneu.groovy" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pneu.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/parser/pneu.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7775832" vertical-offset="1446" max-vertical-offset="2145">
-              <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="513" max-vertical-offset="2145">
+              <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -117,21 +98,21 @@
       </file>
       <file leaf-file-name="test.tex" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.tex">
-          <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-            <state />
-          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="675">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="675">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="37" selection-end-column="17" />
               <folding />
             </state>
+          </provider>
+          <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+            <state />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="Net.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/Net.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="750">
+            <state vertical-scroll-proportion="0.0" vertical-offset="615" max-vertical-offset="750">
               <caret line="41" column="5" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
               <folding />
             </state>
@@ -174,9 +155,9 @@
         <option value="$PROJECT_DIR$/test.tex" />
         <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/Net.groovy" />
         <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/components/Point.groovy" />
-        <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.groovy" />
         <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/components/Grid.groovy" />
         <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/parser/pneu.groovy" />
+        <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.groovy" />
       </list>
     </option>
   </component>
@@ -215,7 +196,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -383,6 +363,7 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -437,15 +418,6 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workDir" value="file://$PROJECT_DIR$" />
-      <setting name="debug" value="false" />
-      <method />
-    </configuration>
     <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails">
       <module name="" />
       <setting name="vmparams" value="" />
@@ -453,6 +425,15 @@
       <setting name="depsClasspath" value="false" />
       <setting name="passParentEnv" value="true" />
       <setting name="launchBrowser" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -512,15 +493,6 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <pass-parent-envs>true</pass-parent-envs>
-      <envs />
-      <method />
-    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -539,6 +511,15 @@
       </option>
       <envs />
       <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <pass-parent-envs>true</pass-parent-envs>
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
@@ -610,11 +591,12 @@
       <workItem from="1423212137595" duration="23707000" />
       <workItem from="1423240789444" duration="658000" />
       <workItem from="1423730077862" duration="4776000" />
+      <workItem from="1423735037990" duration="707000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43129000" />
+    <option name="totallyTimeSpent" value="43836000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="29" width="1280" height="995" extended-state="6" />
@@ -639,9 +621,9 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1042,24 +1024,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test.tex">
-      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="675">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="37" selection-end-column="17" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4626" max-vertical-offset="6345">
-          <caret line="308" column="17" selection-start-line="308" selection-start-column="17" selection-end-line="308" selection-end-column="17" />
-          <folding>
-            <element signature="e#48#78#0" expanded="true" />
-          </folding>
-        </state>
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/components/Compass.groovy">
@@ -1080,9 +1052,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/parser/pneu.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7775832" vertical-offset="1446" max-vertical-offset="2145">
-          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="513" max-vertical-offset="2145">
+          <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2LaTeX.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8563923" vertical-offset="3996" max-vertical-offset="6345">
+          <caret line="299" column="0" selection-start-line="299" selection-start-column="0" selection-end-line="299" selection-end-column="0" />
+          <folding>
+            <element signature="e#48#78#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
