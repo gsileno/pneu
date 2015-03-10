@@ -335,7 +335,10 @@ class PN2LaTeX {
             Place pl = net.placeList.get(i)
 
             code += "    \\node\t"
-            code += "[place]\t"
+            code += "[place"
+            int nMarking = pl.marking.size();
+            if (nMarking > 0) code += ",tokens="+nMarking
+            code += "]\t"
             code += "("+pl.id+")\t"
 
             code += helperLabel(pl.name)
