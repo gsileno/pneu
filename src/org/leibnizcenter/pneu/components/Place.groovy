@@ -27,4 +27,5 @@ import org.leibnizcenter.pneu.graphics.components.Point
 class Place extends Node {
     Point position
     Area dimension
+    List<Token> marking
 }

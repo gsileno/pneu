@@ -3,6 +3,7 @@ package org.leibnizcenter.pneu.parser
 import org.leibnizcenter.pneu.components.Arc
 import org.leibnizcenter.pneu.components.Net
 import org.leibnizcenter.pneu.components.Place
+import org.leibnizcenter.pneu.components.Token
 import org.leibnizcenter.pneu.components.Transition
 import org.leibnizcenter.pneu.graphics.components.Area
 import org.leibnizcenter.pneu.graphics.components.Point
@@ -38,11 +39,23 @@ class pneu {
 
         def pRecs = firstNet.place
         for (rec in pRecs) {
+
+            // artifice to put a set of tokens with no data in the marking of the place
+            Integer n = 0
+            String nmarking = rec.initialMarking.text.text()
+            if (nmarking.length() > 0) n = nmarking.toInteger()
+
+            List<Token> marking = []
+            for (int j=0; j<n; j++) {
+                marking << new Token()
+            }
+
             Place p = new Place(
                     id: rec.'@id',
                     name: rec.name.text(),
                     position: new Point(x: rec.graphics.position.'@x'[0].toInteger(), y: rec.graphics.position.'@y'[0].toInteger()),
-                    dimension: new Area(x: rec.graphics.dimension.'@x'[0].toInteger(), y: rec.graphics.dimension.'@y'[0].toInteger())
+                    dimension: new Area(x: rec.graphics.dimension.'@x'[0].toInteger(), y: rec.graphics.dimension.'@y'[0].toInteger()),
+                    marking: marking
             );
             net.placeList.add(p)
         }
@@ -72,7 +85,8 @@ class pneu {
     }
 
     static void main(String[] args) {
-        args += "./mock/events.pnml";
+        // args += "./mock/events.pnml";
+        args += "./mock/placewithtoken.pnml";
 
         Net net
 
