@@ -20,9 +20,12 @@
 //----------------------------------------------------------------------------
 
 package org.leibnizcenter.pneu.components
+import org.leibnizcenter.pneu.graphics.components.Point
 
 class Arc {
     String id
     Node source
     Node target
+
+    List<Point> pointList
 }

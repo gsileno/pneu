@@ -28,10 +28,16 @@ class pneu {
 
         def tRecs = firstNet.transition
         for (rec in tRecs) {
+
+            Integer x = rec.graphics.position.'@x'[0].toInteger()
+            Integer y = rec.graphics.position.'@y'[0].toInteger()
+
+            net.testMinMax(x, y)
+
             Transition t = new Transition(
                     id: rec.'@id',
                     name: rec.name.text(),
-                    position: new Point(x: rec.graphics.position.'@x'[0].toInteger(), y: rec.graphics.position.'@y'[0].toInteger()),
+                    position: new Point(x: x, y: y),
                     dimension: new Area(x: rec.graphics.dimension.'@x'[0].toInteger(), y: rec.graphics.dimension.'@y'[0].toInteger())
             );
             net.transitionList.add(t)
@@ -40,6 +46,7 @@ class pneu {
         def pRecs = firstNet.place
         for (rec in pRecs) {
 
+<<<<<<< HEAD
             // artifice to put a set of tokens with no data in the marking of the place
             Integer n = 0
             String nmarking = rec.initialMarking.text.text()
@@ -49,13 +56,24 @@ class pneu {
             for (int j=0; j<n; j++) {
                 marking << new Token()
             }
+=======
+            Integer x = rec.graphics.position.'@x'[0].toInteger()
+            Integer y = rec.graphics.position.'@y'[0].toInteger()
+
+            net.testMinMax(x, y)
+>>>>>>> 7f024d40fb6842d1ad31e99d3fa85a7b20700951
 
             Place p = new Place(
                     id: rec.'@id',
                     name: rec.name.text(),
+<<<<<<< HEAD
                     position: new Point(x: rec.graphics.position.'@x'[0].toInteger(), y: rec.graphics.position.'@y'[0].toInteger()),
                     dimension: new Area(x: rec.graphics.dimension.'@x'[0].toInteger(), y: rec.graphics.dimension.'@y'[0].toInteger()),
                     marking: marking
+=======
+                    position: new Point(x: x, y: y),
+                    dimension: new Area(x: rec.graphics.dimension.'@x'[0].toInteger(), y: rec.graphics.dimension.'@y'[0].toInteger())
+>>>>>>> 7f024d40fb6842d1ad31e99d3fa85a7b20700951
             );
             net.placeList.add(p)
         }
@@ -73,10 +91,28 @@ class pneu {
             if (!target) target = net.transitionList.find{ it.id == id }
             if (!target) println ("I haven't found the target node $id!")
 
+            List<Point> pointList = []
+
+            def pointRecs = rec.graphics.position.findAll()
+
+            for (pointRec in pointRecs) {
+                Integer x = pointRec.'@x'.toInteger()
+                Integer y = pointRec.'@y'.toInteger()
+
+                net.testMinMax(x, y)
+
+                Point point = new Point(
+                        x: x,
+                        y: y
+                )
+                pointList << point
+            }
+
             Arc a = new Arc(
                     id: rec.'@id',
                     source: source,
-                    target: target
+                    target: target,
+                    pointList: pointList
             );
             net.arcList.add(a)
         }
@@ -85,31 +121,47 @@ class pneu {
     }
 
     static void main(String[] args) {
+<<<<<<< HEAD
         // args += "./mock/events.pnml";
         args += "./mock/placewithtoken.pnml";
+=======
+>>>>>>> 7f024d40fb6842d1ad31e99d3fa85a7b20700951
 
         Net net
 
-        if (args.length == 0) {
-            println("pneu - PNML petri net loader\nreading from standard input...");
-            net = parseText(System.in);
-        } else if (args.length == 1) {
-            println("pneu - PNML petri net loader\nreading from file " + args[0] + "...");
-            try {
-                net = parseFile(args[0]);
-            } catch (java.io.FileNotFoundException e) {
-                println("sorry, file " + args[0] + " not found.");
-            }
+        def cli = new CliBuilder(header:'\nOptions:', usage:'pneu [options] <pnmlfile>')
+        // cli.P(longOpt:'svg', 'Create a SVG file')
+        cli.L(longOpt:'latex', 'export to LaTeX (tikz)')
+        cli.o(longOpt:'output', args:1, argName:'file', 'Set the output file')
+        def options = cli.parse(args)
+
+        List<String> inputFileList = options.arguments()
+        String outputFile = options.o
+
+        println("pneu - PNML petri net loader")
+
+        if (options.arguments().size() == 0) {
+            cli.usage()
         } else {
-            println("neu - PNML petri net loader\nUsage is one of:");
-            println("\$ pneu < inputfile");
-            println("OR");
-            println("\$ pneu inputfile");
-            return
+
+            for (file in inputFileList) {
+                print("reading from file " + file + "... ");
+                try {
+                    net = parseFile(file);
+                } catch (java.io.FileNotFoundException e) {
+                    println("sorry, file " + file + " not found or not valid.");
+                }
+
+                print("petri net loaded... ")
+
+                if (outputFile == 'false') outputFile = file.replaceFirst(~/\.[^\.]+$/, '') + ".tex"
+
+                new File(outputFile).withWriter { out ->
+                    out.println(PN2LaTeX.convertabsolute(net))
+                }
+                println("petri net exported to " + outputFile)
+
+            }
         }
-
-        println("petri net correctly loaded.")
-
-        println(PN2LaTeX.convert(net))
     }
 }

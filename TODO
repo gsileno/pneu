@@ -1,0 +1,8 @@
+ERRORS
+convertrelative2 does not work perfectly, with actionscheme.pnml it lose one place and attach it to the transition
+
+INFO
+convertrelative1 is not the best strategy, should be discarded
+
+TODO
+avoid to write labels on top of the arrows
