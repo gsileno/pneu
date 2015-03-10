@@ -1,3 +1,6 @@
+DONE
+tokens are transformed
+
 ERRORS
 convertrelative2 does not work perfectly, with actionscheme.pnml it lose one place and attach it to the transition
 
