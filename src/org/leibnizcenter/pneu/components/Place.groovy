@@ -22,11 +22,5 @@
 package org.leibnizcenter.pneu.components
 
 class Place extends Node {
-<<<<<<< HEAD
-    Point position
-    Area dimension
     List<Token> marking
-=======
-
->>>>>>> 7f024d40fb6842d1ad31e99d3fa85a7b20700951
 }

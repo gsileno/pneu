@@ -46,7 +46,6 @@ class pneu {
         def pRecs = firstNet.place
         for (rec in pRecs) {
 
-<<<<<<< HEAD
             // artifice to put a set of tokens with no data in the marking of the place
             Integer n = 0
             String nmarking = rec.initialMarking.text.text()
@@ -56,24 +55,18 @@ class pneu {
             for (int j=0; j<n; j++) {
                 marking << new Token()
             }
-=======
+
             Integer x = rec.graphics.position.'@x'[0].toInteger()
             Integer y = rec.graphics.position.'@y'[0].toInteger()
 
             net.testMinMax(x, y)
->>>>>>> 7f024d40fb6842d1ad31e99d3fa85a7b20700951
 
             Place p = new Place(
                     id: rec.'@id',
                     name: rec.name.text(),
-<<<<<<< HEAD
-                    position: new Point(x: rec.graphics.position.'@x'[0].toInteger(), y: rec.graphics.position.'@y'[0].toInteger()),
+                    position: new Point(x: x, y: y),
                     dimension: new Area(x: rec.graphics.dimension.'@x'[0].toInteger(), y: rec.graphics.dimension.'@y'[0].toInteger()),
                     marking: marking
-=======
-                    position: new Point(x: x, y: y),
-                    dimension: new Area(x: rec.graphics.dimension.'@x'[0].toInteger(), y: rec.graphics.dimension.'@y'[0].toInteger())
->>>>>>> 7f024d40fb6842d1ad31e99d3fa85a7b20700951
             );
             net.placeList.add(p)
         }
@@ -121,11 +114,8 @@ class pneu {
     }
 
     static void main(String[] args) {
-<<<<<<< HEAD
         // args += "./mock/events.pnml";
-        args += "./mock/placewithtoken.pnml";
-=======
->>>>>>> 7f024d40fb6842d1ad31e99d3fa85a7b20700951
+        // args += "./mock/placewithtoken.pnml";
 
         Net net
 
