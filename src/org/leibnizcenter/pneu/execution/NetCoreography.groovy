@@ -20,17 +20,14 @@ class NetCoreography {
 
             def edgesIn = net.arcList.findAll { arc -> arc.target.id == tr.id }
             edgesIn.each() { arc ->
-                trActor.preList << placeId2ActorMap.get(arc.source.id)
+                trActor.preList << new Connection(p: placeId2ActorMap.get(arc.source.id), n: 1)
             }
 
             def edgesOut = net.arcList.findAll { arc -> arc.source.id == tr.id }
             edgesOut.each() { arc ->
-                trActor.postList << placeId2ActorMap.get(arc.target.id)
+                trActor.postList << new Connection(p: placeId2ActorMap.get(arc.target.id), n: 1)
             }
         }
-
-        println placeId2ActorMap
-        println transitionId2ActorMap
     }
 
     void run() {

@@ -1,6 +1,8 @@
 package org.leibnizcenter.pneu.execution
 
+import groovy.transform.Immutable
 import groovyx.gpars.actor.DefaultActor
+import org.leibnizcenter.pneu.components.Place
 import org.leibnizcenter.pneu.components.Transition
 
 /* http://www.gpars.org/1.0.0/guide/guide/actors.html
@@ -93,30 +95,38 @@ class TransitionActor extends TransitionActorPPOPTO {
 
 }
 
+class Connection {
+    PlaceActor p   // place to which it is connected
+    Integer n      // weight of the arc (consumption/production)
+}
+
 class TransitionActorPPOPTO extends DefaultActor {
 
     String id
 
-    Integer nConsumedTokens
-    Integer nProducedTokens
-    List<PlaceActor> preList = []
-    List<PlaceActor> postList = []
-    List<PlaceActor> reservedList = []
+    List<Connection> preList = []
+    List<Connection> postList = []
+    List<Connection> reservedList = []
+
+    public void onDeliveryError(msg) {
+        println "Could not deliver message $msg"
+    }
 
     void act() {
         loop {
-            println(id+"> cycle "+preList.size()+"/"+postList.size())
+            println(id+"> starting cycle")
 
-            Boolean success
-            for (p in preList) {
-                println(id+"> asking "+p.id+" to reserve "+n+" tokens")
-                p.send(new Message(signal: Signal.RESERVE, n: nConsumedTokens))
+            Boolean success = false
+            for (c in preList) {
+                println(id+"> asking "+c.p.id+" to reserve "+c.n+" tokens")
+                // c.p.send(new Message(signal: Signal.RESERVE, n: c.n))
+                c.p.send "ciao"
 
                 react { signal ->
                     println(id+"> received "+signal+" from "+sender.id)
                     switch(signal) {
                         case Signal.SUCCESS:
-                            reservedList << p
+                            reservedList << c
                             success = true
                             break
                         case Signal.FAILURE:
@@ -127,18 +137,18 @@ class TransitionActorPPOPTO extends DefaultActor {
             }
 
             if (success) {
-                for (p in preList) {
-                    println(id+"> asking "+p.id+" to consume "+n+" tokens")
-                    p.send(new Message(signal: Signal.TAKE, n: nConsumedTokens))
+                for (c in preList) {
+                    println(id+"> asking "+c.p.id+" to consume "+c.n+" tokens")
+                    c.p.send(new Message(signal: Signal.TAKE, n: c.n))
                 }
-                for (p in postList) {
-                    println(id+"> asking "+p.id+" to produce "+n+" tokens")
-                    p.send(new Message(signal: Signal.PUT, n: nProducedTokens))
+                for (c in postList) {
+                    println(id+"> asking "+c.p.id+" to produce "+c.n+" tokens")
+                    c.p.send(new Message(signal: Signal.PUT, n: c.n))
                 }
             } else {
-                for (p in reservedList) {
-                    println(id+"> asking "+p.id+" to release "+n+" tokens")
-                    p.send(new Message(signal: Signal.RELEASE, n: nConsumedTokens))
+                for (c in reservedList) {
+                    println(id+"> asking "+c.p.id+" to release "+c.n+" tokens")
+                    c.p.send(new Message(signal: Signal.RELEASE, n: c.n))
                 }
             }
         }

@@ -82,14 +82,19 @@ class PlaceActorPPO extends DefaultActor {
     Integer nAvailable = 0      // number of tokens available in this place
     Boolean reserved = false    // flag on the place
 
+    public void onDeliveryError(msg) {
+        println "Could not deliver message $msg"
+    }
+
     void act() {
         loop {
             println(id+"> cycle")
 
             Signal signal
 
-            react { Message msg ->
-                println(id+"> received "+msg+" from "+sender.id)
+            react { msg ->
+                println("ciao")
+                println(id+"> received "+msg)
                 signal = msg.signal
                 switch (signal) {
                     case Signal.RESERVE:
@@ -108,7 +113,7 @@ class PlaceActorPPO extends DefaultActor {
                 }
             }
 
-            if (signal != Signal.PUT && signal != Signal.RELEASE) {
+            /* if (signal != Signal.PUT && signal != Signal.RELEASE) {
                 // respond to all requests which cannot be satisfied
                 for (req in requests) {
                     if (req.n > nAvailable) {
@@ -117,7 +122,7 @@ class PlaceActorPPO extends DefaultActor {
                         requests.remove(req)
                     }
                 }
-            }
+            } */
 
             if (signal != Signal.RESERVE) {
                 if (requests.size() > 0 && !reserved) {
