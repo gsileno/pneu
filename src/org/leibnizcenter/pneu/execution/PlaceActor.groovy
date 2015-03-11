@@ -74,7 +74,7 @@ class PlaceActor extends DefaultActor {
     Integer nTokens
 
     Boolean reserved // PPO
-    Integer reservedTransitions // PPT
+    Integer reservedTransitions // PTO
 
     void act() {
         loop {
@@ -84,21 +84,37 @@ class PlaceActor extends DefaultActor {
                         queue << [sender]
                         break
                     case Request.RELEASE:
-                        reserved = false
-                        reservedTransitions = reservedTransitions - 1
+                        reserved = false // PPO
+                        reservedTransitions = reservedTransitions - 1 // PTO
                         break
                     case Request.TAKE:
                         nTokens = nTokens - 1
-                        reserved = true
-                        reservedTransitions = reservedTransitions + 1
+                        reserved = true // PPO
+                        reservedTransitions = reservedTransitions + 1 // PTO
                         break
                     case Request.PUT:
                         nTokens = nTokens + 1
                         break
                 }
             }
+
+            // respond to all transitions which cannot be satisfied
             for (e in queue) {
-                if 
+                // if required tokens are not available
+                e.send(Response.FAILURE)
+                queue.remove(e)
+            }
+
+            // PPO
+            if (queue.size() > 0 && !reserved) {
+            // PTO
+            // while (queue.size() > 0 && queue.get(0) <= nTokens)
+            // for (t in queue) if required tokens are available
+                TransitionActor t = queue.get(0)
+                t.send(Response.SUCCESS)
+                reserved = true // PPO
+                reservedTransitions = reservedTransitions + 1 // PTO
+                queue.remove(t)
             }
         }
     }

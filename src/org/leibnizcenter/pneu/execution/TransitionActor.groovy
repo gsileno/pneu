@@ -117,12 +117,12 @@ class TransitionActor extends DefaultActor {
             if (success) {
                 // PAR
                 for (p in preList)          // PAR
-                    p.send() // take F[p]
+                    p.send(Request.TAKE)    // take F[p]
                 for (p in postList)         // PAR
-                    p.send() // put B[p]
+                    p.send(Request.PUT)     // put B[p]
             } else {
-                for (p in reservedList)         // PAR
-                    p.send() // release F[p]
+                for (p in reservedList)     // PAR
+                    p.send(Request.RELEASE) // release F[p]
             }
         }
     }
