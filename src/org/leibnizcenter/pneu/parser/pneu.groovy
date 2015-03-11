@@ -5,6 +5,7 @@ import org.leibnizcenter.pneu.components.Net
 import org.leibnizcenter.pneu.components.Place
 import org.leibnizcenter.pneu.components.Token
 import org.leibnizcenter.pneu.components.Transition
+import org.leibnizcenter.pneu.execution.NetCoreography
 import org.leibnizcenter.pneu.graphics.components.Area
 import org.leibnizcenter.pneu.graphics.components.Point
 import org.leibnizcenter.pneu.graphics.export.PN2LaTeX
@@ -122,6 +123,7 @@ class pneu {
         def cli = new CliBuilder(header:'\nOptions:', usage:'pneu [options] <pnmlfile>')
         // cli.P(longOpt:'svg', 'Create a SVG file')
         cli.L(longOpt:'latex', 'export to LaTeX (tikz)')
+        cli.r(longOpt:'run', 'execute the model')
         cli.o(longOpt:'output', args:1, argName:'file', 'Set the output file')
         def options = cli.parse(args)
 
@@ -135,22 +137,34 @@ class pneu {
         } else {
 
             for (file in inputFileList) {
+                boolean error = false
                 print("reading from file " + file + "... ");
                 try {
                     net = parseFile(file);
                 } catch (java.io.FileNotFoundException e) {
+                    error = true
                     println("sorry, file " + file + " not found or not valid.");
                 }
 
-                print("petri net loaded... ")
+                if (!error) {
+                    print("petri net loaded... ")
 
-                if (outputFile == 'false') outputFile = file.replaceFirst(~/\.[^\.]+$/, '') + ".tex"
+                    if (options.L) {
+                        if (outputFile == 'false') outputFile = file.replaceFirst(~/\.[^\.]+$/, '') + ".tex"
 
-                new File(outputFile).withWriter { out ->
-                    out.println(PN2LaTeX.convertabsolute(net))
+                        new File(outputFile).withWriter { out ->
+                            out.println(PN2LaTeX.convertabsolute(net))
+                        }
+                        println("petri net exported to " + outputFile)
+                    }
+
+                    if (options.r) {
+                        println("running the petri net model...")
+
+                        NetCoreography coreography = new NetCoreography()
+                        coreography.embody(net)
+                    }
                 }
-                println("petri net exported to " + outputFile)
-
             }
         }
     }

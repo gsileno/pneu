@@ -1,5 +1,6 @@
 package org.leibnizcenter.pneu.execution
 
+import groovy.transform.Immutable
 import groovyx.gpars.actor.DefaultActor
 import org.leibnizcenter.pneu.components.Place
 import org.leibnizcenter.pneu.components.Token
@@ -61,60 +62,111 @@ import org.leibnizcenter.pneu.components.Token
 
  */
 
-enum Response { FAILURE, SUCCESS }
-enum Request { RESERVE, RELEASE, TAKE, PUT }
+/* List<Token> tokenList = []
+List<TransitionActor> queue = []
+Map<TransitionActor, List<Token>> queue = [:] */
 
-class PlaceActor extends DefaultActor {
+class PlaceActor extends PlaceActorPPO {}
 
-    Place p
-    List<Token> tokenList = []
-    List<TransitionActor> queue = []
-    // Map<TransitionActor, Token> queue = [:]
+@Immutable
+class Request {
+    TransitionActor t  // source of the request
+    Integer n          // number of tokens requested
+}
 
-    Integer nTokens
+class PlaceActorPPO extends DefaultActor {
 
-    Boolean reserved // PPO
-    Integer reservedTransitions // PTO
+    List<Request> requests = [] // request of reservation received by transition actors
+    Integer nAvailable = 0      // number of tokens available in this place
+    Boolean reserved = false    // flag on the place
 
     void act() {
         loop {
-            react { msg ->             // sender is another anonymous entity
-                switch (msg) {
-                    case Request.RESERVE:
-                        queue << [sender]
+            Signal signal
+
+            react { Message msg ->
+                signal = msg.signal
+                switch (signal) {
+                    case Signal.RESERVE:
+                        requests << [sender, msg.n]
                         break
-                    case Request.RELEASE:
-                        reserved = false // PPO
-                        reservedTransitions = reservedTransitions - 1 // PTO
+                    case Signal.RELEASE:
+                        reserved = false
                         break
-                    case Request.TAKE:
-                        nTokens = nTokens - 1
-                        reserved = true // PPO
-                        reservedTransitions = reservedTransitions + 1 // PTO
+                    case Signal.TAKE:
+                        nAvailable -= msg.n
+                        reserved = true
                         break
-                    case Request.PUT:
-                        nTokens = nTokens + 1
+                    case Signal.PUT:
+                        nAvailable += msg.n
                         break
                 }
             }
 
-            // respond to all transitions which cannot be satisfied
-            for (e in queue) {
-                // if required tokens are not available
-                e.send(Response.FAILURE)
-                queue.remove(e)
+            if (signal != Signal.PUT && signal != Signal.RELEASE) {
+                // respond to all requests which cannot be satisfied
+                for (req in requests) {
+                    if (req.n > nAvailable) {
+                        req.t.send(Signal.FAILURE)
+                        requests.remove(req)
+                    }
+                }
             }
 
-            // PPO
-            if (queue.size() > 0 && !reserved) {
-            // PTO
-            // while (queue.size() > 0 && queue.get(0) <= nTokens)
-            // for (t in queue) if required tokens are available
-                TransitionActor t = queue.get(0)
-                t.send(Response.SUCCESS)
-                reserved = true // PPO
-                reservedTransitions = reservedTransitions + 1 // PTO
-                queue.remove(t)
+            if (signal != Signal.RESERVE) {
+                if (requests.size() > 0 && !reserved) {
+                    Request req = requests.first()
+                    req.t.send(Signal.SUCCESS)
+                    reserved = true
+                    requests.remove(req)
+                }
+            }
+        }
+    }
+
+}
+
+class PlaceActorPTO extends DefaultActor {
+
+    List<Request> requests = [] // request of reservation received by transition actors
+    Integer nAvailable = 0      // number of tokens available in this place
+    Integer nReserved = 0       // number of tokens already reserved
+
+    void act() {
+        loop {
+            Signal signal
+
+            react { Message msg ->
+                signal = msg.signal
+                switch (msg.signal) {
+                    case Signal.RESERVE:
+                        requests << new Request(t: sender, n: msg.n)
+                        break
+                    case Signal.RELEASE:
+                        nReserved -= msg.n
+                        break
+                    case Signal.TAKE:
+                        nAvailable -= msg.n
+                        nReserved -= msg.n
+                        break
+                    case Signal.PUT:
+                        nAvailable += msg.n
+                        break
+                }
+            }
+
+            // respond to all requests
+            for (req in requests) {
+                if (signal != Signal.PUT && signal != Signal.RELEASE && req.n > nAvailable) {
+                    // if required tokens are not available
+                    req.t.send(Signal.FAILURE)
+                    requests.remove(req)
+                }
+                if (signal != Signal.RESERVE && req.n <= nAvailable) { // if required tokens are available
+                    req.t.send(Signal.SUCCESS)
+                    nReserved = nReserved + req.n
+                    requests.remove(req)
+                }
             }
         }
     }

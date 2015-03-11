@@ -89,40 +89,43 @@ import org.leibnizcenter.pneu.components.Transition
 
  */
 
-class TransitionActor extends DefaultActor {
+class TransitionActor extends TransitionActorPPOPTO {
 
-    Transition t
-    List<PlaceActor> preList
-    List<PlaceActor> postList
+}
+
+class TransitionActorPPOPTO extends DefaultActor {
+    Integer nConsumedTokens
+    Integer nProducedTokens
+    List<PlaceActor> preList = []
+    List<PlaceActor> postList = []
     List<PlaceActor> reservedList = []
 
     void act() {
         loop {
             Boolean success
             for (p in preList) {
-                p.send() // reserve F[p]
-                react { msg ->
-                    switch(msg) {
-                        case Response.SUCCESS:
+                p.send(new Message(signal: Signal.RESERVE, n: nConsumedTokens))
+                react { signal ->
+                    switch(signal) {
+                        case Signal.SUCCESS:
                             reservedList << p
                             success = true
                             break
-                        case Response.FAILURE:
-                            success = false // ??
+                        case Signal.FAILURE:
+                            success = false
                             break
                     }
                 }
             }
 
             if (success) {
-                // PAR
-                for (p in preList)          // PAR
-                    p.send(Request.TAKE)    // take F[p]
-                for (p in postList)         // PAR
-                    p.send(Request.PUT)     // put B[p]
+                for (p in preList)
+                    p.send(new Message(signal: Signal.TAKE, n: nConsumedTokens))
+                for (p in postList)
+                    p.send(new Message(signal: Signal.PUT, n: nProducedTokens))
             } else {
-                for (p in reservedList)     // PAR
-                    p.send(Request.RELEASE) // release F[p]
+                for (p in reservedList)
+                    p.send(new Message(signal: Signal.RELEASE, n: nConsumedTokens))
             }
         }
     }
