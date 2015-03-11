@@ -94,6 +94,9 @@ class TransitionActor extends TransitionActorPPOPTO {
 }
 
 class TransitionActorPPOPTO extends DefaultActor {
+
+    String id
+
     Integer nConsumedTokens
     Integer nProducedTokens
     List<PlaceActor> preList = []
@@ -102,10 +105,15 @@ class TransitionActorPPOPTO extends DefaultActor {
 
     void act() {
         loop {
+            println(id+"> cycle "+preList.size()+"/"+postList.size())
+
             Boolean success
             for (p in preList) {
+                println(id+"> asking "+p.id+" to reserve "+n+" tokens")
                 p.send(new Message(signal: Signal.RESERVE, n: nConsumedTokens))
+
                 react { signal ->
+                    println(id+"> received "+signal+" from "+sender.id)
                     switch(signal) {
                         case Signal.SUCCESS:
                             reservedList << p
@@ -119,13 +127,19 @@ class TransitionActorPPOPTO extends DefaultActor {
             }
 
             if (success) {
-                for (p in preList)
+                for (p in preList) {
+                    println(id+"> asking "+p.id+" to consume "+n+" tokens")
                     p.send(new Message(signal: Signal.TAKE, n: nConsumedTokens))
-                for (p in postList)
+                }
+                for (p in postList) {
+                    println(id+"> asking "+p.id+" to produce "+n+" tokens")
                     p.send(new Message(signal: Signal.PUT, n: nProducedTokens))
+                }
             } else {
-                for (p in reservedList)
+                for (p in reservedList) {
+                    println(id+"> asking "+p.id+" to release "+n+" tokens")
                     p.send(new Message(signal: Signal.RELEASE, n: nConsumedTokens))
+                }
             }
         }
     }

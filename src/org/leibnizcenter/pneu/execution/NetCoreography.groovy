@@ -10,12 +10,12 @@ class NetCoreography {
     void embody(Net net) {
 
         for (pl in net.placeList) {
-            PlaceActor plActor = new PlaceActor()
+            PlaceActor plActor = new PlaceActor(id: pl.id)
             placeId2ActorMap[pl.id] = plActor
         }
 
         for (tr in net.transitionList) {
-            TransitionActor trActor = new TransitionActor()
+            TransitionActor trActor = new TransitionActor(id: tr.id)
             transitionId2ActorMap[tr.id] = trActor
 
             def edgesIn = net.arcList.findAll { arc -> arc.target.id == tr.id }
@@ -31,5 +31,14 @@ class NetCoreography {
 
         println placeId2ActorMap
         println transitionId2ActorMap
+    }
+
+    void run() {
+        for (e in placeId2ActorMap) {
+            e.value.start()
+        }
+        for (e in transitionId2ActorMap) {
+            e.value.start()
+        }
     }
 }

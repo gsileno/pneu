@@ -76,15 +76,20 @@ class Request {
 
 class PlaceActorPPO extends DefaultActor {
 
+    String id
+
     List<Request> requests = [] // request of reservation received by transition actors
     Integer nAvailable = 0      // number of tokens available in this place
     Boolean reserved = false    // flag on the place
 
     void act() {
         loop {
+            println(id+"> cycle")
+
             Signal signal
 
             react { Message msg ->
+                println(id+"> received "+msg+" from "+sender.id)
                 signal = msg.signal
                 switch (signal) {
                     case Signal.RESERVE:
@@ -107,6 +112,7 @@ class PlaceActorPPO extends DefaultActor {
                 // respond to all requests which cannot be satisfied
                 for (req in requests) {
                     if (req.n > nAvailable) {
+                        println(id+"> saying to "+t.id+" that cannot satisfy its request")
                         req.t.send(Signal.FAILURE)
                         requests.remove(req)
                     }
@@ -115,6 +121,7 @@ class PlaceActorPPO extends DefaultActor {
 
             if (signal != Signal.RESERVE) {
                 if (requests.size() > 0 && !reserved) {
+                    println(id+"> saying to "+t.id+" that can satisfy its request")
                     Request req = requests.first()
                     req.t.send(Signal.SUCCESS)
                     reserved = true
@@ -128,6 +135,8 @@ class PlaceActorPPO extends DefaultActor {
 
 class PlaceActorPTO extends DefaultActor {
 
+    String id
+
     List<Request> requests = [] // request of reservation received by transition actors
     Integer nAvailable = 0      // number of tokens available in this place
     Integer nReserved = 0       // number of tokens already reserved
@@ -137,6 +146,7 @@ class PlaceActorPTO extends DefaultActor {
             Signal signal
 
             react { Message msg ->
+
                 signal = msg.signal
                 switch (msg.signal) {
                     case Signal.RESERVE:

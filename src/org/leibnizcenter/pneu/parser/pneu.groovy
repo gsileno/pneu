@@ -163,6 +163,7 @@ class pneu {
 
                         NetCoreography coreography = new NetCoreography()
                         coreography.embody(net)
+                        coreography.run()
                     }
                 }
             }
