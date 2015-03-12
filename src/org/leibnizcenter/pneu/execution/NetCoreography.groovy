@@ -42,11 +42,11 @@ class NetCoreography {
         for (e in transitionId2ActorMap) {
             e.value.start()
         }
-
         def orchestrator = actor {
+            placeId2ActorMap.values()*.nAvailable = 0
             placeId2ActorMap.values()*.send(new Message(signal: Signal.BOOT))
-        }
 
+        }
         // to finish the running
         orchestrator.join()
         transitionId2ActorMap.values()*.join()

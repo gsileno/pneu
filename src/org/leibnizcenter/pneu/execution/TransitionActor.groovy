@@ -102,49 +102,50 @@ class TransitionAsynchronousActor extends DefaultActor {
     Map<PlaceActor, Integer> postMap = [:]
     List<PlaceActor> reservedList = []
 
-    Boolean negotiation() {
-        Boolean success = true
-
-        loop {
-            react { signal ->
-                switch (signal) {
-                    case Signal.SYNC:
-                        Integer n = preMap.get(sender) // arc weight
-                        println(id + "> asking " + sender.id + " to reserve " + n + " tokens")
-                        reply(new Message(signal: Signal.RESERVE, n: n))
-                        break;
-                    case Signal.SUCCESS:
-                        reservedList << sender
-                        break
-                    case Signal.FAILURE:
-                        success = false
-                        break
-                }
+    Boolean firing() {
+        react { signal ->
+            switch (signal) {
+                case Signal.SYNC:
+                    Integer n = preMap.get(sender) // arc weight
+                    println(id + "> asking " + sender.id + " to reserve " + n + " tokens")
+                    reply(new Message(signal: Signal.RESERVE, n: n))
+                    break;
+                case Signal.SUCCESS:
+                    println(id + "> success from " + sender.id)
+                    reservedList << sender
+                    break
+                case Signal.FAILURE:
+                    println(id + "> failure from " + sender.id)
+                    println(id + "> renounces to fire..")
+                    return false
+                    break
             }
+        }
 
-            if (success == false)
-                return false
-            if (reservedList.size() == preMap.size())
-                return true
+        if (reservedList.size() == preMap.size()) {
+            println(id + "> fires!")
+            return true
         }
     }
 
     void act() {
-        loop {
-            if (negotiation()) {
-                for (e in preMap) {
-                    println(id + "> asking " + e.key.id + " to consume " + e.value + " tokens")
-                    e.key.send(new Message(signal: Signal.TAKE, n: e.value))
-                }
-                for (e in postMap) {
-                    println(id + "> asking " + e.key.id + " to produce " + e.value + " tokens")
-                    e.key.send(new Message(signal: Signal.PUT, n: e.value))
-                }
-            } else {
-                for (p in reservedList) {
-                    Integer n = preMap.get(p)
-                    println(id + "> asking " + p.id + " to release " + n + " tokens")
-                    p.send(new Message(signal: Signal.RELEASE, n: n))
+        if (preMap.size() > 0) {
+            loop {
+                if (firing()) {
+                    for (e in preMap) {
+                        println(id + "> asking " + e.key.id + " to consume " + e.value + " tokens")
+                        e.key.send(new Message(signal: Signal.TAKE, n: e.value))
+                    }
+                    for (e in postMap) {
+                        println(id + "> asking " + e.key.id + " to produce " + e.value + " tokens")
+                        e.key.send(new Message(signal: Signal.PUT, n: e.value))
+                    }
+                } else {
+                    for (p in reservedList) {
+                        Integer n = preMap.get(p)
+                        println(id + "> asking " + p.id + " to release " + n + " tokens")
+                        p.send(new Message(signal: Signal.RELEASE, n: n))
+                    }
                 }
             }
         }
@@ -154,7 +155,7 @@ class TransitionAsynchronousActor extends DefaultActor {
         println(id + "> delivery error for "+msg)
     }
     public void afterStart() {
-        println(id + "> start - setting up listeners")
+        println(id + "> start")
     }
     public void afterStop(List undeliveredMessages) {
         println(id + "> stop "+undeliveredMessages)

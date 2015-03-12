@@ -117,10 +117,11 @@ class AsynchronousPlaceActor extends DefaultActor {
                         break
                     case Signal.RESERVE:
                         println(id + "> accounting RESERVE "+msg.n+" from "+sender.id)
-                        if (reserve(msg.n))
+                        if (reserve(msg.n)) {
                             reply(Signal.SUCCESS)
-                        else
+                        } else {
                             reply(Signal.FAILURE)
+                        }
                         break
                     case Signal.RELEASE:
                         println(id + "> accounting RELEASE "+msg.n+" from "+sender.id)
