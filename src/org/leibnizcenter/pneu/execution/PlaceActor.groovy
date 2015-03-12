@@ -1,9 +1,6 @@
 package org.leibnizcenter.pneu.execution
 
-import groovy.transform.Immutable
 import groovyx.gpars.actor.DefaultActor
-import org.leibnizcenter.pneu.components.Place
-import org.leibnizcenter.pneu.components.Token
 
 /* Taubner's algorithm: On the implementation of Petri Nets (1998)
 
@@ -66,67 +63,81 @@ import org.leibnizcenter.pneu.components.Token
 List<TransitionActor> queue = []
 Map<TransitionActor, List<Token>> queue = [:] */
 
-class PlaceActor extends PlaceActorPPO {}
+class PlaceActor extends AsynchronousPlaceActor {}
 
-class Request {
-    TransitionActor t  // source of the request
-    Integer n          // number of tokens requested
-}
-
-class PlaceActorPPO extends DefaultActor {
+class AsynchronousPlaceActor extends DefaultActor {
 
     String id
 
-    List<Request> requests = [] // request of reservation received by transition actors
-    Integer nAvailable = 0      // number of tokens available in this place
-    Boolean reserved = false    // flag on the place
+    List<TransitionActor> postList = [] // request of reservation received by transition actors
+
+    Integer nAvailable = 0         // number of tokens available in this place
+    Integer nReserved = 0       // number of tokens already reserved
+
+    void boot() {
+        for (c in postList) {
+            println(id + "> sending SYNC to "+c.id)
+            c.send(Signal.SYNC)
+        }
+    }
+
+    boolean reserve(int n) {
+        if (n <= nAvailable) {
+            nReserved = nReserved + n
+            return true
+        } else {
+            return false
+        }
+    }
+
+    void release(int n) {
+        nReserved -= n
+    }
+
+    void take(int n) {
+        nAvailable -= n
+        nReserved -= n
+    }
+
+    void put(int n) {
+        nAvailable += n
+    }
 
     void act() {
+        loop {
+            Signal signal
 
-         loop {
+            react { Message msg ->
 
-             react { msg ->
-                 println(id + "> received " + msg + " from " + sender.id)
-                 switch (msg.signal) {
-                     case Signal.RESERVE:
-                         requests << new Request(t: sender, n: msg.n)
-                         break
-                     case Signal.RELEASE:
-                         reserved = false
-                         break
-                     case Signal.TAKE:
-                         nAvailable -= msg.n
-                         reserved = true
-                         break
-                     case Signal.PUT:
-                         nAvailable += msg.n
-                         break
-                 }
-
-                 if (msg.signal != Signal.PUT && msg.signal != Signal.RELEASE) {
-                     // respond to all requests which cannot be satisfied
-                     for (req in requests) {
-                         if (req.n > nAvailable) {
-                             println(id + "> saying to " + req.t.id + " that it cannot satisfy its request")
-                             req.t.send(Signal.FAILURE)
-                             requests.remove(req)
-                         }
-                     }
-                 }
-
-                 if (msg.signal != Signal.RESERVE) {
-                     if (requests.size() > 0 && !reserved) {
-                         Request req = requests.first()
-                         println(id + "> saying to " + req.t.id + " that it can satisfy its request")
-                         req.t.send(Signal.SUCCESS)
-                         reserved = true
-                         requests.remove(req)
-                     }
-                 }
-
-             }
-
-         }
+                signal = msg.signal
+                switch (msg.signal) {
+                    case Signal.BOOT:
+                        println(id + "> booting")
+                        boot()
+                        break
+                    case Signal.RESERVE:
+                        println(id + "> accounting RESERVE "+msg.n+" from "+sender.id)
+                        if (reserve(msg.n))
+                            reply(Signal.SUCCESS)
+                        else
+                            reply(Signal.FAILURE)
+                        break
+                    case Signal.RELEASE:
+                        println(id + "> accounting RELEASE "+msg.n+" from "+sender.id)
+                        release(msg.n)
+                        break
+                    case Signal.TAKE:
+                        println(id + "> accounting TAKE "+msg.n+" from "+sender.id)
+                        take(msg.n)
+                        break
+                    case Signal.PUT:
+                        println(id + "> accounting PUT "+msg.n+" from "+sender.id)
+                        put(msg.n)
+                        boot()
+                        break
+                }
+            }
+        }
     }
 
     public void onDeliveryError(msg) {
@@ -144,54 +155,4 @@ class PlaceActorPPO extends DefaultActor {
     /* public void onException(Throwable e) {
         println(id + "> exception "+e.toString())
     } */
-}
-
-class PlaceActorPTO extends DefaultActor {
-
-    String id
-
-    List<Request> requests = [] // request of reservation received by transition actors
-    Integer nAvailable = 0      // number of tokens available in this place
-    Integer nReserved = 0       // number of tokens already reserved
-
-    void act() {
-        loop {
-            Signal signal
-
-            react { Message msg ->
-
-                signal = msg.signal
-                switch (msg.signal) {
-                    case Signal.RESERVE:
-                        requests << new Request(t: sender, n: msg.n)
-                        break
-                    case Signal.RELEASE:
-                        nReserved -= msg.n
-                        break
-                    case Signal.TAKE:
-                        nAvailable -= msg.n
-                        nReserved -= msg.n
-                        break
-                    case Signal.PUT:
-                        nAvailable += msg.n
-                        break
-                }
-            }
-
-            // respond to all requests
-            for (req in requests) {
-                if (signal != Signal.PUT && signal != Signal.RELEASE && req.n > nAvailable) {
-                    // if required tokens are not available
-                    req.t.send(Signal.FAILURE)
-                    requests.remove(req)
-                }
-                if (signal != Signal.RESERVE && req.n <= nAvailable) { // if required tokens are available
-                    req.t.send(Signal.SUCCESS)
-                    nReserved = nReserved + req.n
-                    requests.remove(req)
-                }
-            }
-        }
-    }
-
 }

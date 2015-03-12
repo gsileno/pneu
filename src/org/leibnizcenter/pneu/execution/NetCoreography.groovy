@@ -2,6 +2,8 @@ package org.leibnizcenter.pneu.execution
 
 import org.leibnizcenter.pneu.components.Net
 
+import static groovyx.gpars.actor.Actors.actor
+
 class NetCoreography {
 
     Map<String, PlaceActor> placeId2ActorMap = [:]
@@ -20,12 +22,15 @@ class NetCoreography {
 
             def edgesIn = net.arcList.findAll { arc -> arc.target.id == tr.id }
             edgesIn.each() { arc ->
-                trActor.preList << new Connection(p: placeId2ActorMap.get(arc.source.id), n: 1)
+                PlaceActor plActor = placeId2ActorMap.get(arc.source.id)
+                trActor.preMap[plActor] = 1
+                plActor.postList << trActor
             }
 
             def edgesOut = net.arcList.findAll { arc -> arc.source.id == tr.id }
             edgesOut.each() { arc ->
-                trActor.postList << new Connection(p: placeId2ActorMap.get(arc.target.id), n: 1)
+                PlaceActor plActor = placeId2ActorMap.get(arc.target.id)
+                trActor.postMap[plActor] = 1
             }
         }
     }
@@ -38,7 +43,12 @@ class NetCoreography {
             e.value.start()
         }
 
+        def orchestrator = actor {
+            placeId2ActorMap.values()*.send(new Message(signal: Signal.BOOT))
+        }
+
         // to finish the running
+        orchestrator.join()
         transitionId2ActorMap.values()*.join()
     }
 }

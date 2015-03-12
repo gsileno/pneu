@@ -1,9 +1,8 @@
 package org.leibnizcenter.pneu.execution
 
-import groovy.transform.Immutable
 import groovyx.gpars.actor.DefaultActor
+import groovyx.gpars.actor.DynamicDispatchActor
 import org.leibnizcenter.pneu.components.Place
-import org.leibnizcenter.pneu.components.Transition
 
 /* http://www.gpars.org/1.0.0/guide/guide/actors.html
 
@@ -91,59 +90,61 @@ import org.leibnizcenter.pneu.components.Transition
 
  */
 
-class TransitionActor extends TransitionActorPPOPTO {
+class TransitionActor extends TransitionAsynchronousActor  {
 
 }
 
-class Connection {
-    PlaceActor p   // place to which it is connected
-    Integer n      // weight of the arc (consumption/production)
-}
-
-class TransitionActorPPOPTO extends DefaultActor {
+class TransitionAsynchronousActor extends DefaultActor {
 
     String id
 
-    List<Connection> preList = []
-    List<Connection> postList = []
-    List<Connection> reservedList = []
+    Map<PlaceActor, Integer> preMap = [:]
+    Map<PlaceActor, Integer> postMap = [:]
+    List<PlaceActor> reservedList = []
 
-    void act() {
+    Boolean negotiation() {
+        Boolean success = true
 
         loop {
-            Boolean success = false
-            for (c in preList) {
-                react { signal ->
-                    println(id + "> received " + signal + " from " + sender.id)
-                    switch (signal) {
-                        case Signal.BOOT:
-                            println(id + "> asking " + c.p.id + " to reserve " + c.n + " tokens")
-                            c.p.send(new Message(signal: Signal.RESERVE, n: c.n))
-                            break;
-                        case Signal.SUCCESS:
-                            reservedList << c
-                            success = true
-                            break
-                        case Signal.FAILURE:
-                            success = false
-                            break
-                    }
+            react { signal ->
+                switch (signal) {
+                    case Signal.SYNC:
+                        Integer n = preMap.get(sender) // arc weight
+                        println(id + "> asking " + sender.id + " to reserve " + n + " tokens")
+                        reply(new Message(signal: Signal.RESERVE, n: n))
+                        break;
+                    case Signal.SUCCESS:
+                        reservedList << sender
+                        break
+                    case Signal.FAILURE:
+                        success = false
+                        break
                 }
             }
 
-            if (success) {
-                for (c in preList) {
-                    println(id + "> asking " + c.p.id + " to consume " + c.n + " tokens")
-                    c.p.send(new Message(signal: Signal.TAKE, n: c.n))
+            if (success == false)
+                return false
+            if (reservedList.size() == preMap.size())
+                return true
+        }
+    }
+
+    void act() {
+        loop {
+            if (negotiation()) {
+                for (e in preMap) {
+                    println(id + "> asking " + e.key.id + " to consume " + e.value + " tokens")
+                    e.key.send(new Message(signal: Signal.TAKE, n: e.value))
                 }
-                for (c in postList) {
-                    println(id + "> asking " + c.p.id + " to produce " + c.n + " tokens")
-                    c.p.send(new Message(signal: Signal.PUT, n: c.n))
+                for (e in postMap) {
+                    println(id + "> asking " + e.key.id + " to produce " + e.value + " tokens")
+                    e.key.send(new Message(signal: Signal.PUT, n: e.value))
                 }
             } else {
-                for (c in reservedList) {
-                    println(id + "> asking " + c.p.id + " to release " + c.n + " tokens")
-                    c.p.send(new Message(signal: Signal.RELEASE, n: c.n))
+                for (p in reservedList) {
+                    Integer n = preMap.get(p)
+                    println(id + "> asking " + p.id + " to release " + n + " tokens")
+                    p.send(new Message(signal: Signal.RELEASE, n: n))
                 }
             }
         }
@@ -153,7 +154,7 @@ class TransitionActorPPOPTO extends DefaultActor {
         println(id + "> delivery error for "+msg)
     }
     public void afterStart() {
-        println(id + "> start")
+        println(id + "> start - setting up listeners")
     }
     public void afterStop(List undeliveredMessages) {
         println(id + "> stop "+undeliveredMessages)
@@ -161,7 +162,7 @@ class TransitionActorPPOPTO extends DefaultActor {
     public void onTimeout() {
         println(id + "> timeout")
     }
-    public void onException(Throwable e) {
+    /* public void onException(Throwable e) {
         println(id + "> exception "+e.toString())
-    }
+    } */
 }
