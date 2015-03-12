@@ -4,8 +4,8 @@ import org.leibnizcenter.pneu.components.Net
 
 class NetCoreography {
 
-    Map<Integer, PlaceActor> placeId2ActorMap = [:]
-    Map<Integer, PlaceActor> transitionId2ActorMap = [:]
+    Map<String, PlaceActor> placeId2ActorMap = [:]
+    Map<String, PlaceActor> transitionId2ActorMap = [:]
 
     void embody(Net net) {
 
@@ -37,5 +37,8 @@ class NetCoreography {
         for (e in transitionId2ActorMap) {
             e.value.start()
         }
+
+        // to finish the running
+        transitionId2ActorMap.values()*.join()
     }
 }

@@ -68,7 +68,6 @@ Map<TransitionActor, List<Token>> queue = [:] */
 
 class PlaceActor extends PlaceActorPPO {}
 
-@Immutable
 class Request {
     TransitionActor t  // source of the request
     Integer n          // number of tokens requested
@@ -82,60 +81,69 @@ class PlaceActorPPO extends DefaultActor {
     Integer nAvailable = 0      // number of tokens available in this place
     Boolean reserved = false    // flag on the place
 
-    public void onDeliveryError(msg) {
-        println "Could not deliver message $msg"
-    }
-
     void act() {
-        loop {
-            println(id+"> cycle")
 
-            Signal signal
+         loop {
 
-            react { msg ->
-                println("ciao")
-                println(id+"> received "+msg)
-                signal = msg.signal
-                switch (signal) {
-                    case Signal.RESERVE:
-                        requests << [sender, msg.n]
-                        break
-                    case Signal.RELEASE:
-                        reserved = false
-                        break
-                    case Signal.TAKE:
-                        nAvailable -= msg.n
-                        reserved = true
-                        break
-                    case Signal.PUT:
-                        nAvailable += msg.n
-                        break
-                }
-            }
+             react { msg ->
+                 println(id + "> received " + msg + " from " + sender.id)
+                 switch (msg.signal) {
+                     case Signal.RESERVE:
+                         requests << new Request(t: sender, n: msg.n)
+                         break
+                     case Signal.RELEASE:
+                         reserved = false
+                         break
+                     case Signal.TAKE:
+                         nAvailable -= msg.n
+                         reserved = true
+                         break
+                     case Signal.PUT:
+                         nAvailable += msg.n
+                         break
+                 }
 
-            /* if (signal != Signal.PUT && signal != Signal.RELEASE) {
-                // respond to all requests which cannot be satisfied
-                for (req in requests) {
-                    if (req.n > nAvailable) {
-                        println(id+"> saying to "+t.id+" that cannot satisfy its request")
-                        req.t.send(Signal.FAILURE)
-                        requests.remove(req)
-                    }
-                }
-            } */
+                 if (msg.signal != Signal.PUT && msg.signal != Signal.RELEASE) {
+                     // respond to all requests which cannot be satisfied
+                     for (req in requests) {
+                         if (req.n > nAvailable) {
+                             println(id + "> saying to " + req.t.id + " that it cannot satisfy its request")
+                             req.t.send(Signal.FAILURE)
+                             requests.remove(req)
+                         }
+                     }
+                 }
 
-            if (signal != Signal.RESERVE) {
-                if (requests.size() > 0 && !reserved) {
-                    println(id+"> saying to "+t.id+" that can satisfy its request")
-                    Request req = requests.first()
-                    req.t.send(Signal.SUCCESS)
-                    reserved = true
-                    requests.remove(req)
-                }
-            }
-        }
+                 if (msg.signal != Signal.RESERVE) {
+                     if (requests.size() > 0 && !reserved) {
+                         Request req = requests.first()
+                         println(id + "> saying to " + req.t.id + " that it can satisfy its request")
+                         req.t.send(Signal.SUCCESS)
+                         reserved = true
+                         requests.remove(req)
+                     }
+                 }
+
+             }
+
+         }
     }
 
+    public void onDeliveryError(msg) {
+        println(id + "> delivery error for "+msg)
+    }
+    public void afterStart() {
+        println(id + "> start")
+    }
+    public void afterStop(List undeliveredMessages) {
+        println(id + "> stop "+undeliveredMessages)
+    }
+    public void onTimeout() {
+        println(id + "> timeout")
+    }
+    /* public void onException(Throwable e) {
+        println(id + "> exception "+e.toString())
+    } */
 }
 
 class PlaceActorPTO extends DefaultActor {

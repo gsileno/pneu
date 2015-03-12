@@ -108,23 +108,18 @@ class TransitionActorPPOPTO extends DefaultActor {
     List<Connection> postList = []
     List<Connection> reservedList = []
 
-    public void onDeliveryError(msg) {
-        println "Could not deliver message $msg"
-    }
-
     void act() {
-        loop {
-            println(id+"> starting cycle")
 
+        loop {
             Boolean success = false
             for (c in preList) {
-                println(id+"> asking "+c.p.id+" to reserve "+c.n+" tokens")
-                // c.p.send(new Message(signal: Signal.RESERVE, n: c.n))
-                c.p.send "ciao"
-
                 react { signal ->
-                    println(id+"> received "+signal+" from "+sender.id)
-                    switch(signal) {
+                    println(id + "> received " + signal + " from " + sender.id)
+                    switch (signal) {
+                        case Signal.BOOT:
+                            println(id + "> asking " + c.p.id + " to reserve " + c.n + " tokens")
+                            c.p.send(new Message(signal: Signal.RESERVE, n: c.n))
+                            break;
                         case Signal.SUCCESS:
                             reservedList << c
                             success = true
@@ -138,19 +133,35 @@ class TransitionActorPPOPTO extends DefaultActor {
 
             if (success) {
                 for (c in preList) {
-                    println(id+"> asking "+c.p.id+" to consume "+c.n+" tokens")
+                    println(id + "> asking " + c.p.id + " to consume " + c.n + " tokens")
                     c.p.send(new Message(signal: Signal.TAKE, n: c.n))
                 }
                 for (c in postList) {
-                    println(id+"> asking "+c.p.id+" to produce "+c.n+" tokens")
+                    println(id + "> asking " + c.p.id + " to produce " + c.n + " tokens")
                     c.p.send(new Message(signal: Signal.PUT, n: c.n))
                 }
             } else {
                 for (c in reservedList) {
-                    println(id+"> asking "+c.p.id+" to release "+c.n+" tokens")
+                    println(id + "> asking " + c.p.id + " to release " + c.n + " tokens")
                     c.p.send(new Message(signal: Signal.RELEASE, n: c.n))
                 }
             }
         }
+    }
+
+    public void onDeliveryError(msg) {
+        println(id + "> delivery error for "+msg)
+    }
+    public void afterStart() {
+        println(id + "> start")
+    }
+    public void afterStop(List undeliveredMessages) {
+        println(id + "> stop "+undeliveredMessages)
+    }
+    public void onTimeout() {
+        println(id + "> timeout")
+    }
+    public void onException(Throwable e) {
+        println(id + "> exception "+e.toString())
     }
 }
