@@ -96,34 +96,42 @@ class TransitionActor extends TransitionAsynchronousActor  {
 
 class TransitionAsynchronousActor extends DefaultActor {
 
+    final Boolean log = true
+
     String id
 
     Map<PlaceActor, Integer> preMap = [:]
     Map<PlaceActor, Integer> postMap = [:]
     List<PlaceActor> reservedList = []
 
+    Integer nTokensCollected = 0 // number of tokens consumed here
+    Integer nTokensEmitted = 0   // number of tokens produced here
+
     Boolean firing() {
         react { signal ->
             switch (signal) {
+                case Signal.STATUS:
+                    reply(nTokensCollected)
+                    break
                 case Signal.SYNC:
                     Integer n = preMap.get(sender) // arc weight
-                    println(id + "> asking " + sender.id + " to reserve " + n + " tokens")
+                    if (log) println(id + "> asking " + sender.id + " to reserve " + n + " tokens")
                     reply(new Message(signal: Signal.RESERVE, n: n))
-                    break;
+                    break
                 case Signal.SUCCESS:
-                    println(id + "> success from " + sender.id)
+                    if (log) println(id + "> success from " + sender.id)
                     reservedList << sender
                     break
                 case Signal.FAILURE:
-                    println(id + "> failure from " + sender.id)
-                    println(id + "> renounces to fire..")
+                    if (log) println(id + "> failure from " + sender.id)
+                    if (log) println(id + "> renounces to fire..")
                     return false
                     break
             }
         }
 
         if (reservedList.size() == preMap.size()) {
-            println(id + "> fires!")
+            if (log) println(id + "> fires!")
             return true
         }
     }
@@ -132,19 +140,38 @@ class TransitionAsynchronousActor extends DefaultActor {
         if (preMap.size() > 0) {
             loop {
                 if (firing()) {
+                    reservedList = []
                     for (e in preMap) {
-                        println(id + "> asking " + e.key.id + " to consume " + e.value + " tokens")
+                        if (log) println(id + "> asking " + e.key.id + " to consume " + e.value + " tokens")
+                        nTokensCollected = nTokensCollected + e.value
                         e.key.send(new Message(signal: Signal.TAKE, n: e.value))
                     }
                     for (e in postMap) {
-                        println(id + "> asking " + e.key.id + " to produce " + e.value + " tokens")
+                        if (log) println(id + "> asking " + e.key.id + " to produce " + e.value + " tokens")
                         e.key.send(new Message(signal: Signal.PUT, n: e.value))
                     }
                 } else {
                     for (p in reservedList) {
                         Integer n = preMap.get(p)
-                        println(id + "> asking " + p.id + " to release " + n + " tokens")
+                        if (log) println(id + "> asking " + p.id + " to release " + n + " tokens")
                         p.send(new Message(signal: Signal.RELEASE, n: n))
+                    }
+                }
+            }
+        } else { // for emittor transitions (they don't have input places)
+            loop {
+                react { signal ->
+                    switch (signal) {
+                        case Signal.EMIT:
+                            for (e in postMap) {
+                                if (log) println(id + "> emitting " + e.value + " tokens into " + e.key.id)
+                                nTokensEmitted++
+                                e.key.send(new Message(signal: Signal.PUT, n: e.value))
+                            }
+                            break
+                        case Signal.STATUS:
+                            reply(nTokensEmitted)
+                            break
                     }
                 }
             }
@@ -152,18 +179,18 @@ class TransitionAsynchronousActor extends DefaultActor {
     }
 
     public void onDeliveryError(msg) {
-        println(id + "> delivery error for "+msg)
+        if (log) println(id + "> delivery error for "+msg)
     }
     public void afterStart() {
-        println(id + "> start")
+        if (log) println(id + "> start")
     }
     public void afterStop(List undeliveredMessages) {
-        println(id + "> stop "+undeliveredMessages)
+        if (log) println(id + "> stop "+undeliveredMessages)
     }
     public void onTimeout() {
-        println(id + "> timeout")
+        if (log) println(id + "> timeout")
     }
     /* public void onException(Throwable e) {
-        println(id + "> exception "+e.toString())
+        if (log) println(id + "> exception "+e.toString())
     } */
 }

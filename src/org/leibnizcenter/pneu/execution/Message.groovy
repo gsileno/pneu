@@ -4,6 +4,7 @@ import groovy.transform.Immutable
 import org.leibnizcenter.pneu.components.Token
 
 enum Signal { BOOT,                         // command from orchestrator to places
+              EMIT, STATUS,                 // command from orchestrator to transitions
               RESERVE, RELEASE, TAKE, PUT,  // commands from transitions to places
               SYNC, FAILURE, SUCCESS }      // signals from places to transitions
 

@@ -5,7 +5,8 @@ import org.leibnizcenter.pneu.components.Net
 import org.leibnizcenter.pneu.components.Place
 import org.leibnizcenter.pneu.components.Token
 import org.leibnizcenter.pneu.components.Transition
-import org.leibnizcenter.pneu.execution.NetCoreography
+import org.leibnizcenter.pneu.components.TransitionType
+import org.leibnizcenter.pneu.execution.NetChoreography
 import org.leibnizcenter.pneu.graphics.components.Area
 import org.leibnizcenter.pneu.graphics.components.Point
 import org.leibnizcenter.pneu.graphics.export.PN2LaTeX
@@ -41,6 +42,12 @@ class pneu {
                     position: new Point(x: x, y: y),
                     dimension: new Area(x: rec.graphics.dimension.'@x'[0].toInteger(), y: rec.graphics.dimension.'@y'[0].toInteger())
             );
+
+            if (rec.toolspecific.emitor)
+                t.type = TransitionType.EMITTER
+            else if (rec.toolspecific.collector)
+                t.type = TransitionType.COLLECTOR
+
             net.transitionList.add(t)
         }
 
@@ -115,8 +122,6 @@ class pneu {
     }
 
     static void main(String[] args) {
-        // args += "./mock/events.pnml";
-        // args += "./mock/placewithtoken.pnml";
 
         Net net
 
@@ -161,7 +166,7 @@ class pneu {
                     if (options.r) {
                         println("running the petri net model...")
 
-                        NetCoreography coreography = new NetCoreography()
+                        NetChoreography coreography = new NetChoreography()
                         coreography.embody(net)
                         coreography.run()
                     }

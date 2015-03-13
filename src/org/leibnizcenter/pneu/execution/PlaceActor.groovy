@@ -59,31 +59,29 @@ import groovyx.gpars.actor.DefaultActor
 
  */
 
-/* List<Token> tokenList = []
-List<TransitionActor> queue = []
-Map<TransitionActor, List<Token>> queue = [:] */
-
 class PlaceActor extends AsynchronousPlaceActor {}
 
 class AsynchronousPlaceActor extends DefaultActor {
+
+    final boolean log = true
 
     String id
 
     List<TransitionActor> postList = [] // request of reservation received by transition actors
 
-    Integer nAvailable = 0         // number of tokens available in this place
-    Integer nReserved = 0       // number of tokens already reserved
+    Integer nTokesAvailable = 0     // number of tokens available in this place
+    Integer nTokesReserved = 0      // number of tokens already reserved
 
     void boot() {
         for (c in postList) {
-            println(id + "> sending SYNC to "+c.id)
+            if (log) println(id + "> sending SYNC to "+c.id)
             c.send(Signal.SYNC)
         }
     }
 
     boolean reserve(int n) {
-        if (n <= nAvailable) {
-            nReserved = nReserved + n
+        if (n <= nTokesAvailable - nTokesReserved) {
+            nTokesReserved = nTokesReserved + n
             return true
         } else {
             return false
@@ -91,16 +89,16 @@ class AsynchronousPlaceActor extends DefaultActor {
     }
 
     void release(int n) {
-        nReserved -= n
+        nTokesReserved -= n
     }
 
     void take(int n) {
-        nAvailable -= n
-        nReserved -= n
+        nTokesAvailable -= n
+        nTokesReserved -= n
     }
 
     void put(int n) {
-        nAvailable += n
+        nTokesAvailable += n
     }
 
     void act() {
@@ -112,11 +110,11 @@ class AsynchronousPlaceActor extends DefaultActor {
                 signal = msg.signal
                 switch (msg.signal) {
                     case Signal.BOOT:
-                        println(id + "> booting")
+                        if (log) println(id + "> booting")
                         boot()
                         break
                     case Signal.RESERVE:
-                        println(id + "> accounting RESERVE "+msg.n+" from "+sender.id)
+                        if (log) println(id + " ["+nTokesReserved+"|"+nTokesAvailable+"]> receiving request RESERVE "+msg.n+" from "+sender.id)
                         if (reserve(msg.n)) {
                             reply(Signal.SUCCESS)
                         } else {
@@ -124,15 +122,15 @@ class AsynchronousPlaceActor extends DefaultActor {
                         }
                         break
                     case Signal.RELEASE:
-                        println(id + "> accounting RELEASE "+msg.n+" from "+sender.id)
+                        if (log) println(id + " ["+nTokesReserved+"|"+nTokesAvailable+"]> receiving request RELEASE "+msg.n+" from "+sender.id)
                         release(msg.n)
                         break
                     case Signal.TAKE:
-                        println(id + "> accounting TAKE "+msg.n+" from "+sender.id)
+                        if (log) println(id + " ["+nTokesReserved+"|"+nTokesAvailable+"]> receiving command TAKE "+msg.n+" from "+sender.id)
                         take(msg.n)
                         break
                     case Signal.PUT:
-                        println(id + "> accounting PUT "+msg.n+" from "+sender.id)
+                        if (log) println(id + " ["+nTokesReserved+"|"+nTokesAvailable+"]> receiving command PUT "+msg.n+" from "+sender.id)
                         put(msg.n)
                         boot()
                         break
@@ -142,18 +140,18 @@ class AsynchronousPlaceActor extends DefaultActor {
     }
 
     public void onDeliveryError(msg) {
-        println(id + "> delivery error for "+msg)
+        if (log) println(id + "> delivery error for "+msg)
     }
     public void afterStart() {
-        println(id + "> start")
+        if (log) println(id + "> start")
     }
     public void afterStop(List undeliveredMessages) {
-        println(id + "> stop "+undeliveredMessages)
+        if (log) println(id + "> stop "+undeliveredMessages)
     }
     public void onTimeout() {
-        println(id + "> timeout")
+        if (log) println(id + "> timeout")
     }
     /* public void onException(Throwable e) {
-        println(id + "> exception "+e.toString())
+        if (log) println(id + "> exception "+e.toString())
     } */
 }

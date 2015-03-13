@@ -21,5 +21,8 @@
 
 package org.leibnizcenter.pneu.components
 
+enum TransitionType { NORMAL, EMITTER, COLLECTOR }
+
 class Transition extends Node {
+    TransitionType type = TransitionType.NORMAL
 }
