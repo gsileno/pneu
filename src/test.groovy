@@ -1,6 +1,6 @@
 //import static groovyx.gpars.actor.Actors.*
 //
-//final def decryptor = actor {
+//final def decryptor = actorbased {
 //    loop {
 //        react { String message ->
 //            reply message.reverse()
@@ -8,7 +8,7 @@
 //    }
 //}
 //
-//def console = actor {
+//def console = actorbased {
 //    decryptor.send 'lellarap si yvoorG'
 //    react { println 'Decrypted message: ' + it
 //    }

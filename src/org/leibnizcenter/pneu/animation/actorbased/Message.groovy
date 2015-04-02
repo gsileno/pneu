@@ -1,7 +1,6 @@
-package org.leibnizcenter.pneu.execution
+package org.leibnizcenter.pneu.animation.actorbased
 
 import groovy.transform.Immutable
-import org.leibnizcenter.pneu.components.Token
 
 enum Signal { BOOT,                         // command from orchestrator to places
               EMIT, STATUS,                 // command from orchestrator to transitions

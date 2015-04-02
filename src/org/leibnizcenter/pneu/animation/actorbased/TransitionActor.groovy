@@ -1,8 +1,6 @@
-package org.leibnizcenter.pneu.execution
+package org.leibnizcenter.pneu.animation.actorbased
 
 import groovyx.gpars.actor.DefaultActor
-import groovyx.gpars.actor.DynamicDispatchActor
-import org.leibnizcenter.pneu.components.Place
 
 /* http://www.gpars.org/1.0.0/guide/guide/actors.html
 
@@ -107,16 +105,22 @@ class TransitionAsynchronousActor extends DefaultActor {
     Integer nTokensCollected = 0 // number of tokens consumed here
     Integer nTokensEmitted = 0   // number of tokens produced here
 
+    Boolean syncing = false // flag to avoid double syncs
+
     Boolean firing() {
+
         react { signal ->
             switch (signal) {
                 case Signal.STATUS:
                     reply(nTokensCollected)
                     break
                 case Signal.SYNC:
-                    Integer n = preMap.get(sender) // arc weight
-                    if (log) println(id + "> asking " + sender.id + " to reserve " + n + " tokens")
-                    reply(new Message(signal: Signal.RESERVE, n: n))
+                    if (!syncing) {
+                      syncing = true
+                      Integer n = preMap.get(sender) // arc weight
+                      if (log) println(id + "> asking " + sender.id + " to reserve " + n + " tokens")
+                      reply(new Message(signal: Signal.RESERVE, n: n))
+                    }
                     break
                 case Signal.SUCCESS:
                     if (log) println(id + "> success from " + sender.id)
@@ -150,12 +154,14 @@ class TransitionAsynchronousActor extends DefaultActor {
                         if (log) println(id + "> asking " + e.key.id + " to produce " + e.value + " tokens")
                         e.key.send(new Message(signal: Signal.PUT, n: e.value))
                     }
+                    syncing = false
                 } else {
                     for (p in reservedList) {
                         Integer n = preMap.get(p)
                         if (log) println(id + "> asking " + p.id + " to release " + n + " tokens")
                         p.send(new Message(signal: Signal.RELEASE, n: n))
                     }
+                    syncing = false
                 }
             }
         } else { // for emittor transitions (they don't have input places)

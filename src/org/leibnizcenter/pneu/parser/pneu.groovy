@@ -6,7 +6,7 @@ import org.leibnizcenter.pneu.components.Place
 import org.leibnizcenter.pneu.components.Token
 import org.leibnizcenter.pneu.components.Transition
 import org.leibnizcenter.pneu.components.TransitionType
-import org.leibnizcenter.pneu.execution.NetChoreography
+import org.leibnizcenter.pneu.animation.actorbased.NetChoreography
 import org.leibnizcenter.pneu.graphics.components.Area
 import org.leibnizcenter.pneu.graphics.components.Point
 import org.leibnizcenter.pneu.graphics.export.PN2LaTeX

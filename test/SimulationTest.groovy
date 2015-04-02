@@ -1,6 +1,7 @@
-package org.leibnizcenter.pneu.execution
+package org.leibnizcenter.pneu.animation
 
 import org.leibnizcenter.pneu.components.Net
+import org.leibnizcenter.pneu.animation.actorbased.NetChoreography
 import org.leibnizcenter.pneu.parser.pneu
 
 class BaseTest extends GroovyTestCase {

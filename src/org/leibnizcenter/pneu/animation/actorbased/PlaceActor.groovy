@@ -1,5 +1,6 @@
-package org.leibnizcenter.pneu.execution
+package org.leibnizcenter.pneu.animation.actorbased
 
+import groovyx.gpars.actor.Actor
 import groovyx.gpars.actor.DefaultActor
 
 /* Taubner's algorithm: On the implementation of Petri Nets (1998)
@@ -72,10 +73,10 @@ class AsynchronousPlaceActor extends DefaultActor {
     Integer nTokesAvailable = 0     // number of tokens available in this place
     Integer nTokesReserved = 0      // number of tokens already reserved
 
-    void boot() {
+    void boot(Actor source) {
         for (c in postList) {
-            if (log) println(id + "> sending SYNC to "+c.id)
-            c.send(Signal.SYNC)
+                if (log) println(id + "> sending SYNC to "+c.id)
+                c.send(Signal.SYNC)
         }
     }
 
@@ -110,8 +111,8 @@ class AsynchronousPlaceActor extends DefaultActor {
                 signal = msg.signal
                 switch (msg.signal) {
                     case Signal.BOOT:
-                        if (log) println(id + "> booting")
-                        boot()
+                        if (log) println(id + "> syncing")
+                        boot(sender)
                         break
                     case Signal.RESERVE:
                         if (log) println(id + " ["+nTokesReserved+"|"+nTokesAvailable+"]> receiving request RESERVE "+msg.n+" from "+sender.id)
@@ -132,7 +133,7 @@ class AsynchronousPlaceActor extends DefaultActor {
                     case Signal.PUT:
                         if (log) println(id + " ["+nTokesReserved+"|"+nTokesAvailable+"]> receiving command PUT "+msg.n+" from "+sender.id)
                         put(msg.n)
-                        boot()
+                        boot(sender)
                         break
                 }
             }

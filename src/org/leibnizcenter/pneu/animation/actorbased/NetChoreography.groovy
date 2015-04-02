@@ -1,7 +1,5 @@
-package org.leibnizcenter.pneu.execution
+package org.leibnizcenter.pneu.animation.actorbased
 
-import groovyx.gpars.actor.Actor
-import groovyx.gpars.actor.DefaultActor
 import org.leibnizcenter.pneu.components.Net
 import org.leibnizcenter.pneu.components.TransitionType
 
@@ -63,7 +61,7 @@ class NetChoreography {
             e.value.start()
         }
         def booting = actor {
-            if (log) println("> booting")
+            if (log) println("> syncing")
             placeId2ActorMap.values()*.send(new Message(signal: Signal.BOOT))
             pause(delay)
         }
