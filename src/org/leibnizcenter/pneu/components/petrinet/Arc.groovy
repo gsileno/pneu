@@ -19,26 +19,15 @@
 // http://www.leibnizcenter.org/~sileno
 //----------------------------------------------------------------------------
 
-package org.leibnizcenter.pneu.components
+package org.leibnizcenter.pneu.components.petrinet
+import org.leibnizcenter.pneu.components.graphics.Point
 
-class Net {
-    List<Transition> transitionList = []
-    List<Place> placeList = []
-    List<Arc> arcList = []
+class Arc {
+    String id
+    Node source
+    Node target
+    Integer weight
 
-    // Grid dimensions
-    Integer minX, maxX
-    Integer minY, maxY
-
-    void testMinMax(Integer x, Integer y) {
-        if (minX == null) minX = x
-        else if (x < minX) minX = x
-        if (maxX == null) maxX = x
-        else if (x > maxX) maxX = x
-        if (minY == null) minY = y
-        else if (y < minY) minY = y
-        if (maxY == null) maxY = y
-        else if (y > maxY) maxY = y
-    }
-
+    // for graphics
+    List<Point> pointList
 }

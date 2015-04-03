@@ -1,6 +1,6 @@
-package org.leibnizcenter.pneu.graphics.components
+package org.leibnizcenter.pneu.components.graphics
 
-import org.leibnizcenter.pneu.components.Net
+import org.leibnizcenter.pneu.components.petrinet.Net
 
 class Grid {
 

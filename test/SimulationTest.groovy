@@ -1,10 +1,7 @@
-package org.leibnizcenter.pneu.animation
-
-import org.leibnizcenter.pneu.components.Net
-import org.leibnizcenter.pneu.animation.actorbased.NetChoreography
+import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.parser.pneu
 
-class BaseTest extends GroovyTestCase {
+class SimulationTest extends GroovyTestCase {
 
 //    void test0EmptyPlace() {
 //        Net net = pneu.parseFile("examples/basic/0emptyplace.pnml")
@@ -94,15 +91,6 @@ class BaseTest extends GroovyTestCase {
 
     void test4Conflict() {
         Net net = pneu.parseFile("examples/basic/4conflict.pnml")
-
-        NetChoreography choreography = new NetChoreography()
-        choreography.embody(net)
-        choreography.start()
-        choreography.emit()
-
-        choreography.pause(100)
-        def outcome = choreography.outcome()
-
         // assert(outcome["emitted"]["tr1"] == outcome["collected"]["tr10"])
     }
 

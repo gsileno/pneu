@@ -19,8 +19,13 @@
 // http://www.leibnizcenter.org/~sileno
 //----------------------------------------------------------------------------
 
-package org.leibnizcenter.pneu.components
+package org.leibnizcenter.pneu.components.petrinet
 
 class Place extends Node {
     List<Token> marking
+
+    // after decoration
+    List<Transition> inputs = []
+    List<Transition> outputs = []
+
 }

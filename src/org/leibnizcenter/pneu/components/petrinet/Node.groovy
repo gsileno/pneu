@@ -19,13 +19,16 @@
 // http://www.leibnizcenter.org/~sileno
 //----------------------------------------------------------------------------
 
-package org.leibnizcenter.pneu.components
-import org.leibnizcenter.pneu.graphics.components.Point
+package org.leibnizcenter.pneu.components.petrinet
 
-class Arc {
+import org.leibnizcenter.pneu.components.graphics.Area
+import org.leibnizcenter.pneu.components.graphics.Point
+
+class Node {
     String id
-    Node source
-    Node target
+    String name
 
-    List<Point> pointList
+    // graphics
+    Point position
+    Area dimension
 }

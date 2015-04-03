@@ -1,4 +1,4 @@
-package org.leibnizcenter.pneu.graphics.components
+package org.leibnizcenter.pneu.components.graphics
 
 import groovy.util.logging.Log
 

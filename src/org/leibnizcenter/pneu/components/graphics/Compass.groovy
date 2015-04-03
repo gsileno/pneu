@@ -1,4 +1,4 @@
-package org.leibnizcenter.pneu.graphics.components
+package org.leibnizcenter.pneu.components.graphics
 
 enum Cardinality { NORTH, EAST, SOUTH, WEST }
 

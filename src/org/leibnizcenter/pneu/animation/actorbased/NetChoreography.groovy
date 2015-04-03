@@ -1,7 +1,7 @@
 package org.leibnizcenter.pneu.animation.actorbased
 
-import org.leibnizcenter.pneu.components.Net
-import org.leibnizcenter.pneu.components.TransitionType
+import org.leibnizcenter.pneu.components.petrinet.Net
+import org.leibnizcenter.pneu.components.petrinet.TransitionType
 
 import static groovyx.gpars.actor.Actors.actor
 

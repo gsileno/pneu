@@ -19,14 +19,27 @@
 // http://www.leibnizcenter.org/~sileno
 //----------------------------------------------------------------------------
 
-package org.leibnizcenter.pneu.components
+package org.leibnizcenter.pneu.components.petrinet
 
-import org.leibnizcenter.pneu.graphics.components.Area
-import org.leibnizcenter.pneu.graphics.components.Point
+class Net {
+    List<Transition> transitionList = []
+    List<Place> placeList = []
+    List<Arc> arcList = []
 
-class Node {
-    String id
-    String name
-    Point position
-    Area dimension
+    // graphics
+    // grid dimensions
+    Integer minX, maxX
+    Integer minY, maxY
+    // check the given coordinated with the current min, max
+    // reset min/max if necessary
+    void testMinMax(Integer x, Integer y) {
+        if (minX == null) minX = x
+        else if (x < minX) minX = x
+        if (maxX == null) maxX = x
+        else if (x > maxX) maxX = x
+        if (minY == null) minY = y
+        else if (y < minY) minY = y
+        if (maxY == null) maxY = y
+        else if (y > maxY) maxY = y
+    }
 }

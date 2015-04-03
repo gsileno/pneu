@@ -1,13 +1,13 @@
 package org.leibnizcenter.pneu.graphics.export
 
 import groovy.util.logging.Log
-import org.leibnizcenter.pneu.components.Net
-import org.leibnizcenter.pneu.components.Place
-import org.leibnizcenter.pneu.components.Transition
-import org.leibnizcenter.pneu.graphics.components.Cardinality
-import org.leibnizcenter.pneu.graphics.components.Compass
-import org.leibnizcenter.pneu.graphics.components.Grid
-import org.leibnizcenter.pneu.graphics.components.Point
+import org.leibnizcenter.pneu.components.petrinet.Net
+import org.leibnizcenter.pneu.components.petrinet.Place
+import org.leibnizcenter.pneu.components.petrinet.Transition
+import org.leibnizcenter.pneu.components.graphics.Cardinality
+import org.leibnizcenter.pneu.components.graphics.Compass
+import org.leibnizcenter.pneu.components.graphics.Grid
+import org.leibnizcenter.pneu.components.graphics.Point
 
 /* See on http://www.texample.net/tikz/examples/nodetutorial/ for the preamble */
 /* modified with this http://tex.stackexchange.com/questions/119764/overlapping-nodes-in-tikz */

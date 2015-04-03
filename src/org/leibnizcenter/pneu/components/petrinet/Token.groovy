@@ -1,4 +1,4 @@
-package org.leibnizcenter.pneu.components
+package org.leibnizcenter.pneu.components.petrinet
 
 import groovy.transform.Immutable
 
