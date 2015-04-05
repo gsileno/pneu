@@ -2,6 +2,7 @@ package org.leibnizcenter.pneu.animation.monolithic
 
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
+import org.leibnizcenter.pneu.components.petrinet.TransitionType
 
 // see execution.groovy for implementation notes and literature references
 
@@ -18,6 +19,9 @@ class RepresentingBinaryPlacesExecution extends BruteForceExecution {
                             List<Place> markedRepresentingPlaces,
                             List<Place> markedSynchronizationPlaces) {
 
+        if (t.type == TransitionType.COLLECTOR)
+            nTokenCollected++
+
         for (elem in t.inputs) {
             elem.place.marking -= 1
             if (markedRepresentingPlaces.contains(elem.place))
@@ -30,6 +34,9 @@ class RepresentingBinaryPlacesExecution extends BruteForceExecution {
     void produceOutputTokens(Transition t,
                              List<Place> newMarkedRepresentingPlaces,
                              List<Place> newMarkedSynchronizationPlaces) {
+
+        if (t.type == TransitionType.EMITTER)
+            nTokenEmitted++
 
         for (elem in t.outputs) {
             elem.place.marking += 1

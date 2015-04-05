@@ -28,4 +28,12 @@ class Place extends Node {
     List<Transition> inputs = []
     List<Transition> outputs = []
 
+    String toString() {
+        return name+" ("+marking.size()+")"
+    }
+
+    void flush() {
+        marking.clear()
+    }
+
 }

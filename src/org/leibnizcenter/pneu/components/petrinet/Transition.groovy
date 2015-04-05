@@ -33,37 +33,75 @@ class PlaceWeight {
 }
 
 class Transition extends Node {
+
+    // transition by default of normal type
     TransitionType type = TransitionType.NORMAL
+
+    boolean isEmitter() {
+        return (type == TransitionType.EMITTER)
+    }
+
+    boolean isCollector() {
+        return (type == TransitionType.COLLECTOR)
+    }
 
     // after decoration
     // input/output places / arc weight
     List<PlaceWeight> inputs = []
     List<PlaceWeight> outputs = []
 
+    // for inhibitor arcs
+    List<Place> inhibitors = []
+
+    // for reset arcs
+    List<Place> resets = []
+
+    // Operational Semantics
+
     boolean isEnabled() {
-        if (type == TransitionType.EMITTER) return true
+        if (isEmitter()) return true
+
+        for (p in inhibitors) {
+            if (p.marking.size() > 0)
+                return false
+        }
 
         for (elem in inputs) {
-            if (elem.place.marking < elem.weight) {
+            if (elem.place.marking.size() < elem.weight) {
                 return false
             }
         }
         return true
     }
 
-    void consumeInputTokens() {
-        if (type == TransitionType.COLLECTOR) println("Collector "+name+" consumes 1 unit")
+    void fire() {
+        consumeInputTokens()
+        produceOutputTokens()
+    }
 
+    void consumeInputTokens() {
         for (elem in inputs) {
-            elem.place.marking -=  elem.weight
+            for (int i=0; i<elem.weight; i++) {
+                elem.place.marking.pop()
+            }
+        }
+    }
+
+    void flushResetTokens() {
+        for (p in resets) {
+            p.flush()
         }
     }
 
     void produceOutputTokens() {
-        if (type == TransitionType.EMITTER) println("Emitter "+name+" produces 1 unit")
-
         for (elem in outputs) {
-            elem.place.marking +=  elem.weight
+            for (int i=0; i<elem.weight; i++) {
+                elem.place.marking.push(new Token())
+            }
         }
+    }
+
+    String toString() {
+        return id
     }
 }

@@ -41,10 +41,12 @@ The execution time controller. Discrete Event Dynamic Systems: Theory and Applic
 
 */
 
+enum ExecutionMode { BruteForce, EnabledTransition, StaticRepresentingPlaces, DynamicRepresentingPlaces }
+
 interface Execution {
 
     // load the net
-    void embody(Net net)
+    void load(Net net)
 
     // returns false if there are no more enabled transitions
     Boolean step()

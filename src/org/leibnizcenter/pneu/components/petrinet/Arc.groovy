@@ -22,11 +22,14 @@
 package org.leibnizcenter.pneu.components.petrinet
 import org.leibnizcenter.pneu.components.graphics.Point
 
+enum ArcType { NORMAL, INHIBITOR, RESET }
+
 class Arc {
     String id
     Node source
     Node target
     Integer weight
+    ArcType type
 
     // for graphics
     List<Point> pointList

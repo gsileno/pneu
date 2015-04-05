@@ -2,6 +2,7 @@ package org.leibnizcenter.pneu.parser
 
 import org.leibnizcenter.pneu.animation.monolithic.NetOrchestration
 import org.leibnizcenter.pneu.components.petrinet.Arc
+import org.leibnizcenter.pneu.components.petrinet.ArcType
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.PlaceWeight
@@ -41,7 +42,7 @@ class pneu {
 
             Transition t = new Transition(
                     id: rec.'@id',
-                    name: rec.name.text(),
+                    name: (rec.name.text().length() > 0)?rec.name.text():rec.'@id',
                     position: new Point(x: x, y: y),
                     dimension: new Area(x: rec.graphics.dimension.'@x'[0].toInteger(), y: rec.graphics.dimension.'@y'[0].toInteger())
             );
@@ -76,7 +77,7 @@ class pneu {
 
             Place p = new Place(
                     id: rec.'@id',
-                    name: rec.name.text(),
+                    name: (rec.name.text().length() > 0)?rec.name.text():rec.'@id',
                     position: new Point(x: x, y: y),
                     dimension: new Area(x: rec.graphics.dimension.'@x'[0].toInteger(), y: rec.graphics.dimension.'@y'[0].toInteger()),
                     marking: marking
@@ -102,43 +103,85 @@ class pneu {
             if (!target) target = net.transitionList.find{ it.id == id }
             if (!target) println ("I haven't found the target node $id!")
 
-            // for graphics
+            Arc existing = net.arcList.find() { it.source == source && it.target == target }
 
-            List<Point> pointList = []
+            if (existing) {
+              existing.weight++
 
-            def pointRecs = rec.graphics.position.findAll()
+              // alternative decoration, I expect more efficient
+              if (fromTransitionToPlace) {
+                  source.outputs.find { it.place == target }.weight++
+              } else {
+                  target.inputs.find { it.place == source }.weight++
+              }
 
-            for (pointRec in pointRecs) {
-                Integer x = pointRec.'@x'.toInteger()
-                Integer y = pointRec.'@y'.toInteger()
-
-                net.testMinMax(x, y)
-
-                Point point = new Point(
-                        x: x,
-                        y: y
-                )
-                pointList << point
-            }
-
-            // materialization
-
-            Arc a = new Arc(
-                    id: rec.'@id',
-                    source: source,
-                    target: target,
-                    pointList: pointList,
-                    weight: 1 //TODO to add the recognition of the weight
-            );
-            net.arcList.add(a)
-
-            // alternative decoration, I expect more efficient
-            if (fromTransitionToPlace) {
-                source.outputs << new PlaceWeight(target, 1)
-                target.inputs << source
             } else {
-                target.inputs << new PlaceWeight(source, 1)
-                source.outputs << target
+
+                // check types
+                ArcType arcType = ArcType.NORMAL
+                if (rec.type) {
+                    String type = rec.type.text.text()
+                    if (type == "inhibitor")
+                        arcType = ArcType.INHIBITOR
+                    else if (type == "reset")
+                        arcType = ArcType.RESET
+                }
+
+                // for graphics
+
+                List<Point> pointList = []
+
+                def pointRecs = rec.graphics.position.findAll()
+
+                for (pointRec in pointRecs) {
+                    Integer x = pointRec.'@x'.toInteger()
+                    Integer y = pointRec.'@y'.toInteger()
+
+                    net.testMinMax(x, y)
+
+                    Point point = new Point(
+                            x: x,
+                            y: y
+                    )
+                    pointList << point
+                }
+
+                // materialization
+
+                Arc a = new Arc(
+                        id: rec.'@id',
+                        source: source,
+                        target: target,
+                        pointList: pointList,
+                        type: arcType,
+                        weight: 1
+                );
+                net.arcList.add(a)
+
+                if (arcType == ArcType.NORMAL) {
+                    // alternative decoration, I expect more efficient
+                    if (fromTransitionToPlace) {
+                        source.outputs << new PlaceWeight(place: target, weight: 1)
+                        target.inputs << source
+                    } else {
+                        target.inputs << new PlaceWeight(place: source, weight: 1)
+                        source.outputs << target
+                    }
+                } else if (arcType == ArcType.INHIBITOR) {
+                    if (fromTransitionToPlace) {
+                        source.inhibitors << target
+                    } else {
+                        println("Something strange here. The inhibitor arc should have the opposite direction.")
+                        target.inhibitors << source
+                    }
+                } else if (arcType == ArcType.RESET) {
+                    if (fromTransitionToPlace) {
+                        source.resets << target
+                    } else {
+                        println("Something strange here. The reset arc should have the opposite direction.")
+                        target.resets << source
+                    }
+                }
             }
 
         }
@@ -190,10 +233,6 @@ class pneu {
 
                     if (options.r) {
                         println("running the petri net model...")
-
-                        NetOrchestration orchestration = new NetOrchestration()
-                        orchestration.embody(net)
-                        orchestration.run()
                     }
                 }
             }

@@ -1,21 +1,48 @@
 package org.leibnizcenter.pneu.animation.monolithic
 
 import org.leibnizcenter.pneu.components.petrinet.Net
-import org.leibnizcenter.pneu.components.petrinet.Place
-import org.leibnizcenter.pneu.components.petrinet.Transition
-
-
 
 class NetOrchestration {
 
-    Execution execution = new BruteForceExecution()
+    Execution execution
 
-    void embody(Net net) {
-        execution.embody(net)
+    NetOrchestration(ExecutionMode executionMode = ExecutionMode.BruteForce) {
+        switch (executionMode) {
+            case ExecutionMode.BruteForce:
+                execution = new BruteForceExecution()
+                break
+            case ExecutionMode.EnabledTransition:
+                execution = new EnabledTransitionExecution()
+                break
+            case ExecutionMode.StaticRepresentingPlaces:
+                execution = new RepresentingPlacesExecution()
+                break
+            case ExecutionMode.DynamicRepresentingPlaces:
+                execution = new RepresentingPlacesExecution(dynamic: true)
+                break
+        }
     }
 
-    void run() {
+    void load(Net net) {
+        if (!execution) return
+        execution.load(net)
+    }
 
+    // run at most max steps (less if there no enabled transitions)
+    Integer run(Integer max = 100) {
+
+        Integer n
+
+        for (n=0; n<max; n++) {
+           if (!execution.step()) break
+        }
+
+        return n
+    }
+
+    void status() {
+        println "Marking: "+execution.places
+        println "Firings: "+execution.nFirings
     }
 
 }
