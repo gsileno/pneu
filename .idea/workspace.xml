@@ -6,37 +6,20 @@
     </artifacts-to-build>
   </component>
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/EnabledTransitionExecution.groovy" line="49" mnemonic="1" />
+    <bookmark url="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/EnabledTransitionExecution.groovy" line="49" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="031753bc-c004-41a2-9aeb-b154ffaebc5a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/DotExportTest.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/LatexExportTest.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2dot.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/Play.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/State.groovy" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/actionscheme.pnml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/duty.pnml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/events.pnml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/extduty.pnml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mock/basic/1.tex" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mock/placewithtoken.pnml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mock/placewithtoken.tex" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mock/test.pnml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mock/test.tex" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/basic/3doublearc.pnml" afterPath="$PROJECT_DIR$/examples/basic/3doublearc.pnml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/petrinet/Arc.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/petrinet/Arc.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/BruteForceExecution.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/BruteForceExecution.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/EnabledTransitionExecution.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/EnabledTransitionExecution.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/Execution.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/Execution.groovy" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/analysis/StateBase.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/BruteForceExecution.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/BruteForceExecution.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/EnabledTransitionExecution.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/EnabledTransitionExecution.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/Execution.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/Execution.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/Play.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/analysis/Play.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/RepresentingBinaryPlacesExecution.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/RepresentingBinaryPlacesExecution.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/RepresentingPlacesExecution.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/RepresentingPlacesExecution.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/State.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/analysis/State.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/NetOrchestration.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/NetOrchestration.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/ParserTest.groovy" afterPath="$PROJECT_DIR$/test/ParserTest.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/petrinet/Place.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/petrinet/Place.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/RepresentingBinaryPlacesExecution.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/RepresentingBinaryPlacesExecution.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/RepresentingPlacesExecution.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/RepresentingPlacesExecution.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/SimulationTest.groovy" afterPath="$PROJECT_DIR$/test/SimulationTest.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/petrinet/Transition.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/components/petrinet/Transition.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/parser/pneu.groovy" afterPath="$PROJECT_DIR$/src/org/leibnizcenter/pneu/parser/pneu.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="pneu.iws" />
@@ -72,10 +55,10 @@
       <file leaf-file-name="SimulationTest.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/SimulationTest.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2818" max-vertical-offset="3540">
-              <caret line="197" column="31" selection-start-line="197" selection-start-column="31" selection-end-line="197" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2788" max-vertical-offset="3510">
+              <caret line="195" column="31" selection-start-line="195" selection-start-column="31" selection-end-line="195" selection-end-column="31" />
               <folding>
-                <element signature="e#0#64#0" expanded="true" />
+                <marker date="1428218943924" expanded="true" signature="0:163" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -92,12 +75,12 @@
         </entry>
       </file>
       <file leaf-file-name="EnabledTransitionExecution.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/EnabledTransitionExecution.groovy">
+        <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/EnabledTransitionExecution.groovy">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="857" max-vertical-offset="1545">
               <caret line="69" column="76" selection-start-line="69" selection-start-column="76" selection-end-line="69" selection-end-column="76" />
               <folding>
-                <element signature="e#53#108#0" expanded="true" />
+                <element signature="e#63#118#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -114,7 +97,7 @@
         </entry>
       </file>
       <file leaf-file-name="RepresentingBinaryPlacesExecution.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/RepresentingBinaryPlacesExecution.groovy">
+        <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/RepresentingBinaryPlacesExecution.groovy">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="1755">
               <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
@@ -123,59 +106,49 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DotExportTest.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/DotExportTest.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="302" max-vertical-offset="870">
-              <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
-              <folding>
-                <element signature="e#0#53#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PN2dot.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/graphics/export/PN2dot.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="1200">
-              <caret line="50" column="59" selection-start-line="50" selection-start-column="59" selection-end-line="50" selection-end-column="59" />
-              <folding>
-                <element signature="e#48#101#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="BruteForceExecution.groovy" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/BruteForceExecution.groovy">
+        <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/BruteForceExecution.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4225352" vertical-offset="495" max-vertical-offset="1410">
-              <caret line="52" column="16" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="16" />
-              <folding />
+            <state vertical-scroll-proportion="0.7623239" vertical-offset="527" max-vertical-offset="1590">
+              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+              <folding>
+                <element signature="e#63#127#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="State.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/State.groovy">
+        <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/analysis/State.groovy">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
-              <caret line="12" column="86" selection-start-line="12" selection-start-column="86" selection-end-line="12" selection-end-column="86" />
+              <caret line="20" column="26" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="26" />
               <folding>
-                <element signature="e#53#108#0" expanded="true" />
+                <element signature="e#62#117#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StateBase.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/analysis/StateBase.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
+              <caret line="27" column="69" selection-start-line="27" selection-start-column="69" selection-end-line="27" selection-end-column="69" />
+              <folding>
+                <element signature="e#62#117#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="Play.groovy" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/Play.groovy">
+        <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/analysis/Play.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345">
-              <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
+              <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
               <folding>
-                <element signature="e#53#108#0" expanded="true" />
+                <element signature="e#62#117#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -214,8 +187,13 @@
         <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/EnabledTransitionExecution.groovy" />
         <option value="$PROJECT_DIR$/test/SimulationTest.groovy" />
         <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/Play.groovy" />
-        <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/State.groovy" />
         <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/BruteForceExecution.groovy" />
+        <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/State.groovy" />
+        <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/StateBase.groovy" />
+        <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/analysis/StateBase.groovy" />
+        <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/analysis/State.groovy" />
+        <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/analysis/Play.groovy" />
+        <option value="$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/BruteForceExecution.groovy" />
       </list>
     </option>
   </component>
@@ -375,6 +353,66 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="monolithic" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pneu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pneu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pneu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="animation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="monolithic" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="execution" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pneu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pneu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pneu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="animation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="monolithic" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="analysis" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -767,12 +805,12 @@
       <workItem from="1426110372217" duration="603000" />
       <workItem from="1426184229742" duration="33000" />
       <workItem from="1428068071247" duration="10762000" />
-      <workItem from="1428129548674" duration="29419000" />
+      <workItem from="1428129548674" duration="34308000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60433000" />
+    <option name="totallyTimeSpent" value="65322000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="29" width="1280" height="995" extended-state="6" />
@@ -871,25 +909,7 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/EnabledTransitionExecution.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="975">
-          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
-          <folding>
-            <element signature="e#53#108#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/NetOrchestration.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="375" max-vertical-offset="465">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/RepresentingBinaryPlacesExecution.groovy">
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/RepresentingBinaryPlacesExecution.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="1665">
           <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
@@ -897,7 +917,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/RepresentingPlacesExecution.groovy">
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/RepresentingPlacesExecution.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="1815">
           <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
@@ -905,7 +925,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/Execution.groovy">
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/Execution.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="840">
           <caret line="46" column="13" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
@@ -913,11 +933,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/BruteForceExecution.groovy">
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/BruteForceExecution.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="855">
           <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-          <folding />
+          <folding>
+            <element signature="e#63#127#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1078,7 +1100,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/Execution.groovy">
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/Execution.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="870">
           <caret line="45" column="10" selection-start-line="45" selection-start-column="10" selection-end-line="45" selection-end-column="10" />
@@ -1102,7 +1124,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/RepresentingPlacesExecution.groovy">
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/RepresentingPlacesExecution.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.9507042" vertical-offset="0" max-vertical-offset="2640">
           <caret line="39" column="9" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="9" />
@@ -1228,27 +1250,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/EnabledTransitionExecution.groovy">
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/EnabledTransitionExecution.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="857" max-vertical-offset="1545">
           <caret line="69" column="76" selection-start-line="69" selection-start-column="76" selection-end-line="69" selection-end-column="76" />
           <folding>
-            <element signature="e#53#108#0" expanded="true" />
+            <element signature="e#63#118#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/SimulationTest.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2818" max-vertical-offset="3540">
-          <caret line="197" column="31" selection-start-line="197" selection-start-column="31" selection-end-line="197" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2788" max-vertical-offset="3510">
+          <caret line="195" column="31" selection-start-line="195" selection-start-column="31" selection-end-line="195" selection-end-column="31" />
           <folding>
-            <element signature="e#0#64#0" expanded="true" />
+            <marker date="1428218943924" expanded="true" signature="0:163" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/RepresentingBinaryPlacesExecution.groovy">
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/RepresentingBinaryPlacesExecution.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="1755">
           <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
@@ -1256,31 +1278,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/State.groovy">
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/analysis/Play.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
+          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
+          <folding>
+            <element signature="e#62#117#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/analysis/StateBase.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
+          <caret line="27" column="69" selection-start-line="27" selection-start-column="69" selection-end-line="27" selection-end-column="69" />
+          <folding>
+            <element signature="e#62#117#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/analysis/State.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
-          <caret line="12" column="86" selection-start-line="12" selection-start-column="86" selection-end-line="12" selection-end-column="86" />
+          <caret line="20" column="26" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="26" />
           <folding>
-            <element signature="e#53#108#0" expanded="true" />
+            <element signature="e#62#117#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/Play.groovy">
+    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/execution/BruteForceExecution.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345">
-          <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.7623239" vertical-offset="527" max-vertical-offset="1590">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
           <folding>
-            <element signature="e#53#108#0" expanded="true" />
+            <element signature="e#63#127#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/leibnizcenter/pneu/animation/monolithic/BruteForceExecution.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4225352" vertical-offset="495" max-vertical-offset="1410">
-          <caret line="52" column="16" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>

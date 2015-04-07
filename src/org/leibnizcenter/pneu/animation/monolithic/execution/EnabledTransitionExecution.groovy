@@ -1,4 +1,4 @@
-package org.leibnizcenter.pneu.animation.monolithic
+package org.leibnizcenter.pneu.animation.monolithic.execution
 
 import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition

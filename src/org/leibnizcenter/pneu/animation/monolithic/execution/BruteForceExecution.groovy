@@ -1,5 +1,8 @@
-package org.leibnizcenter.pneu.animation.monolithic
+package org.leibnizcenter.pneu.animation.monolithic.execution
 
+import org.leibnizcenter.pneu.animation.monolithic.analysis.Play
+import org.leibnizcenter.pneu.animation.monolithic.analysis.State
+import org.leibnizcenter.pneu.animation.monolithic.analysis.StateBase
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
@@ -10,6 +13,7 @@ import org.leibnizcenter.pneu.components.petrinet.TransitionType
 class BruteForceExecution implements Execution {
 
     Play play = new Play()
+    StateBase stateBase = new StateBase()
 
     Integer nTokenEmitted = 0
     Integer nTokenCollected = 0
@@ -40,19 +44,24 @@ class BruteForceExecution implements Execution {
     // Brute Force algorithm
     Boolean step() {
 
+        List<Transition> enabledTransitions = []
         List<Transition> firedTransitions = []
 
         boolean somethingFired = false
 
-        play.addStep(places)
+        State state = stateBase.add(places)
 
-        // enabling full analysis
-        for (t in transitions) {
-            // enabled transition analysis
-            if (t.isEnabled()) {
-                
+        // if new state, add all enabled transitions
+        if (!state.transitionStateMap) {
+            for (t in transitions) {
+                if (t.isEnabled()) {
+                    enabledTransitions << t
+                }
             }
+            state.setEnabledTransitions(enabledTransitions)
         }
+
+        play.addStep(state)
 
         // enabling analysis and firing: all transitions are tested
         for (t in transitions) {
@@ -64,7 +73,7 @@ class BruteForceExecution implements Execution {
                 if (!nFirings[t]) nFirings[t] = 1
                 else nFirings[t]++
                 somethingFired = true
-                break; ////// My modification: only one transition per step!
+                break; ////// my modification: only one transition per step!
             }
         }
 
