@@ -48,6 +48,8 @@ class NetOrchestration {
     void status() {
         println "Marking: "+execution.places
         println "Firings: "+execution.nFirings
+        println "Story: \n" +execution.play
+        println "States: \n"+execution.stateBase
     }
 
 }

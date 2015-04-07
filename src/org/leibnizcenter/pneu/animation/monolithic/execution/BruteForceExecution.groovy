@@ -1,6 +1,6 @@
 package org.leibnizcenter.pneu.animation.monolithic.execution
 
-import org.leibnizcenter.pneu.animation.monolithic.analysis.Play
+import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
 import org.leibnizcenter.pneu.animation.monolithic.analysis.State
 import org.leibnizcenter.pneu.animation.monolithic.analysis.StateBase
 import org.leibnizcenter.pneu.components.petrinet.Net
@@ -12,8 +12,9 @@ import org.leibnizcenter.pneu.components.petrinet.TransitionType
 
 class BruteForceExecution implements Execution {
 
-    Play play = new Play()
+    Story play = new Story()
     StateBase stateBase = new StateBase()
+    State current
 
     Integer nTokenEmitted = 0
     Integer nTokenCollected = 0
@@ -36,19 +37,8 @@ class BruteForceExecution implements Execution {
         t.produceOutputTokens()
     }
 
-    void load(Net net) {
-        transitions = net.transitionList
-        places = net.placeList
-    }
-
-    // Brute Force algorithm
-    Boolean step() {
-
+    State saveSnapshot(State source = null, List<Transition> firedTransitions = []) {
         List<Transition> enabledTransitions = []
-        List<Transition> firedTransitions = []
-
-        boolean somethingFired = false
-
         State state = stateBase.add(places)
 
         // if new state, add all enabled transitions
@@ -61,7 +51,30 @@ class BruteForceExecution implements Execution {
             state.setEnabledTransitions(enabledTransitions)
         }
 
+        if (firedTransitions.size() > 0) {
+            if (firedTransitions.size() > 1)
+                println("ERROR!! I consider only one transition per time")
+
+            source.transitionStateMap[firedTransitions[0]] = state
+        }
         play.addStep(state)
+
+        return state
+    }
+
+    void load(Net net) {
+        transitions = net.transitionList
+        places = net.placeList
+    }
+
+    // Brute Force algorithm
+    Boolean step() {
+
+        List<Transition> firedTransitions = []
+
+        if (!current) current = saveSnapshot() // for state 0
+
+        boolean somethingFired = false
 
         // enabling analysis and firing: all transitions are tested
         for (t in transitions) {
@@ -88,6 +101,8 @@ class BruteForceExecution implements Execution {
         }
 
         play.addEvent(firedTransitions)
+
+        current = saveSnapshot(current, firedTransitions)
 
         // update lists not necessary in BF
 

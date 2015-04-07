@@ -4,7 +4,7 @@ import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Token
 
 class StateBase {
-    List<State> base
+    List<State> base = []
 
     State add(List<Place> places) {
 
@@ -13,9 +13,9 @@ class StateBase {
             Boolean differentState = false
 
             // check if all the places are the same of the input state
-            for (p in places) {
-                List<Token> marking = s.placeTokensMap[p]
-                if (p.marking.size() != marking.size() || p.marking != marking) {
+            for (place in places) {
+                List<Token> marking = state.placeTokensMap[place]
+                if (place.marking.size() != marking.size() || place.marking != marking) {
                     differentState = true
                     break
                 }
@@ -27,8 +27,17 @@ class StateBase {
 
         // create a new state with the places and add to the database
         State state = new State(places)
+        state.label = "st"+base.size()
         base.add(state)
 
         return state
+    }
+
+    String toString() {
+        String output = ""
+        for (int i = 0; i<base.size(); i++) {
+            output += base[i].toString() +": "+base[i].placesToString()+" / "+  base[i].transitionsToString() +" \n"
+        }
+        output
     }
 }

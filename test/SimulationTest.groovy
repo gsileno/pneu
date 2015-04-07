@@ -215,6 +215,7 @@ class SimulationTest extends GroovyTestCase {
         orchestration.status()
         assert(orchestration.run(1) == 1)
         orchestration.status()
+
     }
 
     void test7ResetBruteForce() {

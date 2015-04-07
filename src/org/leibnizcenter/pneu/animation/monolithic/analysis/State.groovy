@@ -5,6 +5,9 @@ import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
 
 class State {
+
+    String label
+
     Map<Place, List<Token>> placeTokensMap
     Map<Transition, State> transitionStateMap
 
@@ -26,4 +29,29 @@ class State {
         }
     }
 
+    String toString() {
+        return label
+    }
+
+    String placesToString() {
+        String output = "["
+        for (elem in placeTokensMap) {
+            output += elem.key.id+" ("+elem.value.size()+"), "
+        }
+        output = output[0..-3]+"]"
+
+        return output
+    }
+
+    String transitionsToString() {
+        String output = "["
+        for (elem in transitionStateMap) {
+            output += elem.key.id+" => "
+            if (!elem.value) output += "?, "
+            else output += "("+elem.value.label+"), "
+        }
+        output = output[0..-3]+"]"
+
+        return output
+    }
 }
