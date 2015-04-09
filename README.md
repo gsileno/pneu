@@ -45,9 +45,9 @@ println(PN2dot.simpleConversion(net))
 #!groovy
 import org.leibnizcenter.pneu.animation.monolithic.NetOrchestration
 
-NetOrchestration orchestration = new NetOrchestration()
-orchestration.load(net)
-orchestration.run(100)  // run 100 steps
+NetOrchestration orchestration = new NetOrchestration() // brute-force based animation
+orchestration.load(net) // load the petri net structure
+orchestration.run(100)  // run at most 100 steps (less if there are no more enabled transitions)
 ```
 
 ...

@@ -232,7 +232,7 @@ class pneu {
                     }
 
                     if (options.r) {
-                        println("running the petri net model...")
+                        println("running the petri net model... TODO")
                     }
                 }
             }
