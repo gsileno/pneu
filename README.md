@@ -18,6 +18,28 @@ coding guidelines:
 
 ## Usage
 
+**simple parsing:**
+```
+#!groovy
+import org.leibnizcenter.pneu.components.petrinet.Net
+import org.leibnizcenter.pneu.parser.pneu
+Net net = pneu.parseFile("examples/basic/0emptyplace.pnml")
+```
+
+**dot conversion:**
+```
+#!groovy
+import org.leibnizcenter.pneu.graphics.export.PN2dot
+println(PN2dot.simpleConversion(net))
+```
+
+**tikz (LaTeX) conversion:**
+```
+#!groovy
+import org.leibnizcenter.pneu.graphics.export.PN2LaTeX
+println(PN2LaTeX.convertabsolute(net)
+```
+
 
 
 ## Contributing
