@@ -1,13 +1,19 @@
 # pneu
 
-petri net pneumatics: groovy libraries/scripts to tinker with Petri Nets
+Petri Net pnEUmatics: *groovy libraries/scripts to tinker with Petri Nets*
 
-- simple source code, readable on sources with no documentation burden
--
+coding requirements:
+
+* keep the source code simple, readable with few comments
+* hopefully no documentation required
 
 ## Components
 
-- converter from Yasper PNML to tikz (LaTeX!)
+parser of Yasper PNML
+converter to tikz (LaTeX!)
+converter to dot (graphviz, etc.)
+simulator 
+analyzer 
 
 ## Usage
 
