@@ -18,7 +18,7 @@ coding guidelines:
 
 ## Usage
 
-**simple parsing:**
+**PNML parsing:**
 ```
 #!groovy
 import org.leibnizcenter.pneu.components.petrinet.Net
