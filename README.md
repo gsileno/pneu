@@ -26,13 +26,6 @@ import org.leibnizcenter.pneu.parser.pneu
 Net net = pneu.parseFile("examples/basic/0emptyplace.pnml")
 ```
 
-**dot conversion:**
-```
-#!groovy
-import org.leibnizcenter.pneu.graphics.export.PN2dot
-println(PN2dot.simpleConversion(net))
-```
-
 **tikz (LaTeX) conversion:**
 ```
 #!groovy
@@ -40,6 +33,22 @@ import org.leibnizcenter.pneu.graphics.export.PN2LaTeX
 println(PN2LaTeX.convertabsolute(net)
 ```
 
+**dot conversion:**
+```
+#!groovy
+import org.leibnizcenter.pneu.graphics.export.PN2dot
+println(PN2dot.simpleConversion(net))
+```
+
+**monolithic simulation**
+```
+#!groovy
+import org.leibnizcenter.pneu.animation.monolithic.NetOrchestration
+
+NetOrchestration orchestration = new NetOrchestration()
+orchestration.load(net)
+orchestration.run(100)  // run 100 steps
+```
 
 
 ## Contributing
