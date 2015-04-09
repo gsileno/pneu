@@ -9,7 +9,7 @@ coding guidelines:
 
 ## Components
 
-* parser of Yasper PNML (Petri Net Markup Language XML)
+* parser of Yasper PNML (Petri Net Markup Language, XML based)
 * converter to tikz (LaTeX!)
 * converter to dot (graphviz, etc.)
 * simulator 
