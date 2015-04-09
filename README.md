@@ -9,11 +9,11 @@ coding guidelines:
 
 ## Components
 
-parser of Yasper PNML
-converter to tikz (LaTeX!)
-converter to dot (graphviz, etc.)
-simulator 
-analyzer 
+* parser of Yasper PNML (Petri Net Markup Language XML)
+* converter to tikz (LaTeX!)
+* converter to dot (graphviz, etc.)
+* simulator 
+* analyzer 
 
 ## Usage
 
