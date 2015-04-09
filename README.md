@@ -6,6 +6,7 @@ coding guidelines:
 
 * keep the source code simple, readable with few comments
 * hopefully no documentation required
+* make tests for each component
 
 ## Components
 
