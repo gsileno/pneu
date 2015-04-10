@@ -1,13 +1,12 @@
 import org.leibnizcenter.pneu.animation.monolithic.NetOrchestration
-import org.leibnizcenter.pneu.animation.monolithic.execution.ExecutionMode
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Token
-import org.leibnizcenter.pneu.parser.pneu
+import org.leibnizcenter.pneu.parsers.PNML2PN
 
 class SimulationTest extends GroovyTestCase {
 
     void test0EmptyPlace() {
-        Net net = pneu.parseFile("examples/basic/0emptyplace.pnml")
+        Net net = PNML2PN.parseFile("examples/basic/0emptyplace.pnml")
 
         NetOrchestration orchestration = new NetOrchestration()
         orchestration.load(net)
@@ -18,7 +17,7 @@ class SimulationTest extends GroovyTestCase {
     }
 
     void test0PlaceFilledWith3Tokens() {
-        Net net = pneu.parseFile("examples/basic/0placefilledwith3tokens.pnml")
+        Net net = PNML2PN.parseFile("examples/basic/0placefilledwith3tokens.pnml")
 
         NetOrchestration orchestration = new NetOrchestration()
         orchestration.load(net)
@@ -32,7 +31,7 @@ class SimulationTest extends GroovyTestCase {
     // therefore at 100 there is no token in the place (collector consumed it)
     // at 101 there is a token (emitter consumed it)
     void test1TransitionBased(NetOrchestration orchestration) {
-        Net net = pneu.parseFile("examples/basic/1transition.pnml")
+        Net net = PNML2PN.parseFile("examples/basic/1transition.pnml")
         orchestration.load(net)
         assert(orchestration.run(100) == 100)
         assert(orchestration.execution.places.size() == 1)
@@ -44,7 +43,7 @@ class SimulationTest extends GroovyTestCase {
 
     // test for execution based on places
     void test1PlaceBased(NetOrchestration orchestration) {
-        Net net = pneu.parseFile("examples/basic/1transition.pnml")
+        Net net = PNML2PN.parseFile("examples/basic/1transition.pnml")
         orchestration.load(net)
         // this execution does not handle emitters,
         assert(orchestration.run() == 0)
@@ -70,7 +69,7 @@ class SimulationTest extends GroovyTestCase {
 //    }
 
 //    void test1TransitionStaticRepresentingPlaces() {
-//        Net net = pneu.parseFile("examples/basic/1transition.pnml")
+//        Net net = PNMLparser.parseFile("examples/basic/1transition.pnml")
 //
 //        NetOrchestration orchestration = new NetOrchestration(ExecutionMode.StaticRepresentingPlaces)
 //        test1PlaceBased(net, orchestration)
@@ -78,7 +77,7 @@ class SimulationTest extends GroovyTestCase {
 //    }
 //
 //    void test1TransitionDynamicRepresentingPlaces() {
-//        Net net = pneu.parseFile("examples/basic/1transition.pnml")
+//        Net net = PNMLparser.parseFile("examples/basic/1transition.pnml")
 //
 //        NetOrchestration orchestration = new NetOrchestration(ExecutionMode.DynamicRepresentingPlaces)
 //        test1PlaceBased(net, orchestration)
@@ -86,7 +85,7 @@ class SimulationTest extends GroovyTestCase {
 
     // test for execution based on transitions
     void test2TransitionBased(NetOrchestration orchestration) {
-        Net net = pneu.parseFile("examples/basic/2chaining.pnml")
+        Net net = PNML2PN.parseFile("examples/basic/2chaining.pnml")
         orchestration.load(net)
         assert(orchestration.run() == 100)
         assert(orchestration.execution.places.size() == 2)
@@ -110,7 +109,7 @@ class SimulationTest extends GroovyTestCase {
 
     // test for execution based on transitions
     void test3TransitionBased(NetOrchestration orchestration) {
-        Net net = pneu.parseFile("examples/basic/3doublearc.pnml")
+        Net net = PNML2PN.parseFile("examples/basic/3doublearc.pnml")
         orchestration.load(net)
         assert(orchestration.run() == 100)
         assert(orchestration.execution.places.size() == 4)
@@ -136,7 +135,7 @@ class SimulationTest extends GroovyTestCase {
 
     // test for execution based on transitions
     void test4TransitionBased(NetOrchestration orchestration) {
-        Net net = pneu.parseFile("examples/basic/4conflict.pnml")
+        Net net = PNML2PN.parseFile("examples/basic/4conflict.pnml")
         orchestration.load(net)
         assert(orchestration.execution.places.size() == 3)
         assert(orchestration.run(1))
@@ -163,7 +162,7 @@ class SimulationTest extends GroovyTestCase {
 
     // test for execution based on transitions
     void test5TransitionBased(NetOrchestration orchestration) {
-        Net net = pneu.parseFile("examples/basic/5inhibitor.pnml")
+        Net net = PNML2PN.parseFile("examples/basic/5inhibitor.pnml")
         orchestration.load(net)
         assert(orchestration.run() == 100)
 
@@ -186,7 +185,7 @@ class SimulationTest extends GroovyTestCase {
 
     // test for execution based on transitions
     void test6TransitionBased(NetOrchestration orchestration) {
-        Net net = pneu.parseFile("examples/basic/6biflow.pnml")
+        Net net = PNML2PN.parseFile("examples/basic/6biflow.pnml")
         orchestration.load(net)
         assert(orchestration.run() == 100)
 
@@ -204,7 +203,7 @@ class SimulationTest extends GroovyTestCase {
 
     // test for execution based on transitions
     void test7TransitionBased(NetOrchestration orchestration) {
-        Net net = pneu.parseFile("examples/basic/7reset.pnml")
+        Net net = PNML2PN.parseFile("examples/basic/7reset.pnml")
         orchestration.load(net)
         assert(orchestration.run(1) == 1)
         orchestration.status()

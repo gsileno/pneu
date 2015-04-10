@@ -5,7 +5,8 @@ import org.leibnizcenter.pneu.components.petrinet.Net
 class Grid {
 
     Net net                           // reference net
-    Float zoomRatio                   // tikz posizion = intermediate position * zoomRatio
+    Float zoomXRatio                  // tikz posizion = intermediate position * zoomRatio
+    Float zoomYRatio
     Integer inputDotGranularity       // pnml position / inputDotGranularity = intermediate position
                                       // Yasper use 33 dots per square
 
@@ -53,7 +54,7 @@ class Grid {
 
         point = transformCoordinates(point)
 
-        return Math.round(Math.round(point.x/inputDotGranularity)*zoomRatio * 100)/100 +", "+
-               Math.round(Math.round(point.y/inputDotGranularity)*zoomRatio * 100)/100
+        return Math.round(Math.round(point.x/inputDotGranularity)*zoomXRatio * 100)/100 +", "+
+               Math.round(Math.round(point.y/inputDotGranularity)*zoomYRatio * 100)/100
     }
 }

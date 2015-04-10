@@ -31,4 +31,9 @@ class Node {
     // graphics
     Point position
     Area dimension
+
+    String label(Boolean showId = false) {
+        if (name.length() > 0 || !showId) return name
+        else return id
+    }
 }
