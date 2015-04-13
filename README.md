@@ -22,7 +22,7 @@ coding guidelines:
 ```
 #!groovy
 import org.leibnizcenter.pneu.components.petrinet.Net
-import org.leibnizcenter.pneu.parser.pneu
+import org.leibnizcenter.pneu.parsers.pneu
 Net net = pneu.parseFile("examples/basic/0emptyplace.pnml")
 ```
 
@@ -49,9 +49,6 @@ NetOrchestration orchestration = new NetOrchestration() // brute-force based ani
 orchestration.load(net) // load the petri net structure
 orchestration.run(100)  // run at most 100 steps (less if there are no more enabled transitions)
 ```
-
-...
-
 
 ## Contributing
 

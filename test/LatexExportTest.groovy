@@ -1,11 +1,11 @@
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.graphics.export.PN2LaTeX
-import org.leibnizcenter.pneu.parser.pneu
+import org.leibnizcenter.pneu.parsers.PNML2PN
 
 class LatexExportTest extends GroovyTestCase {
 
     void batchExport(String filename) {
-        Net net = pneu.parseFile("examples/basic/"+filename)
+        Net net = PNML2PN.parseFile("examples/basic/"+filename)
 
         String outputFile = "examples/out/tex/"+filename.replaceFirst(~/ \.[^\.]+$ /, '') + ".tex"
 

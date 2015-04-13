@@ -76,13 +76,13 @@ class PN2LaTeX {
     // First strategy:
     // first, do all the places
     // then put the position of transition in function of the places
-    static convertrelative1(Net net) {
+    static convertrelative1(Net net, boolean showId = false) {
 
         Compass compass = new Compass()
 
         String code = ""
 
-        code += header+"\n"
+        code += header(5)+"\n"
 
         code += "  \\begin{scope}\n"
 
@@ -115,7 +115,7 @@ class PN2LaTeX {
                 }
             }
 
-            code += helperOptions(pl.name, directions, proxiestId)
+            code += helperOptions(pl.label(showId), directions, proxiestId)
 
             code += "{};\n"
 
@@ -143,7 +143,7 @@ class PN2LaTeX {
                 }
             }
 
-            code += helperOptions(tr.name, directions, proxiestId)
+            code += helperOptions(tr.label(), directions, proxiestId)
 
             code += "{}\n"
 
@@ -179,14 +179,14 @@ class PN2LaTeX {
     //     write the transition if we know the places to which it is attached
     //     (give the directions in function of the know nodes)
    //
-    static convertrelative2(Net net) {
+    static convertrelative2(Net net, boolean showId = false) {
 
         Compass compass = new Compass()
         List<Node> walkedNodes = []
 
         String code = ""
 
-        code += header+"\n"
+        code += header(5)+"\n"
 
         code += "  \\begin{scope}\n"
 
@@ -221,7 +221,7 @@ class PN2LaTeX {
                 log.info("direction: "+plDirections)
                 log.info("distance: "+plDmin)
 
-                code += helperOptions(pl.name, plDirections, plProxiestId)
+                code += helperOptions(pl.label(showId), plDirections, plProxiestId)
 
                 code += "{};\n\n"
 
@@ -283,7 +283,7 @@ class PN2LaTeX {
                                 log.info("direction: "+trDirections)
                                 log.info("distance: "+trDmin)
 
-                                code += helperOptions(tr.name, trDirections, trProxiestId)
+                                code += helperOptions(tr.label(showId), trDirections, trProxiestId)
 
                                 code += "{}\n"
 
@@ -319,14 +319,17 @@ class PN2LaTeX {
         code += footer+"\n"
     }
 
-    static convertabsolute(Net net) {
+    static convertabsolute(Net net,
+                           Float zoomXRatio = 0.65, Float zoomYRatio = 0.65, // grid zoom
+                           Float minSize = 5, // min size for nodes (in mm)
+                           boolean showId = false, Float inputDotGranularity = 33) {
 
-        Grid grid = new Grid(net: net, zoomRatio: 0.65, inputDotGranularity: 33)
+        Grid grid = new Grid(net: net, zoomXRatio: zoomXRatio, zoomYRatio: zoomYRatio, inputDotGranularity: inputDotGranularity)
         grid.setTransformation(grid.flipVertical)
 
         String code = ""
 
-        code += header+"\n"
+        code += header(minSize)+"\n"
 
         code += "  \\begin{scope}\n"
 
@@ -341,7 +344,7 @@ class PN2LaTeX {
             code += "]\t"
             code += "("+pl.id+")\t"
 
-            code += helperLabel(pl.name)
+            code += helperLabel(pl.label(showId))
 
             code += " at ("+grid.printScaled(pl.position)+")\t"
             code += "{};\n"
@@ -356,7 +359,7 @@ class PN2LaTeX {
             code += "[transition]\t"
             code += "("+tr.id+")\t"
             code += " at ("+grid.printScaled(tr.position)+")\t"
-            code += helperLabel(tr.name)
+            code += helperLabel(tr.label(showId))
             code += "{}\n"
 
             String postcode = ""
@@ -409,14 +412,16 @@ class PN2LaTeX {
 
     // preambles
 
-    static String header = '''\\begin{tikzpicture}[node distance=1.3cm,>=stealth',shorten >=1pt,thick,bend angle=45,auto]
-  \\tikzstyle{place}=[circle,thick,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=5mm]
-  \\tikzstyle{transition}=[rectangle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},thick,draw=black!100,fill=white!20,minimum size=5mm]
+    static String header(Float minSize) {
+        return """\\begin{tikzpicture}[node distance=1.3cm,>=stealth',shorten >=1pt,thick,bend angle=45,auto]
+  \\tikzstyle{place}=[circle,thick,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=${minSize}mm]
+  \\tikzstyle{transition}=[rectangle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},thick,draw=black!100,fill=white!20,minimum size=${minSize}mm]
 
-  \\tikzstyle{every label}=[font=\\scriptsize,align=center,black]'''
+  \\tikzstyle{every label}=[font=\\scriptsize,align=center,black]"""
+    }
 
-    static String footer = '''
-\\end{tikzpicture}'''
+    static String footer = """
+\\end{tikzpicture}"""
 
 }
 

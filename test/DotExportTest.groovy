@@ -1,10 +1,10 @@
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.graphics.export.PN2dot
-import org.leibnizcenter.pneu.parser.pneu
+import org.leibnizcenter.pneu.parsers.PNML2PN
 
 class DotExportTest extends GroovyTestCase {
     void batchExport(String filename) {
-        Net net = pneu.parseFile("examples/basic/"+filename)
+        Net net = PNML2PN.parseFile("examples/basic/"+filename)
 
         String outputFile = "examples/out/dot/"+filename.replaceFirst(~/\.[^\.]+$/, '') + ".dot"
 

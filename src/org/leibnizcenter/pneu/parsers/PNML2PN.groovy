@@ -1,6 +1,5 @@
-package org.leibnizcenter.pneu.parser
+package org.leibnizcenter.pneu.parsers
 
-import org.leibnizcenter.pneu.animation.monolithic.NetOrchestration
 import org.leibnizcenter.pneu.components.petrinet.Arc
 import org.leibnizcenter.pneu.components.petrinet.ArcType
 import org.leibnizcenter.pneu.components.petrinet.Net
@@ -9,12 +8,10 @@ import org.leibnizcenter.pneu.components.petrinet.PlaceWeight
 import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.components.petrinet.TransitionType
-import org.leibnizcenter.pneu.animation.actorbased.NetChoreography
 import org.leibnizcenter.pneu.components.graphics.Area
 import org.leibnizcenter.pneu.components.graphics.Point
-import org.leibnizcenter.pneu.graphics.export.PN2LaTeX
 
-class pneu {
+class PNML2PN {
 
     static Net parseFile(String filename) {
         def records = new XmlParser().parse(filename)
@@ -42,7 +39,7 @@ class pneu {
 
             Transition t = new Transition(
                     id: rec.'@id',
-                    name: (rec.name.text().length() > 0)?rec.name.text():rec.'@id',
+                    name: rec.name.text(), // (rec.name.text().length() > 0)?rec.name.text():rec.'@id',
                     position: new Point(x: x, y: y),
                     dimension: new Area(x: rec.graphics.dimension.'@x'[0].toInteger(), y: rec.graphics.dimension.'@y'[0].toInteger())
             );
@@ -77,7 +74,7 @@ class pneu {
 
             Place p = new Place(
                     id: rec.'@id',
-                    name: (rec.name.text().length() > 0)?rec.name.text():rec.'@id',
+                    name: rec.name.text(), // (rec.name.text().length() > 0)?rec.name.text():rec.'@id',
                     position: new Point(x: x, y: y),
                     dimension: new Area(x: rec.graphics.dimension.'@x'[0].toInteger(), y: rec.graphics.dimension.'@y'[0].toInteger()),
                     marking: marking
@@ -187,55 +184,5 @@ class pneu {
         }
 
         net
-    }
-
-    static void main(String[] args) {
-
-        Net net
-
-        def cli = new CliBuilder(header:'\nOptions:', usage:'pneu [options] <pnmlfile>')
-        // cli.P(longOpt:'svg', 'Create a SVG file')
-        cli.L(longOpt:'latex', 'export to LaTeX (tikz)')
-        cli.r(longOpt:'run', 'execute the model')
-        cli.o(longOpt:'output', args:1, argName:'file', 'Set the output file')
-        def options = cli.parse(args)
-
-        List<String> inputFileList = options.arguments()
-        String outputFile = options.o
-
-        println("pneu - PNML petri net loader")
-
-        if (options.arguments().size() == 0) {
-            cli.usage()
-        } else {
-
-            for (file in inputFileList) {
-                boolean error = false
-                print("reading from file " + file + "... ");
-                try {
-                    net = parseFile(file);
-                } catch (FileNotFoundException) {
-                    error = true
-                    println("sorry, file " + file + " not found or not valid.");
-                }
-
-                if (!error) {
-                    print("petri net loaded... ")
-
-                    if (options.L) {
-                        if (outputFile == 'false') outputFile = file.replaceFirst(~/\.[^\.]+$/, '') + ".tex"
-
-                        new File(outputFile).withWriter { out ->
-                            out.println(PN2LaTeX.convertabsolute(net))
-                        }
-                        println("petri net exported to " + outputFile)
-                    }
-
-                    if (options.r) {
-                        println("running the petri net model... TODO")
-                    }
-                }
-            }
-        }
     }
 }

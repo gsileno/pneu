@@ -3,6 +3,7 @@ TODO
 [monolithic animation] consider the firing of multiple transitions with the same label
 [monolithic analysis] complete it and refactor everything
 [graphics] consider biflows connections
+[graphics all] transform from static to normal class
 [graphics PN2LaTeX] avoid to write labels on top of the arrows
 [graphics PN2LaTeX] create automatically examples/out/tex directory
 [graphics PN2Dot] create automatically examples/out/dot directory

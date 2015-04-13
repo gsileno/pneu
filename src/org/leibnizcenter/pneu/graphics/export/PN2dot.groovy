@@ -13,7 +13,7 @@ class PN2dot {
         return "\"$name\""
     }
 
-    static String simpleConversion(Net net) {
+    static String simpleConversion(Net net, boolean showId = false) {
 
         String code = ""
 
@@ -22,7 +22,7 @@ class PN2dot {
         if (net.placeList.size() > 0) code += headerPlaces
 
         net.placeList.each { pl ->
-            code += "    "+pl.id+" [label=\""+(pl.name?:pl.id)+"\"];\n"
+            code += "    "+pl.id+" [label=\""+pl.label(showId)+"\"];\n"
         }
 
         if (net.placeList.size() > 0) code += "  } \n"
@@ -32,7 +32,7 @@ class PN2dot {
         }
 
         net.transitionList.each { tr ->
-            code += "    "+tr.id+" [label=\""+(tr.name?:tr.id)+"\"];\n"
+            code += "    "+tr.id+" [label=\""+tr.label(showId)+"\"];\n"
         }
 
         if (net.transitionList.size() > 0) code += "  } \n"
