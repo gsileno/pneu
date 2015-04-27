@@ -7,6 +7,9 @@ class LatexExportTest extends GroovyTestCase {
     void batchExport(String filename) {
         Net net = PNML2PN.parseFile("examples/basic/"+filename)
 
+        def folder = new File( 'examples/out/tex/' )
+        if( !folder.exists() ) folder.mkdirs()
+
         String outputFile = "examples/out/tex/"+filename.replaceFirst(~/ \.[^\.]+$ /, '') + ".tex"
 
         new File(outputFile).withWriter {

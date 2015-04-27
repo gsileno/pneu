@@ -29,7 +29,8 @@ class Place extends Node {
     List<Transition> outputs = []
 
     String toString() {
-        return name+" ("+marking.size()+")"
+        if (name != "") return name+" ("+marking.size()+")"
+        else return id+" ("+marking.size()+")"
     }
 
     void flush() {

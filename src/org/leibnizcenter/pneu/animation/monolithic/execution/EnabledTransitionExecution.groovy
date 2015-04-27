@@ -6,13 +6,11 @@ import org.leibnizcenter.pneu.components.petrinet.TransitionType
 
 // see execution.groovy for implementation notes and literature references
 
-class EnabledTransitionExecution extends BruteForceExecution {
+class EnabledTransitionExecution extends Execution {
 
     // Enabled transitions list:
     // list of transitions with input places all marked
     List<Transition> enabledTransitions
-
-    Map<Transition, Integer> nFirings = [:]
 
     void consumeInputTokens(Transition t) {
         if (t.type == TransitionType.COLLECTOR)
@@ -41,10 +39,8 @@ class EnabledTransitionExecution extends BruteForceExecution {
     }
 
     // Enabled Transitions (ET) algorithm
-    Boolean step() {
+    List<Transition> transitionStep() {
         List<Transition> firedTransitions = []
-
-        boolean somethingFired = false
 
         // setup of enabled transitions at first execution
         if (!enabledTransitions) {
@@ -64,17 +60,14 @@ class EnabledTransitionExecution extends BruteForceExecution {
                 // transition firing update
                 consumeInputTokens(t)
                 firedTransitions.add(t)
-                if (!nFirings[t]) nFirings[t] = 1
-                else nFirings[t]++
-                somethingFired = true
                 break; ////// My modification: only one transition per step!
             }
         }
 
-        if (!somethingFired) return false
-        else {
+        if (firedTransitions.size() == 0)
+            return false
+        else
             enabledTransitions -= firedTransitions
-        }
 
         // New enabled transition or formation list:
         // transitions which are enabled by the marking in the firing of the transitions
@@ -91,7 +84,13 @@ class EnabledTransitionExecution extends BruteForceExecution {
         // and the transitions enabled but not fired in this cycle
         enabledTransitions += newEnabledTransitions
 
-        return true
+        return firedTransitions
+    }
+
+    Boolean step() {
+        List<Transition> firedTransitions = []
+        firedTransitions = transitionStep()
+        return (firedTransitions.size() > 0)
     }
 
 }

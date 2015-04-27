@@ -1,5 +1,6 @@
 package org.leibnizcenter.pneu.animation.monolithic
 
+import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
 import org.leibnizcenter.pneu.animation.monolithic.execution.BruteForceExecution
 import org.leibnizcenter.pneu.animation.monolithic.execution.EnabledTransitionExecution
 import org.leibnizcenter.pneu.animation.monolithic.execution.Execution
@@ -9,6 +10,7 @@ import org.leibnizcenter.pneu.components.petrinet.Net
 
 class NetOrchestration {
 
+    Analysis analysis
     Execution execution
 
     NetOrchestration(ExecutionMode executionMode = ExecutionMode.BruteForce) {
@@ -45,11 +47,28 @@ class NetOrchestration {
         return n
     }
 
+    // run at most max steps (less if there no enabled transitions)
+    Integer runAnalysis(Integer max = 100) {
+
+        if (!analysis) {
+            analysis = new Analysis()
+            analysis.execution = execution
+        }
+
+        Integer n
+
+        for (n=0; n<max; n++) {
+            if (!analysis.step()) break
+        }
+
+        return n
+    }
+
     void status() {
         println "Marking: "+execution.places
-        println "Firings: "+execution.nFirings
-        println "Story: \n" +execution.play
-        println "States: \n"+execution.stateBase
+        println "Firings: "+analysis.nFirings
+        println "Story: \n" +analysis.currentStory
+        println "States: \n"+analysis.stateBase
     }
 
 }

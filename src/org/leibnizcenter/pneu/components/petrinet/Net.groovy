@@ -30,7 +30,7 @@ class Net {
     // grid dimensions
     Integer minX, maxX
     Integer minY, maxY
-    // check the given coordinated with the current min, max
+    // check the given coordinated with the currentState min, max
     // reset min/max if necessary
     void testMinMax(Integer x, Integer y) {
         if (minX == null) minX = x

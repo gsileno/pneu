@@ -1,6 +1,8 @@
 package org.leibnizcenter.pneu.animation.monolithic.execution
 
 import org.leibnizcenter.pneu.components.petrinet.Net
+import org.leibnizcenter.pneu.components.petrinet.Place
+import org.leibnizcenter.pneu.components.petrinet.Transition
 
 /* Implementation notes
 
@@ -43,11 +45,32 @@ The execution time controller. Discrete Event Dynamic Systems: Theory and Applic
 
 enum ExecutionMode { BruteForce, EnabledTransition, StaticRepresentingPlaces, DynamicRepresentingPlaces }
 
-interface Execution {
+class Execution {
+
+    List<Transition> transitions
+    List<Place> places
+
+    Integer nTokenEmitted = 0
+    Integer nTokenCollected = 0
 
     // load the net
-    void load(Net net)
+    void load(Net net) {
+        transitions = net.transitionList
+        places = net.placeList
+    }
 
-    // returns false if there are no more enabled transitions
-    Boolean step()
+    // just for class management
+    List<Transition> transitionStep() {
+        List<Transition> firedTransitions = []
+        return firedTransitions
+    }
+
+    Boolean step() {
+        return false
+    }
+
+    List<Transition> fire(Transition t) {
+        return false
+    }
+
 }

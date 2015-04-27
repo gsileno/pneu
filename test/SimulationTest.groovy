@@ -1,6 +1,7 @@
 import org.leibnizcenter.pneu.animation.monolithic.NetOrchestration
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Token
+import org.leibnizcenter.pneu.animation.monolithic.execution.ExecutionMode
 import org.leibnizcenter.pneu.parsers.PNML2PN
 
 class SimulationTest extends GroovyTestCase {
@@ -41,23 +42,6 @@ class SimulationTest extends GroovyTestCase {
         assert(orchestration.execution.nTokenEmitted == orchestration.execution.nTokenCollected + 1)
     }
 
-    // test for execution based on places
-    void test1PlaceBased(NetOrchestration orchestration) {
-        Net net = PNML2PN.parseFile("examples/basic/1transition.pnml")
-        orchestration.load(net)
-        // this execution does not handle emitters,
-        assert(orchestration.run() == 0)
-        // so we have to artificially create tokens
-        net.placeList.find { it.id == 'pl4' }.marking += [new Token()] * 100
-        assert(orchestration.execution.places.find { it.id == 'pl4' }.marking.size() == 100)
-        // and reset the marked representing places
-        orchestration.execution.resetMarkedRepresentingPlaces()
-        // it consumes it in just one turn
-        assert(orchestration.run() == 100)
-        assert(orchestration.execution.places.find { it.id == 'pl4' }.marking.size() == 0)
-        assert(orchestration.execution.nTokenEmitted == orchestration.execution.nTokenCollected - 20)
-    }
-
     void test1TransitionBruteForce() {
         NetOrchestration orchestration = new NetOrchestration()
         test1TransitionBased(orchestration)
@@ -66,6 +50,23 @@ class SimulationTest extends GroovyTestCase {
 //    void test1TransitionEnabledTransitions() {
 //        NetOrchestration orchestration = new NetOrchestration(ExecutionMode.EnabledTransition)
 //        test1TransitionBased(orchestration)
+//    }
+
+    // test for execution based on places
+//    void test1PlaceBased(NetOrchestration orchestration) {
+//        Net net = PNML2PN.parseFile("examples/basic/1transition.pnml")
+//        orchestration.load(net)
+//        // this execution does not handle emitters,
+//        assert(orchestration.run() == 0)
+//        // so we have to artificially create tokens
+//        net.placeList.find { it.id == 'pl4' }.marking += [new Token()] * 100
+//        assert(orchestration.execution.places.find { it.id == 'pl4' }.marking.size() == 100)
+//        // and reset the marked representing places
+//        orchestration.execution.resetMarkedRepresentingPlaces()
+//        // it consumes it in just one turn
+//        assert(orchestration.run() == 100)
+//        assert(orchestration.execution.places.find { it.id == 'pl4' }.marking.size() == 0)
+//        assert(orchestration.execution.nTokenEmitted == orchestration.execution.nTokenCollected - 20)
 //    }
 
 //    void test1TransitionStaticRepresentingPlaces() {
@@ -154,7 +155,7 @@ class SimulationTest extends GroovyTestCase {
         NetOrchestration orchestration = new NetOrchestration()
         test4TransitionBased(orchestration)
     }
-//
+
 //    void test4ConflictEnabledTransitions() {
 //        NetOrchestration orchestration = new NetOrchestration(ExecutionMode.EnabledTransition)
 //        test4TransitionBased(orchestration)
@@ -177,49 +178,32 @@ class SimulationTest extends GroovyTestCase {
         NetOrchestration orchestration = new NetOrchestration()
         test5TransitionBased(orchestration)
     }
-//
-//    void test5InhibitorEnabledTransitions() {
-//        NetOrchestration orchestration = new NetOrchestration(ExecutionMode.EnabledTransition)
-//        test5TransitionBased(orchestration)
-//    }
+
+    void test5InhibitorEnabledTransitions() {
+        NetOrchestration orchestration = new NetOrchestration(ExecutionMode.EnabledTransition)
+        test5TransitionBased(orchestration)
+    }
 
     // test for execution based on transitions
     void test6TransitionBased(NetOrchestration orchestration) {
         Net net = PNML2PN.parseFile("examples/basic/6biflow.pnml")
         orchestration.load(net)
         assert(orchestration.run() == 100)
-
-        orchestration.status()
     }
 
     void test6BiflowBruteForce() {
         NetOrchestration orchestration = new NetOrchestration()
         test6TransitionBased(orchestration)
     }
-//    void test6BiflowEnabledTransitions() {
-//        NetOrchestration orchestration = new NetOrchestration(ExecutionMode.EnabledTransition)
-//        test6TransitionBased(orchestration)
-//    }
+    void test6BiflowEnabledTransitions() {
+        NetOrchestration orchestration = new NetOrchestration(ExecutionMode.EnabledTransition)
+        test6TransitionBased(orchestration)
+    }
 
-    // test for execution based on transitions
     void test7TransitionBased(NetOrchestration orchestration) {
         Net net = PNML2PN.parseFile("examples/basic/7reset.pnml")
         orchestration.load(net)
-        assert(orchestration.run(1) == 1)
-        orchestration.status()
-        assert(orchestration.run(1) == 1)
-        orchestration.status()
-        assert(orchestration.run(1) == 1)
-        orchestration.status()
-        assert(orchestration.run(1) == 1)
-        orchestration.status()
-        assert(orchestration.run(1) == 1)
-        orchestration.status()
-        assert(orchestration.run(1) == 1)
-        orchestration.status()
-        assert(orchestration.run(1) == 1)
-        orchestration.status()
-
+        assert(orchestration.run() == 100)
     }
 
     void test7ResetBruteForce() {

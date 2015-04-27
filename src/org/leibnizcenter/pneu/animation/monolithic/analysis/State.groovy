@@ -36,9 +36,10 @@ class State {
     String placesToString() {
         String output = "["
         for (elem in placeTokensMap) {
-            output += elem.key.id+" ("+elem.value.size()+"), "
+            output += elem.key.toString() + ", "
         }
-        output = output[0..-3]+"]"
+        if (placeTokensMap.size() > 0) output = output[0..-3]+"]"
+        else output += "]"
 
         return output
     }
@@ -46,11 +47,12 @@ class State {
     String transitionsToString() {
         String output = "["
         for (elem in transitionStateMap) {
-            output += elem.key.id+" => "
+            output += elem.key.toString() + " => "
             if (!elem.value) output += "?, "
             else output += "("+elem.value.label+"), "
         }
-        output = output[0..-3]+"]"
+        if (transitionStateMap.size() > 0) output = output[0..-3]+"]"
+        else output += "]"
 
         return output
     }
