@@ -15,7 +15,8 @@ cli.L(longOpt:'latex', 'export to LaTeX (tikz)')
 cli.R(longOpt:'ratio', args:1, argName:'float number', 'ratio for grid X/Y scaling')
 cli.X(longOpt:'ratiox', args:1, argName:'float number', 'ratio for grid X scaling')
 cli.Y(longOpt:'ratioy', args:1, argName:'float number', 'ratio for Y scaling')
-cli.S(longOpt:'minsize', args:1, argName:'float number', 'min size for nodes (in mm.)')
+cli.P(longOpt:'minplacesize', args:1, argName:'float number', 'min size for places (in mm.)')
+cli.T(longOpt:'mintransitionsize', args:1, argName:'float number', 'min size for transitions (in mm.)')
 cli.H(longOpt:'showhidden', 'show hidden ids when labels are not available')
 cli.r(longOpt:'run', 'execute the model')
 cli.o(longOpt:'output', args:1, argName:'file', 'Set the output file')
@@ -26,15 +27,17 @@ def options = cli.parse(args)
 List<String> inputFileList = options.arguments()
 String outputFile = options.o
 
-Float zoomXRatio, zoomYRatio, minSize
+Float zoomXRatio, zoomYRatio, minPlaceSize, minTransitionSize
 if (options.X) zoomXRatio = options.X.toFloat()
 else if (options.R) zoomXRatio = options.R.toFloat()
 else zoomXRatio = defaultRatio
 if (options.Y) zoomYRatio = options.Y.toFloat()
 else if (options.R) zoomYRatio = options.R.toFloat()
 else zoomYRatio = defaultRatio
-if (options.S) minSize = options.S.toFloat()
-else minSize = defaultSize
+if (options.P) minPlaceSize = options.P.toFloat()
+else minPlaceSize = defaultSize
+if (options.T) minTransitionSize = options.T.toFloat()
+else minTransitionSize = defaultSize
 
 Boolean showId = (options.H)
 // main script
@@ -62,11 +65,11 @@ if (options.arguments().size() == 0) {
             if (options.L) {
                 if (outputFile == 'false') outputFile = file.replaceFirst(~/\.[^\.]+$/, '') + ".tex"
                 new File(outputFile).withWriter { out ->
-                    out.println(PN2LaTeX.convertabsolute(net, zoomXRatio, zoomYRatio, minSize, showId))
+                    out.println(PN2LaTeX.convertabsolute(net, zoomXRatio, zoomYRatio, minPlaceSize, minTransitionSize, showId))
                 }
                 print("petri net exported to " + outputFile)
                 if (zoomXRatio.toString() != defaultRatio.toString() || zoomYRatio.toString() != defaultRatio.toString() || minSize.toString() != defaultSize.toString())
-                    print(" (zoom ratio: "+zoomXRatio+"/"+zoomYRatio+", size: "+minSize+")")
+                    print(" (zoom ratio: "+zoomXRatio+"/"+zoomYRatio+", place size: "+minPlaceSize+", transition size: "+minTransitionSize+")")
             }
 
             if (options.r) {

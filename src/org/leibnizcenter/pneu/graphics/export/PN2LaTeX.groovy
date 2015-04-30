@@ -321,7 +321,8 @@ class PN2LaTeX {
 
     static convertabsolute(Net net,
                            Float zoomXRatio = 0.65, Float zoomYRatio = 0.65, // grid zoom
-                           Float minSize = 5, // min size for nodes (in mm)
+                           Float minPlaceSize = 5, // min size for nodes (in mm)
+                           Float minTransitionSize = 5, // min size for nodes (in mm)
                            boolean showId = false, Float inputDotGranularity = 33) {
 
         Grid grid = new Grid(net: net, zoomXRatio: zoomXRatio, zoomYRatio: zoomYRatio, inputDotGranularity: inputDotGranularity)
@@ -329,7 +330,7 @@ class PN2LaTeX {
 
         String code = ""
 
-        code += header(minSize)+"\n"
+        code += header(minPlaceSize, minTransitionSize)+"\n"
 
         code += "  \\begin{scope}\n"
 
@@ -412,10 +413,10 @@ class PN2LaTeX {
 
     // preambles
 
-    static String header(Float minSize) {
-        return """\\begin{tikzpicture}[node distance=1.3cm,>=stealth',shorten >=1pt,thick,bend angle=45,auto]
-  \\tikzstyle{place}=[circle,thick,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=${minSize}mm]
-  \\tikzstyle{transition}=[rectangle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},thick,draw=black!100,fill=white!20,minimum size=${minSize}mm]
+    static String header(Float minPlaceSize, Float minTransitionSize) { // add thick to have stronger design
+        return """\\begin{tikzpicture}[node distance=1.3cm,>=stealth',shorten >=1pt,bend angle=45,auto]
+  \\tikzstyle{place}=[circle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=${minPlaceSize}mm]
+  \\tikzstyle{transition}=[rectangle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=${minTransitionSize}mm]
 
   \\tikzstyle{every label}=[font=\\scriptsize,align=center,black]"""
     }
