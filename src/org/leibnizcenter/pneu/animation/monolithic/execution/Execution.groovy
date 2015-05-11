@@ -1,5 +1,6 @@
 package org.leibnizcenter.pneu.animation.monolithic.execution
 
+import org.leibnizcenter.pneu.animation.monolithic.analysis.State
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
@@ -67,6 +68,13 @@ class Execution {
 
     Boolean step() {
         return false
+    }
+
+    void loadState(State state) {
+        for (p in places) {
+            Place rp = state.placeTokensMap.keySet().find() { it.id == p.id }
+            p.marking = state.placeTokensMap[rp]
+        }
     }
 
     List<Transition> fire(Transition t) {

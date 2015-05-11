@@ -100,12 +100,11 @@ class Analysis {
                 }
             }
             currentStory = newStory
+            execution.loadState(currentState)
         }
 
         println ("Next transition: "+nextTransition)
         println ("Current state: "+currentState)
-
-        println currentState.getTransitionStateMap()
 
         if (!nextTransition) return false
 
