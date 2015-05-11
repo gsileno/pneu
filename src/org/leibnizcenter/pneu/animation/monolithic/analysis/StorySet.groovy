@@ -5,5 +5,6 @@ class StorySet {
 
     int addStory(Story story) {
         set << story
+        set.size()
     }
 }

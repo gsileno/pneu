@@ -40,30 +40,60 @@ class Analysis {
     }
 
     Boolean step() {
+
         if (!currentStory) currentStory = new Story()
         if (!currentState) currentState = saveSnapshot() // for state 0
+
+        println ("Current story: "+currentStory)
+        println ("Current state: "+currentState)
 
         Transition nextTransition
 
         // in case there the currentState has been already found in the past the story is complete
         if (!currentStory.completed) {
+            println getCurrentState().transitionStateMap
+
             // find the first transition which has not been explored from the current state
-            nextTransition = currentState.transitionStateMap.find() { (!it.value) }
+            nextTransition = null
+            for (elem in currentState.transitionStateMap) {
+                if (elem.value == null)
+                    nextTransition = elem.key
+            }
+
             // if there is no available transition at this state, the story is completed
             if (!nextTransition) currentStory.completed = true
         }
 
+        println ("Next transition: "+nextTransition)
+        println ("Completed: "+currentStory.completed)
+
         // backtrack to uncovered transitions
         // depth-first search
         if (currentStory.completed) {
+
+            println ("######## Story completed")
+
             storySet.addStory(currentStory)
             Story newStory = currentStory.clone()
+            newStory.completed = false
+
+            println newStory
 
             // reverse order of steps (so we reuse already the previous computation)
             for (int i = currentStory.steps.size() - 2; i >= 0; i--) {
                 State step = currentStory.steps[i]
                 newStory.steps.remove(i+1)
-                nextTransition = step.transitionStateMap.find() { !it.value }
+                newStory.events.remove(i)
+
+                println newStory
+
+                // find the first transition which has not been explored from the current state
+                nextTransition = null
+                for (elem in step.transitionStateMap) {
+                    if (elem.value == null)
+                        nextTransition = elem.key
+                }
+
                 if (nextTransition) {
                     currentState = step
                     break
@@ -71,6 +101,11 @@ class Analysis {
             }
             currentStory = newStory
         }
+
+        println ("Next transition: "+nextTransition)
+        println ("Current state: "+currentState)
+
+        println currentState.getTransitionStateMap()
 
         if (!nextTransition) return false
 

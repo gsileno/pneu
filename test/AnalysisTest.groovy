@@ -7,32 +7,32 @@ import org.leibnizcenter.pneu.parsers.PNML2PN
 
 class AnalysisTest extends GroovyTestCase {
 
-    void test0EmptyPlace() {
-        Net net = PNML2PN.parseFile("examples/basic/0emptyplace.pnml")
-
-        NetOrchestration orchestration = new NetOrchestration()
-        orchestration.load(net)
-        assert(orchestration.runAnalysis() == 0)
-        assert(orchestration.analysis.stateBase.base.size() == 1)
-        assert(orchestration.analysis.nFirings.size() == 0)
-    }
-
-    void test0PlaceFilledWith3Tokens() {
-        Net net = PNML2PN.parseFile("examples/basic/0placefilledwith3tokens.pnml")
-
-        NetOrchestration orchestration = new NetOrchestration()
-        orchestration.load(net)
-        assert(orchestration.runAnalysis() == 0)
-        assert(orchestration.analysis.stateBase.base.size() == 1)
-        assert(orchestration.analysis.nFirings.size() == 0)
-    }
+//    void test0EmptyPlace() {
+//        Net net = PNML2PN.parseFile("examples/basic/0emptyplace.pnml")
+//
+//        NetOrchestration orchestration = new NetOrchestration()
+//        orchestration.load(net)
+//        assert(orchestration.runAnalysis() == 0)
+//        assert(orchestration.analysis.stateBase.base.size() == 1)
+//        assert(orchestration.analysis.nFirings.size() == 0)
+//    }
+//
+//    void test0PlaceFilledWith3Tokens() {
+//        Net net = PNML2PN.parseFile("examples/basic/0placefilledwith3tokens.pnml")
+//
+//        NetOrchestration orchestration = new NetOrchestration()
+//        orchestration.load(net)
+//        assert(orchestration.runAnalysis() == 0)
+//        assert(orchestration.analysis.stateBase.base.size() == 1)
+//        assert(orchestration.analysis.nFirings.size() == 0)
+//    }
 
     // test for execution based on transitions
     // only one transition is fired per step.
     // therefore at 100 there is no token in the place (collector consumed it)
     // at 101 there is a token (emitter consumed it)
-    void test1TransitionBased(NetOrchestration orchestration) {
-        Net net = PNML2PN.parseFile("examples/basic/1transition.pnml")
+    void test8AnalysisConflictBase(NetOrchestration orchestration) {
+        Net net = PNML2PN.parseFile("examples/basic/8analysisconflict.pnml")
         orchestration.load(net)
         assert(orchestration.runAnalysis(100) == 100)
 
@@ -41,9 +41,9 @@ class AnalysisTest extends GroovyTestCase {
         assert(orchestration.analysis.nFirings.size() == 0)
     }
 
-    void test1TransitionBruteForce() {
+    void test8AnalysisConflictBase() {
         NetOrchestration orchestration = new NetOrchestration()
-        test1TransitionBased(orchestration)
+        test8AnalysisConflictBase(orchestration)
     }
 
 //    void test1TransitionEnabledTransitions() {

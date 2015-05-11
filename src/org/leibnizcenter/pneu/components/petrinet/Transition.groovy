@@ -102,7 +102,8 @@ class Transition extends Node {
     }
 
     String toString() {
-        return id
+        if (name != "") return name
+        else return id
     }
 
 }

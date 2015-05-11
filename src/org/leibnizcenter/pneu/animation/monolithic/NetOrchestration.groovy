@@ -50,6 +50,7 @@ class NetOrchestration {
     // run at most max steps (less if there no enabled transitions)
     Integer runAnalysis(Integer max = 100) {
 
+        // in a previous analysis does not exist create it.
         if (!analysis) {
             analysis = new Analysis()
             analysis.execution = execution

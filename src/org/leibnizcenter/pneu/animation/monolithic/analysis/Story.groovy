@@ -1,8 +1,10 @@
 package org.leibnizcenter.pneu.animation.monolithic.analysis
 
+import groovy.transform.AutoClone
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
 
+@AutoClone
 class Story {
 
     boolean completed = false
@@ -23,6 +25,10 @@ class Story {
         }
         else
             steps << state
+    }
+
+    void removeStep() {
+
     }
 
     void addEvent(List<Transition> transitions) {
