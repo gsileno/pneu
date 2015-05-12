@@ -58,8 +58,14 @@ class Transition extends Node {
 
     // Operational Semantics
 
-    boolean isEnabled() {
-        if (isEmitter()) return true
+    boolean isEnabled(boolean analysis = false) {
+
+        if (inputs.size() == 0) {
+            if (!analysis && isEmitter())
+                return true
+            else
+                return false
+        }
 
         for (p in inhibitors) {
             if (p.marking.size() > 0)

@@ -1,8 +1,10 @@
 package org.leibnizcenter.pneu.animation.monolithic.analysis
 
+import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.animation.monolithic.execution.Execution
 import org.leibnizcenter.pneu.components.petrinet.Transition
 
+@Log4j
 class Analysis {
 
     StateBase stateBase = new StateBase()
@@ -12,29 +14,22 @@ class Analysis {
     State currentState
     Execution execution
 
-    Map<Transition, Integer> nFirings = [:]
-
-    State saveSnapshot(State source = null, List<Transition> firedTransitions = []) {
+    // this function save the current place, together with the
+    // provenance state and the transitions which allowed its creation
+    State saveConsequent(State antecedent = null, List<Transition> firedTransitions = []) {
         List<Transition> enabledTransitions = []
-        State state = stateBase.add(execution.places)
 
-        // if new state, add all enabled transitions
-        if (!state.transitionStateMap) {
-            for (t in execution.transitions) {
-                if (t.isEnabled()) {
-                    enabledTransitions << t
-                }
-            }
-            state.setEnabledTransitions(enabledTransitions)
-        }
+        State state = stateBase.save(execution)
+        // log.info("Recorded state: "+state)
+
+        currentStory.addStep(state)
 
         if (firedTransitions.size() > 0) {
             if (firedTransitions.size() > 1)
                 println("ERROR!! I should consider only one transition per time") // TODO: transition with same label
-            source.transitionStateMap[firedTransitions[0]] = state
+            antecedent.transitionStateMap[firedTransitions[0]] = state
+            currentStory.addEvent(firedTransitions)
         }
-
-        currentStory.addStep(state)
 
         return state
     }
@@ -42,82 +37,57 @@ class Analysis {
     Boolean step() {
 
         if (!currentStory) currentStory = new Story()
-        if (!currentState) currentState = saveSnapshot() // for state 0
+        if (!currentState) currentState = saveConsequent() // for state 0
 
-        println ("Current story: "+currentStory)
-        println ("Current state: "+currentState)
-
-        Transition nextTransition
+        // log.info("Current story: "+currentStory)
+        // log.info("Current state: "+currentState)
 
         // in case there the currentState has been already found in the past the story is complete
-        if (!currentStory.completed) {
-            println getCurrentState().transitionStateMap
+        // find the first transition which has not been explored from the current state
+        Transition nextTransition = currentState.findNextTransition()
 
-            // find the first transition which has not been explored from the current state
-            nextTransition = null
-            for (elem in currentState.transitionStateMap) {
-                if (elem.value == null)
-                    nextTransition = elem.key
-            }
-
-            // if there is no available transition at this state, the story is completed
-            if (!nextTransition) currentStory.completed = true
-        }
-
-        println ("Next transition: "+nextTransition)
-        println ("Completed: "+currentStory.completed)
+        // log.info("Next transition: "+nextTransition)
 
         // backtrack to uncovered transitions
         // depth-first search
-        if (currentStory.completed) {
+        if (!nextTransition) {
 
-            println ("######## Story completed")
+            // log.info("Story completed --> attempt backtrack")
 
             storySet.addStory(currentStory)
             Story newStory = currentStory.clone()
-            newStory.completed = false
-
-            println newStory
 
             // reverse order of steps (so we reuse already the previous computation)
             for (int i = currentStory.steps.size() - 2; i >= 0; i--) {
                 State step = currentStory.steps[i]
-                newStory.steps.remove(i+1)
-                newStory.events.remove(i)
+                newStory.steps.remove(i+1) // remove last state
+                newStory.events.remove(i)  // remove last transition
 
-                println newStory
+                // log.info("Adjusting story: "+newStory)
 
-                // find the first transition which has not been explored from the current state
-                nextTransition = null
-                for (elem in step.transitionStateMap) {
-                    if (elem.value == null)
-                        nextTransition = elem.key
-                }
-
+                // find the first transition which has not been explored from the step state
+                nextTransition = step.findNextTransition()
                 if (nextTransition) {
+                    // log.info("========= Reload @ state "+step)
+
+                    // opportunistic reload
                     currentState = step
+                    currentStory = newStory
+                    execution.loadState(currentState)
+
+                    // log.info("Reloaded story: "+currentStory)
                     break
                 }
             }
-            currentStory = newStory
-            execution.loadState(currentState)
         }
 
-        println ("Next transition: "+nextTransition)
-        println ("Current state: "+currentState)
-
-        if (!nextTransition) return false
+        if (!nextTransition) {
+            log.info("Exploration finished")
+            return false
+        }
 
         List<Transition> firedTransitions = execution.fire(nextTransition)
-
-        for (t in firedTransitions) {
-            if (!nFirings[t]) nFirings[t] = 1
-            else nFirings[t]++
-        }
-
-        currentStory.addEvent(firedTransitions)
-
-        currentState = saveSnapshot(currentState, firedTransitions)
+        currentState = saveConsequent(currentState, firedTransitions)
 
         return true
     }

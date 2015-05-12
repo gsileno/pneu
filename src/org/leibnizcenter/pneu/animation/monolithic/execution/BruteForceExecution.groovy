@@ -1,5 +1,6 @@
 package org.leibnizcenter.pneu.animation.monolithic.execution
 
+import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
 import org.leibnizcenter.pneu.animation.monolithic.analysis.State
 import org.leibnizcenter.pneu.animation.monolithic.analysis.StateBase
@@ -10,6 +11,7 @@ import org.leibnizcenter.pneu.components.petrinet.TransitionType
 
 // see execution.groovy for implementation notes and literature references
 
+@Log4j
 class BruteForceExecution extends Execution {
 
     void consumeInputTokens(Transition t) {
@@ -26,8 +28,9 @@ class BruteForceExecution extends Execution {
     }
 
     List<Transition> fire(Transition t) {
+        // log.info("firing $t")
         if (!t.isEnabled()) {
-            println("ERROR! this transition should be enabled")
+            log.error("transition $t should be enabled")
         } else {
             consumeInputTokens(t)
         }
@@ -51,7 +54,6 @@ class BruteForceExecution extends Execution {
         }
 
         // end of firing: no formation lists are processed
-
         for (t in firedTransitions) {
             produceOutputTokens(t)
             transitions.remove(t) // in order to implement a kind of FIFO mechanism
@@ -59,7 +61,6 @@ class BruteForceExecution extends Execution {
         }
 
         // update lists not necessary in BF
-
         return firedTransitions
     }
 

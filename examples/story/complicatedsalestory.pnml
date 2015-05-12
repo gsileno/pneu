@@ -1,0 +1,574 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do1">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <transition id="tr3">
+      <graphics>
+        <position x="66" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <emitor xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </emitor>
+        <processingTime xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <mean>
+            <text>1</text>
+          </mean>
+          <deviation>
+            <text>0</text>
+          </deviation>
+        </processingTime>
+      </toolspecific>
+    </transition>
+    <transition id="tr7">
+      <name>
+        <text>seller sends good</text>
+      </name>
+      <graphics>
+        <position x="396" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr17">
+      <graphics>
+        <position x="1650" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <collector xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </collector>
+      </toolspecific>
+    </transition>
+    <transition id="tr4">
+      <graphics>
+        <position x="330" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr14">
+      <graphics>
+        <position x="198" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr21">
+      <name>
+        <text>buyer buys good</text>
+      </name>
+      <graphics>
+        <position x="264" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr2">
+      <graphics>
+        <position x="198" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr10">
+      <graphics>
+        <position x="330" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr11">
+      <graphics>
+        <position x="462" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr22">
+      <graphics>
+        <position x="528" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr24">
+      <name>
+        <text>buyer complains</text>
+      </name>
+      <graphics>
+        <position x="660" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr26">
+      <graphics>
+        <position x="726" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr39">
+      <name>
+        <text>good is delivered</text>
+      </name>
+      <graphics>
+        <position x="1452" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr1">
+      <name>
+        <text>buyer complains again</text>
+      </name>
+      <graphics>
+        <position x="1155" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr6">
+      <graphics>
+        <position x="726" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr9">
+      <graphics>
+        <position x="1023" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr15">
+      <name>
+        <text>seller asks to wait</text>
+      </name>
+      <graphics>
+        <position x="792" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr8">
+      <graphics>
+        <position x="1221" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr12">
+      <graphics>
+        <position x="858" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr13">
+      <graphics>
+        <position x="1221" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr16">
+      <graphics>
+        <position x="1386" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr18">
+      <name>
+        <text>seller sends good again</text>
+      </name>
+      <graphics>
+        <position x="1320" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr20">
+      <graphics>
+        <position x="1518" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr5">
+      <name>
+        <text>good does not arrive</text>
+      </name>
+      <graphics>
+        <position x="528" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr28">
+      <name>
+        <text>good does not arrive</text>
+      </name>
+      <graphics>
+        <position x="1023" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr36">
+      <graphics>
+        <position x="858" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl3">
+      <name>
+        <text>start message layer</text>
+      </name>
+      <graphics>
+        <position x="132" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+    </place>
+    <place id="pl4">
+      <graphics>
+        <position x="330" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl6">
+      <graphics>
+        <position x="132" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+    </place>
+    <place id="pl7">
+      <name>
+        <text>b:buying good</text>
+      </name>
+      <graphics>
+        <position x="264" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl13">
+      <name>
+        <text>s:waiting for sale</text>
+      </name>
+      <graphics>
+        <position x="264" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl14">
+      <name>
+        <text>s:sending good</text>
+      </name>
+      <graphics>
+        <position x="396" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl2">
+      <graphics>
+        <position x="330" y="165" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl8">
+      <graphics>
+        <position x="132" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+    </place>
+    <place id="pl15">
+      <graphics>
+        <position x="330" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl12">
+      <name>
+        <text>b:waiting for good</text>
+      </name>
+      <graphics>
+        <position x="396" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl17">
+      <graphics>
+        <position x="462" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl18">
+      <graphics>
+        <position x="462" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl21">
+      <name>
+        <text>b:complaining</text>
+      </name>
+      <graphics>
+        <position x="660" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl24">
+      <graphics>
+        <position x="726" y="165" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl31">
+      <graphics>
+        <position x="726" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl36">
+      <graphics>
+        <position x="1518" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl1">
+      <graphics>
+        <position x="1584" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl5">
+      <graphics>
+        <position x="1584" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl19">
+      <graphics>
+        <position x="1254" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl27">
+      <name>
+        <text>s:hearing complaint</text>
+      </name>
+      <graphics>
+        <position x="660" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl33">
+      <name>
+        <text>b:waiting for good</text>
+      </name>
+      <graphics>
+        <position x="924" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl37">
+      <graphics>
+        <position x="858" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl38">
+      <name>
+        <text>s:asking to wait</text>
+      </name>
+      <graphics>
+        <position x="792" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl10">
+      <name>
+        <text>b:complaining</text>
+      </name>
+      <graphics>
+        <position x="1155" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl16">
+      <name>
+        <text>s:hearing complaint</text>
+      </name>
+      <graphics>
+        <position x="1155" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl22">
+      <graphics>
+        <position x="1221" y="165" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl25">
+      <name>
+        <text>s:sending new good</text>
+      </name>
+      <graphics>
+        <position x="1320" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl30">
+      <graphics>
+        <position x="1386" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl34">
+      <name>
+        <text>b:waiting for good</text>
+      </name>
+      <graphics>
+        <position x="1353" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl20">
+      <graphics>
+        <position x="1386" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl11">
+      <graphics>
+        <position x="594" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl28">
+      <graphics>
+        <position x="528" y="165" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl35">
+      <graphics>
+        <position x="1089" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl41">
+      <graphics>
+        <position x="1023" y="165" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl42">
+      <graphics>
+        <position x="858" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl43">
+      <name>
+        <text>b:waiting for answer</text>
+      </name>
+      <graphics>
+        <position x="792" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl45">
+      <graphics>
+        <position x="858" y="165" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <arc id="a2" source="tr3" target="pl3" />
+    <arc id="a3" source="pl4" target="tr7" />
+    <arc id="a9" source="tr3" target="pl6" />
+    <arc id="a10" source="pl7" target="tr4" />
+    <arc id="a23" source="pl6" target="tr14" />
+    <arc id="a24" source="tr14" target="pl13" />
+    <arc id="a31" source="pl3" target="tr21" />
+    <arc id="a32" source="tr21" target="pl4" />
+    <arc id="a36" source="tr21" target="pl2" />
+    <arc id="a37" source="pl2" target="tr4" />
+    <arc id="a38" source="pl8" target="tr2" />
+    <arc id="a39" source="tr3" target="pl8" />
+    <arc id="a40" source="tr2" target="pl7" />
+    <arc id="a41" source="tr21" target="pl15" />
+    <arc id="a42" source="pl15" target="tr10" />
+    <arc id="a44" source="pl13" target="tr10" />
+    <arc id="a45" source="tr4" target="pl12" />
+    <arc id="a46" source="tr10" target="pl14" />
+    <arc id="a47" source="tr7" target="pl17" />
+    <arc id="a48" source="tr7" target="pl18" />
+    <arc id="a51" source="pl18" target="tr11" />
+    <arc id="a52" source="pl14" target="tr11" />
+    <arc id="a53" source="tr22" target="pl21" />
+    <arc id="a54" source="pl12" target="tr22" />
+    <arc id="a55" source="pl21" target="tr26" />
+    <arc id="a56" source="tr24" target="pl24" />
+    <arc id="a57" source="pl24" target="tr26" />
+    <arc id="a58" source="tr24" target="pl31" />
+    <arc id="a59" source="tr39" target="pl36" />
+    <arc id="a60" source="pl36" target="tr17" />
+    <arc id="a61" source="pl1" target="tr17" />
+    <arc id="a62" source="pl5" target="tr17" />
+    <arc id="a68" source="tr1" target="pl19" />
+    <arc id="a69" source="tr11" target="pl27" />
+    <arc id="a70" source="pl33" target="tr9" />
+    <arc id="a71" source="tr15" target="pl37" />
+    <arc id="a72" source="pl31" target="tr15" />
+    <arc id="a73" source="tr6" target="pl38" />
+    <arc id="a74" source="pl10" target="tr8" />
+    <arc id="a75" source="tr9" target="pl10" />
+    <arc id="a76" source="tr12" target="pl16" />
+    <arc id="a77" source="pl38" target="tr12" />
+    <arc id="a80" source="pl27" target="tr6" />
+    <arc id="a81" source="tr1" target="pl22" />
+    <arc id="a83" source="pl22" target="tr8" />
+    <arc id="a84" source="tr13" target="pl25" />
+    <arc id="a85" source="pl16" target="tr13" />
+    <arc id="a86" source="pl25" target="tr16" />
+    <arc id="a89" source="tr16" target="pl5" />
+    <arc id="a92" source="tr18" target="pl30" />
+    <arc id="a93" source="pl19" target="tr18" />
+    <arc id="a96" source="pl30" target="tr39" />
+    <arc id="a97" source="pl34" target="tr20" />
+    <arc id="a98" source="tr8" target="pl34" />
+    <arc id="a99" source="tr20" target="pl1" />
+    <arc id="a100" source="tr18" target="pl20" />
+    <arc id="a101" source="pl20" target="tr16" />
+    <arc id="a102" source="pl7" target="tr21" />
+    <arc id="a103" source="tr21" target="pl7" />
+    <arc id="a104" source="pl14" target="tr7" />
+    <arc id="a115" source="tr7" target="pl14" />
+    <arc id="a116" source="pl21" target="tr24" />
+    <arc id="a117" source="tr24" target="pl21" />
+    <arc id="a118" source="pl38" target="tr15" />
+    <arc id="a119" source="tr15" target="pl38" />
+    <arc id="a120" source="pl27" target="tr24" />
+    <arc id="a121" source="tr24" target="pl27" />
+    <arc id="a122" source="pl10" target="tr1" />
+    <arc id="a123" source="tr1" target="pl10" />
+    <arc id="a124" source="pl16" target="tr1" />
+    <arc id="a125" source="tr1" target="pl16" />
+    <arc id="a126" source="pl36" target="tr20" />
+    <arc id="a127" source="tr20" target="pl36" />
+    <arc id="a128" source="pl25" target="tr18" />
+    <arc id="a129" source="tr18" target="pl25" />
+    <arc id="a130" source="tr5" target="pl11" />
+    <arc id="a131" source="pl17" target="tr5" />
+    <arc id="a132" source="pl11" target="tr24" />
+    <arc id="a136" source="tr5" target="pl28" />
+    <arc id="a137" source="pl28" target="tr22" />
+    <arc id="a138" source="pl37" target="tr28" />
+    <arc id="a139" source="tr28" target="pl35" />
+    <arc id="a140" source="pl35" target="tr1" />
+    <arc id="a141" source="tr28" target="pl41" />
+    <arc id="a142" source="pl41" target="tr9" />
+    <arc id="a143" source="tr15" target="pl42" />
+    <arc id="a144" source="pl42" target="tr12" />
+    <arc id="a145" source="pl43" target="tr36" />
+    <arc id="a146" source="tr26" target="pl43" />
+    <arc id="a147" source="tr36" target="pl33" />
+    <arc id="a148" source="tr15" target="pl45" />
+    <arc id="a149" source="pl45" target="tr36" />
+  </net>
+</pnml>

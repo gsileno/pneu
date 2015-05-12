@@ -7,4 +7,12 @@ class StorySet {
         set << story
         set.size()
     }
+
+    String toString() {
+        String output = ""
+        for (int i = 0; i<set.size(); i++) {
+            output += set[i].toString() + "\n"
+        }
+        output
+    }
 }

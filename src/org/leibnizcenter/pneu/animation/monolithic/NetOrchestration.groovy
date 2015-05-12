@@ -1,5 +1,6 @@
 package org.leibnizcenter.pneu.animation.monolithic
 
+import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
 import org.leibnizcenter.pneu.animation.monolithic.execution.BruteForceExecution
 import org.leibnizcenter.pneu.animation.monolithic.execution.EnabledTransitionExecution
@@ -8,6 +9,7 @@ import org.leibnizcenter.pneu.animation.monolithic.execution.ExecutionMode
 import org.leibnizcenter.pneu.animation.monolithic.execution.RepresentingPlacesExecution
 import org.leibnizcenter.pneu.components.petrinet.Net
 
+@Log4j
 class NetOrchestration {
 
     Analysis analysis
@@ -52,6 +54,7 @@ class NetOrchestration {
 
         // in a previous analysis does not exist create it.
         if (!analysis) {
+            log.info("Create new analysis")
             analysis = new Analysis()
             analysis.execution = execution
         }
@@ -66,9 +69,7 @@ class NetOrchestration {
     }
 
     void status() {
-        println "Marking: "+execution.places
-        println "Firings: "+analysis.nFirings
-        println "Story: \n" +analysis.currentStory
+        println "Stories: \n" +analysis.storySet
         println "States: \n"+analysis.stateBase
     }
 

@@ -72,8 +72,7 @@ class Execution {
 
     void loadState(State state) {
         for (p in places) {
-            Place rp = state.placeTokensMap.keySet().find() { it.id == p.id }
-            p.marking = state.placeTokensMap[rp]
+            p.marking = state.placeTokensMap[p.id].clone()
         }
     }
 

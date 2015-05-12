@@ -2,7 +2,7 @@ import org.leibnizcenter.pneu.components.petrinet.ArcType
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.parsers.PNML2PN
 
-class ParserTest extends GroovyTestCase {
+class PNMLParserTest extends GroovyTestCase {
 
     void test0EmptyPlace() {
         Net net = PNML2PN.parseFile("examples/basic/0emptyplace.pnml")
