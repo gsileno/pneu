@@ -1,6 +1,4 @@
-//
-//
-//import org.leibnizcenter.pneu.parsers.LPPNLoader
+import org.leibnizcenter.pneu.parsers.LPPN.L
 //
 //class LPPNParserTest extends GroovyTestCase {
 //
