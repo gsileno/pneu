@@ -28,41 +28,43 @@ program
 ;
 
 statement_list
-: statement '.' (statement_list)?
+: statement DOT (statement_list)?
 ;
 
 statement
-: head ( IF body )?
-| headt IFT bodyt
+: head ( (IFP|IFT) body )?
+| body THENP head
 | consequent CAUSEDBY antecedent
+| antecedent CAUSES consequent
 ;
 
 head
 : term
-| l=INTEGER? LACC list_terms RACC r=INTEGER?
+;
+
+antecedent
+: body
+;
+
+consequent
+: head
 ;
 
 body
-: list_bterms
-| l=INTEGER? LACC list_bterms RACC r=INTEGER?
-;
-
-list_terms
-: term ( COMMA list_terms )?
-;
-
-list_bterms
-: bterm ( COMMA list_bterms )?
-;
-
-term
-: NEG atom
-| atom
+: bterm
+| bterm AND bterm
+| bterm OR bterm
+| bterm XOR bterm
 ;
 
 bterm
-: NAF term
-| term
+: term
+| NAF term
+;
+
+term
+: atom
+| NEG atom
 ;
 
 atom
@@ -72,18 +74,24 @@ atom
 // Tokens should be before the rest.
 // Otherwise, the lexer would take the one which applies most (e.g. identifier)
 
-NEG : '-' ;
-NAF : 'not' ;
-IFP : '<|' ;
-IFT : '<-' ;
-COMMA : ',' ;
-DOT : '.' ;
-LACC : '{' ;
-RACC : '}' ;
-CAUSEDBY : '<='
+NEG : 'not' | '-';   // strong negation
+NAF : 'naf' ;        // default negation
+AND : 'and' | '&&' ;
+OR  : 'or'  | '||' ;
+XOR : 'xor' ;
 
-INTEGER
-: '0'
+SEQ : 'seq' | '&' ; // sequencial operator
+PAR : 'par' | '|' ; // parallel operator
+
+IFP : '<|' ; // declarative programming for places
+THENP : '|>' ; // declarative programming for places
+IFT : '<-' ; // declarative programming for transitions
+CAUSEDBY : '<=' ; // reactive programming
+CAUSES : '=>' ;
+
+DOT : '.' ;  // end statements
+
+INTEGER : '0'
 | [1-9] ([0-9])* ;
 
 IDENTIFIER: [a-z_] ([0-9a-z])*;

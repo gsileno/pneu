@@ -1,28 +1,28 @@
+package org.leibnizcenter.pneu.components.logic.base
 
-//package org.leibnizcenter.pneu.components.logic.base
-//
-//import groovy.util.logging.Log4j
-//import org.leibnizcenter.pneu.components.logic.Expression
-//import org.leibnizcenter.pneu.components.logic.InlineOperator
-//
-//// import util.minterms.Expression
-//
-///**
-// * Simple data structure to maintain rules
-// **/
-//
-//@Log4j
-//class LogicRuleBase {
-//    List<LogicRule> base = []
-//
-//    ExpressionBase expressionBase
-//
-//    public LogicRuleBase() {
-//        expressionBase = new ExpressionBase()
-//    }
-//
-//    List<LogicRule> list() { return base }
-//
+import groovy.util.logging.Log4j
+import org.leibnizcenter.pneu.components.logic.Expression
+import org.leibnizcenter.pneu.components.logic.InlineOperator
+import org.leibnizcenter.pneu.components.logic.LogicRule
+
+// import util.minterms.Expression
+
+/**
+* Simple data structure to maintain rules
+**/
+
+@Log4j
+class LogicRuleBase {
+    List<LogicRule> base = []
+
+    ExpressionBase expressionBase
+
+    public LogicRuleBase() {
+        expressionBase = new ExpressionBase()
+    }
+
+    List<LogicRule> list() { return base }
+
 //    /* Add the rule to the rule base.
 //     * For the constraint-based check if the rule exists, if not it adds it
 //     * @return position in the rule base
@@ -96,29 +96,29 @@
 //        base[pos]
 //    }
 //
-//    Integer size() {
-//        base.size()
-//    }
-//
-//
-//    //////////////////////////
-//    // Views
-//    ////////////////////////
-//
-//
-//    String toString() {
-//        String output = "["
-//        for (rule in base) {
-//            output += rule.toString() + " # "
-//        }
-//        output += "]"
-//        output
-//    }
-//
-//    void view() {
-//        base.eachWithIndex() { elem, i ->
-//            println i + ": " + elem.toString()
-//        }
-//    }
-//
-//}
+    Integer size() {
+        base.size()
+    }
+
+
+    //////////////////////////
+    // Views
+    ////////////////////////
+
+
+    String toString() {
+        String output = "["
+        for (rule in base) {
+            output += rule.toString() + " # "
+        }
+        output += "]"
+        output
+    }
+
+    void view() {
+        base.eachWithIndex() { elem, i ->
+            println i + ": " + elem.toString()
+        }
+    }
+
+}

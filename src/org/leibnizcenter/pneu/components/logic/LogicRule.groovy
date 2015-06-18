@@ -1,14 +1,14 @@
-//package org.leibnizcenter.pneu.components.logic
-//
-//class LogicRule {
-//
-//    Expression head  // the consequent of the rule
-//    Expression body  // the antecedent of the rule
-//
-//    // TODO: this should be metadata
-//    String identifier // the identifier of the rule
-//    String comment    // a human readable description of the rule
-//    Integer pos       // temporal/ordering position.
+package org.leibnizcenter.pneu.components.logic
+
+class LogicRule {
+
+    Expression head  // the consequent of the rule
+    Expression body  // the antecedent of the rule
+
+    // TODO: this should be metadata
+    String identifier // the identifier of the rule
+    String comment    // a human readable description of the rule
+    Integer pos       // temporal/ordering position.
 //
 //    //////////////////
 //    // Builders
@@ -180,24 +180,24 @@
 //
 //    ////////////////////////////////////////
 //
-//    boolean isFact() { (body == null) }
-//    boolean isConstraint() { (head == null) }
-//
-//    //////////////////
-//    // Views
-//    //////////////////
-//
-//    String toString() {
-//        String output
-//        output = body.toString() + " -> " + head.toString()
-//        if (identifier) { output += " ($identifier)" }
-//        output
-//    }
-//
-//    String toASP() {
-//        String output
-//        output = head.toASP(true) + " :- " + body.toASP() + "."
-//        output
-//    }
-//
-//}
+    boolean isFact() { (body == null) }
+    boolean isConstraint() { (head == null) }
+
+    //////////////////
+    // Views
+    //////////////////
+
+    String toString() {
+        String output
+        output = body.toString() + " -> " + head.toString()
+        if (identifier) { output += " ($identifier)" }
+        output
+    }
+
+    String toASP() {
+        String output
+        output = head.toASP(true) + " :- " + body.toASP() + "."
+        output
+    }
+
+}
