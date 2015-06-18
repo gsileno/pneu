@@ -1,0 +1,1290 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do1">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <transition id="tr3">
+      <graphics>
+        <position x="66" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <emitor xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </emitor>
+        <processingTime xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <mean>
+            <text>1</text>
+          </mean>
+          <deviation>
+            <text>0</text>
+          </deviation>
+        </processingTime>
+      </toolspecific>
+    </transition>
+    <transition id="tr7">
+      <name>
+        <text>seller sends good</text>
+      </name>
+      <graphics>
+        <position x="396" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr17">
+      <graphics>
+        <position x="1320" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <collector xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </collector>
+      </toolspecific>
+    </transition>
+    <transition id="tr4">
+      <graphics>
+        <position x="330" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr14">
+      <name>
+        <text>seller starts selling</text>
+      </name>
+      <graphics>
+        <position x="198" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr21">
+      <name>
+        <text>buyer buys good</text>
+      </name>
+      <graphics>
+        <position x="264" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr2">
+      <graphics>
+        <position x="198" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr10">
+      <graphics>
+        <position x="330" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr11">
+      <graphics>
+        <position x="462" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr22">
+      <name>
+        <text>recognize failure</text>
+      </name>
+      <graphics>
+        <position x="495" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr24">
+      <name>
+        <text>buyer complains</text>
+      </name>
+      <graphics>
+        <position x="561" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr26">
+      <graphics>
+        <position x="627" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr39">
+      <name>
+        <text>good is delivered</text>
+      </name>
+      <graphics>
+        <position x="1122" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr1">
+      <name>
+        <text>buyer complains again</text>
+      </name>
+      <graphics>
+        <position x="825" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr6">
+      <graphics>
+        <position x="627" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr9">
+      <name>
+        <text>recognize failure</text>
+      </name>
+      <graphics>
+        <position x="759" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr15">
+      <name>
+        <text>buyer needs to wait</text>
+      </name>
+      <graphics>
+        <position x="693" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr8">
+      <graphics>
+        <position x="891" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr12">
+      <graphics>
+        <position x="759" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr13">
+      <graphics>
+        <position x="891" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr16">
+      <graphics>
+        <position x="1023" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr18">
+      <name>
+        <text>seller sends good again </text>
+      </name>
+      <graphics>
+        <position x="990" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr20">
+      <graphics>
+        <position x="1023" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr19">
+      <graphics>
+        <position x="1188" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr5">
+      <graphics>
+        <position x="66" y="594" />
+        <dimension x="32" y="32" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <emitor xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </emitor>
+        <processingTime xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <mean>
+            <text>1</text>
+          </mean>
+          <deviation>
+            <text>0</text>
+          </deviation>
+        </processingTime>
+      </toolspecific>
+    </transition>
+    <transition id="tr25">
+      <name>
+        <text>Good bought</text>
+      </name>
+      <graphics>
+        <position x="264" y="594" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr28">
+      <graphics>
+        <position x="198" y="726" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr30">
+      <graphics>
+        <position x="198" y="462" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr32">
+      <name>
+        <text>Good sent</text>
+      </name>
+      <graphics>
+        <position x="396" y="594" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr34">
+      <name>
+        <text>complaint</text>
+      </name>
+      <graphics>
+        <position x="528" y="594" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr36">
+      <name>
+        <text>Y asks X to wait</text>
+      </name>
+      <graphics>
+        <position x="726" y="594" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr38">
+      <name>
+        <text>second complaint</text>
+      </name>
+      <graphics>
+        <position x="924" y="594" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr41">
+      <name>
+        <text>Good sent</text>
+      </name>
+      <graphics>
+        <position x="1056" y="594" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr44">
+      <graphics>
+        <position x="1188" y="594" />
+        <dimension x="32" y="32" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <collector xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </collector>
+      </toolspecific>
+    </transition>
+    <transition id="tr27">
+      <graphics>
+        <position x="330" y="726" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr31">
+      <graphics>
+        <position x="330" y="462" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr35">
+      <graphics>
+        <position x="462" y="726" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr40">
+      <name>
+        <text>recognize failure</text>
+      </name>
+      <graphics>
+        <position x="462" y="462" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr48">
+      <graphics>
+        <position x="594" y="462" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr50">
+      <graphics>
+        <position x="594" y="726" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr52">
+      <graphics>
+        <position x="792" y="726" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr54">
+      <graphics>
+        <position x="726" y="462" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr56">
+      <name>
+        <text>recognize failure</text>
+      </name>
+      <graphics>
+        <position x="858" y="462" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr58">
+      <graphics>
+        <position x="990" y="462" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr60">
+      <graphics>
+        <position x="924" y="726" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr64">
+      <graphics>
+        <position x="1122" y="726" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl3">
+      <name>
+        <text>start message layer</text>
+      </name>
+      <graphics>
+        <position x="132" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl4">
+      <graphics>
+        <position x="330" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl6">
+      <graphics>
+        <position x="132" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl7">
+      <name>
+        <text>buyer buying good</text>
+      </name>
+      <graphics>
+        <position x="264" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl13">
+      <name>
+        <text>waiting for sale</text>
+      </name>
+      <graphics>
+        <position x="264" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl14">
+      <name>
+        <text>seller sending good</text>
+      </name>
+      <graphics>
+        <position x="396" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl2">
+      <graphics>
+        <position x="330" y="165" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl8">
+      <graphics>
+        <position x="132" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl15">
+      <graphics>
+        <position x="330" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl12">
+      <name>
+        <text>waiting for good</text>
+      </name>
+      <graphics>
+        <position x="396" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl17">
+      <graphics>
+        <position x="462" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl18">
+      <graphics>
+        <position x="462" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl21">
+      <name>
+        <text>complaining</text>
+      </name>
+      <graphics>
+        <position x="561" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl24">
+      <graphics>
+        <position x="627" y="165" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl31">
+      <graphics>
+        <position x="627" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl36">
+      <graphics>
+        <position x="1221" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl1">
+      <graphics>
+        <position x="1254" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl5">
+      <graphics>
+        <position x="1221" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl19">
+      <graphics>
+        <position x="924" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl27">
+      <name>
+        <text>hearing complaint</text>
+      </name>
+      <graphics>
+        <position x="561" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl33">
+      <name>
+        <text>waiting for goods</text>
+      </name>
+      <graphics>
+        <position x="693" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl37">
+      <graphics>
+        <position x="759" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl38">
+      <name>
+        <text>asking to wait</text>
+      </name>
+      <graphics>
+        <position x="693" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl10">
+      <name>
+        <text>complaining</text>
+      </name>
+      <graphics>
+        <position x="825" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl16">
+      <name>
+        <text>Hearing complaint</text>
+      </name>
+      <graphics>
+        <position x="825" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl22">
+      <graphics>
+        <position x="891" y="165" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl25">
+      <name>
+        <text>sending new good</text>
+      </name>
+      <graphics>
+        <position x="957" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl30">
+      <graphics>
+        <position x="1056" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl34">
+      <name>
+        <text>waiting for good</text>
+      </name>
+      <graphics>
+        <position x="957" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl9">
+      <graphics>
+        <position x="1023" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl11">
+      <name>
+        <text>Getting delivery</text>
+      </name>
+      <graphics>
+        <position x="1122" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl20">
+      <name>
+        <text>start message layer</text>
+      </name>
+      <graphics>
+        <position x="165" y="594" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl23">
+      <graphics>
+        <position x="132" y="726" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl26">
+      <graphics>
+        <position x="132" y="462" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl28">
+      <graphics>
+        <position x="330" y="594" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl29">
+      <graphics>
+        <position x="462" y="594" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl32">
+      <graphics>
+        <position x="627" y="594" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl35">
+      <graphics>
+        <position x="792" y="594" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl39">
+      <graphics>
+        <position x="990" y="594" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl40">
+      <graphics>
+        <position x="1122" y="594" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl41">
+      <name>
+        <text>waiting for sale</text>
+      </name>
+      <graphics>
+        <position x="264" y="726" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl42">
+      <name>
+        <text>buying good</text>
+      </name>
+      <graphics>
+        <position x="264" y="462" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl43">
+      <graphics>
+        <position x="264" y="660" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl44">
+      <graphics>
+        <position x="330" y="528" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl47">
+      <name>
+        <text>sending good</text>
+      </name>
+      <graphics>
+        <position x="396" y="726" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl48">
+      <graphics>
+        <position x="462" y="660" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl49">
+      <name>
+        <text>waiting for delivery</text>
+      </name>
+      <graphics>
+        <position x="396" y="462" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl54">
+      <name>
+        <text>complaining</text>
+      </name>
+      <graphics>
+        <position x="528" y="462" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl55">
+      <graphics>
+        <position x="594" y="528" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl56">
+      <name>
+        <text>waiting for complaints</text>
+      </name>
+      <graphics>
+        <position x="528" y="726" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl57">
+      <graphics>
+        <position x="594" y="660" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl58">
+      <name>
+        <text>answering complaint</text>
+      </name>
+      <graphics>
+        <position x="726" y="726" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl59">
+      <name>
+        <text>waiting for answer</text>
+      </name>
+      <graphics>
+        <position x="660" y="462" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl60">
+      <graphics>
+        <position x="726" y="528" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl61">
+      <name>
+        <text>waiting for delivery</text>
+      </name>
+      <graphics>
+        <position x="792" y="462" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl62">
+      <name>
+        <text>complaining</text>
+      </name>
+      <graphics>
+        <position x="924" y="462" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl63">
+      <graphics>
+        <position x="990" y="528" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl64">
+      <name>
+        <text>waiting for complaints</text>
+      </name>
+      <graphics>
+        <position x="858" y="726" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl65">
+      <graphics>
+        <position x="924" y="660" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl67">
+      <name>
+        <text>sending good</text>
+      </name>
+      <graphics>
+        <position x="1056" y="726" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl68">
+      <graphics>
+        <position x="1188" y="660" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <place id="pl69">
+      <graphics>
+        <position x="1122" y="462" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <tokenCaseSensitive xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </tokenCaseSensitive>
+      </toolspecific>
+    </place>
+    <arc id="a1" source="tr3" target="pl3" />
+    <arc id="a4" source="pl4" target="tr7" />
+    <arc id="a5" source="tr3" target="pl6" />
+    <arc id="a6" source="pl7" target="tr4" />
+    <arc id="a7" source="pl6" target="tr14" />
+    <arc id="a8" source="tr14" target="pl13" />
+    <arc id="a11" source="pl3" target="tr21" />
+    <arc id="a12" source="tr21" target="pl4" />
+    <arc id="a13" source="tr21" target="pl2" />
+    <arc id="a14" source="pl2" target="tr4" />
+    <arc id="a15" source="pl8" target="tr2" />
+    <arc id="a16" source="tr3" target="pl8" />
+    <arc id="a17" source="tr2" target="pl7" />
+    <arc id="a18" source="tr21" target="pl15" />
+    <arc id="a19" source="pl15" target="tr10" />
+    <arc id="a20" source="pl13" target="tr10" />
+    <arc id="a21" source="tr4" target="pl12" />
+    <arc id="a22" source="tr10" target="pl14" />
+    <arc id="a25" source="tr7" target="pl17" />
+    <arc id="a26" source="tr7" target="pl18" />
+    <arc id="a27" source="pl18" target="tr11" />
+    <arc id="a28" source="pl14" target="tr11" />
+    <arc id="a29" source="tr22" target="pl21" />
+    <arc id="a30" source="pl12" target="tr22" />
+    <arc id="a33" source="pl21" target="tr26" />
+    <arc id="a34" source="tr24" target="pl24" />
+    <arc id="a35" source="pl24" target="tr26" />
+    <arc id="a41" source="pl17" target="tr24" />
+    <arc id="a43" source="tr24" target="pl31" />
+    <arc id="a49" source="tr39" target="pl36" />
+    <arc id="a50" source="pl36" target="tr17" />
+    <arc id="a63" source="pl1" target="tr17" />
+    <arc id="a64" source="pl5" target="tr17" />
+    <arc id="a65" source="tr1" target="pl19" />
+    <arc id="a66" source="tr11" target="pl27" />
+    <arc id="a67" source="pl33" target="tr9" />
+    <arc id="a68" source="tr26" target="pl33" />
+    <arc id="a78" source="tr15" target="pl37" />
+    <arc id="a79" source="pl31" target="tr15" />
+    <arc id="a81" source="pl37" target="tr1" />
+    <arc id="a82" source="tr6" target="pl38" />
+    <arc id="a87" source="pl10" target="tr8" />
+    <arc id="a88" source="tr9" target="pl10" />
+    <arc id="a90" source="tr12" target="pl16" />
+    <arc id="a91" source="pl38" target="tr12" />
+    <arc id="a94" source="pl27" target="tr6" />
+    <arc id="a95" source="tr1" target="pl22" />
+    <arc id="a111" source="pl22" target="tr8" />
+    <arc id="a112" source="tr13" target="pl25" />
+    <arc id="a113" source="pl16" target="tr13" />
+    <arc id="a114" source="pl25" target="tr16" />
+    <arc id="a115" source="tr16" target="pl5" />
+    <arc id="a116" source="tr18" target="pl30" />
+    <arc id="a117" source="pl19" target="tr18" />
+    <arc id="a118" source="pl30" target="tr39" />
+    <arc id="a119" source="pl34" target="tr20" />
+    <arc id="a120" source="tr8" target="pl34" />
+    <arc id="a121" source="tr16" target="pl9" />
+    <arc id="a122" source="pl9" target="tr18" />
+    <arc id="a123" source="pl11" target="tr19" />
+    <arc id="a124" source="tr20" target="pl11" />
+    <arc id="a125" source="tr19" target="pl1" />
+    <arc id="a126" source="tr39" target="pl11" />
+    <arc id="a127" source="pl7" target="tr21" />
+    <arc id="a128" source="tr21" target="pl7" />
+    <arc id="a129" source="pl14" target="tr7" />
+    <arc id="a130" source="tr7" target="pl14" />
+    <arc id="a131" source="pl21" target="tr24" />
+    <arc id="a132" source="tr24" target="pl21" />
+    <arc id="a133" source="pl33" target="tr15" />
+    <arc id="a134" source="tr15" target="pl33" />
+    <arc id="a135" source="pl38" target="tr15" />
+    <arc id="a136" source="tr15" target="pl38" />
+    <arc id="a137" source="pl27" target="tr24" />
+    <arc id="a138" source="tr24" target="pl27" />
+    <arc id="a139" source="pl10" target="tr1" />
+    <arc id="a140" source="tr1" target="pl10" />
+    <arc id="a141" source="pl16" target="tr1" />
+    <arc id="a142" source="tr1" target="pl16" />
+    <arc id="a143" source="pl20" target="tr25" />
+    <arc id="a144" source="tr5" target="pl20" />
+    <arc id="a145" source="pl23" target="tr28" />
+    <arc id="a146" source="tr5" target="pl23" />
+    <arc id="a147" source="pl26" target="tr30" />
+    <arc id="a148" source="tr5" target="pl26" />
+    <arc id="a149" source="pl28" target="tr32" />
+    <arc id="a150" source="tr25" target="pl28" />
+    <arc id="a151" source="pl29" target="tr34" />
+    <arc id="a152" source="tr32" target="pl29" />
+    <arc id="a153" source="pl32" target="tr36" />
+    <arc id="a154" source="tr34" target="pl32" />
+    <arc id="a155" source="pl35" target="tr38" />
+    <arc id="a156" source="tr36" target="pl35" />
+    <arc id="a157" source="pl39" target="tr41" />
+    <arc id="a158" source="tr38" target="pl39" />
+    <arc id="a159" source="tr41" target="pl40" />
+    <arc id="a160" source="pl40" target="tr44" />
+    <arc id="a161" source="pl41" target="tr27" />
+    <arc id="a162" source="tr28" target="pl41" />
+    <arc id="a163" source="pl42" target="tr31" />
+    <arc id="a164" source="tr30" target="pl42" />
+    <arc id="a165" source="tr25" target="pl43" />
+    <arc id="a166" source="pl43" target="tr27" />
+    <arc id="a167" source="pl42" target="tr25" />
+    <arc id="a168" source="tr25" target="pl42" />
+    <arc id="a169" source="tr25" target="pl44" />
+    <arc id="a170" source="pl44" target="tr31" />
+    <arc id="a171" source="pl47" target="tr35" />
+    <arc id="a172" source="tr27" target="pl47" />
+    <arc id="a173" source="pl47" target="tr32" />
+    <arc id="a174" source="tr32" target="pl47" />
+    <arc id="a175" source="tr32" target="pl48" />
+    <arc id="a176" source="pl48" target="tr35" />
+    <arc id="a177" source="pl49" target="tr40" />
+    <arc id="a178" source="tr31" target="pl49" />
+    <arc id="a179" source="pl54" target="tr48" />
+    <arc id="a180" source="tr40" target="pl54" />
+    <arc id="a181" source="pl54" target="tr34" />
+    <arc id="a182" source="tr34" target="pl54" />
+    <arc id="a183" source="tr34" target="pl55" />
+    <arc id="a184" source="pl55" target="tr48" />
+    <arc id="a185" source="pl56" target="tr50" />
+    <arc id="a186" source="tr35" target="pl56" />
+    <arc id="a187" source="tr34" target="pl57" />
+    <arc id="a188" source="pl57" target="tr50" />
+    <arc id="a189" source="pl58" target="tr52" />
+    <arc id="a190" source="tr50" target="pl58" />
+    <arc id="a191" source="pl58" target="tr36" />
+    <arc id="a192" source="tr36" target="pl58" />
+    <arc id="a193" source="pl59" target="tr54" />
+    <arc id="a194" source="tr48" target="pl59" />
+    <arc id="a195" source="tr36" target="pl60" />
+    <arc id="a196" source="pl60" target="tr54" />
+    <arc id="a197" source="pl61" target="tr56" />
+    <arc id="a198" source="tr54" target="pl61" />
+    <arc id="a199" source="pl62" target="tr58" />
+    <arc id="a200" source="tr56" target="pl62" />
+    <arc id="a201" source="pl62" target="tr38" />
+    <arc id="a202" source="tr38" target="pl62" />
+    <arc id="a203" source="tr38" target="pl63" />
+    <arc id="a204" source="pl63" target="tr58" />
+    <arc id="a205" source="pl64" target="tr60" />
+    <arc id="a206" source="tr52" target="pl64" />
+    <arc id="a207" source="tr38" target="pl65" />
+    <arc id="a208" source="pl65" target="tr60" />
+    <arc id="a209" source="pl67" target="tr64" />
+    <arc id="a210" source="tr60" target="pl67" />
+    <arc id="a211" source="tr64" target="pl68" />
+    <arc id="a212" source="pl68" target="tr44" />
+    <arc id="a213" source="pl67" target="tr41" />
+    <arc id="a214" source="tr41" target="pl67" />
+    <arc id="a215" source="tr58" target="pl69" />
+    <arc id="a216" source="pl69" target="tr44" />
+  </net>
+</pnml>
