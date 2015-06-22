@@ -1,5 +1,6 @@
 package org.leibnizcenter.pneu.parsers
 
+import groovy.io.FileType
 import org.leibnizcenter.pneu.components.petrinet.Arc
 import org.leibnizcenter.pneu.components.petrinet.ArcType
 import org.leibnizcenter.pneu.components.petrinet.Net
@@ -13,9 +14,25 @@ import org.leibnizcenter.pneu.components.graphics.Point
 
 class PNML2PN {
 
+    static List<Net> parseFiles(String path = "../stories") {
+        List<Net> netList = []
+        File dir = new File(path);
+        List<String> files = []
+        dir.eachFileMatch(FileType.FILES, ~/.*\.pnml$/) {
+            files << it.name
+        }
+        files.sort()
+        for (filename in files) {
+            netList << parseFile(path+"/"+filename)
+        }
+        return netList
+    }
+
     static Net parseFile(String filename) {
         def records = new XmlParser().parse(filename)
-        loadPNML(records)
+        Net net = loadPNML(records)
+        net.sourceFile = filename
+        net
     }
 
     static Net parseText(String text) {
