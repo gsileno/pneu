@@ -8,9 +8,9 @@ Read multiple files
 Create nets
 
 Labels:
-Put places and transition together?
+Put places and transition together - cleaner
 Word matching
-Delete from length the "" ones
+
 
 Execution:
 Find and compare the tokens
@@ -51,7 +51,28 @@ Compare labels of places and transitions
 
 Only whole phrase sentences are compared
  */
-    def lengthPlace = places.size() + places1.size()
+
+// With empty nodes:
+//def lengthPlace = places.size() + places1.size()
+
+//Define length without empty nodes
+def lengthP = 0 as Integer
+def lengthP1 = 0 as Integer
+
+for(place in places){
+    if(place.name != ""){
+        lengthP++
+    }
+}
+for(place1 in places1){
+    if(place1.name != ""){
+        lengthP1++
+    }
+}
+
+def lengthPlace = lengthP + lengthP1
+
+
 
     for ( place in places ) {
         def sim = 0 as Integer
@@ -67,7 +88,24 @@ Only whole phrase sentences are compared
         diff1++
     }
 
-    def lengthTrans = transitions.size() + transitions1.size()
+//def lengthTrans = transitions.size() + transitions1.size()
+
+def lengthT = 0 as Integer
+def lengthT1 = 0 as Integer
+
+for(transition in transitions){
+    if(transition.name != ""){
+        lengthT++
+    }
+}
+for(transition1 in transitions1){
+    if(transition1.name != ""){
+        lengthT1++
+    }
+}
+
+def lengthTrans = lengthT + lengthT1
+
     diff1 = 0
     for ( transition in transitions ) {
         def diff2 = 0
@@ -86,28 +124,58 @@ Only whole phrase sentences are compared
     def simall = (2 * (simPlace + simTrans)) / (lengthPlace + lengthTrans)
     println "Label similarity: " + simall
 
+/**********
+ Structural
 
-/*
+ - Use arcs to find target and source
+ - Does not use labelling
+
+ **********/
+diff1 = 0
+diff2 = 0
+
+def totalNodes = places + transitions
+def totalNodes1 = places1 + transitions1
+def arcs = net.arcList
+def arcs1 = net1.arcList
+def connections = []
+def connections1 = []
+sim = 0
+
+for(arc in arcs){
+    def connection = [arc.source.id, arc.target.id]
+
+    //A list with all connections but not in execution order.
+    connections << connection
+}
+for(arc1 in arcs1){
+    def connection1 = [arc1.source.id, arc1.target.id]
+
+    //A list with all connections but not in execution order.
+    connections1 << connection1
+}
+
+for(connection in connections){
+    for(connection1 in connections1){
+        if(connection[1]==connection1[1]) {
+            println connection
+            println connection1
+            // look for source and target
+            // insert node if necessary
+        }
+        diff++
+    }
+}
+
+
+/**********
 Execution
 
 Compare movement
- */
+ **********/
 
-def arcs = net.arcList
-def connection = []
 NetOrchestration orchestration = new NetOrchestration()
 NetOrchestration orchestration1 = new NetOrchestration()
-
-/*
-for(arc in arcs){
-    def theconnection = [arc.source.id, arc.target.id]
-
-    //A list with all connections but not in execution order.
-    connection << theconnection
-}
-
-println connection
-*/
 
 //Orchestration
 orchestration.load(net)
@@ -124,6 +192,8 @@ for (int i = 1; i < 2 ; i++) {
     //Find and compare tokens
     //Give it a measure
     //Maybe look at labelling
+
+
 
     println "Sale "
     println orchestration.execution.places
