@@ -100,6 +100,7 @@ class Connection {
         log.trace("findNext. visited: $visitedConnections, connections: $connections, node: $node, remember: $remember")
 
         Connection next
+        log.trace("Next: $next")
         Boolean backtrack = false
 
         for (connection in connections) {
@@ -118,13 +119,13 @@ class Connection {
 
             // if no new connection found, look in visitedConnection
             // if remembered node is used, other node needs to be remembered as well
-
             List<Connection> nextN = searchBySourceId(visitedConnections, node.targetId)
 
             if (nextN.size() > 0) {
                 if (!remember.isEmpty()) {
                     next = remember[0]
                     backtrack = true
+                    log.trace("HI")
                 } else {
                     for (connection in connections) {
                         if (connection.nSourceInArcs == 0) {
@@ -134,6 +135,7 @@ class Connection {
                     }
                 }
             }
+
         }
 
         visitedConnections << node

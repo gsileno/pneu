@@ -34,8 +34,8 @@ Reading multiple files:
 */
 
 //Read files
-    Net net = PNML2PN.parseFile("../stories/test1.pnml")
-    Net net1 = PNML2PN.parseFile("../stories/test2.pnml")
+    Net net = PNML2PN.parseFile("../stories/tests/test1.pnml")
+    Net net1 = PNML2PN.parseFile("../stories/tests/test2.pnml")
 
     def places = net.placeList
     def transitions = net.transitionList
