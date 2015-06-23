@@ -5,11 +5,12 @@ import org.leibnizcenter.pneu.animation.monolithic.NetOrchestration
 /*
 TO DO:
 Read multiple files
-Create nets
 
 Labels:
 Put places and transition together - cleaner
 Word matching
+- ZEROES?
+- Diff?
 
 
 Execution:
@@ -33,8 +34,8 @@ Reading multiple files:
 */
 
 //Read files
-    Net net = PNML2PN.parseFile("../stories/SaleStory.pnml")
-    Net net1 = PNML2PN.parseFile("../stories/FailedSale2Story.pnml")
+    Net net = PNML2PN.parseFile("../stories/BurglaryStory.pnml")
+    Net net1 = PNML2PN.parseFile("../stories/BurglaryTheftStory.pnml")
 
     def places = net.placeList
     def transitions = net.transitionList
@@ -130,18 +131,19 @@ def lengthTrans = lengthT + lengthT1
  - Use arcs to find target and source
  - Does not use labelling
 
- **********/
-diff1 = 0
-diff2 = 0
+ Error: When it needs to go to the next node, but there is no beginnode
+ anymore. It uses [] which fails.
+ Probably goes wrong in findnext and remembering nodes with multiple outgoing arcs.
 
+ **********/
 def totalNodes = places + transitions
 def totalNodes1 = places1 + transitions1
 def arcs = net.arcList
 def arcs1 = net1.arcList
 def connections = []
 def connections1 = []
-sim = 0
 
+//Creates arc lists with the id of places and transitions
 for(arc in arcs){
     def connection = [arc.source.id, arc.target.id]
 
@@ -155,16 +157,254 @@ for(arc1 in arcs1){
     connections1 << connection1
 }
 
+//Calculates the number of incoming and outgoing arcs
 for(connection in connections){
-    for(connection1 in connections1){
-        if(connection[1]==connection1[1]) {
-            println connection
-            println connection1
+    connection[2] = 0 //Number of incoming arcs for source
+    connection[3] = 0 //Number of outgoing arcs from source
+    connection[4] = 0 //Number of outgoing arcs for target
+    for(connectionN in connections){
+        if(connection[0]==connectionN[1]){
+            connection[2] = connection[2]+1
+        }
+        if(connection[0]==connectionN[0]){
+            connection[3] = connection[3]+1
+        }
+        if(connection[1]==connectionN[0]){
+            connection[4]=connection[4]+1
+        }
+    }
+}
+
+for(connection in connections1){
+    connection[2] = 0 //Number of incoming arcs for source
+    connection[3] = 0
+    connection[4] = 0 //Number of outgoing arcs for target
+    for(connectionN in connections1){
+        if(connection[1]==connectionN[0]){
             // look for source and target
             // insert node if necessary
+            connection[4] = connection[4]+1
+        }
+        if(connection[0]==connectionN[1]) {
+            connection[2] = connection[2]+1
+        }
+        if(connection[0]==connectionN[0]) {
+            connection[3] = connection[3]+1
         }
         diff++
     }
+}
+
+
+//Begin point
+def(beginPoint, beginPoint1) = searchBoth(connections, connections1, 2,0)
+
+//initial values
+def totalDiff = 0
+def delDiff = 0
+def visitedConnection = []
+def visitedConnection1 = []
+def node = beginPoint[0]
+def node1 = beginPoint1[0]
+def newConnections = []
+def rememberNodes = []
+def rememberNodes1 = []
+def remNr = 0
+def remNr1 = 0
+
+/*
+    Inserting and deleting nodes if necessary,
+    remember nodes if they have multiple arcs
+
+    -Replaces nodes when visited into visitedConnection
+    -finds next nodes depending on current node (end, beginning, remembered)
+
+    -Outer For-loop is temporarily
+ */
+for(int r = 0; r<40;r++){
+    println "Node " + node + node1
+    if(node[4]!=0&&node1[4]!=0){
+        if(node[3]==node1[3]){
+            (nextConnection, remNr) = findNext(visitedConnection, connections, node, rememberNodes)
+            (nextConnection1, remNr) = findNext(visitedConnection1, connections1, node1, rememberNodes1)
+            rememberNode = remember(connections, node)
+            rememberNode1 = remember(connections1, node)
+            if(rememberNode!=[]){
+                rememberNodes << rememberNode
+            }
+            if(rememberNode1!=[]){
+                rememberNodes1 << rememberNode1
+            }
+            if(remNr == 1){
+                nextConnection1 = rememberNodes1[0]
+            }
+            println "Next " + nextConnection + nextConnection1
+        }else if(node[3] > node1[3]){ //Add
+            def diff = node[3]-node1[3]
+            searchAdd(connections1,0,node1[0],diff)
+            for(int i =0; i < diff; i++) {
+                newNode = [node1[0], 'n' + totalDiff, node1[2], node1[3], 0]
+                newConnections << newNode
+                totalDiff++
+            }
+            (nextConnection, remNr) = findNext(visitedConnection, connections,node, rememberNodes)
+            (nextConnection1, remNr1) = findNext(visitedConnection1, connections1, node1, rememberNodes1)
+            if(remNr == 1){
+                nextConnection1 = rememberNodes1[0]
+            }
+/*
+        if(node[3]>1&&node1[3]>1) {
+            rememberNode = remember(connections, node)
+            rememberNode1 = remember(connections1, node)
+        }*/
+            println "Add " + nextConnection + nextConnection1
+        }else if(node[3] < node1[3]) { //del
+            def diff = node1[3] - node[3]
+            searchAdd(connections1, 0, node1[0], -diff)
+            for (int i = 0; i < diff; i++) {
+                connectionList = search(connections1, 0, node1[0])
+                for (connectionL in connectionList) {
+                    if (connectionL[3] == 1 && connectionL[4] < 2) {
+                        visitedConnection1 << connectionL
+                        connections1.remove(connectionL)
+                        delDiff++
+                   }
+                }
+            }
+            (nextConnection, remNr) = findNext(visitedConnection, connections, node, rememberNodes)
+            (nextConnection1, remNr1) = findNext(visitedConnection1, connections1, node1, rememberNodes1)
+            println "Del " + node + node1
+        }
+    //If one is an end node and the other one is not
+    }else if(node[4]!=0&&node1[4]==0){
+        newNode = ["n"+totalDiff,node1[1],node1[2],1,0]
+        newConnections << newNode
+        totalDiff++
+        (nextConnection, remNr) = findNext(visitedConnection, connections, node, rememberNodes)
+        println "Remnr " + remNr
+        nextConnection1 = newNode
+        if(remNr ==1) {
+            println "hi"
+            (nextConnection1, remNr1) = findNext(visitedConnection1, connections1, node1, rememberNodes1)
+        }
+    }else if(node[4]==0&&node1[4]!=0){
+        //delete node
+        delDiff++
+        nextConnection = node
+        (nextConnection1, remNr1) = findNext(visitedConnection1,connections1,node1, rememberNodes1)
+        println "NODE " +node1 + nextConnection1
+    //if both are end nodes, find the next remembered node or start from beginning
+    }else if(node[4]==0&&node1[4]==0){
+        println "REM " + rememberNodes + rememberNodes1
+        rememberNode = rememberNodes[0]
+        rememberNode1 = rememberNodes1[0]
+        if(!rememberNodes.isEmpty()){
+            rememberNodes.remove(rememberNode)
+            rememberNodes1.remove(rememberNodes1)
+            (nextConnection, remNr) = findNext(visitedConnection, connections, rememberNode, rememberNodes)
+            (nextConnection1, remNr1) = findNext(visitedConnection1,connections1, rememberNode1, rememberNodes1)
+        }else{
+            (nextConnection, remNr) = findNext(visitedConnection, connections, node, rememberNodes)
+            (nextConnection1, remNr1) = findNext(visitedConnection1,connections1, node1, rememberNodes1)
+        }
+
+        println "Next line " + nextConnection + nextConnection1
+    }
+    connections.remove(node)
+    connections1.remove(node1)
+    node = nextConnection
+    node1 = nextConnection1
+    println "Con " +connections
+    println " Vis " + visitedConnection
+}
+println "Total del " + delDiff
+println "Total add " + totalDiff
+
+//remembering another path
+def remember(connections, node){
+    if(node[3]>1&&node[2]!=0){
+        searchAdd(connections,0,node[0],-1)
+        rememberList = search(connections,0,node[0])
+        rememberNode = rememberList[0]
+        return rememberNode
+    }else{
+        return []
+    }
+}
+
+//Finding next connection
+def findNext(visitedConnection, connections, node, remember){
+    println "Remember " + remember
+    def next = []
+    for(connection in connections) {
+        if (visitedConnection.contains(node)&&connection[2]==0){
+            next = connection
+        }else{
+            if (connection[0] == node[1] && connection[1]!=node[0]&&node[4]!=0) {
+                next = connection
+            } else if(node[4] == 0 && connection[2] == 0) {
+                next = connection
+            }
+        }
+        remNr = 0
+    }
+    //If no new connection found, look in visitedConnection
+    //if remembered node is used, other node needs to be remembered as well
+    if(next.isEmpty()){
+        nextN = search(visitedConnection,0,node[1])
+        if(!nextN.isEmpty()){
+            for(connection in connections){
+                if(!remember.isEmpty()){
+                    next = remember[0]
+                    remNr = 1
+                }else if(connection[2]==0){
+                    next = connection
+                    remNr = 1
+                }
+            }
+        }
+    }
+    visitedConnection << node
+    return [next, remNr]
+}
+
+//Searching for objects in both stories
+def search(connections, def place, def searchfor){
+    def connectionList = []
+    for(connection in connections){
+        if(connection[place]==searchfor) {
+            connectionList << connection
+        }
+    }
+    return connectionList
+}
+
+//Search for nodes and delete or add an arc
+//Useful for visiting nodes twice
+def searchAdd(connections,def place, def searchfor, def adding){
+    for(connection in connections) {
+        if (connection[place] == searchfor) {
+            connection[3] = connection[3] + adding
+        }
+    }
+}
+
+//Look in both stories for same nodes
+//Used to find beginpoint
+def searchBoth(connections, connections1, def place, def searchfor){
+    def connectionList = []
+    def connectionList1 = []
+    for(connection in connections){
+        for(connection1 in connections1){
+            if(connection1[place]==searchfor&&connection[place]==searchfor){
+                connectionList << connection
+                connectionList1 << connection1
+            }
+        }
+    }
+    connectionList = connectionList.unique()
+    connectionList1 = connectionList1.unique()
+    return [connectionList, connectionList1]
 }
 
 
