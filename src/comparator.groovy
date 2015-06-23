@@ -263,8 +263,6 @@ while(connections!=[]){
             rememberNode = remember(connections, node)
             rememberNode1 = remember(connections1, node1)
 
-            //IF NODE1[3] == 2 THEN REMEMBERNODES = NEWNODE AND THE OTHER CONNECTION
-            //search(connections1,0,node1[0])
             if(rememberNode!=[]){
                 rememberNodes << rememberNode[0]
                 rememberNodes1 << newNode
@@ -283,18 +281,36 @@ while(connections!=[]){
             def diff = node1[3] - node[3]
             searchAdd(connections1, 0, node1[0], -diff)
             connectionList = search(connections1, 0, node1[0])
-            for (int i = 0; i < diff; i++) {
-                for (connectionL in connectionList) {
-                    if (connectionL[3] == 1 && connectionL[4] < 2&&connectionL!=node1) {
-                        visitedConnection1 << connectionL
-                        connections1.remove(connectionL)
-                        delDiff++
-                        println "DelCon " + connectionL + connectionList
-                   }
-                }
+
+            for(int i = 0; i < diff; i++){
+                connectionList.remove(node1)
+                visitedConnection1 << connectionList[0]
+                connections1.remove(connectionList[0])
+                connectionList.remove(0)
+                delDiff++
             }
+
             (nextConnection, remNr) = findNext(visitedConnection, connections, node, rememberNodes)
             (nextConnection1, remNr1) = findNext(visitedConnection1, connections1, node1, rememberNodes1)
+
+            if(remNr == 1){
+                nextConnection1 = rememberNodes1[0]
+                rememberNodes.remove(nextConnection)
+                rememberNodes1.remove(nextConnection1)
+            }
+            rememberNode = remember(connections, node)
+            rememberNode1 = remember(connections1, node1)
+
+            if(rememberNode!=[]){
+                for(rnode in rememberNode){
+                    for(rnode1 in rememberNode1){
+                        rememberNodes << rnode
+                        rememberNodes1 << rnode1
+                        connections.remove(rnode)
+                        connections1.remove(rnode1)
+                    }
+                }
+            }
             println "Del " + node + node1
         }
     //If one is an end node and the other one is not
@@ -345,6 +361,9 @@ while(connections!=[]){
         (nextConnection, remNr) = findNext(visitedConnection, connections, node, rememberNodes)
         (nextConnection1, remNr1) = findNext(visitedConnection1,connections1, node1, rememberNodes1)
         //println "Next line " + nextConnection + nextConnection1
+
+        //REMEMBER IS [] THEN GO FROM THE END BACK TO BEGINNING - NEEDS TO BE IMPLEMENTED
+
     }else if(node1[4]==-1){
         println "HI"
         newNode = [node1[0],"n"+totalDiff,1,1,-1]
