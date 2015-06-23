@@ -34,8 +34,8 @@ Reading multiple files:
 */
 
 //Read files
-    Net net = PNML2PN.parseFile("../stories/SaleStory.pnml")
-    Net net1 = PNML2PN.parseFile("../stories/FailedSale2Story.pnml")
+    Net net = PNML2PN.parseFile("../stories/test1.pnml")
+    Net net1 = PNML2PN.parseFile("../stories/test2.pnml")
 
     def places = net.placeList
     def transitions = net.transitionList
@@ -57,7 +57,7 @@ Only whole phrase sentences are compared
 //def lengthPlace = places.size() + places1.size()
 
 //Define length without empty nodes
-def lengthP = 0 as Integer
+/*def lengthP = 0 as Integer
 def lengthP1 = 0 as Integer
 
 for(place in places){
@@ -124,7 +124,7 @@ def lengthTrans = lengthT + lengthT1
 //Calculate label similarity
     def simall = (2 * (simPlace + simTrans)) / (lengthPlace + lengthTrans)
     println "Label similarity: " + simall
-
+*/
 /**********
  Structural
 
@@ -249,11 +249,11 @@ while(connections!=[]){
             def diff = node[3]-node1[3]
             searchAdd(connections1,0,node1[0],diff)
             for(int i =0; i < diff; i++) {
-                newNode = [node1[0], 'n' + totalDiff, node1[2], node1[3], 0]
+                newNode = [node1[0], 'n' + totalDiff, node1[2], node1[3], -1]
                 newConnections << newNode
                 totalDiff++
             }
-            (nextConnection, remNr) = findNext(visitedConnection, connections,node, rememberNodes)
+            (nextConnection, remNr) = findNext(visitedConnection, connections, node, rememberNodes)
             (nextConnection1, remNr1) = findNext(visitedConnection1, connections1, node1, rememberNodes1)
             if(remNr == 1){
                 nextConnection1 = rememberNodes1[0]
@@ -262,20 +262,27 @@ while(connections!=[]){
             }
             rememberNode = remember(connections, node)
             //rememberNode1 = remember(connections1, node1)
+
+            //IF NODE1[3] == 2 THEN REMEMBERNODES = NEWNODE AND THE OTHER CONNECTION
+            //search(connections1,0,node1[0])
             if(rememberNode!=[]){
-                for(rnode in rememberNode){
-                    rememberNodes << rnode
-                    rememberNodes1 << newNode
-                    connections.remove(rnode)
+                rememberNodes << rememberNode[0]
+                rememberNodes1 << newNode
+                if(node1[3]==3){
+                    println "bla"
+                    rememberNodes << rememberNode[1]
+                    rememberNodes1 << nextConnection1
+                    connections.remove(rememberNode[1])
                 }
+                connections.remove(rememberNode[0])
             }
             println "ADD "
             //println "Add " + nextConnection + nextConnection1
         }else if(node[3] < node1[3]) { //del
             def diff = node1[3] - node[3]
             searchAdd(connections1, 0, node1[0], -diff)
+            connectionList = search(connections1, 0, node1[0])
             for (int i = 0; i < diff; i++) {
-                connectionList = search(connections1, 0, node1[0])
                 for (connectionL in connectionList) {
                     if (connectionL[3] == 1 && connectionL[4] < 2&&connectionL!=node1) {
                         visitedConnection1 << connectionL
@@ -296,8 +303,6 @@ while(connections!=[]){
         totalDiff++
         (nextConnection, remNr) = findNext(visitedConnection, connections, node, rememberNodes)
         //println "Remnr " + remNr
-
-        //NOT RIGHT
         if(remNr == 1){
             nextConnection1 = rememberNodes1[0]
             rememberNodes.remove(nextConnection)
@@ -312,7 +317,7 @@ while(connections!=[]){
                 rememberNodes1 << node1
             }
         }
-    }else if(node[4]==0&&node1[4]!=0){
+    }else if(node[4]==0&&node1[4]>0){
         //delete node
         delDiff++
         nextConnection = node
@@ -335,13 +340,30 @@ while(connections!=[]){
                 rememberNodes << node
             }
         }
-
-
     //if both are end nodes, find the next remembered node or start from beginning
-    }else if(node[4]==0&&node1[4]==0){
+    }else if(node[4]==0&&node1[4]<=0){
         (nextConnection, remNr) = findNext(visitedConnection, connections, node, rememberNodes)
         (nextConnection1, remNr1) = findNext(visitedConnection1,connections1, node1, rememberNodes1)
         //println "Next line " + nextConnection + nextConnection1
+    }else if(node1[4]==-1){
+        newNode = [node1[0],"n"+totalDiff,1,1,-1]
+        newConnections << newNode
+        totalDiff++
+        (nextConnection, remNr) = findNext(visitedConnection, connections, node, rememberNodes)
+        if(remNr == 1){
+            nextConnection1 = rememberNodes1[0]
+            rememberNodes.remove(nextConnection)
+            rememberNodes1.remove(nextConnection1)
+        }
+        rememberNode = remember(connections, node)
+        //rememberNode1 = remember(connections1, node1)
+        if(rememberNode!=[]){
+            for(rnode in rememberNode){
+                rememberNodes << rnode
+                rememberNodes1 << newNode
+                connections.remove(rnode)
+            }
+        }
     }
 
     connections.remove(node)
