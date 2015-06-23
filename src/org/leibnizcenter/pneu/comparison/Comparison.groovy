@@ -1,10 +1,13 @@
 package org.leibnizcenter.pneu.comparison
 
 import groovy.util.logging.Log4j
-import org.leibnizcenter.pneu.components.petrinet.Arc
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
+import org.leibnizcenter.pneu.components.petrinet.Node
 import org.leibnizcenter.pneu.components.petrinet.Transition
+
+import org.simmetrics.StringMetric;
+import org.simmetrics.StringMetrics;
 
 @Log4j
 class Comparison {
@@ -74,6 +77,93 @@ class Comparison {
 
         // Calculate label similarity
         return (2 * (simPlace + simTrans)) / (lengthPlaces + lengthTransitions)
+
+    }
+
+    static class NodeComparisonValue {
+        Float value
+        Boolean active
+
+        String toString() { return "{$value, $active}" }
+    }
+
+    static class NodeComparisonKey {
+        Node source
+        Node target
+
+        String toString() { return "{${source.id}, ${target.id}}" }
+    }
+
+    static Float labelComparison2(Net sourceNet, Net targetNet) {
+        List<Place> sourcePlaces = sourceNet.placeList
+        List<Place> targetPlaces = targetNet.placeList
+
+        List<Transition> sourceTransitions = sourceNet.transitionList
+        List<Transition> targetTransitions = targetNet.transitionList
+
+        // source node, target node, similarity value, active
+        Map<NodeComparisonKey, NodeComparisonValue> labelSimilarity = [:]
+//        Map<Node, Node, Float> labelSimilarity = [:]
+
+        StringMetric metric = StringMetrics.cosineSimilarity()
+
+        // compute the similarity over all the nodes (no distinction between places and transitions)
+
+        List<Node> sourceNodes = sourcePlaces + sourceTransitions
+        List<Node> targetNodes = targetPlaces + targetTransitions
+
+        for (Node i in sourceNodes) {
+            for (Node j in targetNodes) {
+                if (i.name && j.name)
+//                    labelSimilarity[i, j] = metric.compare(i.name, j.name)
+                  labelSimilarity[new NodeComparisonKey(source: i, target: j)] = new NodeComparisonValue(
+                          value: metric.compare(i.name, j.name),
+                          active: true
+                  )
+            }
+        }
+
+        // greedy algorithm
+        Float max = 1
+        Float similarity = 0
+
+        while (max != 0) {
+            Float newMax = 0
+
+            // find max
+            for (NodeComparisonKey key in labelSimilarity.keySet()) {
+                NodeComparisonValue nodeComparisonValue = labelSimilarity[key]
+                if (nodeComparisonValue.active) {
+                    Float value = nodeComparisonValue.value
+                    if (value == max) {
+                        log.trace(key.toString() + " is a max ($max)")
+                        similarity += value
+
+                        // purge
+                        for (NodeComparisonKey innerKey in labelSimilarity.keySet()) {
+                            NodeComparisonValue nodeComparisonInnerValue = labelSimilarity[innerKey]
+                            if (nodeComparisonInnerValue.active) {
+                                if (key.source == innerKey.source || key.target == innerKey.target) {
+                                    nodeComparisonInnerValue.active = false
+                                    log.trace("remove " + key.toString())
+                                }
+                            }
+                        }
+                    } else {
+                        if (newMax < value) {
+                            log.trace("new potential max ($value)")
+                            newMax = value
+                        }
+                    }
+                }
+            }
+
+            max = newMax
+
+        }
+
+        // to be weighted ???
+        return similarity
 
     }
 
