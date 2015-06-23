@@ -220,7 +220,7 @@ class Comparison {
             log.trace("source arc: "+sourceNode)
             log.trace("target arc: "+targetNode)
 
-            if (sourceNode.nSourceOutArcs != 0 && targetNode.nSourceOutArcs != 0) {
+            if (sourceNode.nTargetOutArcs != 0 && targetNode.nTargetOutArcs != 0 && targetNode.nTargetOutArcs!= -1) {
                 log.trace("the sources of the arcs have both a number of output > 0..")
 
                 if (sourceNode.nSourceOutArcs == targetNode.nSourceOutArcs) {
@@ -233,6 +233,11 @@ class Comparison {
                     if (sourceBacktrack) {
                         log.trace("backtrack!")
                         nextTargetConnection = rememberTargetNodes[0]
+                        rememberSourceNodes.remove(nextSourceConnection)
+                        rememberTargetNodes.remove(nextTargetConnection)
+                    }else if(targetBacktrack){
+                        log.trace("backtrack!")
+                        nextSourceConnection = rememberSourceNodes[0]
                         rememberSourceNodes.remove(nextSourceConnection)
                         rememberTargetNodes.remove(nextTargetConnection)
                     }
@@ -249,6 +254,7 @@ class Comparison {
                             }
                         }
                     }
+                    log.trace("Next $nextSourceConnection $nextTargetConnection")
                 } else if (sourceNode.nSourceOutArcs > targetNode.nSourceOutArcs) { // Add
                     log.trace("the first has more output than the second on the source, I add one the second")
 
@@ -260,10 +266,10 @@ class Comparison {
                                 sourceId: targetNode.sourceId,
                                 targetId: 'n' + addDiff,
                                 nSourceInArcs: targetNode.nSourceInArcs,
-                                nSourceOutArc: targetNode.nSourceOutArcs -1,
+                                nSourceOutArcs: targetNode.nSourceOutArcs -1,
                                 nTargetOutArcs: -1
                         )
-                        newConnections << newNode
+                        newConnections.add(0,newNode)
                         addDiff++
                     }
 
@@ -281,10 +287,9 @@ class Comparison {
                     List<Connection> rTargetNodes = Connection.remember(targetConnections, targetNode)
                     if (rSourceNodes.size() > 0) {
                             rememberSourceNodes << rSourceNodes[0]
-                            rememberTargetNodes << newConnections
+                            rememberTargetNodes << newConnections[0]
 
                             if (targetNode.nSourceOutArcs >= 2) {
-                                println "bla"
                                 rememberSourceNodes << rSourceNodes[1]
                                 rememberTargetNodes << rTargetNodes[0]
                                 sourceConnections.remove(rSourceNodes[1])
@@ -305,7 +310,7 @@ class Comparison {
                         connectionList.remove(targetNode)
                         visitedTargetConnections << connectionList[0]
                         targetConnections.remove(connectionList[0])
-                        connectionList.remove(0)
+                        connectionList.remove(connectionList[0])
                         delDiff++
                     }
 
@@ -401,10 +406,14 @@ class Comparison {
                 (nextTargetConnection, targetBacktrack) = Connection.findNext(visitedTargetConnections, targetConnections, targetNode, rememberTargetNodes)
 
                 //println "Next line " + nextConnection + nextTargetConnection
+                if(nextSourceConnection == null && !rememberSourceNodes.isEmpty()){
+                    nextSourceConnection = rememberSourceNodes[0]
+                    nextTargetConnection = rememberTargetNodes[0]
+                }
 
                 //REMEMBER IS [] THEN GO FROM THE END BACK TO BEGINNING - NEEDS TO BE IMPLEMENTED
             } else if (targetNode.nTargetOutArcs == -1) {
-                println "HI"
+                log.trace("The new node needs more additions")
                 Connection newNode = new Connection(
                         sourceId: sourceNode.sourceId,
                         targetId: "n"+addDiff,
@@ -413,7 +422,8 @@ class Comparison {
                         nTargetOutArcs: -1
                 )
 
-                newConnections << newNode
+                newConnections.add(0,newNode)
+                nextTargetConnection = newConnections[0]
                 addDiff++
                 (nextSourceConnection, sourceBacktrack) = Connection.findNext(visitedSourceConnections, sourceConnections, sourceNode, rememberSourceNodes)
 
@@ -424,7 +434,7 @@ class Comparison {
                     rememberTargetNodes.remove(nextTargetConnection)
                 }
                 List<Connection> rSourceNodes = Connection.remember(sourceConnections, sourceNode)
-                //rememberNode1 = remember(connections1, node1)
+
                 if (rSourceNodes.size() > 0) {
                     for (rSourceNode in rSourceNodes){
                         rememberSourceNodes << rSourceNode
@@ -458,9 +468,9 @@ class Comparison {
         }
 
         Integer conSize = targetConnections.size()
-        println conSize
+        //println conSize
         delDiff = delDiff + conSize
-        println "End Total del " + delDiff
+        //println "End Total del " + delDiff
 
         return [addDiff, delDiff]
     }
