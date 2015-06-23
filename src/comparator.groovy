@@ -223,7 +223,7 @@ println connections1.size()
 
 while(connections!=[]){
     println "Node " + node + node1
-    if(node[4]!=0&&node1[4]!=0){
+    if(node[4]!=0&&node1[4]!=0&&node1[4]!=-1){
         if(node[3]==node1[3]){
             (nextConnection, remNr) = findNext(visitedConnection, connections, node, rememberNodes)
             (nextConnection1, remNr1) = findNext(visitedConnection1, connections1, node1, rememberNodes1)
@@ -249,7 +249,7 @@ while(connections!=[]){
             def diff = node[3]-node1[3]
             searchAdd(connections1,0,node1[0],diff)
             for(int i =0; i < diff; i++) {
-                newNode = [node1[0], 'n' + totalDiff, node1[2], node1[3], -1]
+                newNode = [node1[0], 'n' + totalDiff, node1[2], node1[3]-1, -1]
                 newConnections << newNode
                 totalDiff++
             }
@@ -261,18 +261,19 @@ while(connections!=[]){
                 rememberNodes1.remove(nextConnection1)
             }
             rememberNode = remember(connections, node)
-            //rememberNode1 = remember(connections1, node1)
+            rememberNode1 = remember(connections1, node1)
 
             //IF NODE1[3] == 2 THEN REMEMBERNODES = NEWNODE AND THE OTHER CONNECTION
             //search(connections1,0,node1[0])
             if(rememberNode!=[]){
                 rememberNodes << rememberNode[0]
                 rememberNodes1 << newNode
-                if(node1[3]==3){
+                if(node1[3]>=2){
                     println "bla"
                     rememberNodes << rememberNode[1]
-                    rememberNodes1 << nextConnection1
+                    rememberNodes1 << rememberNode1[0]
                     connections.remove(rememberNode[1])
+                    connections1.remove(rememberNode1[0])
                 }
                 connections.remove(rememberNode[0])
             }
@@ -325,7 +326,6 @@ while(connections!=[]){
         //println "NODE " +node1 + nextConnection1
         //DELETE ALL INSTANCES TILL 0 FROM CONNECTIONS1
 
-        //NOT RIGHT
         if(remNr1 == 1){
             nextConnection = rememberNodes[0]
             rememberNodes.remove(nextConnection)
@@ -346,6 +346,7 @@ while(connections!=[]){
         (nextConnection1, remNr1) = findNext(visitedConnection1,connections1, node1, rememberNodes1)
         //println "Next line " + nextConnection + nextConnection1
     }else if(node1[4]==-1){
+        println "HI"
         newNode = [node1[0],"n"+totalDiff,1,1,-1]
         newConnections << newNode
         totalDiff++
