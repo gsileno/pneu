@@ -1,10 +1,13 @@
 package org.leibnizcenter.pneu.comparison
 
 import groovy.util.logging.Log4j
-import org.leibnizcenter.pneu.components.petrinet.Arc
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
+import org.leibnizcenter.pneu.components.petrinet.Node
 import org.leibnizcenter.pneu.components.petrinet.Transition
+
+import org.simmetrics.StringMetric;
+import org.simmetrics.StringMetrics;
 
 @Log4j
 class Comparison {
@@ -37,10 +40,10 @@ class Comparison {
             if (i.name != "") {
                 for (j in targetPlaces) {
                     Integer diff = Math.abs(diff2 - diff1)
-                    println(i.name + "=?=" + j.name)
+                    log.trace("comparing "+i.name + "=?=" + j.name)
                     if (i.name == j.name) {
                         sim = (2 * diff) / lengthPlaces
-                        println("YES!!! $sim $diff $lengthPlaces")
+                        log.trace("found equal: $sim $diff $lengthPlaces")
                         simPlace = simPlace + sim
                     }
                     diff2++
@@ -74,6 +77,95 @@ class Comparison {
 
         // Calculate label similarity
         return (2 * (simPlace + simTrans)) / (lengthPlaces + lengthTransitions)
+
+    }
+
+    static class NodeComparisonValue {
+        Float value
+        Boolean active
+
+        String toString() { return "{$value, $active}" }
+    }
+
+    static class NodeComparisonKey {
+        Node source
+        Node target
+
+        String toString() { return "{${source.id}, ${target.id}}" }
+    }
+
+    static Float labelComparison2(Net sourceNet, Net targetNet) {
+        List<Place> sourcePlaces = sourceNet.placeList
+        List<Place> targetPlaces = targetNet.placeList
+
+        List<Transition> sourceTransitions = sourceNet.transitionList
+        List<Transition> targetTransitions = targetNet.transitionList
+
+        // source node, target node, similarity value, active
+        Map<NodeComparisonKey, NodeComparisonValue> labelSimilarity = [:]
+
+        StringMetric metric = StringMetrics.cosineSimilarity()
+
+        // compute the similarity over all the nodes (no distinction between places and transitions)
+        List<Node> sourceNodes = sourcePlaces + sourceTransitions
+        List<Node> targetNodes = targetPlaces + targetTransitions
+
+        // find how many nodes are labeled
+        Integer nLabeledNodes = sourceNodes.findAll() { it.name != "" }.size() +
+                               targetNodes.findAll() { it.name != "" }.size()
+
+        for (Node i in sourceNodes) {
+            for (Node j in targetNodes) {
+                if (i.name && j.name)
+//                    labelSimilarity[i, j] = metric.compare(i.name, j.name)
+                  labelSimilarity[new NodeComparisonKey(source: i, target: j)] = new NodeComparisonValue(
+                          value: metric.compare(i.name, j.name),
+                          active: true
+                  )
+            }
+        }
+
+        // greedy algorithm
+        Float max = 1
+        Float similarity = 0
+
+        while (max != 0) {
+            Float newMax = 0
+
+            // find max
+            for (NodeComparisonKey key in labelSimilarity.keySet()) {
+                NodeComparisonValue nodeComparisonValue = labelSimilarity[key]
+                if (nodeComparisonValue.active) {
+                    Float value = nodeComparisonValue.value
+                    if (value == max) {
+                        log.trace(key.toString() + " is a max ($max)")
+                        similarity += value
+
+                        // purge
+                        for (NodeComparisonKey innerKey in labelSimilarity.keySet()) {
+                            NodeComparisonValue nodeComparisonInnerValue = labelSimilarity[innerKey]
+                            if (nodeComparisonInnerValue.active) {
+                                if (key.source == innerKey.source || key.target == innerKey.target) {
+                                    nodeComparisonInnerValue.active = false
+                                    log.trace("remove " + key.toString())
+                                }
+                            }
+                        }
+                    } else {
+                        if (newMax < value) {
+                            log.trace("new potential max ($value)")
+                            newMax = value
+                        }
+                    }
+                }
+            }
+
+            max = newMax
+
+        }
+
+        // weighted by the number of labeled nodes
+        return 2 * similarity / nLabeledNodes
 
     }
 
@@ -120,15 +212,12 @@ class Comparison {
           - finds next nodes depending on current node (end, beginning, remembered)
         */
 
-        while (sourceConnections.size() > 0) {
+        while (sourceConnections.size() > 0 && sourceNode && targetNode) { // ADDED CHECK FOR VOID NODES?
 
             Connection nextSourceConnection, nextTargetConnection
             Boolean sourceBacktrack, targetBacktrack
 
-            log.trace("######################## New cycle")
-
-            log.trace("source arc: "+sourceNode)
-            log.trace("target arc: "+targetNode)
+            log.trace("######################## New cycle: sourceNode $sourceNode, targetNode $targetNode.")
 
             if (sourceNode.nTargetOutArcs != 0 && targetNode.nTargetOutArcs != 0 && targetNode.nTargetOutArcs!= -1) {
                 log.trace("the sources of the arcs have both a number of output > 0..")
@@ -145,7 +234,7 @@ class Comparison {
                         nextTargetConnection = rememberTargetNodes[0]
                         rememberSourceNodes.remove(nextSourceConnection)
                         rememberTargetNodes.remove(nextTargetConnection)
-                    }else if(targetBacktrack){
+                    } else if(targetBacktrack){
                         log.trace("backtrack!")
                         nextSourceConnection = rememberSourceNodes[0]
                         rememberSourceNodes.remove(nextSourceConnection)
@@ -218,7 +307,8 @@ class Comparison {
 
                     for (int i = 0; i < diff; i++) {
                         connectionList.remove(targetNode)
-                        visitedTargetConnections << connectionList[0]
+                        if (connectionList[0])  // TOCHECK: there is some NULL around!
+                          visitedTargetConnections << connectionList[0]
                         targetConnections.remove(connectionList[0])
                         connectionList.remove(connectionList[0])
                         delDiff++
@@ -272,9 +362,9 @@ class Comparison {
                     nextTargetConnection = newNode
                 }
 
-                rememberSourceNodes = Connection.remember(sourceConnections, sourceNode)
-                if (rememberSourceNodes.size() > 0) {
-                    for (rSourceNode in rememberSourceNodes) {
+                List<Connection> rSourceNodes = Connection.remember(sourceConnections, sourceNode)
+                if (rSourceNodes.size() > 0) {
+                    for (rSourceNode in rSourceNodes) {
                         rememberSourceNodes << rSourceNode
                         rememberTargetNodes << targetNode
                     }
@@ -371,14 +461,14 @@ class Comparison {
             targetNode = nextTargetConnection
 
             //println "Rem " + rememberNode + rememberNode1
-            println "SourceCon " + sourceConnections
-            println "TargetCon " + targetConnections
-            println "SourceVis " + visitedSourceConnections
-            println "TargetVis " + visitedTargetConnections
-            println "SourceRem " + rememberSourceNodes
-            println "TargetRem " + rememberTargetNodes
-            println "Total del " + delDiff
-            println "Total add " + addDiff
+            log.trace "sourceConnections: " + sourceConnections
+            log.trace "targetConnections: " + targetConnections
+            log.trace "visitedSourceConnections: " + visitedSourceConnections
+            log.trace "visitedTargetConnections: " + visitedTargetConnections
+            log.trace "rememberSourceNodes: " + rememberSourceNodes
+            log.trace "rememberTargetNodes: " + rememberTargetNodes
+            log.trace "delDiff: " + delDiff
+            log.trace "addDiff: " + addDiff
 
         }
 

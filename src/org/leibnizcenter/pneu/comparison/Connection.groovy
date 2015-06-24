@@ -43,6 +43,7 @@ class Connection {
     }
 
     static List<Connection> searchBySourceId(List<Connection> connections, String id) {
+        log.trace("searchBySourceId ### connections: $connections ### id $id")
         List<Connection> result = []
         for (connection in connections) {
             if(connection!=null) {
@@ -140,7 +141,10 @@ class Connection {
 
         }
 
-        visitedConnections << node
+        // TO CHECK: there is some NULL around
+        if (node)
+          visitedConnections << node
+
         return [next, backtrack]
     }
 

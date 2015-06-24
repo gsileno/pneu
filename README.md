@@ -2,7 +2,7 @@
 
 Petri Net pnEUmatics: *groovy libraries/scripts to tinker with Petri Nets*
 
-coding guidelines:
+always valid guidelines:
 
 * keep the source code simple, readable with few comments
 * hopefully no documentation required
