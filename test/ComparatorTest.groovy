@@ -65,9 +65,9 @@ class ComparatorTest extends GroovyTestCase {
 
     void testStructuralComparison5() {
         Net sourceNet = PNML2PN.parseFile("./stories/SaleStory.pnml")
-        Net targetNet = PNML2PN.parseFile("./stories/SaleStory.pnml")
+        Net targetNet = PNML2PN.parseFile("./stories/FailedSale1Story.pnml")
 
-        assert Comparison.structuralComparison(sourceNet, targetNet) == [0, 0] //[del, add]
+        assert Comparison.structuralComparison(sourceNet, targetNet) == [0, 4] //[del, add]
     }
 
 

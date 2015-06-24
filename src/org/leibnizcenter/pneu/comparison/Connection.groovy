@@ -45,8 +45,10 @@ class Connection {
     static List<Connection> searchBySourceId(List<Connection> connections, String id) {
         List<Connection> result = []
         for (connection in connections) {
-            if (connection.sourceId == id) {
-                result << connection
+            if(connection!=null) {
+                if (connection.sourceId == id) {
+                    result << connection
+                }
             }
         }
         return result

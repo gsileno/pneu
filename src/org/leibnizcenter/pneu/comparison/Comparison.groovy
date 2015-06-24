@@ -206,7 +206,7 @@ class Comparison {
                                 targetConnections.remove(rTargetNodes[0])
                             }
                             sourceConnections.remove(rSourceNodes[0])
-                   }
+                    }
 
                     println "Add " + nextSourceConnection + nextTargetConnection
 
@@ -340,6 +340,11 @@ class Comparison {
                 if (sourceBacktrack) {
                     log.trace("backtrack!")
                     nextTargetConnection = rememberTargetNodes[0]
+                    rememberSourceNodes.remove(nextSourceConnection)
+                    rememberTargetNodes.remove(nextTargetConnection)
+                }else if(targetBacktrack){
+                    log.trace("backtrack!")
+                    nextSourceConnection = rememberSourceNodes[0]
                     rememberSourceNodes.remove(nextSourceConnection)
                     rememberTargetNodes.remove(nextTargetConnection)
                 }
