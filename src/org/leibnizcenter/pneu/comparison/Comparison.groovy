@@ -406,7 +406,7 @@ class Comparison {
                 (nextTargetConnection, targetBacktrack) = Connection.findNext(visitedTargetConnections, targetConnections, targetNode, rememberTargetNodes)
 
                 //println "Next line " + nextConnection + nextTargetConnection
-                if(nextSourceConnection == null && !rememberSourceNodes.isEmpty()){
+                if (nextSourceConnection == null && !rememberSourceNodes.isEmpty()) {
                     nextSourceConnection = rememberSourceNodes[0]
                     nextTargetConnection = rememberTargetNodes[0]
                 }
