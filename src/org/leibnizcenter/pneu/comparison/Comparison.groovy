@@ -40,10 +40,10 @@ class Comparison {
             if (i.name != "") {
                 for (j in targetPlaces) {
                     Integer diff = Math.abs(diff2 - diff1)
-                    println(i.name + "=?=" + j.name)
+                    log.trace("comparing "+i.name + "=?=" + j.name)
                     if (i.name == j.name) {
                         sim = (2 * diff) / lengthPlaces
-                        println("YES!!! $sim $diff $lengthPlaces")
+                        log.trace("found equal: $sim $diff $lengthPlaces")
                         simPlace = simPlace + sim
                     }
                     diff2++
@@ -103,14 +103,16 @@ class Comparison {
 
         // source node, target node, similarity value, active
         Map<NodeComparisonKey, NodeComparisonValue> labelSimilarity = [:]
-//        Map<Node, Node, Float> labelSimilarity = [:]
 
         StringMetric metric = StringMetrics.cosineSimilarity()
 
         // compute the similarity over all the nodes (no distinction between places and transitions)
-
         List<Node> sourceNodes = sourcePlaces + sourceTransitions
         List<Node> targetNodes = targetPlaces + targetTransitions
+
+        // find how many nodes are labeled
+        Integer nLabeledNodes = sourceNodes.findAll() { it.name != "" }.size() +
+                               targetNodes.findAll() { it.name != "" }.size()
 
         for (Node i in sourceNodes) {
             for (Node j in targetNodes) {
@@ -162,8 +164,8 @@ class Comparison {
 
         }
 
-        // to be weighted ???
-        return similarity
+        // weighted by the number of labeled nodes
+        return similarity / nLabeledNodes
 
     }
 
