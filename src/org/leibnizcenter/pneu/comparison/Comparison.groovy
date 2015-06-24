@@ -165,7 +165,7 @@ class Comparison {
         }
 
         // weighted by the number of labeled nodes
-        return similarity / nLabeledNodes
+        return 2 * similarity / nLabeledNodes
 
     }
 
@@ -212,15 +212,12 @@ class Comparison {
           - finds next nodes depending on current node (end, beginning, remembered)
         */
 
-        while (sourceConnections.size() > 0) {
+        while (sourceConnections.size() > 0 && sourceNode && targetNode) { // ADDED CHECK FOR VOID NODES?
 
             Connection nextSourceConnection, nextTargetConnection
             Boolean sourceBacktrack, targetBacktrack
 
-            log.trace("######################## New cycle")
-
-            log.trace("source arc: "+sourceNode)
-            log.trace("target arc: "+targetNode)
+            log.trace("######################## New cycle: sourceNode $sourceNode, targetNode $targetNode.")
 
             if (sourceNode.nTargetOutArcs != 0 && targetNode.nTargetOutArcs != 0 && targetNode.nTargetOutArcs!= -1) {
                 log.trace("the sources of the arcs have both a number of output > 0..")
@@ -237,7 +234,7 @@ class Comparison {
                         nextTargetConnection = rememberTargetNodes[0]
                         rememberSourceNodes.remove(nextSourceConnection)
                         rememberTargetNodes.remove(nextTargetConnection)
-                    }else if(targetBacktrack){
+                    } else if(targetBacktrack){
                         log.trace("backtrack!")
                         nextSourceConnection = rememberSourceNodes[0]
                         rememberSourceNodes.remove(nextSourceConnection)
@@ -310,7 +307,8 @@ class Comparison {
 
                     for (int i = 0; i < diff; i++) {
                         connectionList.remove(targetNode)
-                        visitedTargetConnections << connectionList[0]
+                        if (connectionList[0])  // TOCHECK: there is some NULL around!
+                          visitedTargetConnections << connectionList[0]
                         targetConnections.remove(connectionList[0])
                         connectionList.remove(connectionList[0])
                         delDiff++
@@ -364,9 +362,9 @@ class Comparison {
                     nextTargetConnection = newNode
                 }
 
-                rememberSourceNodes = Connection.remember(sourceConnections, sourceNode)
-                if (rememberSourceNodes.size() > 0) {
-                    for (rSourceNode in rememberSourceNodes) {
+                List<Connection> rSourceNodes = Connection.remember(sourceConnections, sourceNode)
+                if (rSourceNodes.size() > 0) {
+                    for (rSourceNode in rSourceNodes) {
                         rememberSourceNodes << rSourceNode
                         rememberTargetNodes << targetNode
                     }
@@ -458,14 +456,14 @@ class Comparison {
             targetNode = nextTargetConnection
 
             //println "Rem " + rememberNode + rememberNode1
-            println "SourceCon " + sourceConnections
-            println "TargetCon " + targetConnections
-            println "SourceVis " + visitedSourceConnections
-            println "TargetVis " + visitedTargetConnections
-            println "SourceRem " + rememberSourceNodes
-            println "TargetRem " + rememberTargetNodes
-            println "Total del " + delDiff
-            println "Total add " + addDiff
+            log.trace "sourceConnections: " + sourceConnections
+            log.trace "targetConnections: " + targetConnections
+            log.trace "visitedSourceConnections: " + visitedSourceConnections
+            log.trace "visitedTargetConnections: " + visitedTargetConnections
+            log.trace "rememberSourceNodes: " + rememberSourceNodes
+            log.trace "rememberTargetNodes: " + rememberTargetNodes
+            log.trace "delDiff: " + delDiff
+            log.trace "addDiff: " + addDiff
 
         }
 

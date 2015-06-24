@@ -43,5 +43,6 @@ class Net {
         else if (y > maxY) maxY = y
     }
 
+    String sourceName
     String sourceFile
 }

@@ -31,6 +31,8 @@ class PNML2PN {
     static Net parseFile(String filename) {
         def records = new XmlParser().parse(filename)
         Net net = loadPNML(records)
+
+        net.sourceName = new File(filename).getName()
         net.sourceFile = filename
         net
     }
