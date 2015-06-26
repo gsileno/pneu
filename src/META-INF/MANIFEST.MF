@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Class-Path: antlr-4.5-complete.jar simmetrics-core-3.0.3.jar guava-18.
+ 0.jar commons-codec-1.10.jar groovy-2.4.3.jar jsr166y-1.7.0.jar groov
+ y-testng-2.4.3.jar groovy-console-2.4.3.jar jline-2.12.jar groovy-ser
+ vlet-2.4.3.jar groovy-swing-2.4.3.jar ant-junit-1.9.4.jar groovy-groo
+ vysh-2.4.3.jar groovy-docgenerator-2.4.3.jar groovy-xml-2.4.3.jar gro
+ ovy-json-2.4.3.jar jsp-api-2.0.jar openbeans-1.0.jar xstream-1.4.7.ja
+ r testng-6.8.13.jar groovy-groovydoc-2.4.3.jar gpars-1.2.1.jar ant-1.
+ 9.4.jar servlet-api-2.4.jar hamcrest-core-1.3.jar groovy-bsf-2.4.3.ja
+ r groovy-jsr223-2.4.3.jar commons-cli-1.2.jar groovy-jmx-2.4.3.jar gr
+ oovy-ant-2.4.3.jar groovy-templates-2.4.3.jar ivy-2.4.0.jar xmlpull-1
+ .1.3.1.jar groovy-sql-2.4.3.jar ant-launcher-1.9.4.jar commons-loggin
+ g-1.2.jar bsf-2.4.0.jar groovy-nio-2.4.3.jar groovy-test-2.4.3.jar qd
+ ox-1.12.1.jar jcommander-1.47.jar jansi-1.11.jar multiverse-core-0.7.
+ 0.jar ant-antlr-1.9.4.jar junit-4.12.jar log4j-1.2.17.jar
+Main-Class: pneu
+

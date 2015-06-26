@@ -1,3 +1,5 @@
+package org.leibnizcenter.pneu.comparison
+
 import org.leibnizcenter.pneu.comparison.Comparison
 import org.leibnizcenter.pneu.comparison.Connection
 import org.leibnizcenter.pneu.components.petrinet.Net

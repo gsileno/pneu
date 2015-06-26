@@ -1,6 +1,7 @@
+package org.leibnizcenter.pneu.parsers
+
 import org.leibnizcenter.pneu.components.petrinet.ArcType
 import org.leibnizcenter.pneu.components.petrinet.Net
-import org.leibnizcenter.pneu.parsers.PNML2PN
 
 class PNMLParserTest extends GroovyTestCase {
 

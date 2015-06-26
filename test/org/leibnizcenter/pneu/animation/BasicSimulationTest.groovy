@@ -1,7 +1,8 @@
+package org.leibnizcenter.pneu.animation
+
 import org.leibnizcenter.pneu.animation.monolithic.NetOrchestration
-import org.leibnizcenter.pneu.components.petrinet.Net
-import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.animation.monolithic.execution.ExecutionMode
+import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.parsers.PNML2PN
 
 class BasicSimulationTest extends GroovyTestCase {
