@@ -59,7 +59,16 @@ class PN2PNML {
                     }
                     for (Arc a in petriNet.arcList) {
                         a.id = "a"+currentArcId
-                        arc (id: a.id, source: a.source.id, target: a.target.id )
+
+                        if (a.type == ArcType.NORMAL) {
+                            arc (id: a.id, source: a.source.id, target: a.target.id )
+                        } else if (a.type == ArcType.INHIBITOR) {
+                            arc (id: a.id, source: a.target.id, target: a.source.id ) {
+                                type {
+                                    text "inhibitor"
+                                }
+                            }
+                        }
                         currentArcId++
                     }
                 }

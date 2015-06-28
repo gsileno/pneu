@@ -60,10 +60,9 @@ class Arc {
         return a
     }
 
-    static Arc buildDiodeArcs(Transition t1, Place p1) {
+    static List<Arc> buildDiodeArcs(Transition t1, Place p1) {
         Arc a1 = buildArc(t1, p1)
         Arc a2 = buildInhibitorArc(p1, t1)
-
         return [a1, a2]
     }
 
