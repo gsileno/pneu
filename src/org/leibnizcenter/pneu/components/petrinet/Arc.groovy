@@ -51,27 +51,42 @@ class Arc {
         return a
     }
 
-    static List<Arc> buildArcs(Place p1, Transition t1, Place p2) {
-        Arc a1 = new Arc(source: p1, target: t1)
-        Arc a2 = new Arc(source: t1, target: p2)
+    static Arc buildInhibitorArc(Place p1, Transition t1) {
+        Arc a = new Arc(source: p1, target: t1, type: ArcType.INHIBITOR)
 
-        p1.outputs << a1
-        t1.inputs << a1
-        t1.outputs << a2
-        p1.inputs << a2
+        t1.inputs << a
+        p1.outputs << a
+
+        return a
+    }
+
+    static Arc buildDiodeArcs(Transition t1, Place p1) {
+        Arc a1 = buildArc(t1, p1)
+        Arc a2 = buildInhibitorArc(p1, t1)
 
         return [a1, a2]
     }
 
+    static List<Arc> buildBiflowArcs(Transition t1, Place p1) {
+        Arc a1 = buildArc(t1, p1)
+        Arc a2 = buildArc(p1, t1)
+
+        return [a1, a2]
+    }
+
+    static List<Arc> buildBiflowArcs(Place p1, Transition t1) {
+        return buildBiflowArcs(t1, p1)
+    }
+
+    static List<Arc> buildArcs(Place p1, Transition t1, Place p2) {
+        Arc a1 = buildArc(p1, t1)
+        Arc a2 = buildArc(t1, p2)
+        return [a1, a2]
+    }
+
     static List<Arc> buildArcs(Transition t1, Place p1, Transition t2) {
-        Arc a1 = new Arc(source: t1, target: p1)
-        Arc a2 = new Arc(source: p1, target: t2)
-
-        t1.outputs << a1
-        p1.inputs << a1
-        p1.outputs << a2
-        t1.inputs << a2
-
+        Arc a1 = buildArc(t1, p1)
+        Arc a2 = buildArc(p1, t2)
         return [a1, a2]
     }
 

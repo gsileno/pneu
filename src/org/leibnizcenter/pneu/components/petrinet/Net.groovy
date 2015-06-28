@@ -32,8 +32,11 @@ class Net {
 
     // for hierarchical distribution of nets
     Integer zIndex
-    List<Transition> inputs = []
-    List<Transition> outputs = []
+
+    // for operations, these nodes are events/transitions,
+    // for expressions, these are situations/places
+    List<Node> inputs = []
+    List<Node> outputs = []
 
     void include(Net net, Integer xPos = 0, Integer yPos = 0) {
 
