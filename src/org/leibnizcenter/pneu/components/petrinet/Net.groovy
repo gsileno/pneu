@@ -21,28 +21,39 @@
 
 package org.leibnizcenter.pneu.components.petrinet
 
+import org.leibnizcenter.pneu.components.graphics.Grid
+
 class Net {
     List<Transition> transitionList = []
     List<Place> placeList = []
     List<Arc> arcList = []
 
-    // graphics
-    // grid dimensions
-    Integer minX, maxX
-    Integer minY, maxY
-    // check the given coordinated with the currentState min, max
-    // reset min/max if necessary
-    void testMinMax(Integer x, Integer y) {
-        if (minX == null) minX = x
-        else if (x < minX) minX = x
-        if (maxX == null) maxX = x
-        else if (x > maxX) maxX = x
-        if (minY == null) minY = y
-        else if (y < minY) minY = y
-        if (maxY == null) maxY = y
-        else if (y > maxY) maxY = y
+    Grid grid
+
+    // for hierarchical distribution of nets
+    Integer zIndex
+    List<Transition> inputs = []
+    List<Transition> outputs = []
+
+    void include(Net net, Integer xPos = 0, Integer yPos = 0) {
+
+        for (p in net.placeList) p.position.traslate(xPos, yPos)
+        for (t in net.transitionList) t.position.traslate(xPos, yPos)
+
+        placeList += net.placeList
+        transitionList += net.transitionList
+        arcList += net.arcList
     }
 
+    void setupGrid(Integer inputDotGranularity = 1, outputDotGranularity = 33) {
+        if (!grid) grid = new Grid()
+        grid.setInputDotGranularity(inputDotGranularity)
+        grid.setOutputDotGranularity(outputDotGranularity)
+        for (p in placeList) grid.testMinMax(p.position.x, p.position.y)
+        for (t in transitionList) grid.testMinMax(t.position.x, t.position.y)
+    }
+
+    // to remember the original name of the file
     String sourceName
     String sourceFile
 }

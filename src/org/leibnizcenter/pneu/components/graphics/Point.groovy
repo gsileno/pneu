@@ -21,6 +21,11 @@ class Point {
         return (point1.y - point2.y) / (point1.x - point2.x)
     }
 
+    void traslate(Integer plusX, Integer plusY) {
+        x += plusX
+        y += plusY
+    }
+
     static ArrayList<Cardinality> getDirections(Point point1, Point point2) {
         Integer tg = tg(point1, point2)
         ArrayList<Cardinality> directions = []

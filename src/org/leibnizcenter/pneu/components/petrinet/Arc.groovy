@@ -22,15 +22,57 @@
 package org.leibnizcenter.pneu.components.petrinet
 import org.leibnizcenter.pneu.components.graphics.Point
 
-enum ArcType { NORMAL, INHIBITOR, RESET }
 
 class Arc {
     String id
     Node source
     Node target
-    Integer weight
-    ArcType type
+    Integer weight = 1
+    ArcType type = ArcType.NORMAL
 
     // for graphics
-    List<Point> pointList
+    List<Point> pointList = []
+
+    static Arc buildArc(Place p1, Transition t1) {
+        Arc a = new Arc(source: p1, target: t1)
+
+        p1.outputs << a
+        t1.inputs << a
+
+        return a
+    }
+
+    static Arc buildArc(Transition t1, Place p1) {
+        Arc a = new Arc(source: t1, target: p1)
+
+        t1.outputs << a
+        p1.inputs << a
+
+        return a
+    }
+
+    static List<Arc> buildArcs(Place p1, Transition t1, Place p2) {
+        Arc a1 = new Arc(source: p1, target: t1)
+        Arc a2 = new Arc(source: t1, target: p2)
+
+        p1.outputs << a1
+        t1.inputs << a1
+        t1.outputs << a2
+        p1.inputs << a2
+
+        return [a1, a2]
+    }
+
+    static List<Arc> buildArcs(Transition t1, Place p1, Transition t2) {
+        Arc a1 = new Arc(source: t1, target: p1)
+        Arc a2 = new Arc(source: p1, target: t2)
+
+        t1.outputs << a1
+        p1.inputs << a1
+        p1.outputs << a2
+        t1.inputs << a2
+
+        return [a1, a2]
+    }
+
 }

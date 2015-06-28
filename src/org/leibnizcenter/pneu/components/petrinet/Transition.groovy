@@ -21,17 +21,6 @@
 
 package org.leibnizcenter.pneu.components.petrinet
 
-enum TransitionType { NORMAL, EMITTER, COLLECTOR }
-
-// from the perspective of the transition,
-// we can read the input/ouptut places and their weight
-// this is decorated while parsing
-// it is redundant with arc information but should be more efficient
-class PlaceWeight {
-    Place place
-    Integer weight
-}
-
 class Transition extends Node {
 
     // transition by default of normal type
@@ -47,11 +36,8 @@ class Transition extends Node {
 
     // after decoration
     // input/output places / arc weight
-    List<PlaceWeight> inputs = []
-    List<PlaceWeight> outputs = []
-
-    // for inhibitor arcs
-    List<Place> inhibitors = []
+    List<Arc> inputs = []
+    List<Arc> outputs = []
 
     // for reset arcs
     List<Place> resets = []
@@ -67,14 +53,16 @@ class Transition extends Node {
                 return false
         }
 
-        for (p in inhibitors) {
-            if (p.marking.size() > 0)
-                return false
-        }
-
         for (elem in inputs) {
-            if (elem.place.marking.size() < elem.weight) {
-                return false
+            // inhibitor
+            if (elem.type == ArcType.INHIBITOR) {
+                if (elem.source.marking.size() >= elem.weight) {
+                    return false
+                }
+            } else if (elem.type == ArcType.NORMAL) {
+              if (elem.source.marking.size() < elem.weight) {
+                 return false
+              }
             }
         }
         return true
@@ -88,21 +76,19 @@ class Transition extends Node {
     void consumeInputTokens() {
         for (elem in inputs) {
             for (int i=0; i<elem.weight; i++) {
-                elem.place.marking.pop()
+                elem.source.marking.pop()
             }
-        }
-    }
-
-    void flushResetTokens() {
-        for (p in resets) {
-            p.flush()
         }
     }
 
     void produceOutputTokens() {
         for (elem in outputs) {
-            for (int i=0; i<elem.weight; i++) {
-                elem.place.marking.push(new Token())
+            if (elem.type == ArcType.NORMAL) {
+                for (int i = 0; i < elem.weight; i++) {
+                    elem.target.marking.push(new Token())
+                }
+            } else if (elem.type == ArcType.INHIBITOR) {
+                elem.target.flush()
             }
         }
     }

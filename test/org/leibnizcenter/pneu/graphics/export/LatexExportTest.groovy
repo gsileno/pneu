@@ -16,7 +16,7 @@ class LatexExportTest extends GroovyTestCase {
         new File(outputFile).withWriter {
             out -> out.println(PN2LaTeX.convertabsolute(net))
         }
-        println("petri net exported to " + outputFile)
+        println("lpetri net exported to " + outputFile)
     }
 
     void test0EmptyPlace() {

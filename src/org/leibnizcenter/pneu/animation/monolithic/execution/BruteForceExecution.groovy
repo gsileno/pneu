@@ -18,7 +18,6 @@ class BruteForceExecution extends Execution {
         if (t.type == TransitionType.COLLECTOR)
             nTokenCollected++
         t.consumeInputTokens()
-        t.flushResetTokens()
     }
 
     void produceOutputTokens(Transition t) {

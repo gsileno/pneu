@@ -15,7 +15,7 @@ import org.leibnizcenter.pneu.components.graphics.Point
 @Log
 class PN2LaTeX {
 
-    static final int maxCharPerLine = 13 // petri net label multi-line option
+    static final int maxCharPerLine = 13 // lpetri net label multi-line option
 
     static String helperLabel(String label, boolean enclosed = true) {
         String code = ""
@@ -325,8 +325,11 @@ class PN2LaTeX {
                            Float minTransitionSize = 5, // min size for nodes (in mm)
                            boolean showId = false, Float inputDotGranularity = 33) {
 
-        Grid grid = new Grid(net: net, zoomXRatio: zoomXRatio, zoomYRatio: zoomYRatio, inputDotGranularity: inputDotGranularity)
+        Grid grid = new Grid(zoomXRatio: zoomXRatio, zoomYRatio: zoomYRatio, inputDotGranularity: inputDotGranularity)
         grid.setTransformation(grid.flipVertical)
+        net.grid = grid
+
+        net.setupGrid()
 
         String code = ""
 

@@ -38,10 +38,10 @@ class PN2dot {
         if (net.transitionList.size() > 0) code += "  } \n"
 
         net.arcList.each { arc ->
-            code += "  "+printName(arc.source.id)
+            code += "  "+arc.source.id // printName(arc.source.id)
 
             code +=" -> "
-            code += printName(arc.target.id)
+            code += arc.target.id // printName(arc.target.id)
             code += " ["
             if (arc.type == ArcType.INHIBITOR)
                 code += "arrowhead=dot"

@@ -15,7 +15,7 @@ class DotExportTest extends GroovyTestCase {
         new File(outputFile).withWriter {
             out -> out.println(PN2dot.simpleConversion(net))
         }
-        println("petri net exported to " + outputFile)
+        println("lpetri net exported to " + outputFile)
     }
 
     void test0EmptyPlace() {

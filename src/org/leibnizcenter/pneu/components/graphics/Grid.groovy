@@ -4,31 +4,51 @@ import org.leibnizcenter.pneu.components.petrinet.Net
 
 class Grid {
 
-    Net net                           // reference net
+    // grid dimensions
+    Integer minX, maxX
+    Integer minY, maxY
+
+    // Yasper use 33 dots per square
+    Integer inputDotGranularity       // pnml position / inputDotGranularity = intermediate position
+
+    // -------------------
+
+    Integer outputDotGranularity      // pnml position = intermediate position * outputDotGranularity
     Float zoomXRatio                  // tikz posizion = intermediate position * zoomRatio
     Float zoomYRatio
-    Integer inputDotGranularity       // pnml position / inputDotGranularity = intermediate position
-                                      // Yasper use 33 dots per square
 
     Closure transformation            // possible change of coordinates, using the given closures
 
-    def setZero = { Point point ->
-        point.x = point.x - net.minX
-        point.y = point.y - net.minY
+    // check the given coordinated with the currentState min, max
+    // reset min/max if necessary
+    void testMinMax(Integer x, Integer y) {
+        if (minX == null) minX = x
+        else if (x < minX) minX = x
+        if (maxX == null) maxX = x
+        else if (x > maxX) maxX = x
+        if (minY == null) minY = y
+        else if (y < minY) minY = y
+        if (maxY == null) maxY = y
+        else if (y > maxY) maxY = y
+    }
+
+    Closure setZero = { Point point ->
+        point.x = point.x - minX
+        point.y = point.y - minY
         point
     }
 
-    def flipHorizontal = { Point point ->
-        point.x = net.maxX - point.x
+    Closure flipHorizontal = { Point point ->
+        point.x = maxX - point.x
         setZero(point)
     }
 
-    def flipVertical = { Point point ->
-        point.y = net.maxY - point.y
+    Closure flipVertical = { Point point ->
+        point.y = maxY - point.y
         setZero(point)
     }
 
-    def rotate90ClockWise = { Point point ->
+    Closure rotate90ClockWise = { Point point ->
         point = setZero(point)
         // Integer tmp = point.y
         // point.y = -point.x
@@ -36,7 +56,7 @@ class Grid {
         point
     }
 
-    def rotate90AntiClockWise = { Point point ->
+    Closure rotate90AntiClockWise = { Point point ->
         point = setZero(point)
         Integer tmp = point.y
         point.y = point.x
@@ -45,16 +65,33 @@ class Grid {
     }
 
     Point transformCoordinates(Point point) {
-
         if (transformation == null) setZero(point)
         else return transformation(point)
     }
 
-    String printScaled(Point point) {
-
+    Point scalePoint(Point point) {
         point = transformCoordinates(point)
-
-        return Math.round(Math.round(point.x/inputDotGranularity)*zoomXRatio * 100)/100 +", "+
-               Math.round(Math.round(point.y/inputDotGranularity)*zoomYRatio * 100)/100
+        point.x = Math.round(Math.round(point.x/inputDotGranularity)*100)/100
+        point.y = Math.round(Math.round(point.y/inputDotGranularity)*100)/100
+        point
     }
+
+    String printScaled(Point point) {
+        point = scalePoint(point)
+        return point.x +", "+ point.y
+    }
+
+    Point inverseScalePoint(Point point) {
+        point = transformCoordinates(point)
+        point.x = Math.round(point.x*outputDotGranularity) + outputDotGranularity
+        point.y = Math.round(point.y*outputDotGranularity) + outputDotGranularity
+        point
+    }
+
+    void setOutputDotGranularity(Integer outputDotGranularity) {
+        this.outputDotGranularity = outputDotGranularity
+        zoomXRatio = outputDotGranularity
+        zoomYRatio = outputDotGranularity
+    }
+
 }

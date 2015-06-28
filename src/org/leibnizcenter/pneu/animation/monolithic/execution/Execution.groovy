@@ -16,7 +16,7 @@ Transition-driven approaches
   An alternative characterization of the enabling of transitions is provided (different from marking)
   It takes into account the local topology of the transitions.
   Two approaches:
-  - for binary petri nets: a counter of non marked input places of a transition is used (Silva and Velilla 1982).
+  - for binary lpetri nets: a counter of non marked input places of a transition is used (Silva and Velilla 1982).
     If the counter goes to zero, the transition is enabled.
   - for bounded weighted PN: linear enabling functions (Briz and Colom 1994)
 
@@ -34,11 +34,11 @@ There are two versions:
 Further literature:
 
 Moreno, R. P., & Salcedo, J. L. V. (2007).
-Performance evaluation of petri nets execution algorithms.
+Performance evaluation of lpetri nets execution algorithms.
 Conference Proceedings - IEEE International Conference on Systems, Man and Cybernetics, 1400–1407.
 
 Piedrafita, R., & Villarroel, J. L. (2011).
-Performance evaluation of petri nets centralized implementation.
+Performance evaluation of lpetri nets centralized implementation.
 The execution time controller. Discrete Event Dynamic Systems: Theory and Applications,
 21(2), 139–169.
 

@@ -5,7 +5,7 @@ import org.leibnizcenter.pneu.components.petrinet.Arc
 import org.leibnizcenter.pneu.components.petrinet.ArcType
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
-import org.leibnizcenter.pneu.components.petrinet.PlaceWeight
+import org.leibnizcenter.pneu.components.petrinet.Node
 import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.components.petrinet.TransitionType
@@ -54,8 +54,6 @@ class PNML2PN {
             Integer x = rec.graphics.position.'@x'[0].toInteger()
             Integer y = rec.graphics.position.'@y'[0].toInteger()
 
-            net.testMinMax(x, y)
-
             Transition t = new Transition(
                     id: rec.'@id',
                     name: rec.name.text(), // (rec.name.text().length() > 0)?rec.name.text():rec.'@id',
@@ -89,8 +87,6 @@ class PNML2PN {
             Integer x = rec.graphics.position.'@x'[0].toInteger()
             Integer y = rec.graphics.position.'@y'[0].toInteger()
 
-            net.testMinMax(x, y)
-
             Place p = new Place(
                     id: rec.'@id',
                     name: rec.name.text(), // (rec.name.text().length() > 0)?rec.name.text():rec.'@id',
@@ -119,26 +115,27 @@ class PNML2PN {
             if (!target) target = net.transitionList.find{ it.id == id }
             if (!target) println ("I haven't found the target node $id!")
 
-            Arc existing = net.arcList.find() { it.source == source && it.target == target }
+            Arc existing = net.arcList.find() {
+                (it.type != ArcType.INHIBITOR && it.source == source && it.target == target) ||
+                        (it.type == ArcType.INHIBITOR && it.source == target && it.target == source)
+            }
 
             if (existing) {
               existing.weight++
-
-              // alternative decoration, I expect more efficient
-              if (fromTransitionToPlace) {
-                  source.outputs.find { it.place == target }.weight++
-              } else {
-                  target.inputs.find { it.place == source }.weight++
-              }
-
             } else {
 
                 // check types
                 ArcType arcType = ArcType.NORMAL
                 if (rec.type) {
                     String type = rec.type.text.text()
-                    if (type == "inhibitor")
+                    if (type == "inhibitor") {
+                        // in Yasper, the standard notation is inversed for inhibitor arcs
+                        Node tmp = source
+                        source = target
+                        target = tmp
                         arcType = ArcType.INHIBITOR
+
+                    }
                     else if (type == "reset")
                         arcType = ArcType.RESET
                 }
@@ -152,8 +149,6 @@ class PNML2PN {
                 for (pointRec in pointRecs) {
                     Integer x = pointRec.'@x'.toInteger()
                     Integer y = pointRec.'@y'.toInteger()
-
-                    net.testMinMax(x, y)
 
                     Point point = new Point(
                             x: x,
@@ -171,36 +166,16 @@ class PNML2PN {
                         pointList: pointList,
                         type: arcType,
                         weight: 1
-                );
+                )
                 net.arcList.add(a)
+                source.outputs << a
+                target.inputs << a
 
-                if (arcType == ArcType.NORMAL) {
-                    // alternative decoration, I expect more efficient
-                    if (fromTransitionToPlace) {
-                        source.outputs << new PlaceWeight(place: target, weight: 1)
-                        target.inputs << source
-                    } else {
-                        target.inputs << new PlaceWeight(place: source, weight: 1)
-                        source.outputs << target
-                    }
-                } else if (arcType == ArcType.INHIBITOR) {
-                    if (fromTransitionToPlace) {
-                        source.inhibitors << target
-                    } else {
-                        println("Something strange here. The inhibitor arc should have the opposite direction.")
-                        target.inhibitors << source
-                    }
-                } else if (arcType == ArcType.RESET) {
-                    if (fromTransitionToPlace) {
-                        source.resets << target
-                    } else {
-                        println("Something strange here. The reset arc should have the opposite direction.")
-                        target.resets << source
-                    }
-                }
             }
 
         }
+
+        net.setupGrid()
 
         net
     }

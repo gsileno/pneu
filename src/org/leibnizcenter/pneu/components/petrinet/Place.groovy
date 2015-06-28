@@ -22,11 +22,11 @@
 package org.leibnizcenter.pneu.components.petrinet
 
 class Place extends Node {
-    List<Token> marking
+    List<Token> marking = []
 
     // after decoration
-    List<Transition> inputs = []
-    List<Transition> outputs = []
+    List<Arc> inputs = []
+    List<Arc> outputs = []
 
     String toString() {
         if (name != "") return name+" ("+marking.size()+")"

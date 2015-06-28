@@ -44,7 +44,7 @@ Boolean showId = (options.H)
 
 Net net
 
-println("pneu - PNML petri net loader")
+println("pneu - PNML lpetri net loader")
 
 if (options.arguments().size() == 0) {
     cli.usage()
@@ -60,20 +60,20 @@ if (options.arguments().size() == 0) {
         }
 
         if (!error) {
-            print("petri net loaded... ")
+            print("lpetri net loaded... ")
 
             if (options.L) {
                 if (outputFile == 'false') outputFile = file.replaceFirst(~/\.[^\.]+$/, '') + ".tex"
                 new File(outputFile).withWriter { out ->
                     out.println(PN2LaTeX.convertabsolute(net, zoomXRatio, zoomYRatio, minPlaceSize, minTransitionSize, showId))
                 }
-                print("petri net exported to " + outputFile)
+                print("lpetri net exported to " + outputFile)
                 if (zoomXRatio.toString() != defaultRatio.toString() || zoomYRatio.toString() != defaultRatio.toString() || minSize.toString() != defaultSize.toString())
                     print(" (zoom ratio: "+zoomXRatio+"/"+zoomYRatio+", place size: "+minPlaceSize+", transition size: "+minTransitionSize+")")
             }
 
             if (options.r) {
-                println("running the petri net model... TODO")
+                println("running the lpetri net model... TODO")
             }
         }
     }
