@@ -11,7 +11,7 @@ class LatexExportTest extends GroovyTestCase {
         def folder = new File( 'examples/out/tex/' )
         if( !folder.exists() ) folder.mkdirs()
 
-        String outputFile = "examples/out/tex/"+filename.replaceFirst(~/ \.[^\.]+$ /, '') + ".tex"
+        String outputFile = "examples/out/tex/"+filename.replaceFirst(~/\.[^\.]+$/, '') + ".tex"
 
         new File(outputFile).withWriter {
             out -> out.println(PN2LaTeX.convertabsolute(net))

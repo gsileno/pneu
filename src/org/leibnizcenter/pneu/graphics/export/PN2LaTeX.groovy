@@ -1,6 +1,8 @@
 package org.leibnizcenter.pneu.graphics.export
 
 import groovy.util.logging.Log
+import org.leibnizcenter.pneu.components.petrinet.Arc
+import org.leibnizcenter.pneu.components.petrinet.ArcType
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
@@ -357,6 +359,18 @@ class PN2LaTeX {
 
         code += "\n"
 
+        List<Arc> biflowArcs = []
+        for (Arc a in net.arcList) {
+            for (Arc b in net.arcList - a) {
+                if (a.source == b.target && b.source == a.target && a.weight == b.weight) {
+                    if (!biflowArcs.contains(a) && !biflowArcs.contains(b))
+                      biflowArcs += [a, b]
+                }
+            }
+        }
+
+        List<Arc> nonBiflowArcs = net.arcList - biflowArcs
+
         net.transitionList.each() { tr ->
 
             code += "    \\node\t"
@@ -368,11 +382,12 @@ class PN2LaTeX {
 
             String postcode = ""
 
-            def edgesIn = net.arcList.findAll { arc -> arc.target.id == tr.id }
-            edgesIn.each() { edge ->
+            // just take one of the two biflow arcs
+            for (int i = 0; i < biflowArcs.size(); i += 2) {
+                Arc edge = biflowArcs[i]
                 if (edge.pointList.size() > 0) {
                     // for the incoming edges, the order of points should be inversed
-                    postcode += "    \\draw\t[pre]\t("+tr.id+")"
+                    postcode += "    \\draw\t[<->]\t("+tr.id+")"
                     edge.pointList.reverse().each() { point ->
                         postcode += "\t"
                         postcode += " -- ("+grid.printScaled(point)+")"
@@ -380,13 +395,38 @@ class PN2LaTeX {
                     postcode += " -- ("+edge.source.id+");\n"
                 } else {
                     code += "      edge\t"
-                    code += "[pre]\t"
+                    code += "[<->]\t"
                     code += "("+edge.source.id+")"
                     code += "\n"
                 }
             }
 
-            def edgesOut = net.arcList.findAll { arc -> arc.source.id == tr.id }
+            // normal and inhibitor arcs // TODO RESET
+            def edgesIn = nonBiflowArcs.findAll { arc -> arc.target.id == tr.id }
+            edgesIn.each() { edge ->
+                String style
+                if (edge.type == ArcType.INHIBITOR)
+                    style = "o-"
+                else
+                    style = "pre"
+
+                if (edge.pointList.size() > 0) {
+                    // for the incoming edges, the order of points should be inversed
+                    postcode += "    \\draw\t[$style]\t("+tr.id+")"
+                    edge.pointList.reverse().each() { point ->
+                        postcode += "\t"
+                        postcode += " -- ("+grid.printScaled(point)+")"
+                    }
+                    postcode += " -- ("+edge.source.id+");\n"
+                } else {
+                    code += "      edge\t"
+                    code += "[$style]\t"
+                    code += "("+edge.source.id+")"
+                    code += "\n"
+                }
+            }
+
+            def edgesOut = nonBiflowArcs.findAll { arc -> arc.source.id == tr.id }
             edgesOut.each() { edge ->
                 if (edge.pointList.size() > 0) {
                     postcode += "    \\draw\t[post]\t(" + tr.id +")"
