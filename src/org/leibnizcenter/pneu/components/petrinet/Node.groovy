@@ -33,7 +33,7 @@ class Node {
     Area dimension
 
     String label(Boolean showId = false) {
-        if (name.length() > 0 || !showId) return name
+        if (name || !showId) return name
         else return id
     }
 }
