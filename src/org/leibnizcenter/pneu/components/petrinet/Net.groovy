@@ -48,7 +48,7 @@ class Net {
         arcList += net.arcList
     }
 
-    void setupGrid(Integer inputDotGranularity = 1, outputDotGranularity = 33) {
+    void setupGrid(Integer inputDotGranularity = 1, Integer outputDotGranularity = 33) {
         if (!grid) grid = new Grid()
         grid.setInputDotGranularity(inputDotGranularity)
         grid.setOutputDotGranularity(outputDotGranularity)
