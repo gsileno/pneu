@@ -27,6 +27,7 @@ class Net {
     List<Transition> transitionList = []
     List<Place> placeList = []
     List<Arc> arcList = []
+    List<Net> subNets = []
 
     Grid grid
 
@@ -40,8 +41,12 @@ class Net {
 
     void include(Net net, Integer xPos = 0, Integer yPos = 0) {
 
-        for (p in net.placeList) p.position.traslate(xPos, yPos)
-        for (t in net.transitionList) t.position.traslate(xPos, yPos)
+        if (xPos != 0 || yPos != 0) {
+            for (p in net.placeList) p.position.traslate(xPos, yPos)
+            for (t in net.transitionList) t.position.traslate(xPos, yPos)
+        }
+
+        subNets << net
 
         placeList += net.placeList
         transitionList += net.transitionList
