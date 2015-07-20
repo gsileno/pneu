@@ -1,14 +1,8 @@
 package org.leibnizcenter.pneu.builders
 
-import groovy.io.FileType
-import groovy.xml.MarkupBuilder
 import groovy.xml.StreamingMarkupBuilder
-import groovy.xml.XmlUtil
-import org.leibnizcenter.pneu.components.graphics.Area
-import org.leibnizcenter.pneu.components.graphics.Grid
 import org.leibnizcenter.pneu.components.graphics.Point
 import org.leibnizcenter.pneu.components.petrinet.*
-import org.leibnizcenter.pneu.graphics.export.PN2dot
 
 class PN2PNML {
 

@@ -1,4 +1,0 @@
-q <| p.          // when p holds, q holds
-r <| q and -p.   // when q and not p hold, r holds
-t <| naf r.      // when r is unknown, t holds
-p xor -p.        // p holds or not.

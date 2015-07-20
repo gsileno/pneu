@@ -1,6 +1,6 @@
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.parsers.PNML2PN
-import org.leibnizcenter.pneu.animation.monolithic.NetOrchestration
+import org.leibnizcenter.pneu.animation.monolithic.PNRunner
 
 /*
 TO DO:
@@ -506,8 +506,8 @@ Execution
 Compare movement
  **********/
 
-NetOrchestration orchestration = new NetOrchestration()
-NetOrchestration orchestration1 = new NetOrchestration()
+PNRunner orchestration = new PNRunner()
+PNRunner orchestration1 = new PNRunner()
 
 //Orchestration
 orchestration.load(net)

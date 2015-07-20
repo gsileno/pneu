@@ -1,20 +1,20 @@
-package org.leibnizcenter.pneu.graphics.export
+package org.leibnizcenter.pneu.builders
 
+import org.leibnizcenter.pneu.builders.PN2dot
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.parsers.PNML2PN
 
-class LatexExportTest extends GroovyTestCase {
-
+class DotExportTest extends GroovyTestCase {
     void batchExport(String filename) {
         Net net = PNML2PN.parseFile("examples/basic/"+filename)
 
-        def folder = new File( 'examples/out/tex/' )
+        def folder = new File( 'examples/out/dot/' )
         if( !folder.exists() ) folder.mkdirs()
 
-        String outputFile = "examples/out/tex/"+filename.replaceFirst(~/\.[^\.]+$/, '') + ".tex"
+        String outputFile = "examples/out/dot/"+filename.replaceFirst(~/\.[^\.]+$/, '') + ".dot"
 
         new File(outputFile).withWriter {
-            out -> out.println(PN2LaTeX.convertabsolute(net))
+            out -> out.println(PN2dot.simpleConversion(net))
         }
         println("lpetri net exported to " + outputFile)
     }
@@ -51,4 +51,11 @@ class LatexExportTest extends GroovyTestCase {
         batchExport("6biflow.pnml")
     }
 
+    void test7Reset() {
+        batchExport("7reset.pnml")
+    }
+
+    void test8analysisconflict() {
+        batchExport("8analysisconflict.pnml")
+    }
 }

@@ -1,4 +1,4 @@
-package org.leibnizcenter.pneu.graphics.export
+package org.leibnizcenter.pneu.builders
 
 import org.leibnizcenter.pneu.components.petrinet.Arc
 import org.leibnizcenter.pneu.components.petrinet.ArcType

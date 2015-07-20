@@ -29,25 +29,25 @@ Net net = pneu.parseFile("examples/basic/0emptyplace.pnml")
 **tikz (LaTeX) conversion:**
 ```
 #!groovy
-import org.leibnizcenter.pneu.graphics.export.PN2LaTeX
+import org.leibnizcenter.pneu.builders.PN2LaTeX
 println(PN2LaTeX.convertabsolute(net)
 ```
 
 **dot conversion:**
 ```
 #!groovy
-import org.leibnizcenter.pneu.graphics.export.PN2dot
+import org.leibnizcenter.pneu.builders.PN2dot
 println(PN2dot.simpleConversion(net))
 ```
 
 **monolithic simulation**
 ```
 #!groovy
-import org.leibnizcenter.pneu.animation.monolithic.NetOrchestration
+import org.leibnizcenter.pneu.animation.monolithic.PNRunner
 
-NetOrchestration orchestration = new NetOrchestration() // brute-force based animation
-orchestration.load(net) // load the petri net structure
-orchestration.run(100)  // run at most 100 steps (less if there are no more enabled transitions)
+PNRunner runner = new PNRunner() // brute-force based animation
+runner.load(net) // load the petri net structure
+runner.run(100)  // run at most 100 steps (less if there are no more enabled transitions)
 ```
 
 ## Contributing

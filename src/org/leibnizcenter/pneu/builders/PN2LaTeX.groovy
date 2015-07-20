@@ -1,4 +1,4 @@
-package org.leibnizcenter.pneu.graphics.export
+package org.leibnizcenter.pneu.builders
 
 import groovy.util.logging.Log
 import org.leibnizcenter.pneu.components.petrinet.Arc
@@ -78,7 +78,7 @@ class PN2LaTeX {
     // First strategy:
     // first, do all the places
     // then put the position of transition in function of the places
-    static convertrelative1(Net net, boolean showId = false) {
+    static convertRelative1(Net net, boolean showId = false) {
 
         Compass compass = new Compass()
 
@@ -181,7 +181,7 @@ class PN2LaTeX {
     //     write the transition if we know the places to which it is attached
     //     (give the directions in function of the know nodes)
    //
-    static convertrelative2(Net net, boolean showId = false) {
+    static convertRelatiave2(Net net, boolean showId = false) {
 
         Compass compass = new Compass()
         List<Node> walkedNodes = []
@@ -321,7 +321,7 @@ class PN2LaTeX {
         code += footer+"\n"
     }
 
-    static convertabsolute(Net net,
+    static convertAbsolute(Net net,
                            Float zoomXRatio = 0.65, Float zoomYRatio = 0.65, // grid zoom
                            Float minPlaceSize = 5, // min size for nodes (in mm)
                            Float minTransitionSize = 5, // min size for nodes (in mm)

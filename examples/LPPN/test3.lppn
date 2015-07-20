@@ -1,8 +1,0 @@
-+q <= p. // when p has occurred, q occurs
-+r <= q. // when q has occurred, r occurs
-
-p & p => +s. // when p has occurred two times, s occurs
-s => -q. // when s has occurred, q is removed. (error if q is not there)
-q && s => -q. // make explicit presupposed element.
-
-

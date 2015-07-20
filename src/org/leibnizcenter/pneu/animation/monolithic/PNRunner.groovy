@@ -10,12 +10,12 @@ import org.leibnizcenter.pneu.animation.monolithic.execution.RepresentingPlacesE
 import org.leibnizcenter.pneu.components.petrinet.Net
 
 @Log4j
-class NetOrchestration {
+class PNRunner {
 
     Analysis analysis
     Execution execution
 
-    NetOrchestration(ExecutionMode executionMode = ExecutionMode.BruteForce) {
+    PNRunner(ExecutionMode executionMode = ExecutionMode.BruteForce) {
         switch (executionMode) {
             case ExecutionMode.BruteForce:
                 execution = new BruteForceExecution()
@@ -38,11 +38,11 @@ class NetOrchestration {
     }
 
     // run at most max steps (less if there no enabled transitions)
-    Integer run(Integer max = 100) {
+    Integer run(Integer maxSteps = 100) {
 
         Integer n
 
-        for (n=0; n<max; n++) {
+        for (n=0; n<maxSteps; n++) {
            if (!execution.step()) break
         }
 

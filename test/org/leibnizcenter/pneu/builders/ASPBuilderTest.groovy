@@ -1,56 +1,63 @@
-package org.leibnizcenter.pneu.graphics.export
+package org.leibnizcenter.pneu.builders
 
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.parsers.PNML2PN
 
-class DotExportTest extends GroovyTestCase {
+class ASPBuilderTest extends GroovyTestCase {
+
     void batchExport(String filename) {
         Net net = PNML2PN.parseFile("examples/basic/"+filename)
 
-        def folder = new File( 'examples/out/dot/' )
+        def folder = new File( 'examples/out/asp/' )
         if( !folder.exists() ) folder.mkdirs()
 
-        String outputFile = "examples/out/dot/"+filename.replaceFirst(~/\.[^\.]+$/, '') + ".dot"
+        String outputFile = "examples/out/asp/"+filename.replaceFirst(~/\.[^\.]+$/, '') + ".lp"
 
         new File(outputFile).withWriter {
-            out -> out.println(PN2dot.simpleConversion(net))
+            out -> out.println(PN2ASP.buildSimulationModel(net))
         }
-        println("lpetri net exported to " + outputFile)
+        println("petri net exported to " + outputFile)
     }
 
-    void test0EmptyPlace() {
+    void testBuilder0() {
         batchExport("0emptyplace.pnml")
+
     }
 
-    void test0PlaceFilledWith3Tokens() {
+    void testBuilder0bis() {
         batchExport("0placefilledwith3tokens.pnml")
     }
 
-    void test1Transition() {
+    void testBuilder1() {
         batchExport("1transition.pnml")
     }
 
-    void test2Chaining() {
+    void testBuilder2() {
         batchExport("2chaining.pnml")
     }
 
-    void test3Doublearc() {
+    void testBuilder3() {
         batchExport("3doublearc.pnml")
     }
 
-    void test4Conflict() {
+    void testBuilder4() {
         batchExport("4conflict.pnml")
     }
 
-    void test5Inhibitor() {
+    void testBuilder5() {
         batchExport("5inhibitor.pnml")
     }
 
-    void test6Biflow() {
+    void testBuilder6() {
         batchExport("6biflow.pnml")
     }
 
-    void test7Reset() {
+    void testBuilder7() {
         batchExport("7reset.pnml")
     }
+
+    void testBuilder8() {
+        batchExport("8analysisconflict.pnml")
+    }
+
 }
