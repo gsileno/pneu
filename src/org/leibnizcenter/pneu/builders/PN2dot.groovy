@@ -3,41 +3,51 @@ package org.leibnizcenter.pneu.builders
 import org.leibnizcenter.pneu.components.petrinet.Arc
 import org.leibnizcenter.pneu.components.petrinet.ArcType
 import org.leibnizcenter.pneu.components.petrinet.Net
+import org.leibnizcenter.pneu.components.petrinet.Place
+import org.leibnizcenter.pneu.components.petrinet.Transition
 
 /**
  * Created by giovanni on 4/3/15.
  */
 class PN2dot {
 
-    static String printName(String name) {
-        return "\"$name\""
-    }
-
     static String simpleConversion(Net net, boolean showId = false) {
+
+        List<Place> placeList = net.getAllPlaces()
+        List<Transition> transitionList = net.getAllTransitions()
+        List<Arc> arcList = net.getAllArcs()
 
         String code = ""
 
         code += "digraph G {\n  rankdir=\"LR\";\n"
 
-        if (net.placeList.size() > 0) code += headerPlaces
+        if (placeList.size() > 0) code += headerPlaces
 
-        net.placeList.each { pl ->
-            code += "    "+pl.id+" [label=\""+pl.label(showId)+"\"];\n"
+        Integer i
+
+        i = 0
+        placeList.each { pl ->
+            if (!pl.id) pl.id = "_p"+i;
+            code += "    "+pl.id+" [label=\""+pl.toMinString()+"\"];\n"
+            i++
         }
 
-        if (net.placeList.size() > 0) code += "  } \n"
+        if (placeList.size() > 0) code += "  } \n"
 
-        if (net.transitionList.size() > 0) {
+        if (transitionList.size() > 0) {
             code += headerTransitions
         }
 
-        net.transitionList.each { tr ->
-            code += "    "+tr.id+" [label=\""+tr.label(showId)+"\"];\n"
+        i = 0
+        transitionList.each { tr ->
+            if (!tr.id) tr.id = "_t"+i;
+            code += "    "+tr.id+" [label=\""+tr.toString()+"\"];\n"
+            i++
         }
 
-        if (net.transitionList.size() > 0) code += "  } \n"
+        if (transitionList.size() > 0) code += "  } \n"
 
-        net.arcList.each { arc ->
+        arcList.each { arc ->
             code += "  "+arc.source.id // printName(arc.source.id)
 
             code +=" -> "

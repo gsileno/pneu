@@ -89,4 +89,10 @@ class Arc {
         return [a1, a2]
     }
 
+    String toString() {
+        if (type == ArcType.NORMAL) source.toString() + " -> " + target.toString()
+        else if (type == ArcType.RESET) source.toString() + " -- " + target.toString()
+        else if (type == ArcType.INHIBITOR) source.toString() + " -o " + target.toString()
+    }
+
 }

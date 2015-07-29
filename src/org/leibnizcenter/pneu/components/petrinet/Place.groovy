@@ -33,6 +33,11 @@ class Place extends Node {
         else return id+" ("+marking.size()+")"
     }
 
+    String toMinString() {
+        if (name != "") return name
+        else return id
+    }
+
     void flush() {
         marking.clear()
     }

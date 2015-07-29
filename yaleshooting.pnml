@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do30">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <transition id="tr4">
+      <name>
+        <text>shoot</text>
+      </name>
+      <graphics>
+        <position x="297" y="264" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr5">
+      <graphics>
+        <position x="429" y="264" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr7">
+      <name>
+        <text>load</text>
+      </name>
+      <graphics>
+        <position x="231" y="528" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr10">
+      <name>
+        <text>shoot</text>
+      </name>
+      <graphics>
+        <position x="660" y="264" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr11">
+      <graphics>
+        <position x="792" y="330" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr23">
+      <name>
+        <text>shoot</text>
+      </name>
+      <graphics>
+        <position x="561" y="627" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr25">
+      <graphics>
+        <position x="693" y="627" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl1">
+      <name>
+        <text>loaded</text>
+      </name>
+      <graphics>
+        <position x="231" y="198" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl3">
+      <name>
+        <text>alive</text>
+      </name>
+      <graphics>
+        <position x="231" y="330" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl4">
+      <name>
+        <text>-loaded</text>
+      </name>
+      <graphics>
+        <position x="363" y="264" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl6">
+      <name>
+        <text>dead</text>
+      </name>
+      <graphics>
+        <position x="495" y="264" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl7">
+      <name>
+        <text>loaded</text>
+      </name>
+      <graphics>
+        <position x="297" y="528" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl8">
+      <name>
+        <text>-loaded</text>
+      </name>
+      <graphics>
+        <position x="165" y="528" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl10">
+      <name>
+        <text>loaded</text>
+      </name>
+      <graphics>
+        <position x="594" y="198" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl11">
+      <name>
+        <text>alive</text>
+      </name>
+      <graphics>
+        <position x="594" y="330" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl12">
+      <name>
+        <text>-loaded</text>
+      </name>
+      <graphics>
+        <position x="726" y="264" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl13">
+      <name>
+        <text>dead</text>
+      </name>
+      <graphics>
+        <position x="858" y="330" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl14">
+      <graphics>
+        <position x="726" y="330" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl15">
+      <name>
+        <text>not loaded</text>
+      </name>
+      <graphics>
+        <position x="231" y="627" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+    </place>
+    <place id="pl24">
+      <name>
+        <text>loaded</text>
+      </name>
+      <graphics>
+        <position x="495" y="561" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl25">
+      <name>
+        <text>alive</text>
+      </name>
+      <graphics>
+        <position x="495" y="693" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl26">
+      <name>
+        <text>-loaded</text>
+      </name>
+      <graphics>
+        <position x="693" y="561" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl27">
+      <name>
+        <text>dead</text>
+      </name>
+      <graphics>
+        <position x="825" y="561" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl28">
+      <graphics>
+        <position x="627" y="627" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <transition id="tr2">
+      <graphics>
+        <position x="825" y="627" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl2">
+      <graphics>
+        <position x="759" y="627" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <arc id="a1" source="tr4" target="pl4" />
+    <arc id="a2" source="pl4" target="tr5" />
+    <arc id="a3" source="pl1" target="tr4" />
+    <arc id="a4" source="pl3" target="tr4" />
+    <arc id="a5" source="tr5" target="pl6" />
+    <arc id="a6" source="tr7" target="pl7" />
+    <arc id="a7" source="pl8" target="tr7" />
+    <arc id="a8" source="tr10" target="pl12" />
+    <arc id="a9" source="pl10" target="tr10" />
+    <arc id="a10" source="pl11" target="tr10" />
+    <arc id="a11" source="tr11" target="pl13" />
+    <arc id="a12" source="tr10" target="pl14" />
+    <arc id="a13" source="pl14" target="tr11" />
+    <arc id="a14" source="pl24" target="tr23" />
+    <arc id="a15" source="pl25" target="tr23" />
+    <arc id="a16" source="pl28" target="tr25" />
+    <arc id="a17" source="tr23" target="pl28" />
+    <arc id="a18" source="tr25" target="pl26" />
+    <arc id="a19" source="pl2" target="tr2" />
+    <arc id="a20" source="tr25" target="pl2" />
+    <arc id="a21" source="tr2" target="pl27" />
+  </net>
+</pnml>
