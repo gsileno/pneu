@@ -1,16 +1,16 @@
 package org.leibnizcenter.pneu.components.petrinet
 
-import groovy.transform.AutoClone
-import groovy.transform.EqualsAndHashCode
+import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.components.graphics.Grid
 
+@Log4j
 class Net {
     List<Transition> transitionList = []
     List<Place> placeList = []
     List<Arc> arcList = []
     List<Net> subNets = []
 
-    Net parent
+    List<Net> parents = []
 
     Grid grid
 
@@ -19,15 +19,20 @@ class Net {
     List<Node> inputs = []
     List<Node> outputs = []
 
-    Net clone() {
+    // deep cloning done for nets
+    // by construction, you have only one parent
+    // things may change after simplification/unification
+
+    Net clone(Net parent = null) {
         Net clone = new Net(transitionList: transitionList.collect(),
                 placeList: placeList.collect(),
                 arcList: arcList.collect(),
                 inputs: inputs.collect(),
-                outputs: inputs.collect())
+                outputs: inputs.collect(),
+                parents: [parent])
 
         for (net in subNets) {
-            clone.subNets << net.clone()
+            clone.subNets << net.clone(clone)
         }
 
         clone
@@ -39,8 +44,18 @@ class Net {
             for (t in net.transitionList) t.position.traslate(xPos, yPos)
         }
 
-        net.parent = this
-        subNets << net
+        if (!net.parents.contains(this))
+            net.parents << this
+        else {
+            log.warn("Parent net already included here")
+        }
+
+        if (!subNets.contains(net)) {
+            subNets << net
+        } else {
+            log.warn("Child net already included here")
+        }
+
     }
 
     List<Place> getAllPlaces() {
@@ -103,6 +118,7 @@ class Net {
         printTab(level); println("places: " + placeList)
         printTab(level); println("transitions: " + transitionList)
         printTab(level); println("arcs: " + arcList)
+        printTab(level); println("parents: (" + subNets.size() + ")")
         printTab(level); println("subnets: (" + subNets.size() + ")")
         for (subNet in subNets) {
             printTab(level + 1, "-")
