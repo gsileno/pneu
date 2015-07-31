@@ -21,12 +21,25 @@
 
 package org.leibnizcenter.pneu.components.petrinet
 
+import groovy.transform.AutoClone
+import groovy.transform.EqualsAndHashCode
 import org.leibnizcenter.pneu.components.graphics.Area
 import org.leibnizcenter.pneu.components.graphics.Point
 
 class Node {
     String id
     String name
+
+    // after decoration
+    // input/output places / arc weight
+    List<Arc> inputs = []
+    List<Arc> outputs = []
+
+    // this will be used in logic programming petri nets
+    // for terminological connections
+    Boolean isLink() {
+        return false
+    }
 
     // graphics
     Point position

@@ -1,5 +1,4 @@
 TODO
-[*] put in place a proper logging
 [monolithic] consider the firing of multiple transitions with the same label
 [monolithic analysis] complete it and refactor everything
 [monolithic] refactor execution as interface
