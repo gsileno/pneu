@@ -5,11 +5,13 @@ import org.leibnizcenter.pneu.components.graphics.Grid
 
 @Log4j
 class Net {
+
+    Node function
+
     List<Transition> transitionList = []
     List<Place> placeList = []
     List<Arc> arcList = []
     List<Net> subNets = []
-
     List<Net> parents = []
 
     Grid grid
@@ -29,7 +31,8 @@ class Net {
                 arcList: arcList.collect(),
                 inputs: inputs.collect(),
                 outputs: inputs.collect(),
-                parents: [parent])
+                parents: [parent],
+                function: function)
 
         for (net in subNets) {
             clone.subNets << net.clone(clone)
@@ -109,26 +112,64 @@ class Net {
         }
     }
 
-    void printTab(Integer level = 0, String c = " ") {
+    private static String tab(Integer level = 0, String c = " ") {
+        String output = ""
         for (int i = 0; i < level * 4; i++)
-            print(c)
+            output += c
+        output
     }
 
-    void print(Integer level = 0) {
-        printTab(level); println("places: " + placeList)
-        printTab(level); println("transitions: " + transitionList)
-        printTab(level); println("arcs: " + arcList)
-        printTab(level); println("parents: (" + subNets.size() + ")")
-        printTab(level); println("subnets: (" + subNets.size() + ")")
-        for (subNet in subNets) {
-            printTab(level + 1, "-")
-            print("--\n")
-            subNet.print(level + 1)
-        }
-        printTab(level); print("======\n")
-        printTab(level); println("inputs: " + inputs)
-        printTab(level); println("outputs: " + outputs)
+    String toString() {
+        return "Net@"+hashCode()
+    }
 
+    String toLog(Integer level = 0) {
+        String output = ""
+
+        output += tab(level) + "Net@"+hashCode()+ "\n"
+        if (function) {
+            output += tab(level) + "function: " + function.toString()
+            if (hasPlaceLikeFunction())
+                output += ", like a place"
+            else if (hasTransitionLikeFunction()) {
+                output += ", like a transition"
+            }
+            output += "\n"
+        }
+        output += tab(level) + "inputs: " + inputs + "\n"
+        output += tab(level) + "outputs: " + outputs + "\n"
+        output += tab(level) + "=====\n"
+        output += tab(level) + "places: " + placeList + "\n"
+        output += tab(level) + "transitions: " + transitionList + "\n"
+        output += tab(level) + "arcs: " + arcList + "\n"
+        output += tab(level) + "=====\n"
+        output += tab(level) + "parents: (" + parents.size() + "): " + parents + "\n"
+        output += tab(level) + "subnets: (" + subNets.size() + ")" + "\n"
+        for (subNet in subNets) {
+            output += tab(level) + "--------\n"
+            output += subNet.toLog(level + 1)
+        }
+        if (subNets.size() > 0) output += tab(level) + "--------\n"
+        output
+    }
+
+    Boolean hasPlaceLikeFunction() {
+        if (!function) return false
+        Place.isAssignableFrom(function.class)
+    }
+
+    Boolean hasTransitionLikeFunction() {
+        if (!function) return false
+        Transition.isAssignableFrom(function.class)
+    }
+
+    Boolean test() {
+
+    }
+
+
+    void print() {
+        println toLog()
     }
 
     // to remember the original name of the file

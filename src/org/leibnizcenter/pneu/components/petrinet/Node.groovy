@@ -41,6 +41,14 @@ class Node {
         return false
     }
 
+    Boolean hasPlaceLikeFunction() {
+        Place.isAssignableFrom(this.class)
+    }
+
+    Boolean hasTransitionLikeFunction() {
+        Transition.isAssignableFrom(this.class)
+    }
+
     // graphics
     Point position
     Area dimension

@@ -72,10 +72,16 @@ class Arc {
     }
 
     String toString() {
-        if (type == ArcType.NORMAL) source.toString() + " -> " + target.toString()
-        else if (type == ArcType.RESET) source.toString() + " -- " + target.toString()
-        else if (type == ArcType.INHIBITOR) source.toString() + " -o " + target.toString()
-        else if (type == ArcType.LINK) source.toString() + " -- " + target.toString() // TO CHANGE
+        String sourceLabel = source.toString()
+        String targetLabel = target.toString()
+
+        if (source.hasTransitionLikeFunction()) sourceLabel = "|${sourceLabel}|"
+        if (target.hasTransitionLikeFunction()) targetLabel = "|${targetLabel}|"
+
+        if (type == ArcType.NORMAL) sourceLabel + " -> " + targetLabel
+        else if (type == ArcType.RESET) sourceLabel + " -- " + targetLabel
+        else if (type == ArcType.INHIBITOR) sourceLabel + " -o " + targetLabel
+        else if (type == ArcType.LINK) sourceLabel + " -- " + targetLabel // TO CHANGE
     }
 
 }

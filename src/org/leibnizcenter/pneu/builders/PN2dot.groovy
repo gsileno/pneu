@@ -1,11 +1,13 @@
 package org.leibnizcenter.pneu.builders
 
+import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.components.petrinet.Arc
 import org.leibnizcenter.pneu.components.petrinet.ArcType
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
 
+@Log4j
 class PN2dot {
 
     static private String tab(Integer level = 1, String c = " ") {
@@ -29,7 +31,10 @@ class PN2dot {
 
         i = 0
         placeList.each { pl ->
-            if (!pl.id) pl.id = "_p"+i+((prefix == "")?"":"_"+prefix)
+            if (!pl.id) {
+                pl.id = "_p"+i+((prefix == "")?"":"_"+prefix)
+                log.trace("Assigning id ${pl.id} to ${pl}")
+            }
             if (!pl.isLink()) {
                 code += tab(level + 1) + pl.id + " [label=\"" + pl.toMinString() + "\"] ;\n"
             } else {
@@ -45,6 +50,7 @@ class PN2dot {
         i = 0
         transitionList.each { tr ->
             if (!tr.id) tr.id = "_t"+i+((prefix == "")?"":"_"+prefix)
+            log.trace("Assigning id ${tr.id} to ${tr}")
             if (!tr.isLink()) {
               code += tab(level+1)+tr.id+" [label=\""+tr.toString()+"\"] ;\n"
             } else {
@@ -58,7 +64,13 @@ class PN2dot {
         i = 0
         for (subNet in net.subNets) {
             code += "\n"+tab(level)+"subgraph cluster${prefix}_${i} {\n"
-            code += tab(level+1)+"color=lightgray ;\n"
+            code += tab(level+1)+"label=\""+subNet.function.toString()+"\" ;\n"
+            if (subNet.hasPlaceLikeFunction())
+                code += tab(level+1)+"color=darkblue ;\n"
+            else if (subNet.hasTransitionLikeFunction())
+                code += tab(level+1)+"color=darkred ;\n"
+            else
+                code += tab(level+1)+"color=lightgray ;\n"
             code += simpleInnerConversion(subNet, showId, level+1, prefix+i.toString())
             code += tab(level)+"}\n"
             i++
@@ -69,6 +81,11 @@ class PN2dot {
         if (arcList.size() > 0) code += "\n"
 
         arcList.each { arc ->
+            if (arc.source.id == null || arc.target.id == null) {
+                println arc
+                throw new RuntimeException()
+            }
+
             code += tab(level)+arc.source.id // printName(arc.source.id)
 
             code +=" -> "
