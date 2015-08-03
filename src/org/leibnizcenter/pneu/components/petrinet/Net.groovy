@@ -21,26 +21,6 @@ class Net {
     List<Node> inputs = []
     List<Node> outputs = []
 
-    // deep cloning done for nets
-    // by construction, you have only one parent
-    // things may change after simplification/unification
-
-    Net clone(Net parent = null) {
-        Net clone = new Net(transitionList: transitionList.collect(),
-                placeList: placeList.collect(),
-                arcList: arcList.collect(),
-                inputs: inputs.collect(),
-                outputs: inputs.collect(),
-                parents: [parent],
-                function: function)
-
-        for (net in subNets) {
-            clone.subNets << net.clone(clone)
-        }
-
-        clone
-    }
-
     void include(Net net, Integer xPos = 0, Integer yPos = 0) {
         if (xPos != 0 || yPos != 0) {
             for (p in net.placeList) p.position.traslate(xPos, yPos)
@@ -141,6 +121,7 @@ class Net {
         output += tab(level) + "=====\n"
         output += tab(level) + "places: " + placeList + "\n"
         output += tab(level) + "transitions: " + transitionList + "\n"
+
         output += tab(level) + "arcs: " + arcList + "\n"
         output += tab(level) + "=====\n"
         output += tab(level) + "parents: (" + parents.size() + "): " + parents + "\n"

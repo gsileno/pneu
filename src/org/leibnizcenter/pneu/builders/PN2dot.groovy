@@ -17,7 +17,7 @@ class PN2dot {
         output
     }
 
-    static String simpleInnerConversion(Net net, boolean showId = false, Integer level = 1, String prefix = "") {
+    static String simpleInnerConversion(Net net, boolean showId = false, Integer level = 1, String prefix = "", List<Net> alreadyConvertedNets = []) {
 
         List<Place> placeList = net.placeList
         List<Transition> transitionList = net.transitionList
@@ -25,55 +25,67 @@ class PN2dot {
 
         String code = ""
 
-        if (placeList.size() > 0) code += "\n"+headerPlaces(level)
+        if (placeList.size() > 0) code += "\n" + headerPlaces(level)
 
         Integer i
 
         i = 0
         placeList.each { pl ->
             if (!pl.id) {
-                pl.id = "_p"+i+((prefix == "")?"":"_"+prefix)
-                log.trace("Assigning id ${pl.id} to ${pl}")
+                pl.id = "_p" + i + ((prefix == "") ? "" : "_" + prefix)
+                log.trace("assigning id ${pl.id} to ${pl}")
+            } else {
+                log.trace("existing id of ${pl}: ${pl.id}")
             }
             if (!pl.isLink()) {
                 code += tab(level + 1) + pl.id + " [label=\"" + pl.toMinString() + "\"] ;\n"
             } else {
-                code += tab(level+1) + pl.id + " [label=\"\",height=.1,width=.1,style=filled,width=.1,color=black] ;\n"
+                code += tab(level + 1) + pl.id + " [label=\"\",height=.1,width=.1,style=filled,width=.1,color=black] ;\n"
             }
             i++
         }
 
-        if (placeList.size() > 0) code += tab(level)+"} \n"
+        if (placeList.size() > 0) code += tab(level) + "} \n"
 
-        if (transitionList.size() > 0) code += "\n"+headerTransitions(level)
+        if (transitionList.size() > 0) code += "\n" + headerTransitions(level)
 
         i = 0
         transitionList.each { tr ->
-            if (!tr.id) tr.id = "_t"+i+((prefix == "")?"":"_"+prefix)
-            log.trace("Assigning id ${tr.id} to ${tr}")
-            if (!tr.isLink()) {
-              code += tab(level+1)+tr.id+" [label=\""+tr.toString()+"\"] ;\n"
+            if (!tr.id) {
+                tr.id = "_t" + i + ((prefix == "") ? "" : "_" + prefix)
+                log.trace("assigning id ${tr.id} to ${tr}")
             } else {
-              code += tab(level+1)+tr.id+" [label=\"\",height=.1,width=.1,style=filled,width=.1,color=black] ;\n"
+                log.trace("existing id of ${tr}: ${tr.id}")
+            }
+
+            if (!tr.isLink()) {
+                code += tab(level + 1) + tr.id + " [label=\"" + tr.toString() + "\"] ;\n"
+            } else {
+                code += tab(level + 1) + tr.id + " [label=\"\",height=.1,width=.1,style=filled,width=.1,color=black] ;\n"
             }
             i++
         }
 
-        if (transitionList.size() > 0) code += tab(level)+"} \n"
+        if (transitionList.size() > 0) code += tab(level) + "} \n"
 
         i = 0
         for (subNet in net.subNets) {
-            code += "\n"+tab(level)+"subgraph cluster${prefix}_${i} {\n"
-            code += tab(level+1)+"label=\""+subNet.function.toString()+"\" ;\n"
-            if (subNet.hasPlaceLikeFunction())
-                code += tab(level+1)+"color=darkblue ;\n"
-            else if (subNet.hasTransitionLikeFunction())
-                code += tab(level+1)+"color=darkred ;\n"
-            else
-                code += tab(level+1)+"color=lightgray ;\n"
-            code += simpleInnerConversion(subNet, showId, level+1, prefix+i.toString())
-            code += tab(level)+"}\n"
-            i++
+
+            if (!alreadyConvertedNets.contains(subNet)) {
+                code += "\n" + tab(level) + "subgraph cluster${prefix}_${i} {\n"
+                code += tab(level + 1) + "label=\"" + subNet.function.toString() + "\" ;\n"
+                if (subNet.hasPlaceLikeFunction())
+                    code += tab(level + 1) + "color=lightblue ;\n"
+                else if (subNet.hasTransitionLikeFunction())
+                    code += tab(level + 1) + "color=darkred ;\n"
+                else
+                    code += tab(level + 1) + "color=lightgray ;\n"
+                code += simpleInnerConversion(subNet, showId, level + 1, prefix + i.toString(), alreadyConvertedNets)
+                code += tab(level) + "}\n"
+                i++
+
+                alreadyConvertedNets << subNet
+            }
         }
 
         // the arcs have to be generated later, as we have to create all the places and transitions
@@ -86,9 +98,9 @@ class PN2dot {
                 throw new RuntimeException()
             }
 
-            code += tab(level)+arc.source.id // printName(arc.source.id)
+            code += tab(level) + arc.source.id // printName(arc.source.id)
 
-            code +=" -> "
+            code += " -> "
             code += arc.target.id // printName(arc.target.id)
             code += " ["
             if (arc.type == ArcType.INHIBITOR)
@@ -100,7 +112,7 @@ class PN2dot {
 
             if (arc.weight > 1) {
                 if (arc.type != ArcType.NORMAL) code += " "
-                code += "label=\""+arc.weight+"\""
+                code += "label=\"" + arc.weight + "\""
             }
             code += "]"
             code += " ;\n"
@@ -126,11 +138,11 @@ class PN2dot {
     // preambles
 
     static String headerPlaces(Integer level = 0) {
-        return tab(level)+"subgraph place {\n" +tab(level+1)+"node [shape=circle,fixedsize=true,width=.5];\n"
+        return tab(level) + "subgraph place {\n" + tab(level + 1) + "node [shape=circle,fixedsize=true,width=.5];\n"
     }
 
     static String headerTransitions(Integer level = 0) {
-        return tab(level)+"subgraph transitions {\n" + tab(level+1)+"node [shape=rect,height=.5,width=.5];\n"
+        return tab(level) + "subgraph transitions {\n" + tab(level + 1) + "node [shape=rect,height=.5,width=.5];\n"
     }
 
 }
