@@ -94,7 +94,7 @@ class PN2dot {
 
         arcList.each { arc ->
             if (arc.source.id == null || arc.target.id == null) {
-                println arc
+                println "arc: "+arc
                 throw new RuntimeException()
             }
 
