@@ -41,6 +41,13 @@ class Node {
         return false
     }
 
+    // this is used for nets:
+    // nodes are used to represent the function of the net
+    // by default the net is a cluster for the visualization
+    Boolean isCluster() {
+        return true
+    }
+
     Boolean hasPlaceLikeFunction() {
         Place.isAssignableFrom(this.class)
     }

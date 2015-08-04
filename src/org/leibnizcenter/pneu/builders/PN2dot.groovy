@@ -72,14 +72,18 @@ class PN2dot {
         for (subNet in net.subNets) {
 
             if (!alreadyConvertedNets.contains(subNet)) {
-                code += "\n" + tab(level) + "subgraph cluster${prefix}_${i} {\n"
-                code += tab(level + 1) + "label=\"" + subNet.function.toString() + "\" ;\n"
-                if (subNet.hasPlaceLikeFunction())
-                    code += tab(level + 1) + "color=lightblue ;\n"
-                else if (subNet.hasTransitionLikeFunction())
-                    code += tab(level + 1) + "color=darkred ;\n"
-                else
-                    code += tab(level + 1) + "color=lightgray ;\n"
+                if (subNet.function.isCluster()) {
+                    code += "\n" + tab(level) + "subgraph cluster${prefix}_${i} {\n"
+                    code += tab(level + 1) + "label=\"" + subNet.function.toString() + "\" ;\n"
+                    if (subNet.hasPlaceLikeFunction())
+                        code += tab(level + 1) + "color=lightblue ;\n"
+                    else if (subNet.hasTransitionLikeFunction())
+                        code += tab(level + 1) + "color=darkred ;\n"
+                    else
+                        code += tab(level + 1) + "color=lightgray ;\n"
+                } else {
+                    code += "\n" + tab(level) + "subgraph ${prefix}_${i} {\n"
+                }
                 code += simpleInnerConversion(subNet, showId, level + 1, prefix + i.toString(), alreadyConvertedNets)
                 code += tab(level) + "}\n"
                 i++
