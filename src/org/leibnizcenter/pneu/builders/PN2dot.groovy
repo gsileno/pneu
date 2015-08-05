@@ -82,7 +82,7 @@ class PN2dot {
                     else
                         code += tab(level + 1) + "color=lightgray ;\n"
                 } else {
-                    code += "\n" + tab(level) + "subgraph ${prefix}_${i} {\n"
+                    code += "\n" + tab(level) + "subgraph {\n"  // for simple subgraph you don't have to put the prefix!
                 }
                 code += simpleInnerConversion(subNet, showId, level + 1, prefix + i.toString(), alreadyConvertedNets)
                 code += tab(level) + "}\n"
@@ -96,10 +96,20 @@ class PN2dot {
 
         if (arcList.size() > 0) code += "\n"
 
+        i = 0
         arcList.each { arc ->
-            if (arc.source.id == null || arc.target.id == null) {
-                println "arc: "+arc
-                throw new RuntimeException()
+            if (!arc.source.id) {
+                arc.source.id = "_ext" + i + ((prefix == "") ? "" : "_" + prefix)
+                log.trace("assigning id ${arc.source.id} to ${arc.source}")
+            } else {
+                log.trace("existing id of ${arc.source}: ${arc.source.id}")
+            }
+
+            if (!arc.target.id) {
+                arc.target.id = "_ext" + i + ((prefix == "") ? "" : "_" + prefix)
+                log.trace("assigning id ${arc.target.id} to ${arc.target}")
+            } else {
+                log.trace("existing id of ${arc.target}: ${arc.target.id}")
             }
 
             code += tab(level) + arc.source.id // printName(arc.source.id)
