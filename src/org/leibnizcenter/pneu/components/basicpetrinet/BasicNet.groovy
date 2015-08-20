@@ -1,8 +1,22 @@
 package org.leibnizcenter.pneu.components.basicpetrinet
 
 import org.leibnizcenter.pneu.components.petrinet.Net
+import org.leibnizcenter.pneu.components.petrinet.Place
+import org.leibnizcenter.pneu.components.petrinet.Transition
 
 class BasicNet extends Net {
+
+    BasicTransition createTransition(String label = null) {
+        BasicTransition tr = new BasicTransition(name: label)
+        transitionList << tr
+        tr
+    }
+
+    BasicPlace createPlace(String label = null) {
+        BasicPlace pl = new BasicPlace(name: label)
+        placeList << pl
+        pl
+    }
 
     // deep cloning done for nets
     // only the net structure is cloned, all the elements remains the same (e.g. places, transitions, etc.)

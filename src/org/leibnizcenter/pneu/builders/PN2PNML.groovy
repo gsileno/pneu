@@ -8,7 +8,7 @@ import org.leibnizcenter.pneu.components.petrinet.*
 
 class PN2PNML {
 
-    static Writable buildPNML(Net petriNet) {
+    static Object buildPNML(Net petriNet) {
 
         Integer currentPlaceId = 0
         Integer currentTransitionId = 0
@@ -72,7 +72,6 @@ class PN2PNML {
         }
 
         xml
-
     }
 }
 

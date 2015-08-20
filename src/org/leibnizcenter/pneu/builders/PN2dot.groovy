@@ -10,6 +10,7 @@ import org.leibnizcenter.pneu.components.petrinet.Transition
 @Log4j
 class PN2dot {
 
+    // helper for better visualization
     static private String tab(Integer level = 1, String c = " ") {
         String output = ""
         for (int i = 0; i < level * 2; i++)
@@ -17,7 +18,8 @@ class PN2dot {
         output
     }
 
-    static String simpleInnerConversion(Net net, boolean showId = false, Integer level = 1, String prefix = "", List<Net> alreadyConvertedNets = []) {
+
+    static String simpleInnerConversion(Net net, Integer level = 1, String prefix = "", List<Net> alreadyConvertedNets = []) {
 
         List<Place> placeList = net.placeList
         List<Transition> transitionList = net.transitionList
@@ -84,7 +86,7 @@ class PN2dot {
                 } else {
                     code += "\n" + tab(level) + "subgraph {\n"  // for simple subgraph you don't have to put the prefix!
                 }
-                code += simpleInnerConversion(subNet, showId, level + 1, prefix + i.toString(), alreadyConvertedNets)
+                code += simpleInnerConversion(subNet, level + 1, prefix + i.toString(), alreadyConvertedNets)
                 code += tab(level) + "}\n"
                 i++
 
@@ -136,13 +138,13 @@ class PN2dot {
 
     }
 
-    static String simpleConversion(Net net, boolean showId = false) {
+    static String simpleConversion(Net net) {
 
         String code = ""
 
         code += "digraph G {\n  rankdir=\"LR\";\n"
 
-        code += simpleInnerConversion(net, showId)
+        code += simpleInnerConversion(net)
 
         code += "}\n"
 

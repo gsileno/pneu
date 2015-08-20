@@ -70,6 +70,17 @@ class Arc {
         return buildArcs(t1, p1, t2, ArcType.LINK)
     }
 
+    static Boolean compare(Arc a1, Arc a2) {
+        if (a1 == a2) return true
+        if (a1.source.class != a2.source.class) return false
+        if (a1.type != a2.type) return false
+        if (a1.weight != a2.weight) return false
+        if (a1.target.class != a2.target.class) return false  // not useful
+        if (!a1.source.class.compare(a1.source, a2.source)) return false
+        if (!a2.source.class.compare(a1.target, a2.target)) return false
+        return true
+    }
+
     // for graphics
     List<Point> pointList = []
 
@@ -86,6 +97,5 @@ class Arc {
         else if (type == ArcType.LINK) sourceLabel + " -- " + targetLabel // TO CHANGE
         else throw new RuntimeException("Arc type not recognized.")
     }
-
 
 }

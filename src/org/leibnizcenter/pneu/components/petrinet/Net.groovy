@@ -126,7 +126,7 @@ abstract class Net {
 
         output += tab(level) + "arcs: " + arcList + "\n"
         output += tab(level) + "=====\n"
-        output += tab(level) + "parents: (" + parents.size() + "): " + parents + "\n"
+        output += tab(level) + "parents: (" + parents.size() + ") " + parents + "\n"
         output += tab(level) + "subnets: (" + subNets.size() + ")" + "\n"
         for (subNet in subNets) {
             output += tab(level) + "--------\n"
@@ -152,6 +152,128 @@ abstract class Net {
 
     // to deep clone the net
     abstract Net minimalClone(Map<Net, Net> sourceCloneMap)
+
+    // to check whether two nets share the same elements (places, transitions, arcs and subnets)
+    // parent nets are NOT considered
+    static Boolean compare(Net n1, Net n2) {
+
+        // if they are the same object return true
+        if (n1 == n2) return true
+
+        // if they have a different number of places, transitions or arcs they are not the same
+        if (n1.placeList.size() != n2.placeList.size()) { return false }
+        if (n1.transitionList.size() != n2.transitionList.size()) { return false }
+        if (n1.arcList.size() != n2.arcList.size()) { return false }
+        if (n1.subNets.size() != n2.subNets.size()) { return false }
+
+        // check all places
+        for (p1 in n1.placeList) {
+            Boolean found = false
+            for (p2 in n2.placeList) {
+                if (p1.class.compare(p1, p2)) {
+                    found = true
+                    break
+                }
+            }
+            if (!found) return false
+        }
+
+        // check all transitions
+        for (t1 in n1.transitionList) {
+            Boolean found = false
+            for (t2 in n2.transitionList) {
+                if (t1.class.compare(t1, t2)) {
+                    found = true
+                    break
+                }
+            }
+            if (!found) return false
+        }
+
+        // check all arcs
+        for (a1 in n1.arcList) {
+            Boolean found = false
+            for (a2 in n2.arcList) {
+                if (Arc.compare(a1, a2)) {
+                    found = true
+                    break
+                }
+            }
+            if (!found) return false
+        }
+
+        // check all subnets
+        for (sub1 in n1.subNets) {
+            Boolean found = false
+            for (sub2 in n2.subNets) {
+                if (compare(sub1, sub2)) {
+                    found = true
+                    break
+                }
+            }
+            if (!found) return false
+        }
+
+        return true
+    }
+
+    //////////////////////////////////////////////////////
+    // helpers for creating elements inside the net
+    //////////////////////////////////////////////////////
+
+    abstract Transition createTransition(String label)
+    abstract Place createPlace(String label)
+
+    Transition propagateTransition(Transition source) {
+        Transition target = source.clone()
+        transitionList << target
+        createBridge(source, target)
+        target
+    }
+
+    void createArc(Place p, Transition t) {
+        if (!placeList.contains(p) || !transitionList.contains(t)) {
+            throw new RuntimeException("Error: this net does not contain the place/transition to bridge")
+        }
+        arcList << Arc.buildArc(p, t)
+    }
+
+    void createArc(Transition t, Place p) {
+        if (!placeList.contains(p) || !transitionList.contains(t)) {
+            throw new RuntimeException("Error: this net does not contain the transition/place to bridge")
+        }
+        arcList << Arc.buildArc(t, p)
+    }
+
+    void createBridge(Place p1, Transition tBridge, Place p2) {
+        if (!placeList.contains(p1) || !placeList.contains(p2) || !transitionList.contains(tBridge)) {
+            throw new RuntimeException("Error: this net does not contain the place(s)/transition to bridge")
+        }
+        arcList += Arc.buildArcs(p1, tBridge, p2)
+    }
+
+    void createBridge(Place p1, Place p2) {
+        if (!placeList.contains(p1) || !placeList.contains(p2)) {
+            throw new RuntimeException("Error: this net does not contain the place(s) to bridge")
+        }
+        Transition tBridge = createTransition()
+        arcList += Arc.buildArcs(p1, tBridge, p2)
+    }
+
+    void createBridge(Transition t1, Place pBridge, Transition t2) {
+        if (!transitionList.contains(t1) || !transitionList.contains(t2)) {
+            throw new RuntimeException("Error: this net does not contain the transition(s)/place to bridge")
+        }
+        arcList += Arc.buildArcs(t1, pBridge, t2)
+    }
+
+    void createBridge(Transition t1, Transition t2) {
+        if (!transitionList.contains(t1) || !transitionList.contains(t2)) {
+            throw new RuntimeException("Error: this net does not contain the transition(s) to bridge")
+        }
+        Place pBridge = createPlace()
+        arcList += Arc.buildArcs(t1, pBridge, t2)
+    }
 
     // to remember the original name of the file
     String sourceName

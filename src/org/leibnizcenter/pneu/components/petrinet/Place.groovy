@@ -17,4 +17,8 @@ abstract class Place extends Node {
         else return id
     }
 
+    abstract Place clone()
+
+    abstract Boolean compare(Place p1, Place p2)
+
 }

@@ -8,21 +8,25 @@ abstract class Transition extends Node {
     // transition by default of normal type
     TransitionType type = TransitionType.NORMAL
 
-    boolean isEmitter() {
+    Boolean isEmitter() {
         return (type == TransitionType.EMITTER)
     }
 
-    boolean isCollector() {
+    Boolean isCollector() {
         return (type == TransitionType.COLLECTOR)
     }
 
     // Operational Semantics
-    abstract boolean isEnabled(boolean analysis)
+    abstract Boolean isEnabledForAnalysis()
+    abstract Boolean isEnabled()
     abstract void fire()
-    abstract void consumeInputTokens()
-    abstract void produceOutputTokens()
-
+    abstract List<Token> consumeInputTokens()
+    abstract void produceOutputTokens(List<Token> tokens)
 
     abstract String toString()
+
+    abstract Transition clone()
+
+    abstract Boolean compare(Transition t1, Transition t2)
 
 }

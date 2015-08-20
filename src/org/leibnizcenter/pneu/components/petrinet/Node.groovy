@@ -21,8 +21,6 @@
 
 package org.leibnizcenter.pneu.components.petrinet
 
-import groovy.transform.AutoClone
-import groovy.transform.EqualsAndHashCode
 import org.leibnizcenter.pneu.components.graphics.Area
 import org.leibnizcenter.pneu.components.graphics.Point
 
@@ -47,11 +45,18 @@ abstract class Node {
     Point position
     Area dimension
 
+    static Boolean compare(Node n1, Node n2) {
+        if (n1 == n2) return true
+        return true
+    }
+
     // for visualization purposes: for terminological connections
     Boolean isLink() { return false }
 
     // for visualization purposes: the function of a net is represented by a node.
     // if it is cluster, this means the net counts as a cluster
     Boolean isCluster() { return true }
+
+
 
 }
