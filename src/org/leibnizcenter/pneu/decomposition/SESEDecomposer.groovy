@@ -1,6 +1,7 @@
 package org.leibnizcenter.pneu.decomposition
 
 import org.leibnizcenter.pneu.components.petrinet.Net
+import org.leibnizcenter.pneu.components.petrinet.Place
 
 // from Munoz-Gama2014
 
@@ -24,7 +25,7 @@ class SESEDecomposer {
 
     Net convertMTGtoTTG(Net source) {
 
-        Net target = source.
+        Net target = source.minimalClone()
 
         if (target.inputs.size() == 0 || target.outputs.size() == 0 ) {
             throw new RuntimeException("The net should have at least one input and one output node.")
@@ -35,6 +36,7 @@ class SESEDecomposer {
         }
 
         if (target.inputs.size() > 1) {
+            Place pIn = target.createPlace("input")
 
         } else {
 
@@ -46,9 +48,9 @@ class SESEDecomposer {
 
         // this is the root
         Node V = netRPST[0].inputs[0]
-        List<Net> decomposition
+        List<Net> decomposition = []
 
-
+        decomposition
     }
 
 
