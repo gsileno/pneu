@@ -6,6 +6,7 @@ import org.leibnizcenter.pneu.components.graphics.Grid
 @Log4j
 class Net {
 
+    // the function node synthetize the function of the net (for subnets)
     Node function
 
     List<Transition> transitionList = []
@@ -14,6 +15,7 @@ class Net {
     List<Net> subNets = []
     List<Net> parents = []
 
+    // this serves for graphical purposes
     Grid grid
 
     // for operations, these nodes are events/transitions,
@@ -144,13 +146,41 @@ class Net {
         Transition.isAssignableFrom(function.class)
     }
 
-    Boolean test() {
-
+    void print() {
+        println toLog()
     }
 
 
-    void print() {
-        println toLog()
+    // deep cloning done for nets
+    // only the net structure is cloned, all the elements remains the same (e.g. places, transitions, etc.)
+    Net minimalClone(Map<Net, Net> sourceCloneMap = [:]) {
+
+        if (!sourceCloneMap[this]) {
+            sourceCloneMap[this] = new Net(transitionList: transitionList.collect(),
+                    placeList: placeList.collect(),
+                    arcList: arcList.collect(),
+                    inputs: inputs.collect(),
+                    outputs: outputs.collect(),
+                    function: function)
+        }
+
+        Net clone = sourceCloneMap[this]
+
+        for (subNet in subNets) {
+            if (!sourceCloneMap[subNet]) {
+                sourceCloneMap[subNet] = subNet.minimalClone(sourceCloneMap)
+            }
+            clone.subNets << sourceCloneMap[subNet]
+        }
+
+        for (parent in parents) {
+            if (!sourceCloneMap[parent]) {
+                sourceCloneMap[parent] = parent.minimalClone(sourceCloneMap)
+            }
+            clone.parents << sourceCloneMap[parent]
+        }
+
+        clone
     }
 
     // to remember the original name of the file

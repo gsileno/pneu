@@ -14,7 +14,7 @@ import org.leibnizcenter.pneu.components.graphics.Point
 
 class PNML2PN {
 
-    static List<Net> parseFiles(String path = "../stories") {
+    static List<Net> parseFiles(String path) {
         List<Net> netList = []
         File dir = new File(path);
         List<String> files = []
