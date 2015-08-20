@@ -17,7 +17,6 @@ class Analysis {
     // this function save the current place, together with the
     // provenance state and the transitions which allowed its creation
     State saveConsequent(State antecedent = null, List<Transition> firedTransitions = []) {
-        List<Transition> enabledTransitions = []
 
         State state = stateBase.save(execution)
         // log.info("Recorded state: "+state)

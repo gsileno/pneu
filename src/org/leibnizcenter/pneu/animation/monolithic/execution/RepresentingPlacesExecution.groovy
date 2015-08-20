@@ -1,5 +1,6 @@
 package org.leibnizcenter.pneu.animation.monolithic.execution
 
+import org.leibnizcenter.pneu.components.basicpetrinet.BasicToken
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
@@ -53,7 +54,7 @@ class RepresentingPlacesExecution extends BruteForceExecution {
 
             // put empty tokens
             for (int i=0; i<elem.weight; i++) {
-                elem.place.marking.push(new Token())
+                elem.place.marking.push(new BasicToken())
             }
 
             if (transitions2RepresentingPlaces.values().contains(elem.place)) {

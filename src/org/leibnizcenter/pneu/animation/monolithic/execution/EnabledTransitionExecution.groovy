@@ -1,5 +1,6 @@
 package org.leibnizcenter.pneu.animation.monolithic.execution
 
+import org.leibnizcenter.pneu.components.basicpetrinet.BasicToken
 import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.components.petrinet.TransitionType
@@ -27,7 +28,7 @@ class EnabledTransitionExecution extends Execution {
         for (elem in t.outputs) {
             // put empty tokens
             for (int i=0; i<elem.weight; i++) {
-                elem.place.marking.push(new Token())
+                elem.place.marking.push(new BasicToken())
             }
             for (descendant in elem.place.outputs) {
                 if (descendant.isEnabled()) {

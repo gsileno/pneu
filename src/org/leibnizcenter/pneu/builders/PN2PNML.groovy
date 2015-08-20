@@ -4,6 +4,8 @@ import groovy.xml.StreamingMarkupBuilder
 import org.leibnizcenter.pneu.components.graphics.Point
 import org.leibnizcenter.pneu.components.petrinet.*
 
+// TODO: hierarchical Petri Nets
+
 class PN2PNML {
 
     static Writable buildPNML(Net petriNet) {
@@ -71,7 +73,13 @@ class PN2PNML {
 
         xml
 
-/* <?xml version="1.0" encoding="utf-8"?>
+    }
+}
+
+
+/* Example of PNML file
+
+<?xml version="1.0" encoding="utf-8"?>
 <pnml>
   <net type="http://www.yasper.org/specs/epnml-1.1" id="do1">
     <toolspecific tool="Yasper" version="1.2.4020.34351">
@@ -123,5 +131,3 @@ class PN2PNML {
   </net>
 </pnml> */
 
-    }
-}

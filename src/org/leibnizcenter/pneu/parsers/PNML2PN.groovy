@@ -1,6 +1,10 @@
 package org.leibnizcenter.pneu.parsers
 
 import groovy.io.FileType
+import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
+import org.leibnizcenter.pneu.components.basicpetrinet.BasicPlace
+import org.leibnizcenter.pneu.components.basicpetrinet.BasicToken
+import org.leibnizcenter.pneu.components.basicpetrinet.BasicTransition
 import org.leibnizcenter.pneu.components.petrinet.Arc
 import org.leibnizcenter.pneu.components.petrinet.ArcType
 import org.leibnizcenter.pneu.components.petrinet.Net
@@ -45,7 +49,7 @@ class PNML2PN {
     static Net loadPNML(records) {
         def firstNet = records.net[0]
 
-        Net net = new Net()
+        Net net = new BasicNet()
 
         def tRecs = firstNet.transition
         for (rec in tRecs) {
@@ -54,7 +58,7 @@ class PNML2PN {
             Integer x = rec.graphics.position.'@x'[0].toInteger()
             Integer y = rec.graphics.position.'@y'[0].toInteger()
 
-            Transition t = new Transition(
+            Transition t = new BasicTransition(
                     id: rec.'@id',
                     name: rec.name.text(), // (rec.name.text().length() > 0)?rec.name.text():rec.'@id',
                     position: new Point(x: x, y: y),
@@ -79,7 +83,7 @@ class PNML2PN {
 
             List<Token> marking = []
             for (int j=0; j<n; j++) {
-                marking << new Token()
+                marking << new BasicToken()
             }
 
             // for graphics
@@ -87,7 +91,7 @@ class PNML2PN {
             Integer x = rec.graphics.position.'@x'[0].toInteger()
             Integer y = rec.graphics.position.'@y'[0].toInteger()
 
-            Place p = new Place(
+            Place p = new BasicPlace(
                     id: rec.'@id',
                     name: rec.name.text(), // (rec.name.text().length() > 0)?rec.name.text():rec.'@id',
                     position: new Point(x: x, y: y),

@@ -1,17 +1,16 @@
 package org.leibnizcenter.pneu.components.petrinet
 
-import groovy.transform.AutoClone
 import org.leibnizcenter.pneu.components.graphics.Point
 
 class Arc {
+
     String id
+
     Node source
     Node target
+
     Integer weight = 1
     ArcType type = ArcType.NORMAL
-
-    // for graphics
-    List<Point> pointList = []
 
     static Arc buildArc(Place p1, Transition t1, type = ArcType.NORMAL) {
         Arc a = new Arc(source: p1, target: t1, type: type)
@@ -71,17 +70,22 @@ class Arc {
         return buildArcs(t1, p1, t2, ArcType.LINK)
     }
 
+    // for graphics
+    List<Point> pointList = []
+
     String toString() {
         String sourceLabel = source.toString()
         String targetLabel = target.toString()
 
-        if (source.hasTransitionLikeFunction()) sourceLabel = "|${sourceLabel}|"
-        if (target.hasTransitionLikeFunction()) targetLabel = "|${targetLabel}|"
+        if (source.isTransitionLike()) sourceLabel = "|${sourceLabel}|"
+        if (target.isTransitionLike()) targetLabel = "|${targetLabel}|"
 
         if (type == ArcType.NORMAL) sourceLabel + " -> " + targetLabel
         else if (type == ArcType.RESET) sourceLabel + " -- " + targetLabel
         else if (type == ArcType.INHIBITOR) sourceLabel + " -o " + targetLabel
         else if (type == ArcType.LINK) sourceLabel + " -- " + targetLabel // TO CHANGE
+        else throw new RuntimeException("Arc type not recognized.")
     }
+
 
 }

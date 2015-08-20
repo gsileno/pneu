@@ -1,11 +1,8 @@
-package org.leibnizcenter.pneu.components.petrinet
+package org.leibnizcenter.pneu.components.basicpetrinet
 
-abstract class Place extends Node {
-    List<Token> marking = []
+import org.leibnizcenter.pneu.components.petrinet.Place
 
-    void flush() {
-        marking.clear()
-    }
+class BasicPlace extends Place {
 
     String toString() {
         if (name != "") return name+" ("+marking.size()+")"

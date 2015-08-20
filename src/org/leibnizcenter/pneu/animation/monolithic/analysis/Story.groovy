@@ -20,7 +20,6 @@ class Story {
             steps << state
     }
 
-
     void addEvent(List<Transition> transitions) {
         events << transitions
     }

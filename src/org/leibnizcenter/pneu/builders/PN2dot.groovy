@@ -75,9 +75,9 @@ class PN2dot {
                 if (subNet.function.isCluster()) {
                     code += "\n" + tab(level) + "subgraph cluster${prefix}_${i} {\n"
                     code += tab(level + 1) + "label=\"" + subNet.function.toString() + "\" ;\n"
-                    if (subNet.hasPlaceLikeFunction())
+                    if (subNet.isPlaceLike())
                         code += tab(level + 1) + "color=lightblue ;\n"
-                    else if (subNet.hasTransitionLikeFunction())
+                    else if (subNet.isTransitionLike())
                         code += tab(level + 1) + "color=darkred ;\n"
                     else
                         code += tab(level + 1) + "color=lightgray ;\n"

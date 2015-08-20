@@ -26,33 +26,20 @@ import groovy.transform.EqualsAndHashCode
 import org.leibnizcenter.pneu.components.graphics.Area
 import org.leibnizcenter.pneu.components.graphics.Point
 
-class Node {
+abstract class Node {
+
     String id
     String name
 
-    // after decoration
-    // input/output places / arc weight
+    // input/output arcs
     List<Arc> inputs = []
     List<Arc> outputs = []
 
-    // this will be used in logic programming petri nets
-    // for terminological connections
-    Boolean isLink() {
-        return false
-    }
-
-    // this is used for nets:
-    // nodes are used to represent the function of the net
-    // by default the net is a cluster for the visualization
-    Boolean isCluster() {
-        return true
-    }
-
-    Boolean hasPlaceLikeFunction() {
+    Boolean isPlaceLike() {
         Place.isAssignableFrom(this.class)
     }
 
-    Boolean hasTransitionLikeFunction() {
+    Boolean isTransitionLike() {
         Transition.isAssignableFrom(this.class)
     }
 
@@ -60,8 +47,11 @@ class Node {
     Point position
     Area dimension
 
-    String label(Boolean showId = false) {
-        if (name || !showId) return name
-        else return id
-    }
+    // for visualization purposes: for terminological connections
+    Boolean isLink() { return false }
+
+    // for visualization purposes: the function of a net is represented by a node.
+    // if it is cluster, this means the net counts as a cluster
+    Boolean isCluster() { return true }
+
 }
