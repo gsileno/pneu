@@ -187,6 +187,8 @@ abstract class Net {
     // helpers for creating elements inside the net
     //////////////////////////////////////////////////////
 
+    abstract Transition createEmitterTransition()
+    abstract Transition createCollectorTransition()
     abstract Transition createTransition()
     abstract Transition createTransition(String label)
     abstract Place createPlace()

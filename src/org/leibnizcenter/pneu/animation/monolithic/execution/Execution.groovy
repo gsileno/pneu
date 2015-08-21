@@ -4,6 +4,7 @@ import org.leibnizcenter.pneu.animation.monolithic.analysis.State
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
+import org.leibnizcenter.pneu.components.petrinet.Node
 
 /* Implementation notes
 
@@ -46,26 +47,22 @@ The execution time controller. Discrete Event Dynamic Systems: Theory and Applic
 
 abstract class Execution {
 
-    // we don't need to load all the net,
-    // but just the transitions and places
-    List<Transition> transitions
-    List<Place> places
+    Net net
 
     // to keep trace of tokens emitted/collected
     Integer nTokenEmitted = 0
     Integer nTokenCollected = 0
 
     // perform one execution step
-    abstract Boolean step()            // normal execution: with emission
-    abstract Boolean stepForAnalysis() // analysis: with no emission
+    abstract Boolean step()
 
     // when you already know what to execute (resuming after analysis)
     abstract void fire(Transition t)
 
+    // TODO: check the state after the run! we should put again at state 0
     // load the net
-    void load(Net net) {
-        transitions = net.transitionList
-        places = net.placeList
+    void load(Net source) {
+        net = source
     }
 
     // load a state
@@ -73,6 +70,18 @@ abstract class Execution {
         for (p in places) {
             p.marking = state.placeTokensMap[p.id].collect()
         }
+    }
+
+    List<Transition> getTransitions() {
+        return net.transitionList
+    }
+
+    List<Place> getPlaces() {
+        return net.placeList
+    }
+
+    List<Node> getInputs() {
+        return net.inputs
     }
 
 }

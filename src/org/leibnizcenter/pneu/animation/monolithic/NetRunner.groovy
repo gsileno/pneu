@@ -55,7 +55,7 @@ class NetRunner {
     }
 
     void status() {
-        println "Stories: \n" + analysis.storySet
+        println "Stories: \n" + analysis.storyBase
         println "States: \n" + analysis.stateBase
     }
 

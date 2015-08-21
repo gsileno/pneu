@@ -71,11 +71,11 @@ abstract class PN2abstract {
         if (arcList.size() > 0) {
             Integer i = 0
             for (arc in arcList) {
-                if (!arc.source.id || force) {
+                if (!arc.source.id) {
                     arc.source.id = "ext" + i + ((prefix == "") ? "" : "_" + prefix)
                 }
 
-                if (!arc.target.id || force) {
+                if (!arc.target.id) {
                     arc.target.id = "ext" + i + ((prefix == "") ? "" : "_" + prefix)
                 }
             }

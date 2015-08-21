@@ -15,17 +15,22 @@ class BasicTransition extends Transition {
         return true
     }
 
-    BasicTransition clone() {
+    static Transition build(String label) {
+        return new BasicTransition(name: label)
+    }
+
+    Transition clone() {
         return new BasicTransition(name: name)
     }
 
     String toString() {
-        if (name != "") return name
-        else return id
+        if (name != null) name
+        else id
     }
 
     String label() {
-        name
+        if (name != null) name
+        else ""
     }
 
     //////////////////////////////
@@ -40,6 +45,7 @@ class BasicTransition extends Transition {
     }
 
     Boolean isEnabled() {
+        if (inputs.size() == 0) return false
         for (elem in inputs) {
             // inhibitor
             if (elem.type == ArcType.INHIBITOR) {
@@ -58,19 +64,16 @@ class BasicTransition extends Transition {
     }
 
     void fire() {
-        List<BasicToken> tokens
-        tokens = consumeInputTokens()
+        consumeInputTokens()
         produceOutputTokens()
     }
 
-    List<BasicToken> consumeInputTokens() {
-        List<BasicToken> tokens = []
+    void consumeInputTokens() {
         for (elem in inputs) {
             for (int i = 0; i < elem.weight; i++) {
-                tokens << ((BasicPlace) elem.source).marking.pop()
+                ((BasicPlace) elem.source).marking.pop()
             }
         }
-        tokens
     }
 
     void produceOutputTokens() { // TOCHECK, I shoulnd't have the abstract here

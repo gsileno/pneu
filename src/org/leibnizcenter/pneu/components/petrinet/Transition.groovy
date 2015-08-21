@@ -16,17 +16,15 @@ abstract class Transition extends Node {
         return (type == TransitionType.COLLECTOR)
     }
 
-    // Operational Semantics
+    // useful functions
+    abstract Transition clone()
+    abstract Boolean compare(Transition t1, Transition t2)
+
+    // operational semantics
     abstract Boolean isEnabledIncludingEmission()
     abstract Boolean isEnabled()
     abstract void fire()
-    abstract List<Token> consumeInputTokens()
+    abstract void consumeInputTokens()
     abstract void produceOutputTokens()
-
-    abstract String toString()
-
-    abstract Transition clone()
-
-    abstract Boolean compare(Transition t1, Transition t2)
 
 }

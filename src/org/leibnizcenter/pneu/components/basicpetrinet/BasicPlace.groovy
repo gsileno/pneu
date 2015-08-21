@@ -9,13 +9,17 @@ class BasicPlace extends Place {
     List<BasicToken> marking = []
 
     String toString() {
-        if (name != "") return name+" ("+marking.size()+")"
+        if (name != null) return name+" ("+marking.size()+")"
         else return id+" ("+marking.size()+")"
     }
 
     String label() {
         if (name != null) name
         else ""
+    }
+
+    static Place build(String label) {
+        return new BasicPlace(name: label)
     }
 
     static Boolean compare(Place p1, Place p2) {

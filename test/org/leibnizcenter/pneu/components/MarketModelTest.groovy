@@ -1,7 +1,7 @@
 package org.leibnizcenter.pneu.components
 
+import org.leibnizcenter.pneu.animation.monolithic.NetRunner
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
-import org.leibnizcenter.pneu.components.basicpetrinet.BasicPlace
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicTransition
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Transition
@@ -11,15 +11,14 @@ class MarketModelTest extends GroovyTestCase {
     static Net basicSaleInstance1() {
         Net sale = new BasicNet()
 
-        sale.function = sale.createTransition("sells")
+        sale.function = BasicTransition.build("sells")
 
-        Transition tIn = sale.createTransition()
-        Transition tOut = sale.createTransition()
-
+        Transition tIn = sale.createEmitterTransition()
         Transition t1 = sale.createTransition("offers")
         Transition t2 = sale.createTransition("accepts")
         Transition t3 = sale.createTransition("pays")
         Transition t4 = sale.createTransition("delivers")
+        Transition tOut = sale.createCollectorTransition()
 
         sale.createBridge(tIn, t1)
         sale.createBridge(t1, t2)
@@ -34,15 +33,14 @@ class MarketModelTest extends GroovyTestCase {
     static Net basicSaleInstance2() {
         Net sale = new BasicNet()
 
-        sale.function = sale.createTransition("sells")
+        sale.function = BasicTransition.build("sells")
 
-        Transition tIn = sale.createTransition()
-        Transition tOut = sale.createTransition()
-
+        Transition tIn = sale.createEmitterTransition()
         Transition t1 = sale.createTransition("offers")
         Transition t2 = sale.createTransition("accepts")
         Transition t3 = sale.createTransition("pays")
         Transition t4 = sale.createTransition("delivers")
+        Transition tOut = sale.createCollectorTransition()
 
         sale.createBridge(tIn, t1)
         sale.createBridge(t1, t2)
@@ -57,15 +55,14 @@ class MarketModelTest extends GroovyTestCase {
     static Net basicSaleModel() {
         Net sale = new BasicNet()
 
-        sale.function = sale.createTransition("sells")
+        sale.function = BasicTransition.build("sells")
 
-        Transition tIn = sale.createTransition()
-        Transition tOut = sale.createTransition()
-
+        Transition tIn = sale.createEmitterTransition()
         Transition t1 = sale.createTransition("offers")
         Transition t2 = sale.createTransition("accepts")
         Transition t3 = sale.createTransition("pays")
         Transition t4 = sale.createTransition("delivers")
+        Transition tOut = sale.createCollectorTransition()
 
         sale.createBridge(tIn, t1)
         sale.createBridge(t1, t2)
@@ -81,17 +78,16 @@ class MarketModelTest extends GroovyTestCase {
     static Net basicSaleWith2Parties() {
         Net sale = new BasicNet()
 
-        sale.function = sale.createTransition("sells")
+        sale.function = BasicTransition.build("sells")
 
-        Transition tIn = sale.createTransition()
-        Transition tOut = sale.createTransition()
-
+        Transition tIn = sale.createEmitterTransition()
         Transition t1s = sale.createTransition("offers")
         Transition t1b = sale.propagateTransition(t1s)
         Transition t2b = sale.createTransition("accepts")
         Transition t2s = sale.propagateTransition(t2b)
         Transition t3 = sale.createTransition("pays")
         Transition t4 = sale.createTransition("delivers")
+        Transition tOut = sale.createCollectorTransition()
 
         sale.createBridge(tIn, t1s)
         sale.createBridge(t1b, t2b)
@@ -108,11 +104,9 @@ class MarketModelTest extends GroovyTestCase {
     static Net basicSaleWithWorld() {
         Net sale = new BasicNet()
 
-        sale.function = sale.createTransition("sells")
+        sale.function = BasicTransition.build("sells")
 
-        Transition tIn = sale.createTransition()
-        Transition tOut = sale.createTransition()
-
+        Transition tIn = sale.createEmitterTransition()
         Transition t1s = sale.createTransition("offers")
         Transition t1 = sale.propagateTransition(t1s)
         Transition t1b = sale.propagateTransition(t1)
@@ -123,6 +117,7 @@ class MarketModelTest extends GroovyTestCase {
         Transition t3 = sale.propagateTransition(t3b)
         Transition t4s = sale.createTransition("delivers")
         Transition t4 = sale.propagateTransition(t4s)
+        Transition tOut = sale.createCollectorTransition()
 
         sale.createBridge(tIn, t1s)
         sale.createBridge(t1b, t2b)
@@ -139,11 +134,9 @@ class MarketModelTest extends GroovyTestCase {
     static Net basicSaleWithWorldAndTimeline() {
         Net sale = new BasicNet()
 
-        sale.function = sale.createTransition("sells")
+        sale.function = BasicTransition.build("sells")
 
-        Transition tIn = sale.createTransition()
-        Transition tOut = sale.createTransition()
-
+        Transition tIn = sale.createEmitterTransition()
         Transition t1s = sale.createTransition("offers")
         Transition t1 = sale.propagateTransition(t1s)
         Transition t1b = sale.propagateTransition(t1)
@@ -154,6 +147,7 @@ class MarketModelTest extends GroovyTestCase {
         Transition t3 = sale.propagateTransition(t3b)
         Transition t4s = sale.createTransition("delivers")
         Transition t4 = sale.propagateTransition(t4s)
+        Transition tOut = sale.createCollectorTransition()
 
         sale.createBridge(tIn, t1s)
         sale.createBridge(t1b, t2b)
@@ -173,10 +167,41 @@ class MarketModelTest extends GroovyTestCase {
         sale
     }
 
+    NetRunner runner = new NetRunner()
 
     void testBasicSaleInstance1() {
-        Net net = basicSaleInstance1()
+        runner.load(basicSaleInstance1())
+        assert (runner.analyse() == 6)
+        assert (runner.analysis.storyBase.getSize() == 1)
+        runner.analysis.exportToLog("BasicSaleInstance1")
     }
 
+    void testBasicSaleModel() {
+        runner.load(basicSaleModel())
+        runner.analyse()
+        assert (runner.analysis.storyBase.getSize() == 2)
+        runner.analysis.exportToLog("BasicSaleModel")
+    }
+
+    void testbasicSaleWith2Parties() {
+        runner.load(basicSaleWith2Parties())
+        runner.analyse()
+        assert (runner.analysis.storyBase.getSize() == 3)
+        runner.analysis.exportToLog("BasicSaleWith2Parties")
+    }
+
+    void testBasicSaleWithWorld() {
+        runner.load(basicSaleWithWorld())
+        runner.analyse()
+        assert (runner.analysis.storyBase.getSize() == 9)
+        runner.analysis.exportToLog("BasicSaleWithWorld")
+    }
+
+    void testBasicSaleWithWorldAndTimeline() {
+        runner.load(basicSaleWithWorldAndTimeline())
+        runner.analyse()
+        assert (runner.analysis.storyBase.getSize() == 8)
+        runner.analysis.exportToLog("BasicSaleWithWorldAndTimeline")
+    }
 
 }

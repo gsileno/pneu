@@ -32,7 +32,7 @@ class AnalysisTest extends GroovyTestCase {
 
         runner.status()
         assert(runner.analysis.stateBase.base.size() == 5)
-        assert(runner.analysis.storySet.set.size() == 3)
+        assert(runner.analysis.storyBase.base.size() == 3)
     }
 
 }

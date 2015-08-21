@@ -3,9 +3,26 @@ package org.leibnizcenter.pneu.components.basicpetrinet
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
+import org.leibnizcenter.pneu.components.petrinet.TransitionType
 import org.leibnizcenter.pneu.parsers.PNML2PN
 
 class BasicNet extends Net {
+
+    // an emitter transition is a natural input
+    Transition createEmitterTransition() {
+        BasicTransition tr = new BasicTransition(type: TransitionType.EMITTER)
+        transitionList << tr
+        inputs << tr
+        tr
+    }
+
+    // a collector transition is a natural output
+    Transition createCollectorTransition() {
+        BasicTransition tr = new BasicTransition(type: TransitionType.COLLECTOR)
+        transitionList << tr
+        outputs << tr
+        tr
+    }
 
     Transition createTransition(String label = null) {
         BasicTransition tr = new BasicTransition(name: label)
