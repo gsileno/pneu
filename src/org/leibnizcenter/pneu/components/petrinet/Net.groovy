@@ -2,6 +2,7 @@ package org.leibnizcenter.pneu.components.petrinet
 
 import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.builders.PN2dot
+import org.leibnizcenter.pneu.builders.PN2json
 import org.leibnizcenter.pneu.builders.PN2log
 import org.leibnizcenter.pneu.components.graphics.Grid
 
@@ -269,11 +270,11 @@ abstract class Net {
         }
     }
 
+    // dot output for graphviz
     void exportToDot(String filename, String path = "out/dot/") {
         exportToDot(this, filename, path)
     }
 
-    // textual log output
     static void exportToDot(Net net, String filename, String path = "out/dot/") {
         File folder
         String outputFile
@@ -288,6 +289,25 @@ abstract class Net {
         }
     }
 
+    // json output
+    void exportToJson(String filename, String path = "out/json/") {
+        exportToJson(this, filename, path)
+    }
+
+    static void exportToJson(Net net, String filename, String path = "out/json/") {
+        File folder
+        String outputFile
+
+        folder = new File(path)
+        if (!folder.exists()) folder.mkdirs()
+
+        outputFile = path + filename + ".json"
+
+        new File(outputFile).withWriter {
+            out -> out.println(PN2json.convert(net))
+        }
+    }
+    
     //////////////////////////////////////////////////////
     // helpers for graphical visualization information
     //////////////////////////////////////////////////////

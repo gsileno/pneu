@@ -10,7 +10,7 @@ import org.leibnizcenter.pneu.components.petrinet.Transition
 @Log4j
 class PN2json extends PN2abstract {
 
-    static String simpleInnerConversion(Net net, Integer level = 1, List<Net> alreadyConvertedNets = []) {
+    static String innerConversion(Net net, Integer level = 1, List<Net> alreadyConvertedNets = []) {
 
         List<Place> placeList = net.placeList
         List<Transition> transitionList = net.transitionList
@@ -74,7 +74,7 @@ class PN2json extends PN2abstract {
             Integer i = 0
             for (subNet in net.subNets) {
                 if (!alreadyConvertedNets.contains(subNet)) {
-                    code += simpleInnerConversion(subNet, level + 2, alreadyConvertedNets) + ""
+                    code += innerConversion(subNet, level + 2, alreadyConvertedNets) + ""
                     code = code[0..-3] + ",\n"
                     i++
                     alreadyConvertedNets << subNet
@@ -109,9 +109,9 @@ class PN2json extends PN2abstract {
         code
     }
 
-    static String simpleConversion(Net net) {
+    static String convert(Net net) {
         resetIds(net)
-        simpleInnerConversion(net)
+        innerConversion(net)
     }
 
 }
