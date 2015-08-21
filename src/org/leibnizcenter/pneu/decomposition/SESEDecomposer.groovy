@@ -1,6 +1,7 @@
 package org.leibnizcenter.pneu.decomposition
 
 import org.leibnizcenter.pneu.components.petrinet.Net
+import org.leibnizcenter.pneu.components.petrinet.Node
 import org.leibnizcenter.pneu.components.petrinet.Place
 
 // from Munoz-Gama2014
@@ -36,13 +37,35 @@ class SESEDecomposer {
         }
 
         if (target.inputs.size() > 1) {
-            Place pIn = target.createPlace("input")
-
-        } else {
-
+            if (target.inputs[0].isPlaceLike()) {
+                Place pIn = target.createPlace()
+                for (pInput in target.inputs) {
+                    target.createBridge(pIn, (Place) pInput)
+                }
+                target.inputs = [pIn]
+            } else {
+                throw new RuntimeException("Not yet implemented")
+            }
         }
 
+        if (target.outputs.size() > 1) {
+            if (target.outputs[0].isPlaceLike()) {
+                Place pOut = target.createPlace()
+                for (pOutput in target.outputs) {
+                    target.createBridge(pOut, (Place) pOutput)
+                }
+                target.outputs = [pOut]
+            } else {
+                throw new RuntimeException("Not yet implemented")
+            }
+        }
+
+        target
     }
+
+    // a fragment is a subnet with just two boundary nodes; one entry and one exit
+    // The Refined Process Structure Tree (RPST) is the set of all canonical or objective fragments, i.e.
+    // of all fragments which are disjoint or nested, i.e. which do not overlap
 
     List<Net> kDecomposition(List<Net> netRPST, Integer k) {
 
