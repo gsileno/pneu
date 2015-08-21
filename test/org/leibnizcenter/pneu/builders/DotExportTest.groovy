@@ -1,6 +1,5 @@
 package org.leibnizcenter.pneu.builders
 
-import org.leibnizcenter.pneu.builders.PN2dot
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.parsers.PNML2PN
 
@@ -14,7 +13,7 @@ class DotExportTest extends GroovyTestCase {
         String outputFile = "examples/out/dot/"+filename.replaceFirst(~/\.[^\.]+$/, '') + ".dot"
 
         new File(outputFile).withWriter {
-            out -> out.println(PN2dot.simpleConversion(net))
+            out -> out.println(PN2dot.convert(net))
         }
         println("lpetri net exported to " + outputFile)
     }

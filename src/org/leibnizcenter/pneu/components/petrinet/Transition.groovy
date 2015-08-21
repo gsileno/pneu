@@ -17,11 +17,11 @@ abstract class Transition extends Node {
     }
 
     // Operational Semantics
-    abstract Boolean isEnabledForAnalysis()
+    abstract Boolean isEnabledIncludingEmission()
     abstract Boolean isEnabled()
     abstract void fire()
     abstract List<Token> consumeInputTokens()
-    abstract void produceOutputTokens(List<Token> tokens)
+    abstract void produceOutputTokens()
 
     abstract String toString()
 

@@ -85,8 +85,8 @@ class Analysis {
             return false
         }
 
-        List<Transition> firedTransitions = execution.fire(nextTransition)
-        currentState = saveConsequent(currentState, firedTransitions)
+        execution.fire(nextTransition)
+        currentState = saveConsequent(currentState, [nextTransition])
 
         return true
     }

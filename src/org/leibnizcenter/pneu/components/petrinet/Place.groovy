@@ -7,16 +7,6 @@ abstract class Place extends Node {
         marking.clear()
     }
 
-    String toString() {
-        if (name != "") return name+" ("+marking.size()+")"
-        else return id+" ("+marking.size()+")"
-    }
-
-    String toMinString() {
-        if (name != "") return name
-        else return id
-    }
-
     abstract Place clone()
 
     abstract Boolean compare(Place p1, Place p2)

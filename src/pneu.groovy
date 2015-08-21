@@ -53,7 +53,7 @@ if (options.arguments().size() == 0) {
         boolean error = false
         print("reading from file " + file + "... ");
         try {
-            net = PNML2PN.parseFile(file);
+            net = PNML2PN.parseFile(file)
         } catch (FileNotFoundException) {
             error = true
             println("sorry, file " + file + " not found or not valid.");

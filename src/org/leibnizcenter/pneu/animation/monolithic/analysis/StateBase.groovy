@@ -52,7 +52,7 @@ class StateBase {
         List<Transition> enabledTransitions = []
         if (!state.transitionStateMap) {
             for (t in execution.transitions) {
-                if (t.isEnabled(true)) { // we are in the analysis cycle, no emission
+                if (t.isEnabled()) {  // we are in the analysis cycle, no emission
                     enabledTransitions << t
                 }
             }

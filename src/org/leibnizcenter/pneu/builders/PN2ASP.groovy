@@ -4,7 +4,7 @@ import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.components.petrinet.*
 
 @Log4j
-class PN2ASP {
+class PN2ASP extends PN2abstract {
 
     static String buildAxioms() {
         return """% simple Event Calculus axioms adjusted for petri nets
@@ -203,6 +203,8 @@ fluent(filled).
     }
 
     static String buildSimulationModel(Net net) {
+
+        resetIds(net)
 
         String output = ""
 

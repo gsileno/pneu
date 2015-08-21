@@ -7,13 +7,36 @@ import org.leibnizcenter.pneu.components.petrinet.Transition
 
 class BasicTransition extends Transition {
 
-    // Operational Semantics
+    String name
 
-    Boolean isEnabledForAnalysis() {
-        if ( inputs.size ( ) == 0 ) {
-            return (isEmitter())
-        }
-        isEnabled()
+    static Boolean compare(Transition t1, Transition t2) {
+        if (t1 == t2) return true
+        if (((BasicTransition) t1).name != ((BasicTransition) t2).name) return false
+        return true
+    }
+
+    BasicTransition clone() {
+        return new BasicTransition(name: name)
+    }
+
+    String toString() {
+        if (name != "") return name
+        else return id
+    }
+
+    String label() {
+        name
+    }
+
+    //////////////////////////////
+    // Operational Semantics
+    //////////////////////////////
+
+    Boolean isEnabledIncludingEmission() {
+        if (inputs.size() == 0 && isEmitter())
+            true
+        else
+            isEnabled()
     }
 
     Boolean isEnabled() {
@@ -37,20 +60,20 @@ class BasicTransition extends Transition {
     void fire() {
         List<BasicToken> tokens
         tokens = consumeInputTokens()
-        produceOutputTokens(tokens)
+        produceOutputTokens()
     }
 
     List<BasicToken> consumeInputTokens() {
         List<BasicToken> tokens = []
         for (elem in inputs) {
-            for (int i=0; i<elem.weight; i++) {
+            for (int i = 0; i < elem.weight; i++) {
                 tokens << ((BasicPlace) elem.source).marking.pop()
             }
         }
         tokens
     }
 
-    void produceOutputTokens(List<Token> tokens) { // TOCHECK, I shoulnd't have the abstract here
+    void produceOutputTokens() { // TOCHECK, I shoulnd't have the abstract here
         for (elem in outputs) {
             if (elem.type == ArcType.NORMAL) {
                 for (int i = 0; i < elem.weight; i++) {
@@ -62,21 +85,6 @@ class BasicTransition extends Transition {
                 throw new RuntimeException("Not yet implemented.")
             }
         }
-    }
-
-    static Boolean compare(Transition t1, Transition t2) {
-        if (t1 == t2) return true
-        if (t1.name != t2.name) return false
-        return true
-    }
-
-    BasicTransition clone() {
-        return new BasicTransition(name: name)
-    }
-
-    String toString() {
-        if (name != "") return name
-        else return id
     }
 
 }

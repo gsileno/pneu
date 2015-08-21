@@ -3,16 +3,17 @@ package org.leibnizcenter.pneu.components.basicpetrinet
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
+import org.leibnizcenter.pneu.parsers.PNML2PN
 
 class BasicNet extends Net {
 
-    BasicTransition createTransition(String label = null) {
+    Transition createTransition(String label = null) {
         BasicTransition tr = new BasicTransition(name: label)
         transitionList << tr
         tr
     }
 
-    BasicPlace createPlace(String label = null) {
+    Place createPlace(String label = null) {
         BasicPlace pl = new BasicPlace(name: label)
         placeList << pl
         pl
@@ -48,6 +49,24 @@ class BasicNet extends Net {
         }
 
         clone
+    }
+
+    //////////////////////////////////////////////////////
+    // helpers for importing the net
+    //////////////////////////////////////////////////////
+
+    static Net importFromPNML(String filename) {
+
+        Net net
+
+        print("reading from file " + filename + "... ");
+        try {
+            net = PNML2PN.parseFile(filename)
+        } catch (FileNotFoundException) {
+            throw new RuntimeException("sorry, file " + filename + " not found or not valid.")
+        }
+
+        net
     }
 
 }

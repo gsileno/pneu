@@ -1,13 +1,12 @@
 package org.leibnizcenter.pneu.components.petrinet
 
 import groovy.util.logging.Log4j
+import org.leibnizcenter.pneu.builders.PN2dot
+import org.leibnizcenter.pneu.builders.PN2log
 import org.leibnizcenter.pneu.components.graphics.Grid
 
 @Log4j
 abstract class Net {
-
-    // the function node synthetize the function of the net (for subnets)
-    Node function
 
     List<Transition> transitionList = []
     List<Place> placeList = []
@@ -15,14 +14,88 @@ abstract class Net {
     List<Net> subNets = []
     List<Net> parents = []
 
-    // this serves for graphical purposes
-    Grid grid
+    // this node synthetizes the function of the net (useful for subnets)
+    Node function
 
     // for operations, these nodes are events/transitions,
     // for expressions, these are situations/places
     List<Node> inputs = []
     List<Node> outputs = []
 
+    //////////////////////////////////////////////////////
+    // helpers to get some properties from the net
+    //////////////////////////////////////////////////////
+
+    // a net may be assigned a function, as a place
+    Boolean isPlaceLike() {
+        if (!function) return false
+        Place.isAssignableFrom(function.class)
+    }
+
+    // a net may be assigned a function, as a transition
+    Boolean isTransitionLike() {
+        if (!function) return false
+        Transition.isAssignableFrom(function.class)
+    }
+
+    // returns all places (included of nested subnets)
+    List<Place> getAllPlaces() {
+        List<Place> allPlaces = []
+        allPlaces += placeList
+        for (subnet in subNets) {
+            allPlaces += subnet.getAllPlaces()
+        }
+        allPlaces
+    }
+
+    // returns all transitions (included of nested subnets)
+    List<Transition> getAllTransitions() {
+        List<Transition> allTransitions = []
+        allTransitions += transitionList
+        for (subnet in subNets) {
+            allTransitions += subnet.getAllTransitions()
+        }
+        allTransitions
+    }
+
+    // returns all arcs (included of nested subnets)
+    List<Arc> getAllArcs() {
+        List<Arc> allArcs = []
+        allArcs += arcList
+        for (subnet in subNets) {
+            allArcs += subnet.getAllArcs()
+        }
+        allArcs
+    }
+
+    // returns all subnets (included of nested subnets)
+    // TODO: I think it is wrong for subnets belonging to multiple nets
+    List<Net> getAllNets() {
+        List<Net> allNets = []
+        allNets += this
+        for (subnet in subNets) {
+            allNets += subnet.getAllNets()
+        }
+        allNets
+    }
+
+    //////////////////////////////////////////////////////
+    // helpers for textual visualization
+    //////////////////////////////////////////////////////
+
+    String toString() {
+        return "Net@"+hashCode()
+    }
+
+    void print() {
+        println PN2log.convert(this)
+    }
+
+    //////////////////////////////////////////////////////
+    // helpers for inclusion, cloning and comparison
+    //////////////////////////////////////////////////////
+
+    // include net at the given positions
     void include(Net net, Integer xPos = 0, Integer yPos = 0) {
         if (xPos != 0 || yPos != 0) {
             for (p in net.placeList) p.position.traslate(xPos, yPos)
@@ -41,113 +114,6 @@ abstract class Net {
             log.warn("Child net already included here")
         }
 
-    }
-
-    List<Place> getAllPlaces() {
-        List<Place> allPlaces = []
-        allPlaces += placeList
-        for (subnet in subNets) {
-            allPlaces += subnet.getAllPlaces()
-        }
-        allPlaces
-    }
-
-    List<Transition> getAllTransitions() {
-        List<Transition> allTransitions = []
-        allTransitions += transitionList
-        for (subnet in subNets) {
-            allTransitions += subnet.getAllTransitions()
-        }
-        allTransitions
-    }
-
-    List<Arc> getAllArcs() {
-        List<Arc> allArcs = []
-        allArcs += arcList
-        for (subnet in subNets) {
-            allArcs += subnet.getAllArcs()
-        }
-        allArcs
-    }
-
-    List<Net> getAllNets() {
-        List<Net> allNets = []
-        allNets += this
-        for (subnet in subNets) {
-            allNets += subnet.getAllNets()
-        }
-        allNets
-    }
-
-    void setupGrid(Integer inputDotGranularity = 1, Integer outputDotGranularity = 33) {
-        if (!grid) grid = new Grid()
-        grid.setInputDotGranularity(inputDotGranularity)
-        grid.setOutputDotGranularity(outputDotGranularity)
-
-        for (p in placeList) {
-            if (p.position)
-                grid.testMinMax(p.position.x, p.position.y)
-        }
-        for (t in transitionList) {
-            if (t.position)
-                grid.testMinMax(t.position.x, t.position.y)
-        }
-    }
-
-    private static String tab(Integer level = 0, String c = " ") {
-        String output = ""
-        for (int i = 0; i < level * 4; i++)
-            output += c
-        output
-    }
-
-    String toString() {
-        return "Net@"+hashCode()
-    }
-
-    String toLog(Integer level = 0) {
-        String output = ""
-
-        output += tab(level) + "Net@"+hashCode()+ "\n"
-        if (function) {
-            output += tab(level) + "function: " + function.toString()
-            if (isPlaceLike())
-                output += ", like a place"
-            else if (isTransitionLike()) {
-                output += ", like a transition"
-            }
-            output += "\n"
-        }
-        output += tab(level) + "inputs: " + inputs + "\n"
-        output += tab(level) + "outputs: " + outputs + "\n"
-        output += tab(level) + "=====\n"
-        output += tab(level) + "places: " + placeList + "\n"
-        output += tab(level) + "transitions: " + transitionList + "\n"
-
-        output += tab(level) + "arcs: " + arcList + "\n"
-        output += tab(level) + "=====\n"
-        output += tab(level) + "parents: (" + parents.size() + ") " + parents + "\n"
-        output += tab(level) + "subnets: (" + subNets.size() + ")" + "\n"
-        for (subNet in subNets) {
-            output += tab(level) + "--------\n"
-            output += subNet.toLog(level + 1)
-        }
-        if (subNets.size() > 0) output += tab(level) + "--------\n"
-        output
-    }
-
-    Boolean isPlaceLike() {
-        if (!function) return false
-        Place.isAssignableFrom(function.class)
-    }
-
-    Boolean isTransitionLike() {
-        if (!function) return false
-        Transition.isAssignableFrom(function.class)
-    }
-
-    void print() {
-        println toLog()
     }
 
     // to deep clone the net
@@ -221,7 +187,9 @@ abstract class Net {
     // helpers for creating elements inside the net
     //////////////////////////////////////////////////////
 
+    abstract Transition createTransition()
     abstract Transition createTransition(String label)
+    abstract Place createPlace()
     abstract Place createPlace(String label)
 
     Transition propagateTransition(Transition source) {
@@ -275,7 +243,76 @@ abstract class Net {
         arcList += Arc.buildArcs(t1, pBridge, t2)
     }
 
-    // to remember the original name of the file
+    //////////////////////////////////////////////////////
+    // helpers for exporting the net
+    //////////////////////////////////////////////////////
+
+    // textual log output
+    void exportToLog(String filename, String path = "out/log/") {
+        exportToLog(this, filename, path)
+    }
+
+    static void exportToLog(Net net, String filename, String path = "out/log/") {
+
+        File folder
+        String outputFile
+
+        folder = new File(path)
+        if (!folder.exists()) folder.mkdirs()
+
+        outputFile = path + filename + ".log"
+
+        new File(outputFile).withWriter {
+            out -> out.println(PN2log.convert(net))
+        }
+    }
+
+    void exportToDot(String filename, String path = "out/dot/") {
+        exportToDot(this, filename, path)
+    }
+
+    // textual log output
+    static void exportToDot(Net net, String filename, String path = "out/dot/") {
+        File folder
+        String outputFile
+
+        folder = new File(path)
+        if (!folder.exists()) folder.mkdirs()
+
+        outputFile = path + filename + ".dot"
+
+        new File(outputFile).withWriter {
+            out -> out.println(PN2dot.convert(net))
+        }
+    }
+
+    //////////////////////////////////////////////////////
+    // helpers for graphical visualization information
+    //////////////////////////////////////////////////////
+
+    // this serves for graphical purposes
+    Grid grid
+
+    // to remember the original name of the file, when importing from PNML
     String sourceName
     String sourceFile
+
+    // setup the grid for visualization purposes
+    // for each place and transition check the min and max position
+    void setupGrid(Integer inputDotGranularity = 1, Integer outputDotGranularity = 33) {
+        if (!grid) grid = new Grid()
+        grid.setInputDotGranularity(inputDotGranularity)
+        grid.setOutputDotGranularity(outputDotGranularity)
+
+        for (p in placeList) {
+            if (p.position)
+                grid.testMinMax(p.position.x, p.position.y)
+        }
+        for (t in transitionList) {
+            if (t.position)
+                grid.testMinMax(t.position.x, t.position.y)
+        }
+    }
+
+
 }

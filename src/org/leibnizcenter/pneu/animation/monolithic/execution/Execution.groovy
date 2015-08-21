@@ -44,15 +44,23 @@ The execution time controller. Discrete Event Dynamic Systems: Theory and Applic
 
 */
 
-enum ExecutionMode { BruteForce, EnabledTransition, StaticRepresentingPlaces, DynamicRepresentingPlaces }
+abstract class Execution {
 
-class Execution {
-
+    // we don't need to load all the net,
+    // but just the transitions and places
     List<Transition> transitions
     List<Place> places
 
+    // to keep trace of tokens emitted/collected
     Integer nTokenEmitted = 0
     Integer nTokenCollected = 0
+
+    // perform one execution step
+    abstract Boolean step()            // normal execution: with emission
+    abstract Boolean stepForAnalysis() // analysis: with no emission
+
+    // when you already know what to execute (resuming after analysis)
+    abstract void fire(Transition t)
 
     // load the net
     void load(Net net) {
@@ -60,24 +68,11 @@ class Execution {
         places = net.placeList
     }
 
-    // just for class management
-    List<Transition> transitionStep() {
-        List<Transition> firedTransitions = []
-        return firedTransitions
-    }
-
-    Boolean step() {
-        return false
-    }
-
+    // load a state
     void loadState(State state) {
         for (p in places) {
-            p.marking = state.placeTokensMap[p.id].clone()
+            p.marking = state.placeTokensMap[p.id].collect()
         }
-    }
-
-    List<Transition> fire(Transition t) {
-        return false
     }
 
 }

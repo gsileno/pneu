@@ -8,18 +8,9 @@ import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
 
 @Log4j
-class PN2dot {
+class PN2dot extends PN2abstract {
 
-    // helper for better visualization
-    static private String tab(Integer level = 1, String c = " ") {
-        String output = ""
-        for (int i = 0; i < level * 2; i++)
-            output += c
-        output
-    }
-
-
-    static String simpleInnerConversion(Net net, Integer level = 1, String prefix = "", List<Net> alreadyConvertedNets = []) {
+    static String innerConversion(Net net, Integer level = 1, List<Net> alreadyConvertedNets = []) {
 
         List<Place> placeList = net.placeList
         List<Transition> transitionList = net.transitionList
@@ -33,14 +24,8 @@ class PN2dot {
 
         i = 0
         placeList.each { pl ->
-            if (!pl.id) {
-                pl.id = "_p" + i + ((prefix == "") ? "" : "_" + prefix)
-                log.trace("assigning id ${pl.id} to ${pl}")
-            } else {
-                log.trace("existing id of ${pl}: ${pl.id}")
-            }
             if (!pl.isLink()) {
-                code += tab(level + 1) + pl.id + " [label=\"" + pl.toMinString() + "\"] ;\n"
+                code += tab(level + 1) + pl.id + " [label=\"" + pl.label() + "\"] ;\n"
             } else {
                 code += tab(level + 1) + pl.id + " [label=\"\",height=.1,width=.1,style=filled,width=.1,color=black] ;\n"
             }
@@ -53,13 +38,6 @@ class PN2dot {
 
         i = 0
         transitionList.each { tr ->
-            if (!tr.id) {
-                tr.id = "_t" + i + ((prefix == "") ? "" : "_" + prefix)
-                log.trace("assigning id ${tr.id} to ${tr}")
-            } else {
-                log.trace("existing id of ${tr}: ${tr.id}")
-            }
-
             if (!tr.isLink()) {
                 code += tab(level + 1) + tr.id + " [label=\"" + tr.toString() + "\"] ;\n"
             } else {
@@ -75,7 +53,7 @@ class PN2dot {
 
             if (!alreadyConvertedNets.contains(subNet)) {
                 if (subNet.function.isCluster()) {
-                    code += "\n" + tab(level) + "subgraph cluster${prefix}_${i} {\n"
+                    code += "\n" + tab(level) + "subgraph cluster ${subNet.function.id} {\n"
                     code += tab(level + 1) + "label=\"" + subNet.function.toString() + "\" ;\n"
                     if (subNet.isPlaceLike())
                         code += tab(level + 1) + "color=lightblue ;\n"
@@ -86,7 +64,7 @@ class PN2dot {
                 } else {
                     code += "\n" + tab(level) + "subgraph {\n"  // for simple subgraph you don't have to put the prefix!
                 }
-                code += simpleInnerConversion(subNet, level + 1, prefix + i.toString(), alreadyConvertedNets)
+                code += innerConversion(subNet, level + 1, alreadyConvertedNets)
                 code += tab(level) + "}\n"
                 i++
 
@@ -100,20 +78,6 @@ class PN2dot {
 
         i = 0
         arcList.each { arc ->
-            if (!arc.source.id) {
-                arc.source.id = "_ext" + i + ((prefix == "") ? "" : "_" + prefix)
-                log.trace("assigning id ${arc.source.id} to ${arc.source}")
-            } else {
-                log.trace("existing id of ${arc.source}: ${arc.source.id}")
-            }
-
-            if (!arc.target.id) {
-                arc.target.id = "_ext" + i + ((prefix == "") ? "" : "_" + prefix)
-                log.trace("assigning id ${arc.target.id} to ${arc.target}")
-            } else {
-                log.trace("existing id of ${arc.target}: ${arc.target.id}")
-            }
-
             code += tab(level) + arc.source.id // printName(arc.source.id)
 
             code += " -> "
@@ -138,14 +102,13 @@ class PN2dot {
 
     }
 
-    static String simpleConversion(Net net) {
+    static String convert(Net net) {
+        resetIds(net)
 
         String code = ""
 
         code += "digraph G {\n  rankdir=\"LR\";\n"
-
-        code += simpleInnerConversion(net)
-
+        code += innerConversion(net)
         code += "}\n"
 
         code

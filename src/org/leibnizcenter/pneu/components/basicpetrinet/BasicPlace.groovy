@@ -4,6 +4,8 @@ import org.leibnizcenter.pneu.components.petrinet.Place
 
 class BasicPlace extends Place {
 
+    String name
+
     List<BasicToken> marking = []
 
     String toString() {
@@ -11,14 +13,14 @@ class BasicPlace extends Place {
         else return id+" ("+marking.size()+")"
     }
 
-    String toMinString() {
-        if (name != "") return name
-        else return id
+    String label() {
+        if (name != null) name
+        else ""
     }
 
     static Boolean compare(Place p1, Place p2) {
         if (p1 == p2) return true
-        if (p1.name != p2.name) return false
+        if (((BasicPlace) p1).name != ((BasicPlace) p2).name) return false
         return true
     }
 

@@ -3,20 +3,19 @@ TODO
 [monolithic analysis] complete it and refactor everything
 [monolithic] refactor execution as interface
 [graphics] consider biflows connections
-[graphics all] transform from static to normal class
-[graphics PN2Dot] repair makefile to create export directories
-[graphics PN2LaTeX] avoid to write labels on top of the arrows
-[graphics PN2Dot] implement an absolute conversion
-[graphics PN2SVG] todo
-
+[builders PN2LaTeX] avoid to write labels on top of the arrows
+[builders PN2dot] implement an absolute conversion
 
 ERRORS
-[graphics PN2LaTeX] convertrelative2 does not work perfectly, with actionscheme.pnml it lose one place and attach it to the transition
-[actorbased animation] does not work
+[monolithic animation] enabled-transition executions do not work
 [monolithic animation] place-based executions do not work
 [monolithic animation] after changing the semantics to one transition per step I have to reformulate many things
-[monolithic animation] enabled-transition executions do not work
+[actorbased animation] does not work
+[builders PN2LaTeX] does not consider hierarchical nets
+[builders PN2ASP] does not consider hierarchical nets
+[builders PN2PNML] does not consider hierarchical nets
+[builders PN2LaTeX] convertrelative2 does not work perfectly, with actionscheme.pnml it lose one place and attach it to the transition
 
 INFO
-[graphics PN2LaTeX] convertrelative1 is not the best strategy, should be discarded
+[builders PN2LaTeX] convertrelative1 is not the best strategy, should be discarded
 

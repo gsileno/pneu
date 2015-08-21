@@ -78,7 +78,7 @@ class PN2LaTeX {
     // First strategy:
     // first, do all the places
     // then put the position of transition in function of the places
-    static convertRelative1(Net net, boolean showId = false) {
+    static convertRelative1(Net net) {
 
         Compass compass = new Compass()
 
@@ -117,7 +117,7 @@ class PN2LaTeX {
                 }
             }
 
-            code += helperOptions(pl.label(showId), directions, proxiestId)
+            code += helperOptions(pl.label(), directions, proxiestId)
 
             code += "{};\n"
 
@@ -181,7 +181,7 @@ class PN2LaTeX {
     //     write the transition if we know the places to which it is attached
     //     (give the directions in function of the know nodes)
    //
-    static convertRelatiave2(Net net, boolean showId = false) {
+    static convertRelative2(Net net) {
 
         Compass compass = new Compass()
         List<Node> walkedNodes = []
@@ -223,7 +223,7 @@ class PN2LaTeX {
                 log.info("direction: "+plDirections)
                 log.info("distance: "+plDmin)
 
-                code += helperOptions(pl.label(showId), plDirections, plProxiestId)
+                code += helperOptions(pl.label(), plDirections, plProxiestId)
 
                 code += "{};\n\n"
 
@@ -285,7 +285,7 @@ class PN2LaTeX {
                                 log.info("direction: "+trDirections)
                                 log.info("distance: "+trDmin)
 
-                                code += helperOptions(tr.label(showId), trDirections, trProxiestId)
+                                code += helperOptions(tr.label(), trDirections, trProxiestId)
 
                                 code += "{}\n"
 
@@ -325,7 +325,7 @@ class PN2LaTeX {
                            Float zoomXRatio = 0.65, Float zoomYRatio = 0.65, // grid zoom
                            Float minPlaceSize = 5, // min size for nodes (in mm)
                            Float minTransitionSize = 5, // min size for nodes (in mm)
-                           boolean showId = false, Float inputDotGranularity = 33) {
+                           Float inputDotGranularity = 33) {
 
         Grid grid = new Grid(zoomXRatio: zoomXRatio, zoomYRatio: zoomYRatio, inputDotGranularity: inputDotGranularity)
         grid.setTransformation(grid.flipVertical)
@@ -350,7 +350,7 @@ class PN2LaTeX {
             code += "]\t"
             code += "("+pl.id+")\t"
 
-            code += helperLabel(pl.label(showId))
+            code += helperLabel(pl.label())
 
             code += " at ("+grid.printScaled(pl.position)+")\t"
             code += "{};\n"
@@ -377,7 +377,7 @@ class PN2LaTeX {
             code += "[transition]\t"
             code += "("+tr.id+")\t"
             code += " at ("+grid.printScaled(tr.position)+")\t"
-            code += helperLabel(tr.label(showId))
+            code += helperLabel(tr.label())
             code += "{}\n"
 
             String postcode = ""

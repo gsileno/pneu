@@ -7,7 +7,7 @@ import org.leibnizcenter.pneu.components.petrinet.Net
 
 class ComparatorTest extends GroovyTestCase {
 
-    void testCompare1() {
+    void testCompareEq1() {
         Net net = new BasicNet()
 
         BasicPlace pIn = net.createPlace("in")
@@ -21,7 +21,7 @@ class ComparatorTest extends GroovyTestCase {
         assert Net.compare(net, clone)
     }
 
-    void testCompare2() {
+    void testCompareEq2() {
         Net n1 = new BasicNet()
 
         BasicPlace pIn = n1.createPlace("in")

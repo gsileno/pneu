@@ -27,7 +27,6 @@ import org.leibnizcenter.pneu.components.graphics.Point
 abstract class Node {
 
     String id
-    String name
 
     // input/output arcs
     List<Arc> inputs = []
@@ -40,6 +39,8 @@ abstract class Node {
     Boolean isTransitionLike() {
         Transition.isAssignableFrom(this.class)
     }
+
+    abstract label()
 
     // graphics
     Point position
