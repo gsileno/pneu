@@ -28,7 +28,11 @@ class BasicPlace extends Place {
         return true
     }
 
-    BasicPlace clone() {
+    void createToken() {
+        marking << new BasicToken()
+    }
+
+    BasicPlace minimalClone() {
         return new BasicPlace(
                 marking: marking.collect()
         )

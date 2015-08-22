@@ -1,6 +1,7 @@
 package org.leibnizcenter.pneu.components.petrinet
 
 import groovy.util.logging.Log4j
+import org.leibnizcenter.pneu.builders.PN2abstract
 import org.leibnizcenter.pneu.builders.PN2dot
 import org.leibnizcenter.pneu.builders.PN2json
 import org.leibnizcenter.pneu.builders.PN2log
@@ -244,6 +245,11 @@ abstract class Net {
         }
         Place pBridge = createPlace()
         arcList += Arc.buildArcs(t1, pBridge, t2)
+    }
+
+
+    void resetIds() {
+        PN2abstract.resetIds(this)
     }
 
     //////////////////////////////////////////////////////

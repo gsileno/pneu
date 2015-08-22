@@ -1,4 +1,4 @@
-package org.leibnizcenter.pneu.components
+package org.leibnizcenter.pneu
 
 import org.leibnizcenter.pneu.animation.monolithic.NetRunner
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
