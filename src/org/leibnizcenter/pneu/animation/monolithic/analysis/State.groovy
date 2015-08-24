@@ -8,7 +8,9 @@ class State {
 
     String label
 
+    // associate to each place id a certain marking
     Map<String, List<Token>> placeIdTokensMap
+    // associate to each transition, the state in which it brings
     Map<Transition, State> transitionStateMap
 
     State() {}

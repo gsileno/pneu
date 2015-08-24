@@ -53,6 +53,8 @@ class StateBase {
             newState.setEnabledTransitions(enabledTransitions)
         }
 
+        log.trace("enabled transitions: "+enabledTransitions)
+
         base.add(newState)
 
         return newState

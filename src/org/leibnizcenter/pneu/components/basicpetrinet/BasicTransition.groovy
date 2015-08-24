@@ -45,7 +45,10 @@ class BasicTransition extends Transition {
     }
 
     Boolean isEnabled() {
+
+        // cut out not emitters
         if (inputs.size() == 0) return false
+
         for (elem in inputs) {
             // inhibitor
             if (elem.type == ArcType.INHIBITOR) {
