@@ -1,6 +1,7 @@
 package org.leibnizcenter.pneu.components.basicpetrinet
 
 import org.leibnizcenter.pneu.components.petrinet.Place
+import org.leibnizcenter.pneu.components.petrinet.Token
 
 class BasicPlace extends Place {
 
@@ -28,8 +29,10 @@ class BasicPlace extends Place {
         return true
     }
 
-    void createToken() {
-        marking << new BasicToken()
+    Token createToken() {
+        Token token = new BasicToken()
+        marking << token
+        token
     }
 
     BasicPlace minimalClone() {

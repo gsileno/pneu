@@ -12,6 +12,6 @@ abstract class Place extends Node {
     // useful functions
     abstract Place minimalClone()
     abstract Boolean compare(Place p1, Place p2)
-    abstract void createToken()
+    abstract Token createToken()
 
 }

@@ -49,11 +49,11 @@ class BasicTransition extends Transition {
         for (elem in inputs) {
             // inhibitor
             if (elem.type == ArcType.INHIBITOR) {
-                if (((BasicPlace) elem.source).marking.size() >= elem.weight) {
+                if (((Place) elem.source).marking.size() >= elem.weight) {
                     return false
                 }
             } else if (elem.type == ArcType.NORMAL) {
-                if (((BasicPlace) elem.source).marking.size() < elem.weight) {
+                if (((Place) elem.source).marking.size() < elem.weight) {
                     return false
                 }
             } else {
