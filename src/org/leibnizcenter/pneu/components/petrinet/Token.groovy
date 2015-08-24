@@ -4,4 +4,6 @@ import groovy.transform.Immutable
 
 abstract class Token {
 
+    abstract Boolean compare(Token t)
+
 }

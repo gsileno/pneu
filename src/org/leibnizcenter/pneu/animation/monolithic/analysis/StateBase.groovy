@@ -14,38 +14,24 @@ class StateBase {
 
         List<Place> places = execution.places
 
+        // create a new state with the places and add to the database
+        State newState = new State(places)
         log.trace("attempt to record a new state: "+places)
 
         // for each state in the database
         for (state in base) {
             log.trace("check with: "+state)
-
-            Boolean differentState = false
-
-            // check if all the places are the same of the input state
-            for (place in places) {
-                List<Token> marking = state.placeTokensMap[place.id]
-
-                log.trace("target place: "+place+" / "+"recorded marking: "+marking)
-                if (place.marking.size() != marking.size() || place.marking != marking) {
-                    differentState = true
-                    log.trace("it is different, check another one")
-                    break
-                }
-            }
-
             // if the marking are the same return it
-            if (!differentState) {
+            if (State.compare(newState, state)) {
                 log.trace("it is the same ==> I don't add it")
                 return state
             }
         }
 
         // create a new state with the places and add to the database
-        State state = new State(places)
-        state.label = "st" + base.size()
+        newState.label = "st" + base.size()
 
-        log.trace("I don't have it ==> I add it: "+state)
+        log.trace("I don't have it ==> I add it: "+newState)
 
         // if new state, add all enabled transitions
         List<Transition> enabledTransitions = []
@@ -58,18 +44,18 @@ class StateBase {
             }
         }
 
-        if (!state.transitionStateMap) {
+        if (!newState.transitionStateMap) {
             for (t in execution.transitions) {
                 if (t.isEnabled()) {  // we are in the analysis cycle, no continuous emission
                     enabledTransitions << t
                 }
             }
-            state.setEnabledTransitions(enabledTransitions)
+            newState.setEnabledTransitions(enabledTransitions)
         }
 
-        base.add(state)
+        base.add(newState)
 
-        return state
+        return newState
     }
 
     String toString() {

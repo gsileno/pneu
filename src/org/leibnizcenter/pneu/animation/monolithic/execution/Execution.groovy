@@ -68,7 +68,7 @@ abstract class Execution {
     // load a state
     void loadState(State state) {
         for (p in places) {
-            p.marking = state.placeTokensMap[p.id].collect()
+            p.marking = state.placeIdTokensMap[p.id].collect()
         }
     }
 
