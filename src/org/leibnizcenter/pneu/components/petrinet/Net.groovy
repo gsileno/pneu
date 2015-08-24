@@ -224,14 +224,6 @@ abstract class Net {
         arcList += Arc.buildArcs(p1, tBridge, p2)
     }
 
-    void createBridge(Place p1, Place p2) {
-        if (!placeList.contains(p1) || !placeList.contains(p2)) {
-            throw new RuntimeException("Error: this net does not contain the place(s) to bridge")
-        }
-        Transition tBridge = createTransition()
-        arcList += Arc.buildArcs(p1, tBridge, p2)
-    }
-
     void createBridge(Transition t1, Place pBridge, Transition t2) {
         if (!transitionList.contains(t1) || !transitionList.contains(t2)) {
             throw new RuntimeException("Error: this net does not contain the transition(s)/place to bridge")
@@ -239,14 +231,10 @@ abstract class Net {
         arcList += Arc.buildArcs(t1, pBridge, t2)
     }
 
-    void createBridge(Transition t1, Transition t2) {
-        if (!transitionList.contains(t1) || !transitionList.contains(t2)) {
-            throw new RuntimeException("Error: this net does not contain the transition(s) to bridge")
-        }
-        Place pBridge = createPlace()
-        arcList += Arc.buildArcs(t1, pBridge, t2)
-    }
-
+    // depending on whether are logic or basic petri nets
+    // you need to construct adequately the intermediate node
+    abstract void createBridge(Place p1, Place p2)
+    abstract void createBridge(Transition t1, Transition t2)
 
     void resetIds() {
         PN2abstract.resetIds(this)
