@@ -98,6 +98,8 @@ abstract class Net {
     //////////////////////////////////////////////////////
 
     // include net at the given positions
+    // maintains a neutral position about the inputs/outputs
+    // of the parent net
     void include(Net net, Integer xPos = 0, Integer yPos = 0) {
         if (xPos != 0 || yPos != 0) {
             for (p in net.placeList) p.position.traslate(xPos, yPos)
@@ -204,34 +206,50 @@ abstract class Net {
     }
 
     void createArc(Place p, Transition t) {
-        if (!placeList.contains(p) || !transitionList.contains(t)) {
+        if (!getAllPlaces().contains(p) || !getAllTransitions().contains(t)) {
             throw new RuntimeException("Error: this net does not contain the place/transition to bridge")
         }
         arcList << Arc.buildArc(p, t)
     }
 
     void createArc(Transition t, Place p) {
-        if (!placeList.contains(p) || !transitionList.contains(t)) {
+        if (!getAllPlaces().contains(p) || !getAllTransitions().contains(t)) {
             throw new RuntimeException("Error: this net does not contain the transition/place to bridge")
         }
         arcList << Arc.buildArc(t, p)
     }
 
+    void createInhibitorArc(Place p, Transition t) {
+        if (!getAllPlaces().contains(p) || !getAllTransitions().contains(t)) {
+            throw new RuntimeException("Error: this net does not contain the place/transition to bridge")
+        }
+        arcList << Arc.buildInhibitorArc(p, t)
+    }
+
+    void createResetArc(Place p, Transition t) {
+        if (!getAllPlaces().contains(p) || !getAllTransitions().contains(t)) {
+            throw new RuntimeException("Error: this net does not contain the place/transition to bridge")
+        }
+        arcList << Arc.buildResetArc(t, p)
+    }
+
     void createBridge(Place p1, Transition tBridge, Place p2) {
-        if (!placeList.contains(p1) || !placeList.contains(p2) || !transitionList.contains(tBridge)) {
+        if (!getAllPlaces().contains(p1) || !getAllPlaces().contains(p2) || !getAllTransitions().contains(tBridge)) {
             throw new RuntimeException("Error: this net does not contain the place(s)/transition to bridge")
         }
         arcList += Arc.buildArcs(p1, tBridge, p2)
     }
 
     void createBridge(Transition t1, Place pBridge, Transition t2) {
-        if (!transitionList.contains(t1) || !transitionList.contains(t2)) {
+        if (!getAllTransitions().contains(t1) || !getAllTransitions().contains(t2)) {
             throw new RuntimeException("Error: this net does not contain the transition(s)/place to bridge")
         }
         arcList += Arc.buildArcs(t1, pBridge, t2)
     }
 
-    // depending on whether are logic or basic petri nets
+    abstract void createNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors)
+
+        // depending on whether are logic or basic petri nets
     // you need to construct adequately the intermediate node
     abstract void createBridge(Place p1, Place p2)
     abstract void createBridge(Transition t1, Transition t2)

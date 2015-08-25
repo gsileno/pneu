@@ -53,7 +53,7 @@ class PN2dot extends PN2abstract {
 
             if (!alreadyConvertedNets.contains(subNet)) {
                 if (subNet.function.isCluster()) {
-                    code += "\n" + tab(level) + "subgraph cluster ${subNet.function.id} {\n"
+                    code += "\n" + tab(level) + "subgraph cluster${subNet.function.id} {\n"  // cluster is a prefix in graphviz
                     code += tab(level + 1) + "label=\"" + subNet.function.toString() + "\" ;\n"
                     if (subNet.isPlaceLike())
                         code += tab(level + 1) + "color=lightblue ;\n"

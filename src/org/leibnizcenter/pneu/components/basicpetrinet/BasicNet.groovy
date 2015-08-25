@@ -103,4 +103,7 @@ class BasicNet extends Net {
         net
     }
 
+    void createNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors) {
+        throw new RuntimeException("To be implemented")
+    }
 }

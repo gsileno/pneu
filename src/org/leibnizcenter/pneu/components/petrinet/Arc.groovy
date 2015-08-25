@@ -34,6 +34,10 @@ class Arc {
         return buildArc(p1, t1, ArcType.INHIBITOR)
     }
 
+    static Arc buildResetArc(Transition t1, Place p1) {
+        return buildArc(t1, p1, ArcType.RESET)
+    }
+
     static List<Arc> buildDiodeArcs(Transition t1, Place p1) {
         Arc a1 = buildArc(t1, p1)
         Arc a2 = buildInhibitorArc(p1, t1)
@@ -56,6 +60,8 @@ class Arc {
         return [a1, a2]
     }
 
+    // a link arc is an implicit biflow arc
+    // while a link place/transition is one whose content is defined by the others
     static List<Arc> buildLinkArcs(Place p1, Transition t1, Place p2) {
         return buildArcs(p1, t1, p2, ArcType.LINK)
     }
