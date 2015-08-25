@@ -1,12 +1,11 @@
-package org.leibnizcenter.pneu
+package org.leibnizcenter.pneu.examples
 
-import org.leibnizcenter.pneu.animation.monolithic.NetRunner
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicTransition
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Transition
 
-class MarketModelTest extends GroovyTestCase {
+class MarketModel {
 
     static Net basicSaleInstance1() {
         Net sale = new BasicNet()
@@ -165,43 +164,6 @@ class MarketModelTest extends GroovyTestCase {
 
         sale.exportToLog("basicSaleWithWorldAndTimeline")
         sale
-    }
-
-    NetRunner runner = new NetRunner()
-
-    void testBasicSaleInstance1() {
-        runner.load(basicSaleInstance1())
-        assert (runner.analyse() == 6)
-        assert (runner.analysis.storyBase.getSize() == 1)
-        runner.analysis.exportToLog("BasicSaleInstance1")
-    }
-
-    void testBasicSaleModel() {
-        runner.load(basicSaleModel())
-        runner.analyse()
-        assert (runner.analysis.storyBase.getSize() == 2)
-        runner.analysis.exportToLog("BasicSaleModel")
-    }
-
-    void testbasicSaleWith2Parties() {
-        runner.load(basicSaleWith2Parties())
-        runner.analyse()
-        assert (runner.analysis.storyBase.getSize() == 3)
-        runner.analysis.exportToLog("BasicSaleWith2Parties")
-    }
-
-    void testBasicSaleWithWorld() {
-        runner.load(basicSaleWithWorld())
-        runner.analyse()
-        assert (runner.analysis.storyBase.getSize() == 9)
-        runner.analysis.exportToLog("BasicSaleWithWorld")
-    }
-
-    void testBasicSaleWithWorldAndTimeline() {
-        runner.load(basicSaleWithWorldAndTimeline())
-        runner.analyse()
-        assert (runner.analysis.storyBase.getSize() == 8)
-        runner.analysis.exportToLog("BasicSaleWithWorldAndTimeline")
     }
 
 }

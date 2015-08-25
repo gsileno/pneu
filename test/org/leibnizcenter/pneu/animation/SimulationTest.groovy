@@ -4,7 +4,7 @@ import org.leibnizcenter.pneu.animation.monolithic.NetRunner
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.parsers.PNML2PN
 
-class BasicSimulationTest extends GroovyTestCase {
+class SimulationTest extends GroovyTestCase {
 
     void test0EmptyPlace() {
         Net net = PNML2PN.parseFile("examples/basic/0emptyplace.pnml")
