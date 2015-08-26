@@ -85,6 +85,18 @@ abstract class Net {
     // helpers for textual visualization
     //////////////////////////////////////////////////////
 
+    void printMarking() {
+        String output = ""
+        for (place in placeList) {
+            output += place.id+": "
+            for (token in place.marking) {
+                output += token.toString()+", "
+            }
+            output = output[0..-3]+"\n"
+        }
+        print output
+    }
+
     String toString() {
         return "Net@"+hashCode()
     }
@@ -247,12 +259,12 @@ abstract class Net {
         arcList += Arc.buildArcs(t1, pBridge, t2)
     }
 
-    abstract void createNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors)
+    abstract Transition createNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors)
 
         // depending on whether are logic or basic petri nets
     // you need to construct adequately the intermediate node
-    abstract void createBridge(Place p1, Place p2)
-    abstract void createBridge(Transition t1, Transition t2)
+    abstract Transition createBridge(Place p1, Place p2)
+    abstract Place createBridge(Transition t1, Transition t2)
 
     void resetIds() {
         PN2abstract.resetIds(this)

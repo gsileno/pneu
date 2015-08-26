@@ -21,7 +21,7 @@ class StoryBase {
         Integer i = 0
         for (story in base) {
             storyLog += i.toString()+": "
-            for (eventList in story.accesses) {
+            for (eventList in story.eventsPerStep) {
                 for (event in eventList) {
                     if (event.label() != "") {
                         storyLog += event.label()+", "

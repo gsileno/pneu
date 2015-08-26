@@ -37,20 +37,22 @@ class BasicNet extends Net {
         pl
     }
 
-    void createBridge(Place p1, Place p2) {
+    Transition createBridge(Place p1, Place p2) {
         if (!placeList.contains(p1) || !placeList.contains(p2)) {
             throw new RuntimeException("Error: this net does not contain the place(s) to bridge")
         }
         Transition tBridge = createTransition()
         arcList += Arc.buildArcs(p1, tBridge, p2)
+        tBridge
     }
 
-    void createBridge(Transition t1, Transition t2) {
+    Place createBridge(Transition t1, Transition t2) {
         if (!transitionList.contains(t1) || !transitionList.contains(t2)) {
             throw new RuntimeException("Error: this net does not contain the transition(s) to bridge")
         }
         Place pBridge = createPlace()
         arcList += Arc.buildArcs(t1, pBridge, t2)
+        pBridge
     }
 
     // deep cloning done for nets
@@ -103,7 +105,7 @@ class BasicNet extends Net {
         net
     }
 
-    void createNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors) {
+    Transition createNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors) {
         throw new RuntimeException("To be implemented")
     }
 }

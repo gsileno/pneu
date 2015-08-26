@@ -15,6 +15,7 @@ class NetRunner {
     Analysis analysis
     Execution execution
 
+    // TODO: implement additional execution modes
     NetRunner(ExecutionMode executionMode = ExecutionMode.BruteForce) {
         switch (executionMode) {
             case ExecutionMode.BruteForce:
@@ -55,8 +56,13 @@ class NetRunner {
     }
 
     void status() {
-        println "Stories: \n" + analysis.storyBase
-        println "States: \n" + analysis.stateBase
+        if (analysis) {
+            println "Stories: \n" + analysis.storyBase
+            println "States: \n" + analysis.stateBase
+        } else {
+            println "Marking"
+            execution.net.printMarking()
+        }
     }
 
 }

@@ -7,22 +7,30 @@ import org.leibnizcenter.pneu.components.petrinet.Transition
 class Story {
 
     List<State> steps = []
-    // multiple transitions may be enabled in a certain moment
-    List<List<Transition>> accesses = []
+    // in case multiple transitions may be fired in a certain moment
+    List<List<Transition>> eventsPerStep = []
 
     void addStep(State state) {
         steps << state
     }
 
     void addAccesses(List<Transition> transitions) {
-        accesses << transitions
+        eventsPerStep << transitions
+    }
+
+    List<Transition> getAllEvents() {
+        List<Transition> allEvents = []
+        for (events in eventsPerStep) {
+            allEvents += events
+        }
+        allEvents
     }
 
     String toString() {
         String output = ""
         for (int i = 0; i < steps.size(); i++) {
             output += "(" + steps[i].toString() + ")"
-            if (accesses[i]) output += " -- " + accesses[i].toString() + " -- "
+            if (eventsPerStep[i]) output += " -- " + eventsPerStep[i].toString() + " -- "
         }
         output
     }
@@ -31,13 +39,13 @@ class Story {
 
         List<List<Transition>> newAccesses = []
 
-        for (transitionList in accesses) {
+        for (transitionList in eventsPerStep) {
             newAccesses << transitionList.collect()
         }
 
         new Story(
                 steps: steps.collect(),
-                accesses: newAccesses
+                eventsPerStep: newAccesses
         )
     }
 }

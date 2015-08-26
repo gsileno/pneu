@@ -2,6 +2,8 @@ package org.leibnizcenter.pneu.animation
 
 import org.leibnizcenter.pneu.animation.monolithic.NetRunner
 import org.leibnizcenter.pneu.components.petrinet.Net
+import org.leibnizcenter.pneu.components.petrinet.Place
+import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.parsers.PNML2PN
 
 class AnalysisTest extends GroovyTestCase {

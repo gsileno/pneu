@@ -61,8 +61,7 @@ class Analysis {
             for (int i = currentStory.steps.size() - 2; i >= 0; i--) {
                 State step = currentStory.steps[i]
                 newStory.steps.remove(i + 1) // remove last state
-                newStory.accesses.remove(i)  // remove last transition
-
+                newStory.eventsPerStep.remove(i)  // remove last transition
                 log.trace("Adjusting story: " + newStory)
 
                 // find the first transition which has not been explored from the step state
@@ -75,7 +74,14 @@ class Analysis {
                     currentStory = newStory
                     execution.loadState(currentState)
 
+                    // recompute the emitters which fired
+                    execution.firedEmitterList = currentStory.getAllEvents() - (execution.getEmitterInputs() - currentStory.getAllEvents())
+
                     log.trace("Reloaded story: " + currentStory)
+
+                    log.trace("emitter inputs: " + execution.getEmitterInputs())
+                    log.trace("events in story: " +  currentStory.getAllEvents())
+                    log.trace("fired emitter list: " + execution.firedEmitterList)
                     break
                 }
             }

@@ -16,11 +16,11 @@ class StateBase {
 
         // create a new state with the places and add to the database
         State newState = new State(places)
-        log.trace("attempt to record a new state: "+places)
+        log.trace("attempt to record a new state: " + places)
 
         // for each state in the database
         for (state in base) {
-            log.trace("check with: "+state)
+            log.trace("check with: " + state)
             // if the marking are the same return it
             if (State.compare(newState, state)) {
                 log.trace("it is the same ==> I don't add it")
@@ -31,21 +31,23 @@ class StateBase {
         // create a new state with the places and add to the database
         newState.label = "st" + base.size()
 
-        log.trace("I don't have it ==> I add it: "+newState)
+        log.trace("I don't have it ==> I add it: " + newState)
 
         // if new state, add all enabled transitions
         List<Transition> enabledTransitions = []
 
-        // only at state 0 consider all emitters enabled
-        if (base.size() == 0) {
-            if (execution.inputs.size() > 0) {
-                if (execution.inputs[0].isTransitionLike())
-                    enabledTransitions += execution.inputs
+        // consider all emitters enabled as long as they are not fired
+        // emitters are stored in execution.inputs, i.e. in execution.net.inputs
+        if (execution.inputs.size() > 0) {
+            for (emitter in execution.getEmitterInputs()) {
+                if (!execution.firedEmitterList.contains(emitter)) {
+                    enabledTransitions << (Transition) emitter
+                }
             }
         }
 
         if (!newState.transitionStateMap) {
-            for (t in execution.transitions) {
+            for (t in execution.transitions - execution.inputs) {
                 if (t.isEnabled()) {  // we are in the analysis cycle, no continuous emission
                     enabledTransitions << t
                 }
@@ -53,7 +55,7 @@ class StateBase {
             newState.setEnabledTransitions(enabledTransitions)
         }
 
-        log.trace("enabled transitions: "+enabledTransitions)
+        log.trace("enabled transitions: " + enabledTransitions)
 
         base.add(newState)
 

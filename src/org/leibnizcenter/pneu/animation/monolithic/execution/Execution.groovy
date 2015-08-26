@@ -84,4 +84,15 @@ abstract class Execution {
         return net.inputs
     }
 
+    List<Transition> getEmitterInputs() {
+        List<Transition> emitterInputs = []
+        for (input in net.inputs) {
+            if (input.isTransitionLike()) {
+                emitterInputs << (Transition) input
+            }
+        }
+        emitterInputs
+    }
+
+    List<Transition> firedEmitterList = []
 }

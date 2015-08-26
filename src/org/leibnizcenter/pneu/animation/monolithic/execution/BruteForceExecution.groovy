@@ -25,11 +25,12 @@ class BruteForceExecution extends Execution {
 
     // when you already know which transition to fire (for analysis)
     void fire(Transition t) {
-        if (!t.isEnabled()) {
-            log.warn("transition $t should be enabled")
-        } else {
-            consumeInputTokens(t)
+
+        if (inputs.contains(t)) {
+            firedEmitterList << t
         }
+
+        consumeInputTokens(t)
         produceOutputTokens(t)
     }
 
