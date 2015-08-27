@@ -1,6 +1,7 @@
 TODO
 [monolithic] consider the firing of multiple transitions with the same label
 [monolithic analysis] complete it and refactor everything
+[monolithic analysis] in particular, state should be defined saving the local state of all places and transitions, defined by the different implementations
 [monolithic] refactor execution as interface
 [graphics] consider biflows connections
 [builders PN2LaTeX] avoid to write labels on top of the arrows

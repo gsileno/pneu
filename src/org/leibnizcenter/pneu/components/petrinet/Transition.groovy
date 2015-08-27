@@ -17,7 +17,7 @@ abstract class Transition extends Node {
     }
 
     // useful functions
-    abstract Transition clone()
+    abstract Transition minimalClone()
     abstract Boolean compare(Transition t1, Transition t2)
 
     // operational semantics

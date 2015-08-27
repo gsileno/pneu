@@ -19,7 +19,7 @@ class BasicTransition extends Transition {
         return new BasicTransition(name: label)
     }
 
-    Transition clone() {
+    Transition minimalClone() {
         return new BasicTransition(name: name)
     }
 
@@ -72,9 +72,11 @@ class BasicTransition extends Transition {
     }
 
     void consumeInputTokens() {
-        for (elem in inputs) {
-            for (int i = 0; i < elem.weight; i++) {
-                ((BasicPlace) elem.source).marking.pop()
+        for (arc in inputs) {
+            if (arc.type == ArcType.NORMAL) {
+                for (int i = 0; i < arc.weight; i++) {
+                    ((BasicPlace) arc.source).marking.pop()
+                }
             }
         }
     }

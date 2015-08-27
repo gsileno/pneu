@@ -39,7 +39,7 @@ class PN2dot extends PN2abstract {
         i = 0
         transitionList.each { tr ->
             if (!tr.isLink()) {
-                code += tab(level + 1) + tr.id + " [label=\"" + tr.toString() + "\"] ;\n"
+                code += tab(level + 1) + tr.id + " [label=\"" + tr.label() + "\"] ;\n"
             } else {
                 code += tab(level + 1) + tr.id + " [label=\"\",height=.1,width=.1,style=filled,width=.1,color=black] ;\n"
             }
@@ -54,11 +54,11 @@ class PN2dot extends PN2abstract {
             if (!alreadyConvertedNets.contains(subNet)) {
                 if (subNet.function.isCluster()) {
                     code += "\n" + tab(level) + "subgraph cluster${subNet.function.id} {\n"  // cluster is a prefix in graphviz
-                    code += tab(level + 1) + "label=\"" + subNet.function.toString() + "\" ;\n"
+                    code += tab(level + 1) + "label=\"" + subNet.function.label() + "\" ;\n"
                     if (subNet.isPlaceLike())
                         code += tab(level + 1) + "color=lightblue ;\n"
                     else if (subNet.isTransitionLike())
-                        code += tab(level + 1) + "color=darkred ;\n"
+                        code += tab(level + 1) + "color=red ;\n"
                     else
                         code += tab(level + 1) + "color=lightgray ;\n"
                 } else {
@@ -107,7 +107,7 @@ class PN2dot extends PN2abstract {
 
         String code = ""
 
-        code += "digraph G {\n  rankdir=\"LR\";\n"
+        code += "digraph G {\n  rankdir=\"LR\";\n  concentrate=true;\n"
         code += innerConversion(net)
         code += "}\n"
 

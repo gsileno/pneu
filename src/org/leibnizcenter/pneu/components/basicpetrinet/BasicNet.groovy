@@ -38,21 +38,60 @@ class BasicNet extends Net {
     }
 
     Transition createBridge(Place p1, Place p2) {
-        if (!placeList.contains(p1) || !placeList.contains(p2)) {
+        if (!getAllPlaces().contains(p1) || !getAllPlaces().contains(p2)) {
             throw new RuntimeException("Error: this net does not contain the place(s) to bridge")
         }
         Transition tBridge = createTransition()
-        arcList += Arc.buildArcs(p1, tBridge, p2)
+        createArc(p1, tBridge)
+        createArc(tBridge, p2)
         tBridge
     }
 
     Place createBridge(Transition t1, Transition t2) {
-        if (!transitionList.contains(t1) || !transitionList.contains(t2)) {
+        if (!getAllTransitions().contains(t1) || !getAllTransitions().contains(t2)) {
             throw new RuntimeException("Error: this net does not contain the transition(s) to bridge")
         }
         Place pBridge = createPlace()
-        arcList += Arc.buildArcs(t1, pBridge, t2)
+        createArc(t1, pBridge)
+        createArc(pBridge, t2)
         pBridge
+    }
+
+    Place createDiodeBridge(Transition t1, Transition t2) {
+        if (!getAllTransitions().contains(t1) || !getAllTransitions().contains(t2)) {
+            throw new RuntimeException("Error: this net does not contain the transition(s) to bridge")
+        }
+        Place pBridge = createPlace()
+        createDiodeArc(t1, pBridge)
+        createArc(pBridge, t2)
+        pBridge
+    }
+
+    Transition createNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors) {
+        Transition tBridge = createTransition()
+
+        for (p in inputs + biflows) {
+            if (!getAllPlaces().contains(p)) {
+                throw new RuntimeException("Error: this net does not contain the given input place (${p})")
+            }
+            createArc(p, tBridge)
+        }
+
+        for (p in outputs + biflows + diode) {
+            if (!getAllPlaces().contains(p)) {
+                throw new RuntimeException("Error: this net does not contain the given output place (${p})")
+            }
+            createArc(tBridge, p)
+        }
+
+        for (p in inhibitors + diode) {
+            if (!getAllPlaces().contains(p)) {
+                throw new RuntimeException("Error: this net does not contain the given inhibitor place (${p})")
+            }
+            createInhibitorArc(p, tBridge)
+        }
+
+        tBridge
     }
 
     // deep cloning done for nets
@@ -105,7 +144,4 @@ class BasicNet extends Net {
         net
     }
 
-    Transition createNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors) {
-        throw new RuntimeException("To be implemented")
-    }
 }

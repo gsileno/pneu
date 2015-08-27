@@ -81,6 +81,71 @@ abstract class Net {
         allNets
     }
 
+    List<Arc> getBiflowArcs() {
+        List<Arc> biflowArcs = []
+        for (Arc a in arcList) {
+            for (Arc b in arcList - a) {
+                if (a.source == b.target && b.source == a.target && a.weight == b.weight) {
+                    if (a.type == ArcType.NORMAL && b.type == ArcType.NORMAL) {
+                        if (!biflowArcs.contains(a) && !biflowArcs.contains(b))
+                            biflowArcs += [a, b]
+                    }
+                }
+            }
+        }
+        biflowArcs
+    }
+
+    List<Arc> getDiodeArcs() {
+        List<Arc> diodeArcs = []
+        for (Arc a in arcList) {
+            for (Arc b in arcList - a) {
+                if (a.source == b.target && b.source == a.target && a.weight == b.weight) {
+                    if (a.type == ArcType.NORMAL && b.type == ArcType.INHIBITOR) {
+                        if (!biflowArcs.contains(a) && !biflowArcs.contains(b)) {
+                            diodeArcs += [a, b]
+                        }
+                    }
+                }
+            }
+        }
+        diodeArcs
+    }
+
+    List<Arc> getResetArcs() {
+        List<Arc> resetArcs = []
+        for (Arc a in arcList) {
+            if (a.type == ArcType.RESET) {
+                resetArcs << a
+            }
+        }
+        resetArcs
+    }
+
+    List<Arc> getStrictlyInhibitorArcs() {
+        List<Arc> diodeArcs = getDiodeArcs()
+        List<Arc> inhibitorArcs = []
+        for (Arc a in arcList - diodeArcs) {
+            if (a.type == ArcType.INHIBITOR ) {
+                inhibitorArcs << a
+            }
+        }
+        inhibitorArcs
+    }
+
+    // TODO: consider LINK arcs
+
+    List<Arc> getStrictlyNormalArcs() {
+        List<Arc> diodeArcs = getDiodeArcs()
+        List<Arc> arcs = []
+        for (Arc a in (arcList - diodeArcs) - biflowArcs) {
+            if (a.type == ArcType.NORMAL ) {
+                arcs << a
+            }
+        }
+        arcs
+    }
+
     //////////////////////////////////////////////////////
     // helpers for textual visualization
     //////////////////////////////////////////////////////
@@ -88,17 +153,17 @@ abstract class Net {
     void printMarking() {
         String output = ""
         for (place in placeList) {
-            output += place.id+": "
+            output += place.id + ": "
             for (token in place.marking) {
-                output += token.toString()+", "
+                output += token.toString() + ", "
             }
-            output = output[0..-3]+"\n"
+            output = output[0..-3] + "\n"
         }
         print output
     }
 
     String toString() {
-        return "Net@"+hashCode()
+        return "Net@" + hashCode()
     }
 
     void print() {
@@ -143,10 +208,18 @@ abstract class Net {
         if (n1 == n2) return true
 
         // if they have a different number of places, transitions or arcs they are not the same
-        if (n1.placeList.size() != n2.placeList.size()) { return false }
-        if (n1.transitionList.size() != n2.transitionList.size()) { return false }
-        if (n1.arcList.size() != n2.arcList.size()) { return false }
-        if (n1.subNets.size() != n2.subNets.size()) { return false }
+        if (n1.placeList.size() != n2.placeList.size()) {
+            return false
+        }
+        if (n1.transitionList.size() != n2.transitionList.size()) {
+            return false
+        }
+        if (n1.arcList.size() != n2.arcList.size()) {
+            return false
+        }
+        if (n1.subNets.size() != n2.subNets.size()) {
+            return false
+        }
 
         // check all places
         for (p1 in n1.placeList) {
@@ -204,10 +277,15 @@ abstract class Net {
     //////////////////////////////////////////////////////
 
     abstract Transition createEmitterTransition()
+
     abstract Transition createCollectorTransition()
+
     abstract Transition createTransition()
+
     abstract Transition createTransition(String label)
+
     abstract Place createPlace()
+
     abstract Place createPlace(String label)
 
     Transition propagateTransition(Transition source) {
@@ -238,6 +316,13 @@ abstract class Net {
         arcList << Arc.buildInhibitorArc(p, t)
     }
 
+    void createDiodeArc(Transition t, Place p) {
+        if (!getAllPlaces().contains(p) || !getAllTransitions().contains(t)) {
+            throw new RuntimeException("Error: this net does not contain the place/transition to bridge")
+        }
+        arcList += Arc.buildDiodeArcs(t, p)
+    }
+
     void createResetArc(Place p, Transition t) {
         if (!getAllPlaces().contains(p) || !getAllTransitions().contains(t)) {
             throw new RuntimeException("Error: this net does not contain the place/transition to bridge")
@@ -259,12 +344,15 @@ abstract class Net {
         arcList += Arc.buildArcs(t1, pBridge, t2)
     }
 
-    abstract Transition createNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors)
-
-        // depending on whether are logic or basic petri nets
+    // depending on whether are logic or basic petri nets
     // you need to construct adequately the intermediate node
     abstract Transition createBridge(Place p1, Place p2)
+
     abstract Place createBridge(Transition t1, Transition t2)
+
+    abstract Place createDiodeBridge(Transition t1, Transition t2)
+
+    abstract Transition createNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors)
 
     void resetIds() {
         PN2abstract.resetIds(this)
@@ -331,7 +419,7 @@ abstract class Net {
             out -> out.println(PN2json.convert(net))
         }
     }
-    
+
     //////////////////////////////////////////////////////
     // helpers for graphical visualization information
     //////////////////////////////////////////////////////

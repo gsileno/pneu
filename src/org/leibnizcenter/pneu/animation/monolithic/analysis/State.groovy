@@ -13,6 +13,9 @@ class State {
     // associate to each transition, the state in which it brings
     Map<Transition, State> transitionStateMap
 
+    List<Place> placeList
+    List<Transition> transitionList
+
     State() {}
 
     State(List<Place> places) {

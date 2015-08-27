@@ -25,6 +25,8 @@ class StoryBase {
                 for (event in eventList) {
                     if (event.label() != "") {
                         storyLog += event.label()+", "
+                    } else {
+                        storyLog += event.id+", "
                     }
                 }
             }

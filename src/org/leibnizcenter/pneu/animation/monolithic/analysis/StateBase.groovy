@@ -18,6 +18,13 @@ class StateBase {
         State newState = new State(places)
         log.trace("attempt to record a new state: " + places)
 
+        newState.placeList = []
+        newState.transitionList = []
+        for (place in execution.net.placeList)
+            newState.placeList << place.minimalClone()
+        for (transition in execution.net.transitionList)
+            newState.transitionList << transition.minimalClone()
+
         // for each state in the database
         for (state in base) {
             log.trace("check with: " + state)
