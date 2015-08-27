@@ -289,7 +289,7 @@ abstract class Net {
     abstract Place createPlace(String label)
 
     Transition propagateTransition(Transition source) {
-        Transition target = source.clone()
+        Transition target = source.minimalClone()
         transitionList << target
         createBridge(source, target)
         target
