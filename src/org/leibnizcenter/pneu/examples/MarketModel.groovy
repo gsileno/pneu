@@ -166,47 +166,4 @@ class MarketModel {
         sale
     }
 
-    static Net basicSwapSale() {
-        Net sale = new BasicNet()
-
-        sale.function = BasicTransition.build("sells")
-
-        Transition tSellerIn = sale.createEmitterTransition()
-        Transition tBuyerIn = sale.createEmitterTransition()
-        Transition tSellerOut = sale.createCollectorTransition()
-        Transition tBuyerOut = sale.createCollectorTransition()
-
-        Transition t1s = sale.createTransition("offers")
-        Transition t1b = sale.propagateTransition(t1s)
-        Transition t2b = sale.createTransition("accepts")
-        Transition t2s = sale.propagateTransition(t2b)
-        Transition t3 = sale.createTransition("pays")
-        Transition t4 = sale.createTransition("delivers")
-
-        sale.createBridge(tSellerIn, t1s)
-        sale.createBridge(tBuyerIn, t1b)
-        sale.createBridge(t1b, t2b)
-        sale.createBridge(t1s, t2s)
-        sale.createBridge(t2b, t3)
-        sale.createBridge(t3, tBuyerOut)
-        sale.createBridge(t2s, t4)
-        sale.createBridge(t4, tSellerOut)
-
-        Net swap = new BasicNet()
-
-        Net sale1 = sale.minimalClone()
-        Net sale2 = sale.minimalClone()
-
-        swap.include(sale1)
-        swap.include(sale2)
-
-        swap.createBridge((Transition) sale1.inputs[0], (Transition) sale2.inputs[1])
-        swap.createBridge((Transition) sale1.inputs[1], (Transition) sale2.inputs[2])
-        swap.createBridge((Transition) sale1.outputs[0], (Transition) sale2.outputs[1])
-        swap.createBridge((Transition) sale1.outputs[1], (Transition) sale2.outputs[2])
-
-        swap
-
-    }
-
 }

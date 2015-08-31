@@ -25,7 +25,15 @@ class PN2dot extends PN2abstract {
         i = 0
         placeList.each { pl ->
             if (!pl.isLink()) {
-                code += tab(level + 1) + pl.id + " [label=\"" + pl.label() + "\"] ;\n"
+                String label = pl.label()
+                if (net.inputs.contains(pl)) {
+                    Integer n = net.inputs.findIndexOf { it == pl }
+                    label += " (IN ${n})"
+                } else if (net.outputs.contains(pl)) {
+                    Integer n = net.outputs.findIndexOf { it == pl }
+                    label += " (OUT ${n})"
+                }
+                code += tab(level + 1) + pl.id + " [label=\"" + label + "\"] ;\n"
             } else {
                 code += tab(level + 1) + pl.id + " [label=\"\",height=.1,width=.1,style=filled,width=.1,color=black] ;\n"
             }
@@ -39,7 +47,15 @@ class PN2dot extends PN2abstract {
         i = 0
         transitionList.each { tr ->
             if (!tr.isLink()) {
-                code += tab(level + 1) + tr.id + " [label=\"" + tr.label() + "\"] ;\n"
+                String label = tr.label()
+                if (net.inputs.contains(tr)) {
+                    Integer n = net.inputs.findIndexOf { it == tr }
+                    label += " (IN ${n})"
+                } else if (net.outputs.contains(tr)) {
+                    Integer n = net.outputs.findIndexOf { it == tr }
+                    label += " (OUT ${n})"
+                }
+                code += tab(level + 1) + tr.id + " [label=\"" + label + "\"] ;\n"
             } else {
                 code += tab(level + 1) + tr.id + " [label=\"\",height=.1,width=.1,style=filled,width=.1,color=black] ;\n"
             }

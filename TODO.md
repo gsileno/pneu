@@ -16,6 +16,7 @@ ERRORS
 [builders PN2ASP] does not consider hierarchical nets
 [builders PN2PNML] does not consider hierarchical nets
 [builders PN2LaTeX] convertrelative2 does not work perfectly, with actionscheme.pnml it lose one place and attach it to the transition
+[components] error in net comparison with link transitions!!!
 
 INFO
 [builders PN2LaTeX] convertrelative1 is not the best strategy, should be discarded

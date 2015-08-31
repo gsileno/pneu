@@ -67,7 +67,7 @@ class BasicNet extends Net {
         pBridge
     }
 
-    Transition createNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors) {
+    Transition createTransitionNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors) {
         Transition tBridge = createTransition()
 
         for (p in inputs + biflows) {

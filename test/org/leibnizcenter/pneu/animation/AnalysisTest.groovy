@@ -61,7 +61,7 @@ class AnalysisTest extends GroovyTestCase {
         Place pDiode = net.createPlace("diode")
         net.createArc(tDiode, pDiode)
 
-        net.createNexus([pInput], [pOutput], [pBiflow], [pDiode], [pInhibitor])
+        net.createTransitionNexus([pInput], [pOutput], [pBiflow], [pDiode], [pInhibitor])
 
         net.resetIds()
 

@@ -27,7 +27,7 @@ abstract class PN2abstract {
     }
 
     // set ids
-    static void setIds(Net net, Boolean force, String prefix = "", List<Net> alreadyConvertedNets = []) {
+    static void setIds(Net net, Boolean forceReset, String prefix = "", List<Net> alreadyConvertedNets = []) {
 
         List<Place> placeList = net.placeList
         List<Transition> transitionList = net.transitionList
@@ -37,7 +37,7 @@ abstract class PN2abstract {
         if (placeList.size() > 0) {
             Integer i = 0
             for (pl in placeList) {
-                if (!pl.id || force) {
+                if (!pl.id || forceReset) {
                     pl.id = "p" + i + ((prefix == "") ? "" : "_" + prefix)
                 }
                 i++
@@ -47,7 +47,7 @@ abstract class PN2abstract {
         if (transitionList.size() > 0) {
             Integer i = 0
             for (tr in transitionList) {
-                if (!tr.id || force) {
+                if (!tr.id || forceReset) {
                     tr.id = "t" + i + ((prefix == "") ? "" : "_" + prefix)
                 }
                 i++
@@ -58,10 +58,10 @@ abstract class PN2abstract {
             Integer i = 0
             for (subNet in net.subNets) {
                 if (!alreadyConvertedNets.contains(subNet)) {
-                    if (!subNet.function.id || force) {
+                    if (!subNet.function.id || forceReset) {
                         subNet.function.id = "net" + ((prefix == "") ? i : "_" + prefix + i)
                     }
-                    setIds(subNet, force, prefix + i.toString(), alreadyConvertedNets)
+                    setIds(subNet, forceReset, prefix + i.toString(), alreadyConvertedNets)
                     alreadyConvertedNets << subNet
                     i++
                 }

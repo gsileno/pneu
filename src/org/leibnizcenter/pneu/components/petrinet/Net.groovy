@@ -297,35 +297,35 @@ abstract class Net {
 
     void createArc(Place p, Transition t) {
         if (!getAllPlaces().contains(p) || !getAllTransitions().contains(t)) {
-            throw new RuntimeException("Error: this net does not contain the place/transition to bridge")
+            throw new RuntimeException("Error: this net does not contain the place/transition to connect")
         }
         arcList << Arc.buildArc(p, t)
     }
 
     void createArc(Transition t, Place p) {
         if (!getAllPlaces().contains(p) || !getAllTransitions().contains(t)) {
-            throw new RuntimeException("Error: this net does not contain the transition/place to bridge")
+            throw new RuntimeException("Error: this net does not contain the transition/place to connect")
         }
         arcList << Arc.buildArc(t, p)
     }
 
     void createInhibitorArc(Place p, Transition t) {
         if (!getAllPlaces().contains(p) || !getAllTransitions().contains(t)) {
-            throw new RuntimeException("Error: this net does not contain the place/transition to bridge")
+            throw new RuntimeException("Error: this net does not contain the place/transition to connect")
         }
         arcList << Arc.buildInhibitorArc(p, t)
     }
 
     void createDiodeArc(Transition t, Place p) {
         if (!getAllPlaces().contains(p) || !getAllTransitions().contains(t)) {
-            throw new RuntimeException("Error: this net does not contain the place/transition to bridge")
+            throw new RuntimeException("Error: this net does not contain the place/transition to connect")
         }
         arcList += Arc.buildDiodeArcs(t, p)
     }
 
     void createResetArc(Place p, Transition t) {
         if (!getAllPlaces().contains(p) || !getAllTransitions().contains(t)) {
-            throw new RuntimeException("Error: this net does not contain the place/transition to bridge")
+            throw new RuntimeException("Error: this net does not contain the place/transition to connect")
         }
         arcList << Arc.buildResetArc(t, p)
     }
@@ -352,7 +352,7 @@ abstract class Net {
 
     abstract Place createDiodeBridge(Transition t1, Transition t2)
 
-    abstract Transition createNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors)
+    abstract Transition createTransitionNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors)
 
     void resetIds() {
         PN2abstract.resetIds(this)

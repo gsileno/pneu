@@ -42,4 +42,5 @@ class MarketModelTest extends GroovyTestCase {
         runner.analysis.exportToLog("BasicSaleWithWorldAndTimeline")
     }
 
+
 }

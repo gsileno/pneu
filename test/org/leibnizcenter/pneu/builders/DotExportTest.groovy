@@ -7,10 +7,10 @@ class DotExportTest extends GroovyTestCase {
     void batchExport(String filename) {
         Net net = PNML2PN.parseFile("examples/basic/"+filename)
 
-        def folder = new File( 'examples/out/dot/' )
+        def folder = new File( 'out/dot/' )
         if( !folder.exists() ) folder.mkdirs()
 
-        String outputFile = "examples/out/dot/"+filename.replaceFirst(~/\.[^\.]+$/, '') + ".dot"
+        String outputFile = "out/dot/"+filename.replaceFirst(~/\.[^\.]+$/, '') + ".dot"
 
         new File(outputFile).withWriter {
             out -> out.println(PN2dot.convert(net))
