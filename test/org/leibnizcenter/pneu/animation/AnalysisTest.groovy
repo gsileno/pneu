@@ -68,6 +68,9 @@ class AnalysisTest extends GroovyTestCase {
         NetRunner runner = new NetRunner()
         runner.load(net)
         runner.analyse()
-        runner.analysis.exportToLog("NexusStructure")
+        runner.analysis.exportToLog("BasicNexusStructure")
+
+        assert runner.analysis.stateBase.base.size() == 22
+        assert runner.analysis.storyBase.base.size() == 23
     }
 }
