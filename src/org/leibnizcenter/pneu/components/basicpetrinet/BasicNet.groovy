@@ -1,6 +1,5 @@
 package org.leibnizcenter.pneu.components.basicpetrinet
 
-import org.leibnizcenter.pneu.components.petrinet.Arc
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
@@ -25,13 +24,25 @@ class BasicNet extends Net {
         tr
     }
 
-    Transition createTransition(String label = null) {
+    Transition createLinkTransition() {
+        BasicTransition tr = new BasicTransition()
+        transitionList << tr
+        tr
+    }
+
+    Place createLinkPlace() {
+        BasicPlace pl = new BasicPlace()
+        placeList << pl
+        pl
+    }
+
+    Transition createTransition(String label) {
         BasicTransition tr = new BasicTransition(name: label)
         transitionList << tr
         tr
     }
 
-    Place createPlace(String label = null) {
+    Place createPlace(String label) {
         BasicPlace pl = new BasicPlace(name: label)
         placeList << pl
         pl
@@ -41,7 +52,7 @@ class BasicNet extends Net {
         if (!getAllPlaces().contains(p1) || !getAllPlaces().contains(p2)) {
             throw new RuntimeException("Error: this net does not contain the place(s) to bridge")
         }
-        Transition tBridge = createTransition()
+        Transition tBridge = createLinkTransition()
         createArc(p1, tBridge)
         createArc(tBridge, p2)
         tBridge
@@ -51,7 +62,7 @@ class BasicNet extends Net {
         if (!getAllTransitions().contains(t1) || !getAllTransitions().contains(t2)) {
             throw new RuntimeException("Error: this net does not contain the transition(s) to bridge")
         }
-        Place pBridge = createPlace()
+        Place pBridge = createLinkPlace()
         createArc(t1, pBridge)
         createArc(pBridge, t2)
         pBridge
@@ -61,14 +72,14 @@ class BasicNet extends Net {
         if (!getAllTransitions().contains(t1) || !getAllTransitions().contains(t2)) {
             throw new RuntimeException("Error: this net does not contain the transition(s) to bridge")
         }
-        Place pBridge = createPlace()
+        Place pBridge = createLinkPlace()
         createDiodeArc(t1, pBridge)
         createArc(pBridge, t2)
         pBridge
     }
 
     Transition createTransitionNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors) {
-        Transition tBridge = createTransition()
+        Transition tBridge = createLinkTransition()
 
         for (p in inputs + biflows) {
             if (!getAllPlaces().contains(p)) {
@@ -134,12 +145,11 @@ class BasicNet extends Net {
 
         Net net
 
-        print("reading from file " + filename + "... ");
-        try {
+//        try {
             net = PNML2PN.parseFile(filename)
-        } catch (FileNotFoundException) {
-            throw new RuntimeException("sorry, file " + filename + " not found or not valid.")
-        }
+//        } catch (FileNotFoundException) {
+//            throw new RuntimeException("sorry, file " + filename + " not found or not valid.")
+//        }
 
         net
     }

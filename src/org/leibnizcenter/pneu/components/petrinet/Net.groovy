@@ -280,11 +280,11 @@ abstract class Net {
 
     abstract Transition createCollectorTransition()
 
-    abstract Transition createTransition()
+    abstract Transition createLinkTransition()
 
     abstract Transition createTransition(String label)
 
-    abstract Place createPlace()
+    abstract Place createLinkPlace()
 
     abstract Place createPlace(String label)
 
@@ -342,6 +342,20 @@ abstract class Net {
             throw new RuntimeException("Error: this net does not contain the transition(s)/place to bridge")
         }
         arcList += Arc.buildArcs(t1, pBridge, t2)
+    }
+
+    void createLinkBridge(Place p1, Transition tBridge, Place p2) {
+        if (!getAllPlaces().contains(p1) || !getAllPlaces().contains(p2) || !getAllTransitions().contains(tBridge)) {
+            throw new RuntimeException("Error: this net does not contain the place(s)/transition to bridge")
+        }
+        arcList += Arc.buildLinkArcs(p1, tBridge, p2)
+    }
+
+    void createLinkBridge(Transition t1, Place pBridge, Transition t2) {
+        if (!getAllTransitions().contains(t1) || !getAllTransitions().contains(t2)) {
+            throw new RuntimeException("Error: this net does not contain the transition(s)/place to bridge")
+        }
+        arcList += Arc.buildLinkArcs(t1, pBridge, t2)
     }
 
     // depending on whether are logic or basic petri nets
