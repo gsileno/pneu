@@ -3,8 +3,7 @@ package org.leibnizcenter.pneu.animation.monolithic.analysis
 import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.animation.monolithic.execution.Execution
 import org.leibnizcenter.pneu.components.petrinet.Place
-import org.leibnizcenter.pneu.components.petrinet.Token
-import org.leibnizcenter.pneu.components.petrinet.Transition
+import org.leibnizcenter.pneu.components.petrinet.TransitionEvent
 
 @Log4j
 class StateBase {
@@ -41,30 +40,35 @@ class StateBase {
         log.trace("I don't have it ==> I add it: " + newState)
 
         // if new state, add all enabled transitions
-        List<Token> enabledFiringList = []
+        List<TransitionEvent> enabledFiringList = []
 
         // consider all emitters enabled as long as they are not fired
         // emitters are stored in execution.inputs, i.e. in execution.net.inputs
         if (execution.inputs.size() > 0) {
             for (emitter in execution.getEmitterInputs()) {
-                if (!execution.firedEmitterList.contains(emitter)) {
-                    enabledFiringList << (Transition) emitter
+                if (!execution.firedEmitterEventList.find() { it.transition == emitter }) {
+                    List<TransitionEvent> test = emitter.fireableEvents()
+                    enabledFiringList << new TransitionEvent(transition: emitter, token: emitter.fireableEvents().first().token)
                 }
             }
         }
 
-        if (!newState.firedContentStateMap) {
+        log.trace("enabled transition events from emitters: " + enabledFiringList)
+
+        if (!newState.transitionEventStateMap) {
             for (t in execution.transitions - execution.inputs) {
-                if (t.isEnabled()) {  // we are in the analysis cycle, no continuous emission
-                    enabledFiringList << t
-                }
+                List<TransitionEvent> enabledFiringListPerTransition = t.fireableEvents()
+                if (enabledFiringListPerTransition.size() > 0)
+                    enabledFiringList += enabledFiringListPerTransition
             }
-            newState.setEnabledTransitions(enabledFiringList)
+            newState.setEnabledFiring(enabledFiringList)
         }
 
-        log.trace("enabled transitions: " + enabledFiringList)
+        log.trace("enabled transition events: " + enabledFiringList)
 
         base.add(newState)
+
+        log.trace("New state "+newState.status())
 
         return newState
     }
@@ -72,7 +76,7 @@ class StateBase {
     String toString() {
         String output = ""
         for (int i = 0; i < base.size(); i++) {
-            output += base[i].toString() + ": " + base[i].placesToString() + " / " + base[i].transitionsToString() + " \n"
+            output += base[i].toString() + ": " + base[i].placesToString() + " / " + base[i].transitionEventsToString() + " \n"
         }
         output
     }

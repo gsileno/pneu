@@ -4,6 +4,7 @@ import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.animation.monolithic.execution.Execution
 import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
+import org.leibnizcenter.pneu.components.petrinet.TransitionEvent
 
 @Log4j
 class Analysis {
@@ -17,19 +18,33 @@ class Analysis {
 
     // this function save the current place, together with the
     // provenance state and the transitions which allowed its creation
-    State saveConsequent(State antecedent = null, List<Token> firedContents = []) {
+    State saveConsequent(State antecedent = null, List<TransitionEvent> firedEvents = []) {
 
+        log.trace("attempt to record current state, after firing: "+firedEvents)
         State state = stateBase.save(execution)
         log.trace("Recorded state: " + state)
 
         currentStory.addStep(state)
 
-        if (firedContents.size() > 0) {
-            if (firedContents.size() > 1)
+        if (firedEvents.size() > 0) {
+            if (firedEvents.size() > 1)
                 throw new RuntimeException("ERROR!! I should consider only one transition per time")
-            // TODO: transition with same label
-            antecedent.firedContentStateMap[firedContents[0]] = state
-            currentStory.addAccesses(firedContents)
+
+            // there is a problem with the hashcode
+
+            TransitionEvent firedEvent = firedEvents[0]
+
+            TransitionEvent key
+            for (event in antecedent.transitionEventStateMap.keySet()) {
+                if (event.transition.compare(firedEvent.transition) &&
+                        event.token.compare(firedEvent.token)) {
+                    key = event
+                    break;
+                }
+            }
+
+            antecedent.transitionEventStateMap[key] = state
+            currentStory.addEvents(firedEvents)
         }
 
         return state
@@ -37,21 +52,21 @@ class Analysis {
 
     Boolean step() {
 
-        if (!currentStory) currentStory = new Story()
-        if (!currentState) currentState = saveConsequent() // for state 0
+        if (currentStory == null) currentStory = new Story()
+        if (currentState == null) currentState = saveConsequent() // for state 0
 
         log.trace("Current story: " + currentStory)
         log.trace("Current state: " + currentState)
 
         // in case there the currentState has been already found in the past the story is complete
         // find the first transition which has not been explored from the current state
-        Transition nextTransition = currentState.findNextTransition()
+        TransitionEvent nextEvent = currentState.findNextEvent()
 
-        log.trace("Next transition: " + nextTransition)
+        log.trace("Next event: " + nextEvent)
 
         // backtrack to uncovered transitions
         // depth-first search
-        if (!nextTransition) {
+        if (nextEvent == null) {
 
             log.trace("Story completed --> attempt backtrack")
 
@@ -66,9 +81,12 @@ class Analysis {
                 log.trace("Adjusting story: " + newStory)
 
                 // find the first transition which has not been explored from the step state
-                nextTransition = step.findNextTransition()
-                if (nextTransition) {
-                    log.trace("========= Reload @ state " + step)
+                nextEvent = step.findNextEvent()
+
+                log.trace("I can fire: " + nextEvent)
+
+                if (nextEvent != null) {
+                    log.trace("========= reload @ state " + step)
 
                     // opportunistic reload
                     currentState = step
@@ -76,24 +94,24 @@ class Analysis {
                     execution.loadState(currentState)
 
                     // recompute the emitters which fired
-                    execution.firedEmitterList = currentStory.getAllEvents() - (execution.getEmitterInputs() - currentStory.getAllEvents())
+                    execution.firedEmitterEventList = currentStory.getAllTransitionEvents() - (execution.getEmitterInputs() - currentStory.getAllTransitionEvents())
 
-                    log.trace("Reloaded story: " + currentStory)
+                    log.trace("reloaded story: " + currentStory)
 
                     log.trace("emitter inputs: " + execution.getEmitterInputs())
-                    log.trace("events in story: " +  currentStory.getAllEvents())
-                    log.trace("fired emitter list: " + execution.firedEmitterList)
+                    log.trace("events in story: " + currentStory.getAllTransitionEvents())
+                    log.trace("fired emitter event list: " + execution.firedEmitterEventList)
                     break
                 }
             }
         }
 
-        if (!nextTransition) {
+        if (nextEvent == null) {
             log.trace("Exploration finished")
             return false
         }
 
-        Token firedContent = execution.fire(nextTransition)
+        TransitionEvent firedContent = execution.fire(nextEvent)
         currentState = saveConsequent(currentState, [firedContent])
 
         return true

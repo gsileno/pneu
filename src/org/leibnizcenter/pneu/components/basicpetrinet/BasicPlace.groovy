@@ -7,7 +7,7 @@ class BasicPlace extends Place {
 
     String name
 
-    List<BasicToken> marking = []
+    List<Token> marking = []
 
     String toString() {
         if (name != null) return name+" ("+marking.size()+")"

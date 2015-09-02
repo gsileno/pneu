@@ -1,17 +1,27 @@
 package org.leibnizcenter.pneu.components.basicpetrinet
 
+import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.components.petrinet.ArcType
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
+import org.leibnizcenter.pneu.components.petrinet.TransitionEvent
 
+@Log4j
 class BasicTransition extends Transition {
 
     String name
 
+    Boolean compare(Transition other) {
+        compare(this, other)
+    }
+
     static Boolean compare(Transition t1, Transition t2) {
-        if (t1 == t2) return true
-        if (((BasicTransition) t1).name != ((BasicTransition) t2).name) return false
+        log.debug("Comparing ${t1} with ${t2}")
+
+        if (t1 == t2) { log.debug("They are the same object"); return true }
+        if (((BasicTransition) t1).name != ((BasicTransition) t2).name) { log.debug("They have a different name"); return false }
+        if (((BasicTransition) t1).id != ((BasicTransition) t2).id) { log.debug("They have a different id"); return false }
         return true
     }
 
@@ -66,7 +76,7 @@ class BasicTransition extends Transition {
         return true
     }
 
-    Token fire() {
+    TransitionEvent fire() {
         consumeInputTokens()
         produceOutputTokens()
     }
@@ -81,14 +91,15 @@ class BasicTransition extends Transition {
         }
     }
 
-    Token produceOutputTokens() {
+    TransitionEvent produceOutputTokens() {
 
         Token content = new BasicToken()
+        TransitionEvent event = new TransitionEvent(transition: this, token: content)
 
         for (elem in outputs) {
             if (elem.type == ArcType.NORMAL) {
                 for (int i = 0; i < elem.weight; i++) {
-                    ((BasicPlace) elem.target).marking.push(content.minimalClone())
+                    ((BasicPlace) elem.target).marking.add(content.minimalClone())
                 }
             } else if (elem.type == ArcType.RESET) {
                 ((BasicPlace) elem.target).flush()
@@ -96,6 +107,25 @@ class BasicTransition extends Transition {
                 throw new RuntimeException("Not yet implemented.")
             }
         }
+
+        event
     }
 
+    //  for basic petri nets, the tokens do not contain any data, their are all equals
+    TransitionEvent fire(TransitionEvent event) {
+        fire()
+    }
+
+    TransitionEvent produceOutputTokens(TransitionEvent event) {
+        produceOutputTokens()
+    }
+
+    void consumeInputTokens(TransitionEvent event) {
+        consumeInputTokens()
+    }
+
+    List<TransitionEvent> fireableEvents() {
+        if (isEnabledIncludingEmission()) [new TransitionEvent(transition: this, token: new BasicToken())]
+        else []
+    }
 }

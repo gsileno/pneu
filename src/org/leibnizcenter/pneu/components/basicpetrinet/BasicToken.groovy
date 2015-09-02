@@ -15,11 +15,13 @@ class BasicToken extends Token {
     }
 
     Token minimalClone() {
-        return new BasicToken()
+        new BasicToken()
     }
 
     static Token createToken() {
-        return new BasicToken()
+        new BasicToken()
     }
+
+    String label() { "" }
 
 }

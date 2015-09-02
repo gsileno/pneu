@@ -2,24 +2,25 @@ package org.leibnizcenter.pneu.animation.monolithic.analysis
 
 import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.components.petrinet.Transition
+import org.leibnizcenter.pneu.components.petrinet.TransitionEvent
 
 @Log4j
 class Story {
 
     List<State> steps = []
     // in case multiple transitions may be fired in a certain moment
-    List<List<Transition>> eventsPerStep = []
+    List<List<TransitionEvent>> eventsPerStep = []
 
     void addStep(State state) {
         steps << state
     }
 
-    void addAccesses(List<Transition> transitions) {
+    void addEvents(List<TransitionEvent> transitions) {
         eventsPerStep << transitions
     }
 
-    List<Transition> getAllEvents() {
-        List<Transition> allEvents = []
+    List<TransitionEvent> getAllTransitionEvents() {
+        List<TransitionEvent> allEvents = []
         for (events in eventsPerStep) {
             allEvents += events
         }
@@ -37,15 +38,15 @@ class Story {
 
     Story minimalClone() {
 
-        List<List<Transition>> newAccesses = []
+        List<List<TransitionEvent>> newEvent = []
 
-        for (transitionList in eventsPerStep) {
-            newAccesses << transitionList.collect()
+        for (eventList in eventsPerStep) {
+            newEvent << eventList.collect()
         }
 
         new Story(
                 steps: steps.collect(),
-                eventsPerStep: newAccesses
+                eventsPerStep: newEvent
         )
     }
 }

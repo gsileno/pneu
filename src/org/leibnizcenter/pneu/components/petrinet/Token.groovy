@@ -8,4 +8,6 @@ abstract class Token {
 
     abstract Token minimalClone()
 
+    abstract String label()
+
 }

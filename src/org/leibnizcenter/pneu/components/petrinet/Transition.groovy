@@ -26,13 +26,18 @@ abstract class Transition extends Node {
 
     abstract Boolean isEnabled()
 
-    abstract Token fire()
-
-    abstract void consumeInputTokens()
-
     // it returns the content produced as
     // a token with the label of the transition
     // (no anonymous variables generated for the places)
-    abstract Token produceOutputTokens()
+    abstract TransitionEvent fire()
+    abstract void consumeInputTokens()
+    abstract TransitionEvent produceOutputTokens()
 
+    // to direct the firing for a specific event of the transition (introduced because of LPPN)
+    abstract TransitionEvent fire(TransitionEvent event)
+    abstract void consumeInputTokens(TransitionEvent event)
+    abstract TransitionEvent produceOutputTokens(TransitionEvent event)
+
+    // return all the possible fireable events (introduced because of LPPN)
+    abstract List<TransitionEvent> fireableEvents()
 }

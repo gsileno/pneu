@@ -1,17 +1,19 @@
 package org.leibnizcenter.pneu.animation.monolithic.analysis
 
+import org.leibnizcenter.pneu.components.petrinet.TransitionEvent
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
+
 
 class State {
 
     String label
 
-    // associate to each place id a certain marking
+    // associat+e to each place id a certain marking
     Map<String, List<Token>> placeIdTokensMap
     // associate to each fired content of transition, the state in which it brings
-    Map<Token, State> firedContentStateMap
+    Map<TransitionEvent, State> transitionEventStateMap
 
     List<Place> placeList
     List<Transition> transitionList
@@ -29,12 +31,12 @@ class State {
         }
     }
 
-    void setEnabledTransitions(List<Transition> transitions) {
-        firedContentStateMap = [:]
+    void setEnabledFiring(List<TransitionEvent> enabledFiringList) {
+        transitionEventStateMap = [:]
 
         // open the space for potential next steps
-        for (t in transitions) {
-            firedContentStateMap[t] = null
+        for (t in enabledFiringList) {
+            transitionEventStateMap[t] = null
         }
     }
 
@@ -43,15 +45,21 @@ class State {
         else placesToString()
     }
 
-    Transition findNextTransition() {
-        Transition nextTransition = null
-        for (elem in firedContentStateMap) {
+    String status() {
+        String output = ""
+        if (label) output += label +": "
+        output += placeIdTokensMap.size() + ", " + transitionEventStateMap.size()
+    }
+
+    TransitionEvent findNextEvent() {
+        TransitionEvent nextEvent = null
+        for (elem in transitionEventStateMap) {
             if (elem.value == null) {
-                nextTransition = elem.key
+                nextEvent = elem.key
                 break
             }
         }
-        nextTransition
+        nextEvent
     }
 
     String placesToString() {
@@ -65,14 +73,14 @@ class State {
         return output
     }
 
-    String transitionsToString() {
+    String transitionEventsToString() {
         String output = "["
-        for (elem in firedContentStateMap) {
+        for (elem in transitionEventStateMap) {
             output += elem.key.toString() + " => "
             if (!elem.value) output += "?, "
             else output += "("+elem.value.label+"), "
         }
-        if (firedContentStateMap.size() > 0) output = output[0..-3]+"]"
+        if (transitionEventStateMap.size() > 0) output = output[0..-3]+"]"
         else output += "]"
 
         return output
@@ -126,7 +134,7 @@ class State {
 
         new State(
                 placeIdTokensMap: clonedPlaceIdTokensMap,
-                firedContentStateMap: firedContentStateMap
+                transitionEventStateMap: transitionEventStateMap
         )
     }
 }

@@ -3,9 +3,9 @@ package org.leibnizcenter.pneu.animation.monolithic.execution
 import org.leibnizcenter.pneu.animation.monolithic.analysis.State
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
-import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.components.petrinet.Node
+import org.leibnizcenter.pneu.components.petrinet.TransitionEvent
 
 /* Implementation notes
 
@@ -60,7 +60,7 @@ abstract class Execution {
     // when you already know what to execute (resuming after analysis)
     // the functions returns the content fired as a token
     // (pay attention: it does not include the possible anonymous parameters generated for the places)
-    abstract Token fire(Transition t)
+    abstract TransitionEvent fire(TransitionEvent t)
 
     // TODO: check the state after the run! we should put again at state 0
     // load the net
@@ -87,6 +87,8 @@ abstract class Execution {
         return net.inputs
     }
 
+    // return emitters as the inputs of the net
+    // TODO: add also the explicit EMITTERS
     List<Transition> getEmitterInputs() {
         List<Transition> emitterInputs = []
         for (input in net.inputs) {
@@ -97,5 +99,5 @@ abstract class Execution {
         emitterInputs
     }
 
-    List<Transition> firedEmitterList = []
+    List<TransitionEvent> firedEmitterEventList = []
 }
