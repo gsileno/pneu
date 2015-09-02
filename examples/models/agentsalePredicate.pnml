@@ -1,0 +1,531 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do1">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <transition id="tr4">
+      <graphics>
+        <position x="330" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr6">
+      <name>
+        <text>buy(Good, Price) AND Price &lt;= DesiredPrice</text>
+      </name>
+      <graphics>
+        <position x="330" y="495" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr2">
+      <name>
+        <text>null commitment @ buy(Good, DesiredPrice)</text>
+      </name>
+      <graphics>
+        <position x="462" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr3">
+      <graphics>
+        <position x="330" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr11">
+      <name>
+        <text>commitment @ buy(Good, DesiredPrice: DesiredPrice + 1)</text>
+      </name>
+      <graphics>
+        <position x="462" y="165" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr12">
+      <graphics>
+        <position x="330" y="693" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr13">
+      <graphics>
+        <position x="198" y="693" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr14">
+      <graphics>
+        <position x="330" y="825" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr15">
+      <name>
+        <text>commitment @ waitFor(offers(Seller, Good, Price) and Price &lt;= DesiredPrice</text>
+      </name>
+      <graphics>
+        <position x="462" y="825" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr17">
+      <graphics>
+        <position x="396" y="627" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr7">
+      <name>
+        <text>.send(Seller, accepts(Buyer, Seller, Good, Money))</text>
+      </name>
+      <graphics>
+        <position x="594" y="825" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr9">
+      <name>
+        <text>commitment @ waitFor(delivers(Seller, Buyer, Good))</text>
+      </name>
+      <graphics>
+        <position x="726" y="891" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr20">
+      <name>
+        <text>.pay(Money, Seller)</text>
+      </name>
+      <graphics>
+        <position x="726" y="759" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr23">
+      <name>
+        <text>SUCCESS(buy(Good, Price))</text>
+      </name>
+      <graphics>
+        <position x="858" y="825" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr26">
+      <graphics>
+        <position x="396" y="1056" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr27">
+      <name>
+        <text>timeout</text>
+      </name>
+      <graphics>
+        <position x="396" y="1188" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr28">
+      <name>
+        <text>not commitment @ buy(Good, DesiredPrice)</text>
+      </name>
+      <graphics>
+        <position x="264" y="957" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr30">
+      <name>
+        <text>commitment @ buy(Good, DesiredPrice: DesiredPrice - 1)</text>
+      </name>
+      <graphics>
+        <position x="132" y="957" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr10">
+      <graphics>
+        <position x="792" y="1056" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr16">
+      <name>
+        <text>timeout</text>
+      </name>
+      <graphics>
+        <position x="792" y="1188" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr18">
+      <name>
+        <text>.... enforce</text>
+      </name>
+      <graphics>
+        <position x="924" y="1056" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr8">
+      <graphics>
+        <position x="528" y="1056" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr19">
+      <name>
+        <text>offers(Seller, Good, Price) and Price &lt;= DesiredPrice</text>
+      </name>
+      <graphics>
+        <position x="528" y="1188" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl2">
+      <name>
+        <text>commitment @ buy(Good, DesiredPrice)</text>
+      </name>
+      <graphics>
+        <position x="264" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+    </place>
+    <place id="pl5">
+      <name>
+        <text>SUCCESS(commitment @ buy(Good, DesiredPrice))</text>
+      </name>
+      <graphics>
+        <position x="330" y="429" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl1">
+      <graphics>
+        <position x="396" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl4">
+      <name>
+        <text>INITIATION(commitment @ buy(Good, DesiredPrice))</text>
+      </name>
+      <graphics>
+        <position x="330" y="165" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl8">
+      <graphics>
+        <position x="462" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl9">
+      <name>
+        <text>INITIATION(affordance @ buy(Good, DesiredPrice))</text>
+      </name>
+      <graphics>
+        <position x="330" y="627" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl10">
+      <name>
+        <text>affordance @ buy(Good, Price)</text>
+      </name>
+      <graphics>
+        <position x="264" y="759" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl11">
+      <name>
+        <text>expiration</text>
+      </name>
+      <graphics>
+        <position x="198" y="627" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl14">
+      <graphics>
+        <position x="396" y="825" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl17">
+      <name>
+        <text>owns(Money) AND Money &gt;= DesiredPrice</text>
+      </name>
+      <graphics>
+        <position x="462" y="627" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+    </place>
+    <place id="pl6">
+      <graphics>
+        <position x="528" y="825" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl15">
+      <graphics>
+        <position x="660" y="891" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl20">
+      <graphics>
+        <position x="660" y="759" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl23">
+      <graphics>
+        <position x="792" y="759" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl24">
+      <graphics>
+        <position x="792" y="891" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl26">
+      <name>
+        <text>commitment @ waitFor(offers(Seller, Good, Price) and Price &lt;= DesiredPrice</text>
+      </name>
+      <graphics>
+        <position x="462" y="990" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl27">
+      <name>
+        <text>FAILURE(commitment @ waitFor(offers(Seller, Good, Price) and Price &lt;= DesiredPrice)</text>
+      </name>
+      <graphics>
+        <position x="396" y="1122" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl28">
+      <graphics>
+        <position x="264" y="1056" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl30">
+      <graphics>
+        <position x="198" y="957" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl16">
+      <name>
+        <text>commitment @ waitFor(delivers(Seller, Buyer, Good))</text>
+      </name>
+      <graphics>
+        <position x="726" y="990" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl18">
+      <name>
+        <text>FAILURE(commitment @ waitFor(delivers(Seller, Buyer, Good)))</text>
+      </name>
+      <graphics>
+        <position x="792" y="1122" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl19">
+      <graphics>
+        <position x="858" y="1056" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl12">
+      <name>
+        <text>SUCCESS(commitment @ waitFor(offers(Seller, Good, Price) and Price &lt;= DesiredPrice)</text>
+      </name>
+      <graphics>
+        <position x="528" y="1122" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl22">
+      <graphics>
+        <position x="528" y="891" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl7">
+      <graphics>
+        <position x="396" y="495" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <arc id="a1" source="pl5" target="tr4" />
+    <arc id="a2" source="tr4" target="pl5" />
+    <arc id="a3" source="pl2" target="tr4" />
+    <arc id="a4" source="tr4" target="pl2" />
+    <arc id="a5" source="pl2" target="tr6">
+      <graphics>
+        <position x="264" y="495" />
+      </graphics>
+    </arc>
+    <arc id="a6" source="tr6" target="pl2">
+      <graphics>
+        <position x="264" y="495" />
+      </graphics>
+    </arc>
+    <arc id="a7" source="tr6" target="pl5" />
+    <arc id="a8" source="pl1" target="tr2" />
+    <arc id="a9" source="tr4" target="pl1" />
+    <arc id="a10" source="tr3" target="pl2" />
+    <arc id="a11" source="pl2" target="tr2">
+      <graphics>
+        <position x="396" y="297" />
+      </graphics>
+    </arc>
+    <arc id="a12" source="pl8" target="tr11" />
+    <arc id="a13" source="tr2" target="pl8" />
+    <arc id="a14" source="tr12" target="pl10" />
+    <arc id="a15" source="pl10" target="tr13" />
+    <arc id="a16" source="tr14" target="pl14" />
+    <arc id="a17" source="pl14" target="tr15" />
+    <arc id="a18" source="pl9" target="tr12" />
+    <arc id="a19" source="tr12" target="pl9" />
+    <arc id="a20" source="pl11" target="tr13" />
+    <arc id="a21" source="tr13" target="pl11" />
+    <arc id="a22" source="pl10" target="tr14" />
+    <arc id="a23" source="tr14" target="pl10" />
+    <arc id="a24" source="tr12" target="pl10">
+      <type>
+        <text>inhibitor</text>
+      </type>
+    </arc>
+    <arc id="a25" source="tr17" target="pl9" />
+    <arc id="a26" source="pl17" target="tr17" />
+    <arc id="a27" source="tr15" target="pl6" />
+    <arc id="a28" source="pl6" target="tr7" />
+    <arc id="a29" source="pl15" target="tr9" />
+    <arc id="a30" source="tr7" target="pl15" />
+    <arc id="a31" source="tr7" target="pl20" />
+    <arc id="a32" source="pl20" target="tr20" />
+    <arc id="a33" source="tr20" target="pl23" />
+    <arc id="a34" source="pl24" target="tr23" />
+    <arc id="a35" source="tr9" target="pl24" />
+    <arc id="a36" source="pl23" target="tr23" />
+    <arc id="a37" source="tr27" target="pl27" />
+    <arc id="a38" source="pl28" target="tr28" />
+    <arc id="a39" source="tr26" target="pl28" />
+    <arc id="a40" source="pl30" target="tr30" />
+    <arc id="a41" source="tr28" target="pl30" />
+    <arc id="a42" source="pl27" target="tr26" />
+    <arc id="a43" source="tr26" target="pl27" />
+    <arc id="a44" source="pl26" target="tr26" />
+    <arc id="a45" source="tr26" target="pl26" />
+    <arc id="a46" source="pl26" target="tr27">
+      <graphics>
+        <position x="429" y="1188" />
+        <position x="429" y="1056" />
+        <position x="462" y="1023" />
+      </graphics>
+    </arc>
+    <arc id="a47" source="tr27" target="pl26">
+      <graphics>
+        <position x="429" y="1188" />
+        <position x="429" y="1056" />
+        <position x="462" y="1023" />
+      </graphics>
+    </arc>
+    <arc id="a48" source="pl2" target="tr14">
+      <graphics>
+        <position x="165" y="825" />
+        <position x="165" y="297" />
+      </graphics>
+    </arc>
+    <arc id="a49" source="tr14" target="pl2">
+      <graphics>
+        <position x="165" y="825" />
+        <position x="165" y="297" />
+      </graphics>
+    </arc>
+    <arc id="a50" source="tr16" target="pl18" />
+    <arc id="a51" source="pl19" target="tr18" />
+    <arc id="a52" source="tr10" target="pl19" />
+    <arc id="a53" source="pl18" target="tr10" />
+    <arc id="a54" source="tr10" target="pl18" />
+    <arc id="a55" source="pl16" target="tr10" />
+    <arc id="a56" source="tr10" target="pl16" />
+    <arc id="a57" source="pl16" target="tr16">
+      <graphics>
+        <position x="759" y="1188" />
+        <position x="759" y="1056" />
+        <position x="726" y="1023" />
+      </graphics>
+    </arc>
+    <arc id="a58" source="tr16" target="pl16">
+      <graphics>
+        <position x="759" y="1188" />
+        <position x="759" y="1056" />
+        <position x="726" y="1023" />
+      </graphics>
+    </arc>
+    <arc id="a59" source="tr9" target="pl16" />
+    <arc id="a60" source="tr15" target="pl26" />
+    <arc id="a61" source="tr19" target="pl12" />
+    <arc id="a62" source="pl12" target="tr8" />
+    <arc id="a63" source="tr8" target="pl12" />
+    <arc id="a64" source="pl26" target="tr8" />
+    <arc id="a65" source="pl26" target="tr19">
+      <graphics>
+        <position x="495" y="1188" />
+        <position x="495" y="1056" />
+        <position x="462" y="1023" />
+      </graphics>
+    </arc>
+    <arc id="a66" source="tr19" target="pl26">
+      <graphics>
+        <position x="495" y="1188" />
+        <position x="495" y="1056" />
+        <position x="462" y="1023" />
+      </graphics>
+    </arc>
+    <arc id="a67" source="tr8" target="pl22" />
+    <arc id="a68" source="pl22" target="tr7" />
+    <arc id="a69" source="pl2" target="tr28">
+      <graphics>
+        <position x="231" y="264" />
+        <position x="132" y="264" />
+        <position x="132" y="825" />
+      </graphics>
+    </arc>
+    <arc id="a70" source="tr11" target="pl4" />
+    <arc id="a71" source="tr30" target="pl4">
+      <graphics>
+        <position x="99" y="957" />
+        <position x="99" y="165" />
+      </graphics>
+    </arc>
+    <arc id="a72" source="pl4" target="tr3" />
+    <arc id="a73" source="tr23" target="pl7">
+      <graphics>
+        <position x="858" y="495" />
+      </graphics>
+    </arc>
+    <arc id="a74" source="pl7" target="tr6" />
+  </net>
+</pnml>

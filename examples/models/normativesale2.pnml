@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do1">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <transition id="tr3">
+      <graphics>
+        <position x="231" y="297" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr4">
+      <name>
+        <text>seller offers</text>
+      </name>
+      <graphics>
+        <position x="363" y="297" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr5">
+      <graphics>
+        <position x="363" y="429" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr7">
+      <graphics>
+        <position x="363" y="561" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr8">
+      <name>
+        <text>buyer accepts</text>
+      </name>
+      <graphics>
+        <position x="495" y="561" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr17">
+      <graphics>
+        <position x="429" y="693" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr19">
+      <graphics>
+        <position x="297" y="825" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr20">
+      <graphics>
+        <position x="429" y="825" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr6">
+      <graphics>
+        <position x="561" y="693" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr12">
+      <graphics>
+        <position x="561" y="825" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr13">
+      <graphics>
+        <position x="693" y="825" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr18">
+      <name>
+        <text>seller delivers</text>
+      </name>
+      <graphics>
+        <position x="693" y="957" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr21">
+      <name>
+        <text>seller does not deliver</text>
+      </name>
+      <graphics>
+        <position x="561" y="957" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr2">
+      <name>
+        <text>buyer does not pay</text>
+      </name>
+      <graphics>
+        <position x="297" y="957" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr11">
+      <name>
+        <text>buyer pays</text>
+      </name>
+      <graphics>
+        <position x="429" y="957" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr24">
+      <graphics>
+        <position x="165" y="165" />
+        <dimension x="32" y="32" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <emitor xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </emitor>
+        <processingTime xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <mean>
+            <text>1</text>
+          </mean>
+          <deviation>
+            <text>0</text>
+          </deviation>
+        </processingTime>
+      </toolspecific>
+    </transition>
+    <transition id="tr22">
+      <graphics>
+        <position x="1122" y="693" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl2">
+      <name>
+        <text>seller's power to offer</text>
+      </name>
+      <graphics>
+        <position x="165" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl6">
+      <graphics>
+        <position x="297" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl7">
+      <name>
+        <text>initiation buyer's power accept</text>
+      </name>
+      <graphics>
+        <position x="363" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl8">
+      <name>
+        <text>buyer's power to accept</text>
+      </name>
+      <graphics>
+        <position x="297" y="495" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl12">
+      <graphics>
+        <position x="429" y="561" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl19">
+      <name>
+        <text>initiation buyer's duty to pay</text>
+      </name>
+      <graphics>
+        <position x="429" y="627" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl21">
+      <name>
+        <text>buyer's duty to pay</text>
+      </name>
+      <graphics>
+        <position x="363" y="759" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl23">
+      <name>
+        <text>failure</text>
+      </name>
+      <graphics>
+        <position x="297" y="891" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl24">
+      <name>
+        <text>success</text>
+      </name>
+      <graphics>
+        <position x="429" y="891" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl4">
+      <name>
+        <text>initiation seller's duty to deliver</text>
+      </name>
+      <graphics>
+        <position x="561" y="627" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl5">
+      <name>
+        <text>seller's duty to deliver</text>
+      </name>
+      <graphics>
+        <position x="627" y="759" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl10">
+      <name>
+        <text>failure</text>
+      </name>
+      <graphics>
+        <position x="561" y="891" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl11">
+      <name>
+        <text>success</text>
+      </name>
+      <graphics>
+        <position x="693" y="891" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl22">
+      <graphics>
+        <position x="1122" y="660" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <arc id="a1" source="tr3" target="pl6" />
+    <arc id="a2" source="pl6" target="tr4" />
+    <arc id="a3" source="pl2" target="tr3" />
+    <arc id="a4" source="tr3" target="pl2" />
+    <arc id="a5" source="tr7" target="pl12" />
+    <arc id="a6" source="pl12" target="tr8" />
+    <arc id="a7" source="pl8" target="tr7" />
+    <arc id="a8" source="tr7" target="pl8" />
+    <arc id="a9" source="tr3" target="pl6">
+      <type>
+        <text>inhibitor</text>
+      </type>
+    </arc>
+    <arc id="a10" source="tr4" target="pl7" />
+    <arc id="a11" source="tr8" target="pl19" />
+    <arc id="a12" source="pl23" target="tr19" />
+    <arc id="a13" source="pl21" target="tr19" />
+    <arc id="a14" source="tr19" target="pl21" />
+    <arc id="a15" source="pl24" target="tr20" />
+    <arc id="a16" source="pl10" target="tr12" />
+    <arc id="a17" source="pl5" target="tr12" />
+    <arc id="a18" source="tr12" target="pl5" />
+    <arc id="a19" source="pl11" target="tr13" />
+    <arc id="a20" source="tr8" target="pl4" />
+    <arc id="a21" source="tr21" target="pl10" />
+    <arc id="a22" source="tr18" target="pl11" />
+    <arc id="a23" source="pl21" target="tr20" />
+    <arc id="a24" source="tr6" target="pl5" />
+    <arc id="a25" source="tr17" target="pl21" />
+    <arc id="a26" source="tr5" target="pl8" />
+    <arc id="a27" source="pl7" target="tr5" />
+    <arc id="a28" source="pl4" target="tr6" />
+    <arc id="a29" source="pl19" target="tr17" />
+    <arc id="a30" source="pl8" target="tr8">
+      <graphics>
+        <position x="429" y="495" />
+      </graphics>
+    </arc>
+    <arc id="a31" source="tr2" target="pl23" />
+    <arc id="a32" source="tr11" target="pl24" />
+    <arc id="a33" source="tr24" target="pl2" />
+    <arc id="a34" source="pl2" target="tr4">
+      <graphics>
+        <position x="297" y="231" />
+      </graphics>
+    </arc>
+    <arc id="a35" source="tr7" target="pl12">
+      <type>
+        <text>inhibitor</text>
+      </type>
+    </arc>
+    <arc id="a36" source="pl5" target="tr13" />
+    <arc id="a37" source="pl22" target="tr22" />
+    <arc id="a38" source="pl21" target="tr2">
+      <graphics>
+        <position x="330" y="957" />
+        <position x="330" y="891" />
+        <position x="330" y="825" />
+        <position x="363" y="792" />
+      </graphics>
+    </arc>
+    <arc id="a39" source="tr2" target="pl21">
+      <graphics>
+        <position x="330" y="957" />
+        <position x="330" y="891" />
+        <position x="330" y="825" />
+        <position x="363" y="792" />
+      </graphics>
+    </arc>
+    <arc id="a40" source="pl21" target="tr11">
+      <graphics>
+        <position x="396" y="957" />
+        <position x="396" y="891" />
+        <position x="396" y="825" />
+        <position x="363" y="792" />
+      </graphics>
+    </arc>
+    <arc id="a41" source="tr11" target="pl21">
+      <graphics>
+        <position x="396" y="957" />
+        <position x="396" y="891" />
+        <position x="396" y="825" />
+        <position x="363" y="792" />
+      </graphics>
+    </arc>
+    <arc id="a42" source="pl5" target="tr21">
+      <graphics>
+        <position x="594" y="957" />
+        <position x="594" y="825" />
+        <position x="627" y="792" />
+      </graphics>
+    </arc>
+    <arc id="a43" source="tr21" target="pl5">
+      <graphics>
+        <position x="594" y="957" />
+        <position x="594" y="825" />
+        <position x="627" y="792" />
+      </graphics>
+    </arc>
+    <arc id="a44" source="pl5" target="tr18">
+      <graphics>
+        <position x="660" y="957" />
+        <position x="660" y="825" />
+        <position x="627" y="792" />
+      </graphics>
+    </arc>
+    <arc id="a45" source="tr18" target="pl5">
+      <graphics>
+        <position x="660" y="957" />
+        <position x="660" y="825" />
+        <position x="627" y="792" />
+      </graphics>
+    </arc>
+  </net>
+</pnml>
