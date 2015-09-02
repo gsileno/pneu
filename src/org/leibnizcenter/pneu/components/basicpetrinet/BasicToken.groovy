@@ -14,4 +14,12 @@ class BasicToken extends Token {
         t1.compare(t2)
     }
 
+    Token minimalClone() {
+        return new BasicToken()
+    }
+
+    static Token createToken() {
+        return new BasicToken()
+    }
+
 }

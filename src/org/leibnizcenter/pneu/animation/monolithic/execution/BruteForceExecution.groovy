@@ -1,6 +1,7 @@
 package org.leibnizcenter.pneu.animation.monolithic.execution
 
 import groovy.util.logging.Log4j
+import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.components.petrinet.TransitionType
 
@@ -17,21 +18,21 @@ class BruteForceExecution extends Execution {
     }
 
     // consume and record the emission if needed
-    void produceOutputTokens(Transition t) {
+    Token produceOutputTokens(Transition t) {
         if (t.type == TransitionType.EMITTER)
             nTokenEmitted++
         t.produceOutputTokens()
     }
 
     // when you already know which transition to fire (for analysis)
-    void fire(Transition t) {
+    Token fire(Transition t) {
 
         if (inputs.contains(t)) {
             firedEmitterList << t
         }
 
         consumeInputTokens(t)
-        produceOutputTokens(t)
+        return produceOutputTokens(t)
     }
 
     // ---------------------------------------------------

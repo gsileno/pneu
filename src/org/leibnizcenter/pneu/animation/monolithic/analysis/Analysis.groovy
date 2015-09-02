@@ -2,6 +2,7 @@ package org.leibnizcenter.pneu.animation.monolithic.analysis
 
 import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.animation.monolithic.execution.Execution
+import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
 
 @Log4j
@@ -16,19 +17,19 @@ class Analysis {
 
     // this function save the current place, together with the
     // provenance state and the transitions which allowed its creation
-    State saveConsequent(State antecedent = null, List<Transition> firedTransitions = []) {
+    State saveConsequent(State antecedent = null, List<Token> firedContents = []) {
 
         State state = stateBase.save(execution)
         log.trace("Recorded state: " + state)
 
         currentStory.addStep(state)
 
-        if (firedTransitions.size() > 0) {
-            if (firedTransitions.size() > 1)
+        if (firedContents.size() > 0) {
+            if (firedContents.size() > 1)
                 throw new RuntimeException("ERROR!! I should consider only one transition per time")
             // TODO: transition with same label
-            antecedent.transitionStateMap[firedTransitions[0]] = state
-            currentStory.addAccesses(firedTransitions)
+            antecedent.firedContentStateMap[firedContents[0]] = state
+            currentStory.addAccesses(firedContents)
         }
 
         return state
@@ -92,8 +93,8 @@ class Analysis {
             return false
         }
 
-        execution.fire(nextTransition)
-        currentState = saveConsequent(currentState, [nextTransition])
+        Token firedContent = execution.fire(nextTransition)
+        currentState = saveConsequent(currentState, [firedContent])
 
         return true
     }

@@ -3,6 +3,7 @@ package org.leibnizcenter.pneu.animation.monolithic.execution
 import org.leibnizcenter.pneu.animation.monolithic.analysis.State
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
+import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.components.petrinet.Node
 
@@ -57,7 +58,9 @@ abstract class Execution {
     abstract Boolean step()
 
     // when you already know what to execute (resuming after analysis)
-    abstract void fire(Transition t)
+    // the functions returns the content fired as a token
+    // (pay attention: it does not include the possible anonymous parameters generated for the places)
+    abstract Token fire(Transition t)
 
     // TODO: check the state after the run! we should put again at state 0
     // load the net

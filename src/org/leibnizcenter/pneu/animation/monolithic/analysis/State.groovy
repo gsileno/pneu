@@ -10,8 +10,8 @@ class State {
 
     // associate to each place id a certain marking
     Map<String, List<Token>> placeIdTokensMap
-    // associate to each transition, the state in which it brings
-    Map<Transition, State> transitionStateMap
+    // associate to each fired content of transition, the state in which it brings
+    Map<Token, State> firedContentStateMap
 
     List<Place> placeList
     List<Transition> transitionList
@@ -30,11 +30,11 @@ class State {
     }
 
     void setEnabledTransitions(List<Transition> transitions) {
-        transitionStateMap = [:]
+        firedContentStateMap = [:]
 
         // open the space for potential next steps
         for (t in transitions) {
-            transitionStateMap[t] = null
+            firedContentStateMap[t] = null
         }
     }
 
@@ -45,7 +45,7 @@ class State {
 
     Transition findNextTransition() {
         Transition nextTransition = null
-        for (elem in transitionStateMap) {
+        for (elem in firedContentStateMap) {
             if (elem.value == null) {
                 nextTransition = elem.key
                 break
@@ -67,12 +67,12 @@ class State {
 
     String transitionsToString() {
         String output = "["
-        for (elem in transitionStateMap) {
+        for (elem in firedContentStateMap) {
             output += elem.key.toString() + " => "
             if (!elem.value) output += "?, "
             else output += "("+elem.value.label+"), "
         }
-        if (transitionStateMap.size() > 0) output = output[0..-3]+"]"
+        if (firedContentStateMap.size() > 0) output = output[0..-3]+"]"
         else output += "]"
 
         return output
@@ -126,7 +126,7 @@ class State {
 
         new State(
                 placeIdTokensMap: clonedPlaceIdTokensMap,
-                transitionStateMap: transitionStateMap
+                firedContentStateMap: firedContentStateMap
         )
     }
 }

@@ -66,7 +66,7 @@ class BasicTransition extends Transition {
         return true
     }
 
-    void fire() {
+    Token fire() {
         consumeInputTokens()
         produceOutputTokens()
     }
@@ -81,11 +81,14 @@ class BasicTransition extends Transition {
         }
     }
 
-    void produceOutputTokens() { // TOCHECK, I shoulnd't have the abstract here
+    Token produceOutputTokens() {
+
+        Token content = new BasicToken()
+
         for (elem in outputs) {
             if (elem.type == ArcType.NORMAL) {
                 for (int i = 0; i < elem.weight; i++) {
-                    ((BasicPlace) elem.target).marking.push(new BasicToken())
+                    ((BasicPlace) elem.target).marking.push(content.minimalClone())
                 }
             } else if (elem.type == ArcType.RESET) {
                 ((BasicPlace) elem.target).flush()

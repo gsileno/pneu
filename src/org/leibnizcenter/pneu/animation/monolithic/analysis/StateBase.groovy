@@ -41,28 +41,28 @@ class StateBase {
         log.trace("I don't have it ==> I add it: " + newState)
 
         // if new state, add all enabled transitions
-        List<Transition> enabledTransitions = []
+        List<Token> enabledFiringList = []
 
         // consider all emitters enabled as long as they are not fired
         // emitters are stored in execution.inputs, i.e. in execution.net.inputs
         if (execution.inputs.size() > 0) {
             for (emitter in execution.getEmitterInputs()) {
                 if (!execution.firedEmitterList.contains(emitter)) {
-                    enabledTransitions << (Transition) emitter
+                    enabledFiringList << (Transition) emitter
                 }
             }
         }
 
-        if (!newState.transitionStateMap) {
+        if (!newState.firedContentStateMap) {
             for (t in execution.transitions - execution.inputs) {
                 if (t.isEnabled()) {  // we are in the analysis cycle, no continuous emission
-                    enabledTransitions << t
+                    enabledFiringList << t
                 }
             }
-            newState.setEnabledTransitions(enabledTransitions)
+            newState.setEnabledTransitions(enabledFiringList)
         }
 
-        log.trace("enabled transitions: " + enabledTransitions)
+        log.trace("enabled transitions: " + enabledFiringList)
 
         base.add(newState)
 

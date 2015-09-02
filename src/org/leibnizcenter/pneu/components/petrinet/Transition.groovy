@@ -18,13 +18,21 @@ abstract class Transition extends Node {
 
     // useful functions
     abstract Transition minimalClone()
+
     abstract Boolean compare(Transition t1, Transition t2)
 
     // operational semantics
     abstract Boolean isEnabledIncludingEmission()
+
     abstract Boolean isEnabled()
-    abstract void fire()
+
+    abstract Token fire()
+
     abstract void consumeInputTokens()
-    abstract void produceOutputTokens()
+
+    // it returns the content produced as
+    // a token with the label of the transition
+    // (no anonymous variables generated for the places)
+    abstract Token produceOutputTokens()
 
 }

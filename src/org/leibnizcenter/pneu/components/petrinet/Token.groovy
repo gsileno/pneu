@@ -6,4 +6,6 @@ abstract class Token {
 
     abstract Boolean compare(Token t)
 
+    abstract Token minimalClone()
+
 }
