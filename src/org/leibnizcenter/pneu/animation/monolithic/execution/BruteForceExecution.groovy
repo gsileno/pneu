@@ -58,7 +58,7 @@ class BruteForceExecution extends Execution {
 
     // when you already know which transition to fire (for analysis)
     TransitionEvent fire(TransitionEvent event) {
-        log.debug("firing event "+event)
+        log.trace("firing event "+event)
 
         if (inputs.contains(event.transition)) {
             firedEmitterEventList << event
@@ -66,7 +66,7 @@ class BruteForceExecution extends Execution {
 
         consumeInputTokens(event)
         event = produceOutputTokens(event)
-        log.debug("fired event "+event)
+        log.trace("fired event "+event)
 
         event
     }

@@ -70,7 +70,7 @@ class StateBase {
             newState.setEnabledFiring(enabledFiringList)
         }
 
-        log.debug("enabled transition events: " + enabledFiringList)
+        log.trace("enabled transition events: " + enabledFiringList)
 
         base.add(newState)
 

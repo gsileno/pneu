@@ -20,13 +20,13 @@ class Analysis {
     // provenance state and the transitions which allowed its creation
     State saveConsequent(State antecedent = null, List<TransitionEvent> firedEvents = []) {
 
-        log.debug("attempt to record current state, after firing: " + firedEvents)
+        log.trace("attempt to record current state, after firing: " + firedEvents)
         State state = stateBase.save(execution)
         log.trace("recorded state: " + state)
 
         if (antecedent) {
-            log.debug(antecedent)
-            log.debug(antecedent.transitionEventStateMap)
+            log.trace(antecedent)
+            log.trace(antecedent.transitionEventStateMap)
         }
 
         currentStory.addStep(state)
@@ -37,11 +37,11 @@ class Analysis {
 
             // BUG: there was a problem with the hashcode. repaired manually
             TransitionEvent firedEvent = firedEvents[0]
-            log.debug("fired event: " + firedEvents[0])
+            log.trace("fired event: " + firedEvents[0])
 
             TransitionEvent key
             for (event in antecedent.transitionEventStateMap.keySet()) {
-                log.debug("event to be compared: " + event)
+                log.trace("event to be compared: " + event)
                 if (event.transition.compare(firedEvent.transition) &&
                         event.token.compare(firedEvent.token)) {
                     key = event
@@ -86,7 +86,7 @@ class Analysis {
         // depth-first search
         if (complete) {
 
-            log.debug("story completed --> attempt backtrack")
+            log.trace("story completed --> attempt backtrack")
 
             storyBase.addStory(currentStory)
             Story newStory = currentStory.minimalClone()
