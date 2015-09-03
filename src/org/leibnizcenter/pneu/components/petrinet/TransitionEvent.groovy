@@ -15,11 +15,11 @@ class TransitionEvent {
 
     String label() {
         if (token.label() != "") {
-            token.label()+", "
+            token.label()
         } else if (transition.label() != "") {
-            transition.label()+", "
+            transition.label()
         } else {
-            transition.id+", "
+            transition.id
         }
     }
 }

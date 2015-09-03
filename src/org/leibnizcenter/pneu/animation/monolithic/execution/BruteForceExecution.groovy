@@ -1,7 +1,6 @@
 package org.leibnizcenter.pneu.animation.monolithic.execution
 
 import groovy.util.logging.Log4j
-import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.components.petrinet.TransitionEvent
 import org.leibnizcenter.pneu.components.petrinet.TransitionType
@@ -27,82 +26,87 @@ class BruteForceExecution extends Execution {
         t.produceOutputTokens()
     }
 
-    // when you already know which transition to fire (for analysis)
+    // when you already know which transition to fire (for execution)
     TransitionEvent fire(Transition t) {
+        log.trace("firing transition "+t)
         consumeInputTokens(t)
         TransitionEvent event = produceOutputTokens(t)
 
+        log.trace("fired event "+event)
         if (inputs.contains(t)) {
             firedEmitterEventList << event
         }
         event
+
     }
 
     ////////////// with event selection: for analysis (backtracking on unexplored firing)
 
     // consume and record the collection if needed
-    void consumeInputTokens(TransitionEvent t) {
-        if (t.transition.type == TransitionType.COLLECTOR)
+    void consumeInputTokens(TransitionEvent event) {
+        if (event.transition.type == TransitionType.COLLECTOR)
             nTokenCollected++
-        t.transition.consumeInputTokens(t)
+        event.transition.consumeInputTokens(event)
     }
 
     // consume and record the emission if needed
-    TransitionEvent produceOutputTokens(TransitionEvent t) {
-        if (t.transition.type == TransitionType.EMITTER)
+    TransitionEvent produceOutputTokens(TransitionEvent event) {
+        if (event.transition.type == TransitionType.EMITTER)
             nTokenEmitted++
-        t.transition.produceOutputTokens(t)
+        event.transition.produceOutputTokens(event)
     }
 
     // when you already know which transition to fire (for analysis)
-    TransitionEvent fire(TransitionEvent t) {
-        if (inputs.contains(t.transition)) {
-            firedEmitterEventList << t
+    TransitionEvent fire(TransitionEvent event) {
+        log.debug("firing event "+event)
+
+        if (inputs.contains(event.transition)) {
+            firedEmitterEventList << event
         }
 
-        consumeInputTokens(t)
-        TransitionEvent event = produceOutputTokens(t)
+        consumeInputTokens(event)
+        event = produceOutputTokens(event)
+        log.trace("fired event "+event)
+
         event
     }
 
-    // ---------------------------------------------------
-    // --------- Brute Force algorithm
-    // ---------------------------------------------------
-    List<TransitionEvent> cycle(Boolean includeEmission = true) {
+    // -------------------------------------------------------------
+    // --------- Brute Force algorithm ------------ for execution --
+    // -------------------------------------------------------------
+    List<TransitionEvent> cycle() {
 
-        List<TransitionEvent> firedEvents = []
+        Transition firedTransition
 
         // enabling analysis and firing: all transitions are tested
         for (t in transitions) {
             // enabled transition analysis
-            if ((!includeEmission && t.isEnabled()) || t.isEnabledIncludingEmission()) {
+            if (t.isEnabledIncludingEmission()) {
                 // transition firing
                 consumeInputTokens(t)
-                firedEvents.add(t)
+                firedTransition = t
                 break; ////// my modification: only one transition per step!
             }
         }
 
-        // end of firing: no formation lists are processed
-        for (t in firedEvents) {
-            produceOutputTokens(t)
-            transitions.remove(t) // in order to implement a kind of FIFO mechanism
-            transitions.add(t)
+        if (firedTransition != null) {
+            // end of firing: no formation lists are processed
+            TransitionEvent event = produceOutputTokens(firedTransition)
+            transitions.remove(event.transition) // in order to implement a kind of FIFO mechanism
+            transitions.add(event.transition)
+
+            // update lists not necessary in BF
+            [event]
+        } else {
+            []
         }
 
-        // update lists not necessary in BF
-        return firedEvents
     }
 
     // if a transition has fired return true
     Boolean step() {
-        List<Transition> firedTransitions = cycle()
-        return (firedTransitions.size() > 0)
-    }
-
-    Boolean stepForAnalysis() {
-        List<Transition> firedTransitions = cycle(false)
-        return (firedTransitions.size() > 0)
+        List<TransitionEvent> firedTransitionEvents = cycle()
+        return (firedTransitionEvents.size() > 0)
     }
 
 }

@@ -19,7 +19,7 @@ abstract class Transition extends Node {
     // useful functions
     abstract Transition minimalClone()
 
-    abstract Boolean compare(Transition t1, Transition t2)
+    abstract Boolean compare(Transition source)
 
     // operational semantics
     abstract Boolean isEnabledIncludingEmission()

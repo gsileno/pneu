@@ -45,10 +45,16 @@ class StateBase {
         // consider all emitters enabled as long as they are not fired
         // emitters are stored in execution.inputs, i.e. in execution.net.inputs
         if (execution.inputs.size() > 0) {
+            log.trace("there are emitters in this network")
             for (emitter in execution.getEmitterInputs()) {
+                log.trace("considering emitter "+emitter.id)
                 if (!execution.firedEmitterEventList.find() { it.transition == emitter }) {
-                    List<TransitionEvent> test = emitter.fireableEvents()
-                    enabledFiringList << new TransitionEvent(transition: emitter, token: emitter.fireableEvents().first().token)
+                    log.trace("this emitter has still not fired "+emitter.id)
+                    List<TransitionEvent> fireableEvents = emitter.fireableEvents()
+                    log.trace("because it is an emitter, I consider only one token "+fireableEvents.first().token)
+                    enabledFiringList << new TransitionEvent(transition: emitter, token: fireableEvents.first().token)
+                } else {
+                    log.trace("this emitter has already fired "+emitter.id)
                 }
             }
         }
@@ -56,7 +62,14 @@ class StateBase {
         log.trace("enabled transition events from emitters: " + enabledFiringList)
 
         if (!newState.transitionEventStateMap) {
+
+
+
             for (t in execution.transitions - execution.inputs) {
+
+                if (newState.toString() == "st5" && t.id == "t5")
+                    println("AAAAAAAAAAAAAAAAAARRRRRRRRRRRGGGGGGGGHHHHHHHH")
+
                 List<TransitionEvent> enabledFiringListPerTransition = t.fireableEvents()
                 if (enabledFiringListPerTransition.size() > 0)
                     enabledFiringList += enabledFiringListPerTransition
@@ -64,11 +77,11 @@ class StateBase {
             newState.setEnabledFiring(enabledFiringList)
         }
 
-        log.trace("enabled transition events: " + enabledFiringList)
+        log.debug("enabled transition events: " + enabledFiringList)
 
         base.add(newState)
 
-        log.trace("New state "+newState.status())
+        log.trace("new state "+newState.status())
 
         return newState
     }

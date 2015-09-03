@@ -110,12 +110,7 @@ class BasicNet extends Net {
     Net minimalClone(Map<Net, Net> sourceCloneMap = [:]) {
 
         if (!sourceCloneMap[this]) {
-            sourceCloneMap[this] = new BasicNet(transitionList: transitionList.collect(),
-                    placeList: placeList.collect(),
-                    arcList: arcList.collect(),
-                    inputs: inputs.collect(),
-                    outputs: outputs.collect(),
-                    function: function)
+            sourceCloneMap[this] = minimalCloneNoRecursive()
         }
 
         Net clone = sourceCloneMap[this]
@@ -135,6 +130,15 @@ class BasicNet extends Net {
         }
 
         clone
+    }
+
+    Net minimalCloneNoRecursive() {
+        new BasicNet(transitionList: transitionList.collect(),
+                placeList: placeList.collect(),
+                arcList: arcList.collect(),
+                inputs: inputs.collect(),
+                outputs: outputs.collect(),
+                function: function)
     }
 
     //////////////////////////////////////////////////////

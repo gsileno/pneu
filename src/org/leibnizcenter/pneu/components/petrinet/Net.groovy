@@ -197,8 +197,50 @@ abstract class Net {
 
     }
 
+    // to reify the function of the net:
+    // to identify the input and output parts,
+    // and to bound the unity of discourse (variable binding etc.)
+    Net reifyNetFunction() {
+        if (function == null) { return this }
+        else if (function.isPlaceLike()) { throw new RuntimeException("Not yet implemented")}
+        else if (function.isTransitionLike()) {
+
+            Net reifiedNet =  this.minimalCloneNoRecursive()
+
+            if (inputs.size() == 0 || inputs.size() > 1 || outputs.size() == 0 || outputs.size() > 1 ) {
+                throw new RuntimeException("For simplicity, the function of the net can be concretized only if there is only one input and one output")
+            }
+
+            if (!inputs[0].isTransitionLike() || !outputs[0].isTransitionLike()) {
+                throw new RuntimeException("For simplicity, input and output should be transitions (e.g. emitters, collectors).")
+            }
+
+            Place pFunction = reifiedNet.createPlace(function.label())
+
+            Transition start = (Transition) inputs[0]
+            Transition end = (Transition) outputs[0]
+
+            reifiedNet.createBridge(start, pFunction, end)
+
+            for (t in reifiedNet.transitionList - [start, end]) {
+                reifiedNet.createBiflowArc(pFunction, t)
+            }
+
+            for (subNet in subNets) {
+                reifiedNet.include(subNet.reifyNetFunction())
+            }
+
+            reifiedNet.exportToDot("testreified")
+            reifiedNet.resetIds()
+            reifiedNet
+        }
+    }
+
     // to deep clone the net
     abstract Net minimalClone(Map<Net, Net> sourceCloneMap)
+
+    // to clone the net at superficial level (leaving out the subnets)
+    abstract Net minimalCloneNoRecursive()
 
     // to check whether two nets share the same elements (places, transitions, arcs and subnets)
     // parent nets are NOT considered
@@ -293,6 +335,20 @@ abstract class Net {
         transitionList << target
         createBridge(source, target)
         target
+    }
+
+    void createBiflowArc(Place p, Transition t) {
+        if (!getAllPlaces().contains(p) || !getAllTransitions().contains(t)) {
+            throw new RuntimeException("Error: this net does not contain the place/transition to connect")
+        }
+        arcList += Arc.buildBiflowArcs(p, t)
+    }
+
+    void createBiflowArc(Transition t, Place p) {
+        if (!getAllPlaces().contains(p) || !getAllTransitions().contains(t)) {
+            throw new RuntimeException("Error: this net does not contain the transition/place to connect")
+        }
+        arcList += Arc.buildBiflowArcs(t, p)
     }
 
     void createArc(Place p, Transition t) {

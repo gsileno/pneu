@@ -17,11 +17,11 @@ class BasicTransition extends Transition {
     }
 
     static Boolean compare(Transition t1, Transition t2) {
-        log.debug("Comparing ${t1} with ${t2}")
+        log.trace("Comparing ${t1} with ${t2}")
 
-        if (t1 == t2) { log.debug("They are the same object"); return true }
-        if (((BasicTransition) t1).name != ((BasicTransition) t2).name) { log.debug("They have a different name"); return false }
-        if (((BasicTransition) t1).id != ((BasicTransition) t2).id) { log.debug("They have a different id"); return false }
+        if (t1 == t2) { log.trace("They are the same object"); return true }
+        if (((BasicTransition) t1).name != ((BasicTransition) t2).name) { log.trace("They have a different name"); return false }
+        if (((BasicTransition) t1).id != ((BasicTransition) t2).id) { log.trace("They have a different id"); return false }
         return true
     }
 
@@ -34,7 +34,7 @@ class BasicTransition extends Transition {
     }
 
     String toString() {
-        if (name != null) name
+        if (name != null && name != "") name
         else id
     }
 

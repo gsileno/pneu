@@ -3,6 +3,7 @@ package org.leibnizcenter.pneu.animation.monolithic.execution
 import org.leibnizcenter.pneu.animation.monolithic.analysis.State
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
+import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.components.petrinet.Node
 import org.leibnizcenter.pneu.components.petrinet.TransitionEvent
@@ -54,18 +55,23 @@ abstract class Execution {
     Integer nTokenEmitted = 0
     Integer nTokenCollected = 0
 
+    List<Token> unityOfDiscourse = []
+
     // perform one execution step
     abstract Boolean step()
+
+    // to fire a transition
+    abstract TransitionEvent fire(Transition t)
 
     // when you already know what to execute (resuming after analysis)
     // the functions returns the content fired as a token
     // (pay attention: it does not include the possible anonymous parameters generated for the places)
-    abstract TransitionEvent fire(TransitionEvent t)
+    abstract TransitionEvent fire(TransitionEvent event)
 
     // TODO: check the state after the run! we should put again at state 0
     // load the net
     void load(Net source) {
-        net = source
+        net = source.reifyNetFunction()
     }
 
     // load a state
@@ -88,7 +94,7 @@ abstract class Execution {
     }
 
     // return emitters as the inputs of the net
-    // TODO: add also the explicit EMITTERS
+    // TODO: check also the explicit EMITTERS
     List<Transition> getEmitterInputs() {
         List<Transition> emitterInputs = []
         for (input in net.inputs) {

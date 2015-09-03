@@ -57,8 +57,9 @@ class NetRunner {
 
     void status() {
         if (analysis) {
-            println "Stories: \n" + analysis.storyBase
-            println "States: \n" + analysis.stateBase
+            println("Summary: \n" + analysis.storyBase.toLog())
+            println("Stories: \n" + analysis.storyBase)
+            println("States: \n" + analysis.stateBase)
         } else {
             println "Marking"
             execution.net.printMarking()

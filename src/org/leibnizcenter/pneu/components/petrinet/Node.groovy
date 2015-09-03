@@ -40,7 +40,7 @@ abstract class Node {
         Transition.isAssignableFrom(this.class)
     }
 
-    abstract label()
+    abstract String label()
 
     // graphics
     Point position
@@ -48,6 +48,7 @@ abstract class Node {
 
     static Boolean compare(Node n1, Node n2) {
         if (n1 == n2) return true
+        if (n1.id != n2.id) return false
         return true
     }
 

@@ -22,6 +22,8 @@ class BasicToken extends Token {
         new BasicToken()
     }
 
+    String toString() { "*" }
+
     String label() { "" }
 
 }

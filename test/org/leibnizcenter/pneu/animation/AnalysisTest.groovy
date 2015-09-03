@@ -73,4 +73,28 @@ class AnalysisTest extends GroovyTestCase {
         assert runner.analysis.stateBase.base.size() == 22
         assert runner.analysis.storyBase.base.size() == 23
     }
+
+    void testSimpleBasicOut() {
+        Net net = new BasicNet()
+
+        Transition tInput = net.createEmitterTransition()
+        Transition tOutput = net.createCollectorTransition()
+
+        Place p = net.createPlace("p")
+        net.createArc(tInput, p)
+        net.createArc(p, tOutput)
+
+        net.resetIds()
+
+        NetRunner runner = new NetRunner()
+        runner.load(net)
+
+        assert runner.analyse() == 2
+
+        runner.status()
+        assert runner.analysis.storyBase.base.size() == 1
+        assert runner.analysis.stateBase.base.size() == 2
+
+    }
+
 }
