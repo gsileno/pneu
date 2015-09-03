@@ -20,9 +20,14 @@ class Analysis {
     // provenance state and the transitions which allowed its creation
     State saveConsequent(State antecedent = null, List<TransitionEvent> firedEvents = []) {
 
-        log.trace("attempt to record current state, after firing: "+firedEvents)
+        log.debug("attempt to record current state, after firing: " + firedEvents)
         State state = stateBase.save(execution)
         log.trace("recorded state: " + state)
+
+        if (antecedent) {
+            log.debug(antecedent)
+            log.debug(antecedent.transitionEventStateMap)
+        }
 
         currentStory.addStep(state)
 
@@ -30,13 +35,13 @@ class Analysis {
             if (firedEvents.size() > 1)
                 throw new RuntimeException("ERROR!! I should consider only one transition per time")
 
-            // there is a problem with the hashcode
+            // BUG: there was a problem with the hashcode. repaired manually
             TransitionEvent firedEvent = firedEvents[0]
-            log.trace("fired event: "+firedEvents[0])
+            log.debug("fired event: " + firedEvents[0])
 
             TransitionEvent key
             for (event in antecedent.transitionEventStateMap.keySet()) {
-                log.trace("event to be compared: "+event)
+                log.debug("event to be compared: " + event)
                 if (event.transition.compare(firedEvent.transition) &&
                         event.token.compare(firedEvent.token)) {
                     key = event
@@ -44,7 +49,8 @@ class Analysis {
                 }
             }
 
-            if (key == null) throw new RuntimeException("You should not be here.")
+            if (key == null)
+                throw new RuntimeException("You should not be here.")
 
             antecedent.transitionEventStateMap[key] = state
             currentStory.addEvents(firedEvents)
@@ -61,15 +67,24 @@ class Analysis {
         log.trace("current story: " + currentStory)
         log.trace("current state: " + currentState)
 
-        // in case there the currentState has been already found in the past the story is complete
-        // find the first transition which has not been explored from the current state
-        TransitionEvent nextEvent = currentState.findNextEvent()
+        TransitionEvent nextEvent
 
-        log.trace("next event: " + nextEvent)
+        // first type of completion:
+        // the currentState has been already found in the past the story
+        Boolean complete = (currentStory.steps.findAll() { it == currentState}.size() > 1)
+        if (complete) {
+            log.trace("state already found in the story, restarting again.")
+        } else {
+            // second type of completion: depletion of possible firings
+            // find the first transition which has not been explored from the current state
+            nextEvent = currentState.findNextEvent()
+            log.trace("next event: " + nextEvent)
+            complete = (nextEvent == null)
+        }
 
         // backtrack to uncovered transitions
         // depth-first search
-        if (nextEvent == null) {
+        if (complete) {
 
             log.debug("story completed --> attempt backtrack")
 
@@ -117,9 +132,9 @@ class Analysis {
             return false
         }
 
-        log.trace("executing event: "+nextEvent)
+        log.trace("executing event: " + nextEvent)
         TransitionEvent firedContent = execution.fire(nextEvent)
-        log.trace("fired content: "+firedContent)
+        log.trace("fired content: " + firedContent)
 
         currentState = saveConsequent(currentState, [firedContent])
 

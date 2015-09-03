@@ -55,8 +55,6 @@ abstract class Execution {
     Integer nTokenEmitted = 0
     Integer nTokenCollected = 0
 
-    List<Token> unityOfDiscourse = []
-
     // perform one execution step
     abstract Boolean step()
 

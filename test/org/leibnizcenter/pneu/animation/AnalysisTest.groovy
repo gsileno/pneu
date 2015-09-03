@@ -1,5 +1,6 @@
 package org.leibnizcenter.pneu.animation
 
+import org.leibnizcenter.lppneu.components.lppetrinets.LPNet
 import org.leibnizcenter.pneu.animation.monolithic.NetRunner
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.petrinet.Net
@@ -94,6 +95,38 @@ class AnalysisTest extends GroovyTestCase {
         runner.status()
         assert runner.analysis.storyBase.base.size() == 1
         assert runner.analysis.stateBase.base.size() == 2
+
+    }
+
+    void testBasicInputWithDifferentEmitters() {
+        Net net = new BasicNet()
+
+        Transition tInput = net.createEmitterTransition()
+        Place pInput = net.createPlace("input")
+        net.createArc(tInput, pInput)
+
+        Transition tInput2 = net.createEmitterTransition()
+        Place pInput2 = net.createPlace("input")
+        net.createArc(tInput2, pInput2)
+
+        Transition tOutput = net.createCollectorTransition()
+        Place pOutput = net.createPlace("output")
+        net.createArc(pOutput, tOutput)
+
+        net.createTransitionNexus([pInput, pInput2], [pOutput], [], [], [])
+
+        net.resetIds()
+
+        NetRunner runner = new NetRunner()
+        runner.load(net)
+
+        runner.analyse()
+
+        assert runner.analysis.storyBase.base.size() == 2
+        assert runner.analysis.storyBase.base[0].steps.size() == 5
+        assert runner.analysis.storyBase.base[1].steps.size() == 3
+        assert runner.analysis.stateBase.base.size() == 5
+        runner.status()
 
     }
 

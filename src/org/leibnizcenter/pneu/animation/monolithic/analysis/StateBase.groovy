@@ -62,14 +62,7 @@ class StateBase {
         log.trace("enabled transition events from emitters: " + enabledFiringList)
 
         if (!newState.transitionEventStateMap) {
-
-
-
             for (t in execution.transitions - execution.inputs) {
-
-                if (newState.toString() == "st5" && t.id == "t5")
-                    println("AAAAAAAAAAAAAAAAAARRRRRRRRRRRGGGGGGGGHHHHHHHH")
-
                 List<TransitionEvent> enabledFiringListPerTransition = t.fireableEvents()
                 if (enabledFiringListPerTransition.size() > 0)
                     enabledFiringList += enabledFiringListPerTransition
