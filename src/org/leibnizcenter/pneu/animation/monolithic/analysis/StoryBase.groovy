@@ -23,7 +23,7 @@ class StoryBase {
             storyLog += i.toString()+": "
             for (eventList in story.eventsPerStep) {
                 for (event in eventList) {
-                    storyLog += event.label()+", "
+                    storyLog += event.transition.id+"."+event.label()+", "
                 }
             }
             storyLog = storyLog[0..-3] + ".\n"

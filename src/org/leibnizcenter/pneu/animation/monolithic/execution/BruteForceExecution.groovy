@@ -66,7 +66,7 @@ class BruteForceExecution extends Execution {
 
         consumeInputTokens(event)
         event = produceOutputTokens(event)
-        log.trace("fired event "+event)
+        log.debug("fired event "+event)
 
         event
     }

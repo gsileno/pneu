@@ -65,7 +65,8 @@ class State {
     String placesToString() {
         String output = "["
         for (elem in placeIdTokensMap) {
-            output += elem.key + " (" + elem.value /*.size() */ +")" + ", "
+            // output += elem.key + " (" + elem.value /*.size() */ +")" + ", "
+            output += elem.key + " (" + elem.value.size()+")" + ", "
         }
         if (placeIdTokensMap.size() > 0) output = output[0..-3]+"]"
         else output += "\n]"
