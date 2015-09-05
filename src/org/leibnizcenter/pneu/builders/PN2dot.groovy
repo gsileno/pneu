@@ -25,7 +25,7 @@ class PN2dot extends PN2abstract {
         i = 0
         placeList.each { pl ->
             if (!pl.isLink()) {
-                String label = pl.label()
+                String label = pl.id // pl.label()
                 if (net.inputs.contains(pl)) {
                     Integer n = net.inputs.findIndexOf { it == pl }
                     label += " (IN ${n})"
@@ -47,7 +47,7 @@ class PN2dot extends PN2abstract {
         i = 0
         transitionList.each { tr ->
             if (!tr.isLink()) {
-                String label = tr.label()
+                String label = tr.id // tr.label()
                 if (net.inputs.contains(tr)) {
                     Integer n = net.inputs.findIndexOf { it == tr }
                     label += " (IN ${n})"

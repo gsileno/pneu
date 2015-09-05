@@ -126,7 +126,7 @@ abstract class Net {
         List<Arc> diodeArcs = getDiodeArcs()
         List<Arc> inhibitorArcs = []
         for (Arc a in arcList - diodeArcs) {
-            if (a.type == ArcType.INHIBITOR ) {
+            if (a.type == ArcType.INHIBITOR) {
                 inhibitorArcs << a
             }
         }
@@ -139,7 +139,7 @@ abstract class Net {
         List<Arc> diodeArcs = getDiodeArcs()
         List<Arc> arcs = []
         for (Arc a in (arcList - diodeArcs) - biflowArcs) {
-            if (a.type == ArcType.NORMAL ) {
+            if (a.type == ArcType.NORMAL) {
                 arcs << a
             }
         }
@@ -201,13 +201,15 @@ abstract class Net {
     // to identify the input and output parts,
     // and to bound the unity of discourse (variable binding etc.)
     Net reifyNetFunction() {
-        if (function == null) { return this }
-        else if (function.isPlaceLike()) { throw new RuntimeException("Not yet implemented")}
-        else if (function.isTransitionLike()) {
+        if (function == null) {
+            return this
+        } else if (function.isPlaceLike()) {
+            throw new RuntimeException("Not yet implemented")
+        } else if (function.isTransitionLike()) {
 
-            Net reifiedNet =  this.minimalCloneNoRecursive()
+            Net reifiedNet = minimalCloneNoRecursive()
 
-            if (inputs.size() == 0 || inputs.size() > 1 || outputs.size() == 0 || outputs.size() > 1 ) {
+            if (inputs.size() == 0 || inputs.size() > 1 || outputs.size() == 0 || outputs.size() > 1) {
                 throw new RuntimeException("For simplicity, the function of the net can be concretized only if there is only one input and one output")
             }
 
@@ -236,8 +238,32 @@ abstract class Net {
         }
     }
 
-    // to deep clone the net
-    abstract Net minimalClone(Map<Net, Net> sourceCloneMap)
+    // deep cloning done for nets
+    // only the net structure is cloned, all the elements remains the same (e.g. places, transitions, etc.)
+    Net minimalClone(Map<Net, Net> sourceCloneMap = [:]) {
+
+        if (!sourceCloneMap[this]) {
+            sourceCloneMap[this] = minimalCloneNoRecursive()
+        }
+
+        Net clone = sourceCloneMap[this]
+
+        for (subNet in subNets) {
+            if (!sourceCloneMap[subNet]) {
+                sourceCloneMap[subNet] = subNet.minimalClone(sourceCloneMap)
+            }
+            clone.subNets << sourceCloneMap[subNet]
+        }
+
+        for (parent in parents) {
+            if (!sourceCloneMap[parent]) {
+                sourceCloneMap[parent] = parent.minimalClone(sourceCloneMap)
+            }
+            clone.parents << sourceCloneMap[parent]
+        }
+
+        clone
+    }
 
     // to clone the net at superficial level (leaving out the subnets)
     abstract Net minimalCloneNoRecursive()
@@ -314,6 +340,28 @@ abstract class Net {
         return true
     }
 
+    NetInterface includeWithInterface(Net subNet) {
+
+        NetInterface netInterface = new NetInterface()
+
+        include(subNet)
+
+        if (subNet.inputs[0].isPlaceLike()) {
+            for (node in subNet.inputs) netInterface.placeInputs << (Place) node
+        } else if (subNet.inputs[0].isTransitionLike()) {
+            for (node in subNet.inputs) netInterface.transitionInputs << (Transition) node
+        }
+
+        if (subNet.outputs[0].isPlaceLike()) {
+            for (node in subNet.outputs) netInterface.placeOutputs << (Place) node
+        } else if (subNet.outputs[0].isTransitionLike()) {
+            for (node in subNet.outputs) netInterface.transitionOutputs << (Transition) node
+        }
+
+        return netInterface
+
+    }
+
     //////////////////////////////////////////////////////
     // helpers for creating elements inside the net
     //////////////////////////////////////////////////////
@@ -365,6 +413,34 @@ abstract class Net {
         arcList << Arc.buildArc(t, p)
     }
 
+    void createArcs(Transition t, List<Place> pList) {
+        if (!getAllTransitions().contains(t)) {
+            throw new RuntimeException("Error: this net does not contain the transition to connect")
+        }
+
+        for (p in pList) {
+            if (!getAllPlaces().contains(p)) {
+                throw new RuntimeException("Error: this net does not contain a place to connect")
+            }
+            arcList << Arc.buildArc(t, p)
+        }
+
+    }
+
+    void createArcs(Place p, List<Transition> tList) {
+        if (!getAllPlaces().contains(p)) {
+            throw new RuntimeException("Error: this net does not contain the place to connect")
+        }
+
+        for (t in tList) {
+            if (!getAllTransitions().contains(t)) {
+                throw new RuntimeException("Error: this net does not contain a transition to connect")
+            }
+            arcList << Arc.buildArc(p, t)
+        }
+
+    }
+
     void createInhibitorArc(Place p, Transition t) {
         if (!getAllPlaces().contains(p) || !getAllTransitions().contains(t)) {
             throw new RuntimeException("Error: this net does not contain the place/transition to connect")
@@ -386,12 +462,18 @@ abstract class Net {
         arcList << Arc.buildResetArc(t, p)
     }
 
+    // normal bridge
+    // p -> t -> p
+
     void createBridge(Place p1, Transition tBridge, Place p2) {
         if (!getAllPlaces().contains(p1) || !getAllPlaces().contains(p2) || !getAllTransitions().contains(tBridge)) {
             throw new RuntimeException("Error: this net does not contain the place(s)/transition to bridge")
         }
         arcList += Arc.buildArcs(p1, tBridge, p2)
     }
+
+    // normal bridge
+    // t -> p -> t
 
     void createBridge(Transition t1, Place pBridge, Transition t2) {
         if (!getAllTransitions().contains(t1) || !getAllTransitions().contains(t2)) {
@@ -400,12 +482,18 @@ abstract class Net {
         arcList += Arc.buildArcs(t1, pBridge, t2)
     }
 
+    // link bridge
+    // p -> t* -> p
+
     void createLinkBridge(Place p1, Transition tBridge, Place p2) {
         if (!getAllPlaces().contains(p1) || !getAllPlaces().contains(p2) || !getAllTransitions().contains(tBridge)) {
             throw new RuntimeException("Error: this net does not contain the place(s)/transition to bridge")
         }
         arcList += Arc.buildLinkArcs(p1, tBridge, p2)
     }
+
+    // link bridge
+    // t -> p* -> t
 
     void createLinkBridge(Transition t1, Place pBridge, Transition t2) {
         if (!getAllTransitions().contains(t1) || !getAllTransitions().contains(t2)) {
@@ -414,15 +502,136 @@ abstract class Net {
         arcList += Arc.buildLinkArcs(t1, pBridge, t2)
     }
 
-    // depending on whether are logic or basic petri nets
-    // you need to construct adequately the intermediate node
-    abstract Transition createBridge(Place p1, Place p2)
+    // persistent bridge
+    // t o->  p  <-> t
+    //    -> (p) ->
 
-    abstract Place createBridge(Transition t1, Transition t2)
+    void createPersistentBridge(Transition tIn, Place p, Transition tOut) {
+        if (!getAllTransitions().contains(tOut) || !getAllTransitions().contains(tOut) || !getAllPlaces().contains(p)) {
+            throw new RuntimeException("Error: this net does not contain the transition(s)/place to bridge")
+        }
+        createDiodeArc(tIn, p)
+        createBiflowArc(p, tOut)
+        createBridge(tIn, tOut)
+    }
 
-    abstract Place createDiodeBridge(Transition t1, Transition t2)
+    // diode bridge
+    // t o-> p -> t
 
-    abstract Transition createTransitionNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diode, List<Place> inhibitors)
+    void createDiodeBridge(Transition tIn, Place p, Transition tOut) {
+        if (!getAllTransitions().contains(tOut) || !getAllTransitions().contains(tOut) || !getAllPlaces().contains(p)) {
+            throw new RuntimeException("Error: this net does not contain the transition(s)/place to bridge")
+        }
+        createDiodeArc(tIn, p)
+        createArc(p, tOut)
+    }
+
+    // the first transition is meant to produce what is in the bridge place
+    // at the same time, the second transition necessarily consumes what is in the bridge place,
+    // which has therefore to be produced somewhere, this can be seen "context" information
+    Place createBridge(Transition t1, Transition t2) {
+        if (!getAllTransitions().contains(t1) || !getAllTransitions().contains(t2)) {
+            throw new RuntimeException("Error: this net does not contain the transition(s) to bridge")
+        }
+
+        Place pBridge = createLinkPlace()
+        createArc(t1, pBridge)
+        createArc(pBridge, t2)
+        pBridge
+    }
+
+    Place createDiodeBridge(Transition t1, Transition t2) {
+        if (!getAllTransitions().contains(t1) || !getAllTransitions().contains(t2)) {
+            throw new RuntimeException("Error: this net does not contain the transition(s) to bridge")
+        }
+
+        Place pBridge = createLinkPlace()
+        createDiodeArc(t1, pBridge)
+        createArc(pBridge, t2)
+        pBridge
+    }
+
+    // the bridge transition is meant to produce what is in the last place
+    // what is already described in the first transition will be transmitted,
+    // the rest will be lost
+    Transition createBridge(Place p1, Place p2) {
+        if (!getAllPlaces().contains(p1) || !getAllPlaces().contains(p2)) {
+            throw new RuntimeException("Error: this net does not contain the place(s) to bridge")
+        }
+        Transition tBridge = createLinkTransition()
+
+        createArc(p1, tBridge)
+        createArc(tBridge, p2)
+
+        tBridge
+    }
+
+    // TODO: add checks for correct bindings
+
+    Place createPlaceNexus(List<Transition> inputs, List<Transition> outputs, List<Transition> biflows, List<Transition> diodes, List<Transition> inhibited) {
+        Place pNexus = createLinkPlace()
+        createPlaceNexus(pNexus, inputs, outputs, biflows, diodes, inhibited)
+    }
+
+    Place createPlaceNexus(Place pNexus, List<Transition> inputs, List<Transition> outputs, List<Transition> biflows, List<Transition> diodes, List<Transition> inhibited) {
+        // note the inhibitor, diode position is inverted in respect to transition nexus
+        for (t in inputs + biflows + diodes) {
+            if (!getAllTransitions().contains(t)) {
+                throw new RuntimeException("Error: this net does not contain the given input transition (${t})")
+            }
+            createArc(t, pNexus)
+        }
+
+        for (t in outputs + biflows) {
+            if (!getAllTransitions().contains(t)) {
+                throw new RuntimeException("Error: this net does not contain the given output transition (${t})")
+            }
+            createArc(pNexus, t)
+        }
+
+        for (t in inhibited + diodes) {
+            if (!getAllTransitions().contains(t)) {
+                throw new RuntimeException("Error: this net does not contain the given inhibited transition (${t})")
+            }
+            createInhibitorArc(pNexus, t)
+        }
+
+        pNexus
+    }
+
+
+    Transition createTransitionNexus(List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diodes, List<Place> inhibitors) {
+        Transition tNexus = createLinkTransition()
+        createTransitionNexus(tNexus, inputs, outputs, biflows, diodes, inhibitors)
+    }
+
+    Transition createTransitionNexus(Transition tNexus, List<Place> inputs, List<Place> outputs, List<Place> biflows, List<Place> diodes, List<Place> inhibitors) {
+
+        for (p in inputs + biflows) {
+            if (!getAllPlaces().contains(p)) {
+                throw new RuntimeException("Error: this net does not contain the given input place (${p})")
+            }
+            createArc(p, tNexus)
+        }
+
+        for (p in outputs + biflows + diodes) {
+            if (!getAllPlaces().contains(p)) {
+                throw new RuntimeException("Error: this net does not contain the given output place (${p})")
+            }
+            createArc(tNexus, p)
+        }
+
+        for (p in inhibitors + diodes) {
+            if (!getAllPlaces().contains(p)) {
+                throw new RuntimeException("Error: this net does not contain the given inhibitor place (${p})")
+            }
+            createInhibitorArc(p, tNexus)
+        }
+
+        tNexus
+    }
+
+    //////////// one the net is constructed, you should set all the Id.
 
     void resetIds() {
         PN2abstract.resetIds(this)

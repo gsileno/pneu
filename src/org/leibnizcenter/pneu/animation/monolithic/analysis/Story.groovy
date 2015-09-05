@@ -31,7 +31,7 @@ class Story {
         String output = ""
         for (int i = 0; i < steps.size(); i++) {
             output += "(" + steps[i].toString() + ")"
-            if (eventsPerStep[i]) output += " -- " + eventsPerStep[i].toString() + " -- "
+            if (i < steps.size() - 1) output += " -- " + eventsPerStep[i].toString() + " -- "
         }
         output
     }

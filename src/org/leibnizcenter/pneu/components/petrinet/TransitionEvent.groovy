@@ -14,9 +14,9 @@ class TransitionEvent {
     }
 
     String label() {
-        if (token.label() != "") {
+        if (token !=null && token.label() != "" && token.label()) {
             token.label()
-        } else if (transition.label() != "") {
+        } else if (transition.label() != "" && transition.label()) {
             transition.label()
         } else {
             transition.id

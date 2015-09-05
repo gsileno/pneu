@@ -25,8 +25,8 @@ class Analysis {
         log.trace("recorded state: " + state)
 
         if (antecedent) {
-            log.trace(antecedent)
-            log.trace(antecedent.transitionEventStateMap)
+            log.trace("antecedent: "+antecedent)
+            log.trace("antecedent transition/state map: "+antecedent.transitionEventStateMap)
         }
 
         currentStory.addStep(state)
@@ -42,10 +42,20 @@ class Analysis {
             TransitionEvent key
             for (event in antecedent.transitionEventStateMap.keySet()) {
                 log.trace("event to be compared: " + event)
+
+
                 if (event.transition.compare(firedEvent.transition) &&
                         event.token.compare(firedEvent.token)) {
                     key = event
                     break;
+                } else {
+                    if (!event.transition.compare(firedEvent.transition)) {
+                        log.trace("transitions are different! "+event.transition+" vs "+firedEvent.transition)
+                    }
+                    if (!event.token.compare(firedEvent.token)) {
+                        log.trace("tokens are different! "+event.token+" vs "+firedEvent.token)
+                    }
+
                 }
             }
 

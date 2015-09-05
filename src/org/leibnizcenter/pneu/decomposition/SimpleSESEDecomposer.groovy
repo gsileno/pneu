@@ -25,6 +25,13 @@ class SimpleSESEDecomposer {
 
         for (int z = stepi; z <= stepj; z++) {
             newStory.addStep(source.steps[z])
+            if (z < source.steps.size() - 1) {
+                if (source.eventsPerStep[z])
+                    newStory.addEvents(source.eventsPerStep[z])
+                else {
+                    throw new RuntimeException("Not well formed story")
+                }
+            }
         }
 
         log.trace("cut story: "+newStory)
@@ -49,7 +56,10 @@ class SimpleSESEDecomposer {
         save(partialStory)
     }
 
-    // single entry single exit
+    // single entry single exit tree decomposer`
+    // decompose the result of depth execution of petri net
+    // a list of sequences of state and transition event
+    // partially overlapping (see Analysis class)
     void decompose(Analysis analysis) {
 
         List<Story> stories = analysis.storyBase.base
@@ -77,9 +87,15 @@ class SimpleSESEDecomposer {
                 }
             }
 
-            log.trace("First cut pos: "+i)
+            if (firstCutPos == null) throw new RuntimeException("You shouldn't be here.")
 
-            cutAndSavePartialStory(first, i, -1)
+            log.trace("first cut position: "+i)
+            if (firstCutPos < first.steps.size()) {
+                log.trace("True cut")
+                cutAndSavePartialStory(first, i, -1)
+            } else {
+                log.trace("0 pos => No cut")
+            }
 
             Integer j
             for (i = i - 1; i >= 0 && (secondCutPos == null); i--) {
@@ -94,9 +110,9 @@ class SimpleSESEDecomposer {
                 }
             }
 
-            if (firstCutPos == null || secondCutPos == null) throw new RuntimeException("You shouldn't be here.")
+            if (secondCutPos == null) throw new RuntimeException("You shouldn't be here.")
 
-            log.trace("Second cut pos: "+secondCutPos)
+            log.trace("second cut position: "+secondCutPos)
             cutAndSavePartialStory(first, secondCutPos, firstCutPos)
             cutAndSavePartialStory(second, secondCutPos, -1)
 

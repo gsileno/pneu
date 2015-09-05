@@ -3,6 +3,7 @@ package org.leibnizcenter.pneu.examples
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicTransition
 import org.leibnizcenter.pneu.components.petrinet.Net
+import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
 
 class MarketModel {
@@ -206,6 +207,97 @@ class MarketModel {
         swap.createBridge((Transition) sale1.outputs[1], (Transition) sale2.outputs[2])
 
         swap
+    }
+
+    static Net groundSaleNormativeModel() {
+        Net sale = new BasicNet()
+
+        Transition tIn = sale.createEmitterTransition()
+        Transition tOut = sale.createCollectorTransition()
+
+        String sellerPowerOffer = "power(offer)"
+        String buyerPowerAccept = "power(accept)"
+        String sellerDutyDeliver = "duty(deliver)"
+        String buyerDutyPay = "duty(pay)"
+        String buyerLiabilityPay = "liable(enforce(pay))"
+        String sellerLiabilityDeliver = "liable(enforce(deliver))"
+
+        String initBuyerPowerAccept = "init(power(offer))"
+        String initBuyerDutyPay = "init(duty(pay))"
+        String failureBuyerDutyPay = "failure(duty(pay))"
+        String successBuyerDutyPay = "success(duty(pay))"
+        String initSellerDutyDeliver = "init(duty(deliver))"
+        String failureSellerDutyDeliver = "failure(duty(deliver))"
+        String successSellerDutyDeliver = "success(duty(deliver))"
+
+        String offerEvent = "offer"
+        String acceptEvent = "accept"
+        String payEvent = "pay"
+        String deliverEvent = "deliver"
+
+        String negPayEvent = "neg(pay)"
+        String negDeliverEvent = "neg(deliver)"
+
+        Place pSellerPowerOffer = sale.createPlace(sellerPowerOffer)
+        Place pBuyerPowerAccept = sale.createPlace(buyerPowerAccept)
+        Place pSellerDutyDeliver = sale.createPlace(sellerDutyDeliver)
+        Place pBuyerDutyPay = sale.createPlace(buyerDutyPay)
+        Place pInitBuyerPowerAccept = sale.createPlace(initBuyerPowerAccept)
+        Place pInitBuyerDutyPay = sale.createPlace(initBuyerDutyPay)
+        Place pSuccessBuyerDutyPay = sale.createPlace(successBuyerDutyPay)
+        Place pFailureBuyerDutyPay = sale.createPlace(failureBuyerDutyPay)
+        Place pLiabilityBuyerPay = sale.createPlace(buyerLiabilityPay)
+        Place pInitSellerDutyDeliver = sale.createPlace(initSellerDutyDeliver)
+        Place pSuccessSellerDutyDeliver = sale.createPlace(successSellerDutyDeliver)
+        Place pFailureSellerDutyDeliver = sale.createPlace(failureSellerDutyDeliver)
+        Place pLiabilitySellerDeliver = sale.createPlace(sellerLiabilityDeliver)
+
+        Transition tInitBuyerDutyPay = sale.createLinkTransition()
+        Transition tSuccessBuyerDutyPay = sale.createLinkTransition()
+        Transition tFailureBuyerDutyPay = sale.createLinkTransition()
+        Transition tInitSellerDutyDeliver = sale.createLinkTransition()
+        Transition tSuccessSellerDutyDeliver = sale.createLinkTransition()
+        Transition tFailureSellerDutyDeliver = sale.createLinkTransition()
+
+        Transition tOfferEvent = sale.createTransition(offerEvent)
+        Transition tAcceptEvent = sale.createTransition(acceptEvent)
+        Transition tPayEvent = sale.createTransition(payEvent)
+        Transition tDeliverEvent = sale.createTransition(deliverEvent)
+
+        Transition tNegPayEvent = sale.createTransition(negPayEvent)
+        Transition tNegDeliverEvent = sale.createTransition(negDeliverEvent)
+
+        sale.createArc(tIn, pSellerPowerOffer)
+        sale.createBridge(pSellerPowerOffer, tOfferEvent, pInitBuyerPowerAccept)
+        sale.createBridge(pInitBuyerPowerAccept, pBuyerPowerAccept)
+        sale.createArc(pBuyerPowerAccept, tAcceptEvent)
+
+        Place constraintOnPayEvent = sale.createLinkPlace()
+        Place constraintOnDeliverEvent = sale.createLinkPlace()
+
+        sale.createArcs(tAcceptEvent, [pInitBuyerDutyPay, pInitSellerDutyDeliver, constraintOnPayEvent, constraintOnDeliverEvent])
+        sale.createArc(pInitBuyerDutyPay, tInitBuyerDutyPay)
+        sale.createArc(pInitSellerDutyDeliver, tInitSellerDutyDeliver)
+
+        sale.createArcs(constraintOnPayEvent, [tPayEvent, tNegPayEvent])
+        sale.createArcs(constraintOnDeliverEvent, [tDeliverEvent, tNegDeliverEvent])
+
+        sale.createPlaceNexus(pBuyerDutyPay, [tInitBuyerDutyPay], [tSuccessBuyerDutyPay], [tPayEvent, tNegPayEvent, tFailureBuyerDutyPay], [], [])
+        sale.createPlaceNexus(pSellerDutyDeliver, [tInitSellerDutyDeliver], [tSuccessSellerDutyDeliver], [tDeliverEvent, tNegDeliverEvent, tFailureSellerDutyDeliver], [], [])
+
+        sale.createPersistentBridge(tNegPayEvent, pFailureBuyerDutyPay, tFailureBuyerDutyPay)
+        sale.createDiodeBridge(tPayEvent, pSuccessBuyerDutyPay, tSuccessBuyerDutyPay)
+        sale.createArc(tFailureBuyerDutyPay, pLiabilityBuyerPay)
+
+        sale.createPersistentBridge(tNegDeliverEvent, pFailureSellerDutyDeliver, tFailureSellerDutyDeliver)
+        sale.createDiodeBridge(tDeliverEvent, pSuccessSellerDutyDeliver, tSuccessSellerDutyDeliver)
+        sale.createArc(tFailureSellerDutyDeliver, pLiabilitySellerDeliver)
+
+        sale.createBridge(tSuccessBuyerDutyPay, tOut)
+        sale.createBridge(tSuccessSellerDutyDeliver, tOut)
+
+        sale.resetIds()
+        sale
     }
 
 }

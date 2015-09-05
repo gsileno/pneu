@@ -50,6 +50,7 @@ class NetRunner {
 
         for (n = 0; n < max; n++) {
             if (!analysis.step()) break
+            status()
         }
 
         return n

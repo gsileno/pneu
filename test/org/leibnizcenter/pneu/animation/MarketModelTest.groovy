@@ -1,6 +1,9 @@
 package org.leibnizcenter.pneu.animation
-
 import org.leibnizcenter.pneu.animation.monolithic.NetRunner
+import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
+import org.leibnizcenter.pneu.components.petrinet.Net
+import org.leibnizcenter.pneu.components.petrinet.Place
+import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.examples.MarketModel
 
 class MarketModelTest extends GroovyTestCase {
@@ -52,5 +55,11 @@ class MarketModelTest extends GroovyTestCase {
         runner.analysis.exportToLog("BasicSaleWithWorldAndTimeline")
     }
 
+    void testGroundSaleNormativeModel() {
+        runner.load(MarketModel.groundSaleNormativeModel())
+        runner.analyse()
+        runner.analysis.exportToLog("GroundSaleNormativeModel")
+        runner.analysis.execution.net.exportToDot("GroundSaleNormativeModel")
+    }
 
 }
