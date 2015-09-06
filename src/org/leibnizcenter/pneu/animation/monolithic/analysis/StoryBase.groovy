@@ -4,6 +4,7 @@ class StoryBase {
     List<Story> base = []
 
     int addStory(Story story) {
+        story.id = "story"+base.size()
         base << story
         base.size()
     }

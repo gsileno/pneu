@@ -566,6 +566,20 @@ abstract class Net {
         tBridge
     }
 
+    List<Transition> createBridges(List<Place> pList) {
+
+        List<Transition> tBridgeList= []
+
+        if (pList.size() <= 1)
+            throw new RuntimeException("Error: you cannot build a bridge with just one place")
+
+        for (int i = 0; i < pList.size() - 1; i++) {
+            tBridgeList << createBridge(pList[i], pList[i+1])
+        }
+
+        tBridgeList
+    }
+
     // TODO: add checks for correct bindings
 
     Place createPlaceNexus(List<Transition> inputs, List<Transition> outputs, List<Transition> biflows, List<Transition> diodes, List<Transition> inhibited) {
@@ -713,9 +727,11 @@ abstract class Net {
     // setup the grid for visualization purposes
     // for each place and transition check the min and max position
     void setupGrid(Integer inputDotGranularity = 1, Integer outputDotGranularity = 33) {
-        if (!grid) grid = new Grid()
-        grid.setInputDotGranularity(inputDotGranularity)
-        grid.setOutputDotGranularity(outputDotGranularity)
+        if (!grid) {
+            grid = new Grid()
+            grid.setInputDotGranularity(inputDotGranularity)
+            grid.setOutputDotGranularity(outputDotGranularity)
+        }
 
         for (p in placeList) {
             if (p.position)

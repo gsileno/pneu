@@ -8,9 +8,9 @@ import org.leibnizcenter.pneu.components.petrinet.Transition
 
 class State {
 
-    String label
+    String id // set by StateBase
 
-    // associat+e to each place id a certain marking
+    // associate to each place id a certain marking
     Map<String, List<Token>> placeIdTokensMap
     // associate to each fired content of transition, the state in which it brings
     Map<TransitionEvent, State> transitionEventStateMap
@@ -41,13 +41,13 @@ class State {
     }
 
     String toString() {
-        if (label) label
+        if (id) id
         else placesToString()
     }
 
     String status() {
         String output = ""
-        if (label) output += label +": "
+        if (id) output += id +": "
         output += placeIdTokensMap.size() + ", " + transitionEventStateMap.size()
     }
 
@@ -79,7 +79,7 @@ class State {
         for (elem in transitionEventStateMap) {
             output += elem.key.toString() + " => "
             if (!elem.value) output += "?, "
-            else output += "("+elem.value.label+"), "
+            else output += "("+elem.value.id+"), "
         }
         if (transitionEventStateMap.size() > 0) output = output[0..-3]+"]"
         else output += "]"

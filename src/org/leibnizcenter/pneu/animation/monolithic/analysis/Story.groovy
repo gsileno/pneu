@@ -7,6 +7,8 @@ import org.leibnizcenter.pneu.components.petrinet.TransitionEvent
 @Log4j
 class Story {
 
+    String id // set by StoryBase
+
     List<State> steps = []
     // in case multiple transitions may be fired in a certain moment
     List<List<TransitionEvent>> eventsPerStep = []

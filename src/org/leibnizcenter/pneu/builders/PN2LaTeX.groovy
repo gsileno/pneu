@@ -322,7 +322,7 @@ class PN2LaTeX {
     }
 
     static convertAbsolute(Net net,
-                           Float zoomXRatio = 0.65, Float zoomYRatio = 0.65, // grid zoom
+                           Float zoomXRatio = 0.4, Float zoomYRatio = 0.4, // grid zoom
                            Float minPlaceSize = 5, // min size for nodes (in mm)
                            Float minTransitionSize = 5, // min size for nodes (in mm)
                            Float inputDotGranularity = 33) {
@@ -331,6 +331,7 @@ class PN2LaTeX {
         grid.setTransformation(grid.flipVertical)
         net.grid = grid
 
+        //TODO: refactor setupGrid: it is ambiguous now
         net.setupGrid()
 
         String code = ""
@@ -385,19 +386,21 @@ class PN2LaTeX {
             // just take one of the two biflow arcs
             for (int i = 0; i < biflowArcs.size(); i += 2) {
                 Arc edge = biflowArcs[i]
-                if (edge.pointList.size() > 0) {
-                    // for the incoming edges, the order of points should be inversed
-                    postcode += "    \\draw\t[<->]\t("+tr.id+")"
-                    edge.pointList.reverse().each() { point ->
-                        postcode += "\t"
-                        postcode += " -- ("+grid.printScaled(point)+")"
+                if (edge.source.id == tr.id || edge.target.id == tr.id) {
+                    if (edge.pointList.size() > 0) {
+                        // for the incoming edges, the order of points should be inversed
+                        postcode += "    \\draw\t[<->]\t(" + tr.id + ")"
+                        edge.pointList.each() { point ->
+                            postcode += "\t"
+                            postcode += " -- (" + grid.printScaled(point) + ")"
+                        }
+                        postcode += " -- (" + edge.source.id + ");\n"
+                    } else {
+                        code += "      edge\t"
+                        code += "[<->]\t"
+                        code += "(" + edge.source.id + ")"
+                        code += "\n"
                     }
-                    postcode += " -- ("+edge.source.id+");\n"
-                } else {
-                    code += "      edge\t"
-                    code += "[<->]\t"
-                    code += "("+edge.source.id+")"
-                    code += "\n"
                 }
             }
 

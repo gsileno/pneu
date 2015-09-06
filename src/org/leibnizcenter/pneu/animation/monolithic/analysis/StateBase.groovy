@@ -35,7 +35,7 @@ class StateBase {
         }
 
         // create a new state with the places and add to the database
-        newState.label = "st" + base.size()
+        newState.id = "st" + base.size()
 
         log.trace("I don't have it ==> I add it: " + newState)
 

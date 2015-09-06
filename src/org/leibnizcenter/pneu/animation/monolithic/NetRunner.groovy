@@ -38,7 +38,7 @@ class NetRunner {
     }
 
     // run at most max steps (less if there no enabled transitions)
-    Integer analyse(Integer max = 100) {
+    Integer analyse(Integer max = 100, Boolean debug = false) {
 
         // in a previous analysis does not exist create it.
         if (!analysis) {
@@ -50,7 +50,7 @@ class NetRunner {
 
         for (n = 0; n < max; n++) {
             if (!analysis.step()) break
-            status()
+            if (debug) status()
         }
 
         return n

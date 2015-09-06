@@ -6,7 +6,7 @@
     </toolspecific>
     <transition id="tr1">
       <name>
-        <text>offers(sally, _, car, 100)</text>
+        <text>offers(sally, bob, car, amount)</text>
       </name>
       <graphics>
         <position x="132" y="231" />
@@ -15,34 +15,22 @@
     </transition>
     <transition id="tr2">
       <name>
-        <text>accepts(bob, sally, car, 100)</text>
+        <text>accepts(bob, sally, car, amount)</text>
       </name>
       <graphics>
         <position x="264" y="231" />
         <dimension x="32" y="32" />
       </graphics>
     </transition>
-    <place id="pl1">
-      <graphics>
-        <position x="198" y="231" />
-        <dimension x="20" y="20" />
-      </graphics>
-    </place>
     <transition id="tr4">
       <name>
-        <text>pays(bob, sally, 100)</text>
+        <text>pays(bob, sally, amount)</text>
       </name>
       <graphics>
         <position x="396" y="231" />
         <dimension x="32" y="32" />
       </graphics>
     </transition>
-    <place id="pl2">
-      <graphics>
-        <position x="330" y="231" />
-        <dimension x="20" y="20" />
-      </graphics>
-    </place>
     <transition id="tr8">
       <name>
         <text>delivers(sally, bob, car)</text>
@@ -52,17 +40,29 @@
         <dimension x="32" y="32" />
       </graphics>
     </transition>
+    <place id="pl1">
+      <graphics>
+        <position x="198" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl2">
+      <graphics>
+        <position x="330" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
     <place id="pl4">
       <graphics>
         <position x="462" y="231" />
         <dimension x="20" y="20" />
       </graphics>
     </place>
-    <arc id="a1" source="tr1" target="pl1" />
-    <arc id="a2" source="pl1" target="tr2" />
-    <arc id="a3" source="pl2" target="tr4" />
-    <arc id="a4" source="tr2" target="pl2" />
-    <arc id="a5" source="pl4" target="tr8" />
-    <arc id="a6" source="tr4" target="pl4" />
+    <arc id="a7" source="tr1" target="pl1" />
+    <arc id="a8" source="pl1" target="tr2" />
+    <arc id="a9" source="pl2" target="tr4" />
+    <arc id="a10" source="tr2" target="pl2" />
+    <arc id="a11" source="pl4" target="tr8" />
+    <arc id="a12" source="tr4" target="pl4" />
   </net>
 </pnml>

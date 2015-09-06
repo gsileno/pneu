@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do1">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <transition id="tr1">
+      <graphics>
+        <position x="165" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr2">
+      <graphics>
+        <position x="297" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr4">
+      <graphics>
+        <position x="297" y="165" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr6">
+      <graphics>
+        <position x="462" y="99" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl1">
+      <graphics>
+        <position x="231" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl2">
+      <graphics>
+        <position x="231" y="165" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl3">
+      <graphics>
+        <position x="297" y="33" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <arc id="a1" source="tr1" target="pl1" />
+    <arc id="a2" source="pl1" target="tr2" />
+    <arc id="a3" source="pl2" target="tr4" />
+    <arc id="a4" source="pl2" target="tr1">
+      <graphics>
+        <position x="165" y="165" />
+      </graphics>
+    </arc>
+    <arc id="a5" source="tr1" target="pl2">
+      <graphics>
+        <position x="165" y="165" />
+      </graphics>
+    </arc>
+    <arc id="a6" source="pl3" target="tr6">
+      <graphics>
+        <position x="462" y="33" />
+        <position x="396" y="99" />
+      </graphics>
+    </arc>
+    <arc id="a7" source="tr2" target="pl3" />
+  </net>
+</pnml>

@@ -6,8 +6,8 @@ import org.leibnizcenter.pneu.parsers.PNML2PN
 
 class LatexExportTest extends GroovyTestCase {
 
-    void batchExport(String filename) {
-        Net net = PNML2PN.parseFile("examples/basic/"+filename)
+    void batchExport(String filename, String path = "examples/basic/") {
+        Net net = PNML2PN.parseFile(path+"/"+filename)
 
         def folder = new File( 'out/tex/' )
         if( !folder.exists() ) folder.mkdirs()
@@ -58,6 +58,28 @@ class LatexExportTest extends GroovyTestCase {
 
     void test8analysisconflict() {
         batchExport("8analysisconflict.pnml")
+    }
+
+    void testTest() {
+        batchExport("test.pnml", "examples/models/")
+    }
+
+    // for jurix 2015
+
+    void testBuyerScript() {
+        batchExport("agentsalePredicate2.pnml", "examples/models/")
+    }
+
+    void testNormativeModel() {
+        batchExport("normativesalePredicate2.pnml", "examples/models/")
+    }
+
+    void testSaleModel() {
+        batchExport("salemodel.pnml", "examples/models/")
+    }
+
+    void testSaleInstance() {
+        batchExport("saleinstanceProposition.pnml", "examples/models/")
     }
 
 }
