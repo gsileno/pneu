@@ -2,11 +2,16 @@ package org.leibnizcenter.pneu.components.basicpetrinet
 
 import groovy.transform.Immutable
 import org.leibnizcenter.pneu.components.petrinet.Token
+import org.leibnizcenter.pneu.components.petrinet.Transition
 
 class BasicToken extends Token {
 
     // basic net tokens are all the same
     Boolean compare(Token t) {
+        true
+    }
+
+    Boolean subsumes(Token t) {
         true
     }
 

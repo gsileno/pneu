@@ -23,10 +23,20 @@ class BasicPlace extends Place {
         return new BasicPlace(name: label)
     }
 
+    // subsumes is a only about the label! not about the marking!
+    Boolean subsumes(Place p) {
+        if (name == ((BasicPlace) p).name) return true
+        return false
+    }
+
     static Boolean compare(Place p1, Place p2) {
         if (p1 == p2) return true
         if (((BasicPlace) p1).name != ((BasicPlace) p2).name) return false
         return true
+    }
+
+    Boolean compare(Place p) {
+        compare(this, p)
     }
 
     Token createToken() {

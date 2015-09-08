@@ -16,6 +16,12 @@ class BasicTransition extends Transition {
         compare(this, other)
     }
 
+    // subsumes is a only about the label! not about the marking!
+    Boolean subsumes(Transition t) {
+        if (name == ((BasicTransition) t).name) return true
+        return false
+    }
+
     static Boolean compare(Transition t1, Transition t2) {
         log.trace("Comparing ${t1} with ${t2}")
 
