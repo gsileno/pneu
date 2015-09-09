@@ -5,7 +5,6 @@ import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
 
-
 class State {
 
     String id // set by StateBase

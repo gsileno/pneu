@@ -1,5 +1,6 @@
 package org.leibnizcenter.pneu.animation.monolithic.analysis
 
+import groovy.json.JsonBuilder
 import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.animation.monolithic.execution.Execution
 import org.leibnizcenter.pneu.components.petrinet.Token
@@ -166,5 +167,27 @@ class Analysis {
             out.println("States: \n" + stateBase)
         }
     }
+
+//    // for cache
+//
+//    // save to json file
+//    void saveToFile(String filename, String path = "out/analysis") {
+//        File folder
+//        String outputFile
+//
+//        folder = new File(path)
+//        if (!folder.exists()) folder.mkdirs()
+//
+//        outputFile = path + '/' + filename + ".analysis.serialization.json"
+//
+//        new File(outputFile).withWriter { out ->
+//            out << new JsonBuilder(this).toPrettyString()
+//        }
+//    }
+//
+//    // load from json file
+//    static Analysis loadFromFile(String filename, String path = "out/analysis") {
+//        return null
+//    }
 
 }

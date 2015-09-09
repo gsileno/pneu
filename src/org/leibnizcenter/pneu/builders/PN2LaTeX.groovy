@@ -461,10 +461,16 @@ class PN2LaTeX {
 
     static String header(Float minPlaceSize, Float minTransitionSize) { // add thick to have stronger design
         return """\\begin{tikzpicture}[node distance=1.3cm,>=stealth',shorten >=1pt,bend angle=45,auto]
-  \\tikzstyle{place}=[circle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=${minPlaceSize}mm]
-  \\tikzstyle{transition}=[rectangle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=${minTransitionSize}mm]
+  \\tikzstyle{place}=[circle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=3.0mm]
+  \\tikzstyle{transition}=[rectangle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=4.0mm]
 
   \\tikzstyle{every label}=[font=\\scriptsize,align=center,black]"""
+
+//        return """\\begin{tikzpicture}[node distance=1.3cm,>=stealth',shorten >=1pt,bend angle=45,auto]
+//  \\tikzstyle{place}=[circle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=${minPlaceSize}mm]
+//  \\tikzstyle{transition}=[rectangle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=${minTransitionSize}mm]
+//
+//  \\tikzstyle{every label}=[font=\\scriptsize,align=center,black]"""
     }
 
     static String footer = """

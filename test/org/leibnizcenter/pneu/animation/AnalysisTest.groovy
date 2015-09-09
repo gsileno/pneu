@@ -1,6 +1,5 @@
 package org.leibnizcenter.pneu.animation
 
-import org.leibnizcenter.lppneu.components.lppetrinets.LPNet
 import org.leibnizcenter.pneu.animation.monolithic.NetRunner
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.petrinet.Net

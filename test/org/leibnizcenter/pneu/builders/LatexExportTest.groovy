@@ -60,15 +60,12 @@ class LatexExportTest extends GroovyTestCase {
         batchExport("8analysisconflict.pnml")
     }
 
-    void testTest() {
-        batchExport("test.pnml", "examples/models/")
-    }
-
     // for jurix 2015
 
     void testBuyerScript() {
         batchExport("agentsalePredicate2.pnml", "examples/models/")
     }
+
 
     void testNormativeModel() {
         batchExport("normativesalePredicate2.pnml", "examples/models/")

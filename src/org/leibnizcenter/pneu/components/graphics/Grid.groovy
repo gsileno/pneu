@@ -76,9 +76,10 @@ class Grid {
         point
     }
 
+    // TODO: it is wrong
     String printScaled(Point point) {
         point = scalePoint(point)
-        return Math.round(((Float) point.x) * 50)/100 +", "+ Math.round((Float) point.y*50)/100
+        return Math.round(((Float) point.x) * 35)/100 +", "+ Math.round((Float) point.y*35)/100
     }
 
     Point inverseScalePoint(Point point) {
@@ -88,8 +89,9 @@ class Grid {
         point
     }
 
+    // TODO
     void setOutputDotGranularity(Integer outputDotGranularity) {
-        outputDotGranularity = outputDotGranularity
+        // outputDotGranularity = outputDotGranularity
         zoomXRatio = outputDotGranularity
         zoomYRatio = outputDotGranularity
     }

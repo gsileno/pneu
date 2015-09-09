@@ -11,7 +11,7 @@ class BasicToken extends Token {
         true
     }
 
-    Boolean subsumes(Token t) {
+    Boolean subsumes(Token t, Map<String, Map<String, String>> mapAnonymousIdentifiers = [:]) {
         true
     }
 
