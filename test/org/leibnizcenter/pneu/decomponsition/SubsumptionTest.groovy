@@ -1,12 +1,9 @@
 package org.leibnizcenter.pneu.decomponsition
 
-import org.leibnizcenter.pneu.animation.monolithic.NetRunner
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
-import org.leibnizcenter.pneu.decomposition.SimpleSESEDecomposer
-import org.leibnizcenter.pneu.decomposition.StoryTree
 import org.leibnizcenter.pneu.decomposition.Subsumption
 
 class SubsumptionTest extends GroovyTestCase {
@@ -227,21 +224,21 @@ class SubsumptionTest extends GroovyTestCase {
     // I expect a net subsumed itself
 
     void testSubsumptionIdentity() {
-        assert Subsumption.subsumes(net00(), net00())
-        assert Subsumption.subsumes(net0(), net0())
-        assert Subsumption.subsumes(net1(), net1())
-        assert Subsumption.subsumes(net2(), net2())
-        assert Subsumption.subsumes(net3(), net3())
-        assert Subsumption.subsumes(net4(), net4())
-        assert Subsumption.subsumes(net5(), net5())
-        assert Subsumption.subsumes(net6(), net6())
-        assert Subsumption.subsumes(net7(), net7())
-        assert Subsumption.subsumes(net8(), net8())
+        assert Subsumption.concreteSubsumption(net00(), net00())
+        assert Subsumption.concreteSubsumption(net0(), net0())
+        assert Subsumption.concreteSubsumption(net1(), net1())
+        assert Subsumption.concreteSubsumption(net2(), net2())
+        assert Subsumption.concreteSubsumption(net3(), net3())
+        assert Subsumption.concreteSubsumption(net4(), net4())
+        assert Subsumption.concreteSubsumption(net5(), net5())
+        assert Subsumption.concreteSubsumption(net6(), net6())
+        assert Subsumption.concreteSubsumption(net7(), net7())
+        assert Subsumption.concreteSubsumption(net8(), net8())
     }
 
 
     void testSubsumption1() {
-        assert Subsumption.subsumes(net0(), net1())
+        assert Subsumption.concreteSubsumption(net0(), net1())
     }
 
 
