@@ -62,4 +62,10 @@ class MarketModelTest extends GroovyTestCase {
         runner.analysis.execution.net.exportToDot("GroundSaleNormativeModel")
     }
 
+    void testGroundSaleScriptModel() {
+        runner.load(MarketModel.groundSaleScriptModel())
+        runner.analyse()
+        runner.analysis.exportToLog("GroundSaleScriptModel")
+        runner.analysis.execution.net.exportToDot("GroundSaleScriptModel")
+    }
 }

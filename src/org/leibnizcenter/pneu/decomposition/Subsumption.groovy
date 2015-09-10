@@ -99,6 +99,10 @@ class Subsumption {
 
         if (generalStory.eventsPerStep.size() == 0) {
             log.trace("there are no events in the general story")
+            if (specificStory.eventsPerStep.size() == 0) {
+                log.trace("there are no events in the specific story as well")
+                return true
+            }
             return false
         }
 
