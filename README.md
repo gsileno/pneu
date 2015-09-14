@@ -16,8 +16,7 @@
 * exporter to tikz (LaTeX!) 
 * exporter to dot (graphviz, etc.) 
 
-Yasper is a visual editor for basic petri nets. http://yasper.org
-PNML is the Petri Net Markup Language, a XML-based format
+Yasper is a visual editor for basic petri nets. http://yasper.org. PNML is the Petri Net Markup Language, a XML-based format. 
 
 ## Usage examples
 
