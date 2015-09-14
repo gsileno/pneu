@@ -1,7 +1,10 @@
 package org.leibnizcenter.pneu.animation
 
 import org.leibnizcenter.pneu.animation.monolithic.NetRunner
+import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.petrinet.Net
+import org.leibnizcenter.pneu.components.petrinet.Place
+import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.parsers.PNML2PN
 
 class SimulationTest extends GroovyTestCase {
@@ -25,6 +28,34 @@ class SimulationTest extends GroovyTestCase {
         assert(runner.run() == 0)
         assert(runner.execution.places.size() == 1)
         assert(runner.execution.places.find { it.id == 'pl21' }.marking.size() == 3)
+    }
+
+    void test1TransitionWithExport() {
+        NetRunner runner = new NetRunner()
+        Net net = new BasicNet()
+        Transition tIn = net.createEmitterTransition()
+        Place a = net.createPlace("a")
+        Transition b = net.createTransition("b")
+        Place c = net.createPlace("c")
+        Transition d = net.createTransition("d")
+        Place e = net.createPlace("e")
+        Transition tOut = net.createCollectorTransition()
+
+        net.createArc(tIn, a)
+        net.createArc(a, b)
+        net.createArc(b, c)
+        net.createArc(c, d)
+        net.createArc(d, e)
+        net.createArc(e, tOut)
+
+        net.resetIds()
+
+        runner.load(net)
+        net.exportToJson("ST.1transition.step0")
+        runner.run(1)
+        net.exportToJson("ST.1transition.step1")
+        runner.run(1)
+        net.exportToJson("ST.1transition.step2")
     }
 
     // test for execution based on transitions

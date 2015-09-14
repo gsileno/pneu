@@ -61,7 +61,9 @@ class PN2json extends PN2abstract {
         if (transitionList.size() > 0) {
             code += tab(level) + "\"transitions\": [\n"
 
-            for (tr in transitionList) {
+            List<Transition> orderedTransitionList = transitionList.collect().sort() {it.id}
+
+            for (tr in orderedTransitionList) {
 
                 code += tab(level + 1) + "{\"id\": \""+tr.id+"\", "
                 if (tr.isLink()) {
@@ -115,7 +117,6 @@ class PN2json extends PN2abstract {
     }
 
     static String convert(Net net) {
-        resetIds(net)
         innerConversion(net)
     }
 

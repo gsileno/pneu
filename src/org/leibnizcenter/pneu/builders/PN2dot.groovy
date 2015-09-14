@@ -20,9 +20,6 @@ class PN2dot extends PN2abstract {
 
         if (placeList.size() > 0) code += "\n" + headerPlaces(level)
 
-        Integer i
-
-        i = 0
         placeList.each { pl ->
             if (!pl.isLink()) {
                 String label = pl.id // pl.label()
@@ -37,15 +34,15 @@ class PN2dot extends PN2abstract {
             } else {
                 code += tab(level + 1) + pl.id + " [label=\"\",height=.1,width=.1,style=filled,width=.1,color=black] ;\n"
             }
-            i++
         }
 
         if (placeList.size() > 0) code += tab(level) + "} \n"
 
         if (transitionList.size() > 0) code += "\n" + headerTransitions(level)
 
-        i = 0
-        transitionList.each { tr ->
+        List<Transition> orderedTransitionList = transitionList.collect().sort() {it.id}
+
+        for (tr in orderedTransitionList) {
             if (!tr.isLink()) {
                 String label = tr.id // tr.label()
                 if (net.inputs.contains(tr)) {
@@ -59,12 +56,10 @@ class PN2dot extends PN2abstract {
             } else {
                 code += tab(level + 1) + tr.id + " [label=\"\",height=.1,width=.1,style=filled,width=.1,color=black] ;\n"
             }
-            i++
         }
 
         if (transitionList.size() > 0) code += tab(level) + "} \n"
 
-        i = 0
         for (subNet in net.subNets) {
 
             if (!alreadyConvertedNets.contains(subNet)) {
@@ -82,7 +77,6 @@ class PN2dot extends PN2abstract {
                 }
                 code += innerConversion(subNet, level + 1, alreadyConvertedNets)
                 code += tab(level) + "}\n"
-                i++
 
                 alreadyConvertedNets << subNet
             }
@@ -92,7 +86,6 @@ class PN2dot extends PN2abstract {
 
         if (arcList.size() > 0) code += "\n"
 
-        i = 0
         arcList.each { arc ->
             code += tab(level) + arc.source.id // printName(arc.source.id)
 
@@ -119,8 +112,6 @@ class PN2dot extends PN2abstract {
     }
 
     static String convert(Net net) {
-        resetIds(net)
-
         String code = ""
 
         code += "digraph G {\n  rankdir=\"LR\";\n  concentrate=true;\n"

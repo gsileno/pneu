@@ -23,7 +23,10 @@ class PN2log extends PN2abstract {
         output += tab(level) + "outputs: " + net.outputs + "\n"
         output += tab(level) + "=====\n"
         output += tab(level) + "places: " + net.placeList + "\n"
-        output += tab(level) + "transitions: " + net.transitionList + "\n"
+
+        List<Transition> orderedTransitionList = net.transitionList.collect().sort() {it.id}
+
+        output += tab(level) + "transitions: " + orderedTransitionList + "\n"
 
         output += tab(level) + "arcs: " + net.arcList + "\n"
         output += tab(level) + "=====\n"
@@ -38,7 +41,6 @@ class PN2log extends PN2abstract {
     }
 
     static String convert(Net net) {
-        resetIds(net)
         innerConversion(net)
     }
 

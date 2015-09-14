@@ -125,7 +125,9 @@ class PN2LaTeX {
 
         code += "\n"
 
-        net.transitionList.each() { tr ->
+        List<Transition> orderedTransitionList = net.transitionList.collect().sort() {it.id}
+
+        for (tr in orderedTransitionList) {
             code += "    \\node\t"
             code += "[transition]\t"
             code += "("+tr.id+")\t"
@@ -376,7 +378,9 @@ class PN2LaTeX {
 
         List<Arc> nonBiflowArcs = net.arcList - biflowArcs
 
-        net.transitionList.each() { tr ->
+        List<Transition> orderedTransitionList = net.transitionList.collect().sort() {it.id}
+
+        for (tr in orderedTransitionList) {
 
             if (tr.position == null) {
                 throw new RuntimeException("The transition ${tr} does not have an absolute position.")
