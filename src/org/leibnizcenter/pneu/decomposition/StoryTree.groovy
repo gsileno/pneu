@@ -18,6 +18,18 @@ public class StoryTree {
         (id[id.lastIndexOf('_') + 1..-1]).toInteger()
     }
 
+    void addLeave(StoryTree leave) {
+        log.trace("build leave from story tree: " + leave)
+        log.trace("current tree (pre): " + this)
+        if (!leaves) leaves = []
+        leave.resetId(id + "_" + leaves.size())
+        leaves << leave
+        leave.parent = this
+        if (leaves.size() > 1 && type == null)
+            throw new RuntimeException("You have to define the type of composition")
+        log.trace("current tree (post): " + this)
+    }
+
     void addLeaveBefore(StoryTree tree) {
         log.trace("add leave before current leaves. leave: " + tree)
         log.trace("current tree (pre): " + this)
@@ -30,33 +42,25 @@ public class StoryTree {
         log.trace("current tree (post): " + this)
     }
 
-    void addLeavesFromTrees(List<StoryTree> leaves) {
+    void addLeavesBefore(List<StoryTree> leaves) {
+        for (tree in leaves) {
+            addLeaveBefore(tree)
+        }
+    }
+
+    void addLeaves(List<StoryTree> leaves) {
         for (tree in leaves) {
             addLeave(tree)
         }
     }
 
-    void addLeaves(List<Story> storyList) {
+    void addStories(List<Story> storyList) {
         for (story in storyList) {
-            addLeave(story)
+            addStory(story)
         }
     }
 
-    static StoryTree buildAltStoryTree(List<Story> stories) {
-        log.trace("build alt story tree from: " + stories)
-        StoryTree tree = new StoryTree(type: StoryTreeType.ALT)
-        tree.addLeaves(stories)
-        tree
-    }
-
-    static StoryTree createSeqStoryTree(List<Story> stories) {
-        log.trace("build seq story tree from: " + stories)
-        StoryTree tree = new StoryTree(type: StoryTreeType.SEQ)
-        tree.addLeaves(stories)
-        tree
-    }
-
-    void addLeave(Story story) {
+    void addStory(Story story) {
         log.trace("build leave from story: " + story)
         log.trace("current tree (pre): " + this)
         if (!leaves) leaves = []
@@ -66,6 +70,24 @@ public class StoryTree {
         if (leaves.size() > 1 && type == null)
             throw new RuntimeException("You have to define the type of composition")
         log.trace("current tree (post): " + this)
+    }
+
+    void addStoryBefore(Story story) {
+        addLeaveBefore(new StoryTree(story: story))
+    }
+
+    static StoryTree buildAltStoryTree(List<Story> stories) {
+        log.trace("build alt story tree from: " + stories)
+        StoryTree tree = new StoryTree(type: StoryTreeType.ALT)
+        tree.addStories(stories)
+        tree
+    }
+
+    static StoryTree buildSeqStoryTree(List<Story> stories) {
+        log.trace("build seq story tree from: " + stories)
+        StoryTree tree = new StoryTree(type: StoryTreeType.SEQ)
+        tree.addStories(stories)
+        tree
     }
 
     private changePrefix(String oldPrefix, String newPrefix) {
@@ -88,25 +110,7 @@ public class StoryTree {
 
     }
 
-    void addLeave(StoryTree leave) {
-        log.trace("build leave from story tree: " + leave)
-        log.trace("current tree (pre): " + this)
-        if (!leaves) leaves = []
-        leave.resetId(id + "_" + leaves.size())
-        leaves << leave
-        leave.parent = this
-        if (leaves.size() > 1 && type == null)
-            throw new RuntimeException("You have to define the type of composition")
-        log.trace("current tree (post): " + this)
-    }
 
-    void addStoryBefore(Story story) {
-        addLeaveBefore(new StoryTree(story: story))
-    }
-
-    void addStoryTreeBefore(StoryTree storyTree) {
-        addLeaveBefore(storyTree)
-    }
 
     // dot output for graphviz
     void exportToDot(String filename, String path = "out/dot/") {

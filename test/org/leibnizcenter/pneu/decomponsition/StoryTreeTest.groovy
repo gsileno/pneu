@@ -21,7 +21,7 @@ class StoryTreeTest extends GroovyTestCase {
         assert t1.leaves.size() == 0
         assert t2.leaves.size() == 1
 
-        t2.addLeave(st2)
+        t2.addStory(st2)
 
         assert t2.leaves.size() == 2
 

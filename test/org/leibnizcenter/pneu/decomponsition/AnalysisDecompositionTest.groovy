@@ -7,6 +7,7 @@ import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.decomposition.AnalysisSESEDecomposer
 import org.leibnizcenter.pneu.decomposition.StoryTree
+import org.leibnizcenter.pneu.decomposition.StoryTreeType
 
 class AnalysisDecompositionTest extends GroovyTestCase {
 
@@ -43,7 +44,7 @@ class AnalysisDecompositionTest extends GroovyTestCase {
         tree.exportToLog("SDT.individualPath")
 
         assert tree.type == null
-        assert tree.leaves.size() == 1
+        assert tree.story.steps.size() == 5
     }
 
     // individual path with two collectors
@@ -66,6 +67,11 @@ class AnalysisDecompositionTest extends GroovyTestCase {
         StoryTree tree = batchDecompose(net)
         tree.exportToDot("SDT.individualPathWithTwoCollectors")
         tree.exportToLog("SDT.individualPathWithTwoCollectors")
+
+        assert tree.type == StoryTreeType.SEQ
+        assert tree.leaves[0].story.steps.size() == 3
+        assert tree.leaves[1].leaves[0].story.steps.size() == 2
+        assert tree.leaves[1].leaves[1].story.steps.size() == 3
     }
 
     // alt with output place
@@ -93,6 +99,12 @@ class AnalysisDecompositionTest extends GroovyTestCase {
         StoryTree tree = batchDecompose(net)
         tree.exportToDot("SDT.altWithOutputPlace")
         tree.exportToLog("SDT.altWithOutputPlace")
+
+        assert tree.type == StoryTreeType.SEQ
+        assert tree.leaves[0].story.steps.size() == 2
+        assert tree.leaves[1].leaves[0].story.steps.size() == 4
+        assert tree.leaves[1].leaves[1].story.steps.size() == 4
+        assert tree.leaves[2].story.steps.size() == 2
     }
 
     // alt with output transition
@@ -119,6 +131,11 @@ class AnalysisDecompositionTest extends GroovyTestCase {
         StoryTree tree = batchDecompose(net)
         tree.exportToDot("SDT.altWihtOutputTransition")
         tree.exportToLog("SDT.altWihtOutputTransition")
+
+        assert tree.type == StoryTreeType.SEQ
+        assert tree.leaves[0].story.steps.size() == 2
+        assert tree.leaves[1].leaves[0].story.steps.size() == 3
+        assert tree.leaves[1].leaves[1].story.steps.size() == 3
     }
 
     // alt with no output transition
@@ -141,6 +158,11 @@ class AnalysisDecompositionTest extends GroovyTestCase {
         StoryTree tree = batchDecompose(net)
         tree.exportToDot("SDT.altwihtnooutputtransition")
         tree.exportToLog("SDT.altwihtnooutputtransition")
+
+        assert tree.type == StoryTreeType.SEQ
+        assert tree.leaves[0].story.steps.size() == 2
+        assert tree.leaves[1].leaves[0].story.steps.size() == 3
+        assert tree.leaves[1].leaves[1].story.steps.size() == 3
     }
 
     // seq with alt
@@ -170,6 +192,12 @@ class AnalysisDecompositionTest extends GroovyTestCase {
         StoryTree tree = batchDecompose(net)
         tree.exportToDot("SDT.seqwithalt")
         tree.exportToLog("SDT.seqwithalt")
+
+        assert tree.type == StoryTreeType.SEQ
+        assert tree.leaves[0].story.steps.size() == 3
+        assert tree.leaves[1].leaves[0].story.steps.size() == 4
+        assert tree.leaves[1].leaves[1].story.steps.size() == 4
+        assert tree.leaves[2].story.steps.size() == 2
     }
 
     // seq with alt with seq
@@ -201,6 +229,12 @@ class AnalysisDecompositionTest extends GroovyTestCase {
         StoryTree tree = batchDecompose(net)
         tree.exportToDot("SDT.seqwithaltwithseq")
         tree.exportToLog("SDT.seqwithaltwithseq")
+
+        assert tree.type == StoryTreeType.SEQ
+        assert tree.leaves[0].story.steps.size() == 3
+        assert tree.leaves[1].leaves[0].story.steps.size() == 4
+        assert tree.leaves[1].leaves[1].story.steps.size() == 4
+        assert tree.leaves[2].story.steps.size() == 3
     }
 
     // seq with alt with alt
@@ -231,69 +265,85 @@ class AnalysisDecompositionTest extends GroovyTestCase {
         net.exportToDot("SDT.seqwithaltwithalt.net")
         tree.exportToDot("SDT.seqwithaltwithalt")
         tree.exportToLog("SDT.seqwithaltwithalt")
+
+        assert tree.leaves.size() == 3
+
+        assert tree.type == StoryTreeType.SEQ
+        assert tree.leaves[0].story.steps.size() == 3
+        assert tree.leaves[1].type == StoryTreeType.ALT
+        assert tree.leaves[2].type == StoryTreeType.ALT
+
+        assert tree.leaves[1].leaves[0].type == StoryTreeType.SEQ
+        assert tree.leaves[1].leaves[0].leaves[0].story.steps.size() == 4
+        assert tree.leaves[1].leaves[0].leaves[1].type == StoryTreeType.ALT
+        assert tree.leaves[1].leaves[0].leaves[1].leaves[0].story.steps.size() == 2
+        assert tree.leaves[1].leaves[0].leaves[1].leaves[1].story.steps.size() == 4
+        assert tree.leaves[1].leaves[1].story.steps.size() == 4
+
     }
 
-    // test internal transition alt
-    void testInternalTransitionAlt() {
-        Net net = new BasicNet()
-        Transition tIn = net.createEmitterTransition()
-        Place pN = net.createPlace("n")
-        Place pP = net.createPlace("p")
-        Place pR = net.createPlace("r")
-        Place pS = net.createPlace("s")
-        Place pT = net.createPlace("t")
-        Transition tOut = net.createCollectorTransition()
+//    // test internal transition alt
+//    void testInternalTransitionAlt() {
+//        Net net = new BasicNet()
+//        Transition tIn = net.createEmitterTransition()
+//        Place pN = net.createPlace("n")
+//        Place pP = net.createPlace("p")
+//        Place pR = net.createPlace("r")
+//        Place pS = net.createPlace("s")
+//        Place pT = net.createPlace("t")
+//        Transition tOut = net.createCollectorTransition()
+//
+//        net.createArc(tIn, pN)
+//        List<Transition> tList= net.createBridges([pN, pR, pS, pP])
+//        net.createBridge(tList[0], pT, tList[1])
+//        net.createArc(pP, tOut)
+//
+//        net.resetIds()
+//        net.exportToDot("SDT.internaltransitionalt.net")
+//        StoryTree tree = batchDecompose(net)
+//        tree.exportToDot("SDT.internaltransitionalt")
+//        tree.exportToLog("SDT.internaltransitionalt")
+//    }
+//
+//    // compound net
+//    void testCompound() {
+//        Net net = new BasicNet()
+//        Transition tIn = net.createEmitterTransition()
+//        Place pAA = net.createPlace("aa")
+//        Place pA = net.createPlace("a")
+//        Place pB = net.createPlace("b")
+//        Place pC = net.createPlace("c")
+//        Place pD = net.createPlace("d")
+//        Place pE = net.createPlace("e")
+//        Place pF = net.createPlace("f")
+//        Place pG = net.createPlace("g")
+//        Place pH = net.createPlace("h")
+//        Place pI = net.createPlace("i")
+//        Place pL = net.createPlace("l")
+//        Place pM = net.createPlace("m")
+//        Place pN = net.createPlace("n")
+//        Place pO = net.createPlace("o")
+//        Place pP = net.createPlace("p")
+//        Place pQ = net.createPlace("q")
+//        Place pR = net.createPlace("r")
+//        Place pS = net.createPlace("s")
+//        Place pT = net.createPlace("t")
+//
+//        net.createArc(tIn, pAA)
+//        net.createBridge(pAA, pA)
+//        net.createBridges([pA, pB, pC, pF])
+//        net.createBridges([pA, pD, pE, pF])
+//        net.createBridge(pF, pG)
+//        net.createBridges([pF, pH, pI, pL])
+//        net.createBridges([pF, pM, pN, pO, pP, pQ])
+//
+//        List<Transition> tList= net.createBridges([pN, pR, pS, pP])
+//        net.createBridge(tList[0], pT, tList[1])
+//
+//        net.resetIds()
+//        StoryTree tree = batchDecompose(net)
+//        tree.exportToDot("SDT.compound")
+//        tree.exportToLog("SDT.compound")
+//    }
 
-        net.createArc(tIn, pN)
-        List<Transition> tList= net.createBridges([pN, pR, pS, pP])
-        net.createBridge(tList[0], pT, tList[1])
-        net.createArc(pP, tOut)
-
-        net.resetIds()
-        net.exportToDot("SDT.internaltransitionalt.net")
-        StoryTree tree = batchDecompose(net)
-        tree.exportToDot("SDT.internaltransitionalt")
-        tree.exportToLog("SDT.internaltransitionalt")
-    }
-
-    // compound net
-    void testCompound() {
-        Net net = new BasicNet()
-        Transition tIn = net.createEmitterTransition()
-        Place pAA = net.createPlace("aa")
-        Place pA = net.createPlace("a")
-        Place pB = net.createPlace("b")
-        Place pC = net.createPlace("c")
-        Place pD = net.createPlace("d")
-        Place pE = net.createPlace("e")
-        Place pF = net.createPlace("f")
-        Place pG = net.createPlace("g")
-        Place pH = net.createPlace("h")
-        Place pI = net.createPlace("i")
-        Place pL = net.createPlace("l")
-        Place pM = net.createPlace("m")
-        Place pN = net.createPlace("n")
-        Place pO = net.createPlace("o")
-        Place pP = net.createPlace("p")
-        Place pQ = net.createPlace("q")
-        Place pR = net.createPlace("r")
-        Place pS = net.createPlace("s")
-        Place pT = net.createPlace("t")
-
-        net.createArc(tIn, pAA)
-        net.createBridge(pAA, pA)
-        net.createBridges([pA, pB, pC, pF])
-        net.createBridges([pA, pD, pE, pF])
-        net.createBridge(pF, pG)
-        net.createBridges([pF, pH, pI, pL])
-        net.createBridges([pF, pM, pN, pO, pP, pQ])
-
-        List<Transition> tList= net.createBridges([pN, pR, pS, pP])
-        net.createBridge(tList[0], pT, tList[1])
-
-        net.resetIds()
-        StoryTree tree = batchDecompose(net)
-        tree.exportToDot("SDT.compound")
-        tree.exportToLog("SDT.compound")
-    }
 }

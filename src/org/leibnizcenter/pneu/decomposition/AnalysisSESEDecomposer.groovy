@@ -1,3 +1,5 @@
+
+
 package org.leibnizcenter.pneu.decomposition
 
 import groovy.util.logging.Log4j
@@ -15,9 +17,12 @@ class AnalysisSESEDecomposer {
     static private Story cutPartialStory(Story source, Integer stepi, Integer stepj) {
 
         log.trace("source story: " + source)
+        log.trace("cutting from $stepi to $stepj")
         Story newStory = new Story()
 
         if (stepj == -1)
+            stepj = source.steps.size() - 1
+        if (stepj == null)
             stepj = source.steps.size() - 1
 
         for (int z = stepi; z <= stepj; z++) {
@@ -70,34 +75,115 @@ class AnalysisSESEDecomposer {
         partialStory
     }
 
-
-    static StoryTree integrateStoryInStoryTree(Story story, StoryTree currentStoryTree, StoryTreeType type = null) {
-        integrateStoriesInStoryTree([story], currentStoryTree, type)
-    }
-
-    static StoryTree integrateStoriesInStoryTree(List<Story> stories, StoryTree currentStoryTree, StoryTreeType type = null) {
-
-        if (currentStoryTree == null) {
-            log.trace("I'm integrating ${stories} in a new story tree starting from a type $type")
-            log.trace("initializing story tree")
-            currentStoryTree = new StoryTree(type: type)
-            currentStoryTree.addLeaves(stories)
-        }
-        else {
-            log.trace("I'm integrating ${stories} in $currentStoryTree in a relation of type $type")
-            if (currentStoryTree.type == type) {
-                log.trace("current story tree type is the same of the one desired")
-            } else if (type != null) {
-                log.trace("current story tree type is different from the one desired ($type). create an encapsulating story tree.")
-                StoryTree parentStoryTree = new StoryTree(type: type)
-                currentStoryTree.parent = parentStoryTree
-                currentStoryTree = currentStoryTree.parent
-            } else {
-                log.trace("no desired type. adding to the current content.")
-                currentStoryTree.addLeaves(stories)
-            }
+    static StoryTree addAltStory(Story story, StoryTree currentStoryTree) {
+        if (currentStoryTree.type == StoryTreeType.SEQ) {
+            throw new RuntimeException("You should not be here")
+        } else {
+            currentStoryTree.addStory(story)
         }
         currentStoryTree
+    }
+
+    static StoryTree addSeqStory(Story story, StoryTree currentStoryTree) {
+        if (currentStoryTree.type == StoryTreeType.SEQ) {
+            currentStoryTree.addStory(story)
+        }  else {
+            if (currentStoryTree.parent != null) {
+                log.trace("but it has a parent: backtrack!")
+                currentStoryTree = currentStoryTree.parent
+            } else {
+                log.trace("and it has not a parent. create it, and backtrack!")
+                StoryTree parentStoryTree = new StoryTree(type: StoryTreeType.SEQ)
+                parentStoryTree.addLeave(currentStoryTree)
+                currentStoryTree = parentStoryTree
+            }
+            currentStoryTree.addStory(story)
+        }
+        currentStoryTree
+    }
+
+    static StoryTree addSeqStoryBefore(Story story, StoryTree currentStoryTree) {
+        if (currentStoryTree.type == StoryTreeType.SEQ) {
+            currentStoryTree.addStoryBefore(story)
+        } else {
+            if (currentStoryTree.parent != null) {
+                log.trace("but it has a parent: backtrack!")
+                currentStoryTree = currentStoryTree.parent
+            } else {
+                log.trace("and it has not a parent. create it, and backtrack!")
+                StoryTree parentStoryTree = new StoryTree(type: StoryTreeType.SEQ)
+                parentStoryTree.addLeave(currentStoryTree)
+                currentStoryTree = parentStoryTree
+            }
+            currentStoryTree.addStoryBefore(story)
+        }
+        currentStoryTree
+    }
+
+    static StoryTree createAltBranch(List<Story> stories, StoryTree currentStoryTree) {
+        if (currentStoryTree == null) {
+            log.trace("I'm integrating ${stories} in a new story tree starting of type ALT")
+            log.trace("initializing story tree with ${stories}")
+            currentStoryTree = StoryTree.buildAltStoryTree(stories)
+        } else {
+            if (currentStoryTree.type != StoryTreeType.SEQ) {
+                log.trace("current story tree is not a SEQ")
+                if (currentStoryTree.parent != null) {
+                    log.trace("but it has a parent: backtrack!")
+                    currentStoryTree = currentStoryTree.parent
+                } else {
+                    log.trace("and it has not a parent. create it, and backtrack!")
+                    StoryTree parentStoryTree = new StoryTree(type: StoryTreeType.SEQ)
+                    parentStoryTree.addLeave(currentStoryTree)
+                    currentStoryTree = parentStoryTree
+                }
+            } else {
+                log.trace("current story tree is a SEQ already")
+            }
+
+            StoryTree altStoryTree = StoryTree.buildAltStoryTree(stories)
+            log.trace("adding ${altStoryTree} to ${currentStoryTree}")
+            currentStoryTree.addLeave(altStoryTree)
+        }
+        log.trace("currentStoryTree: ${currentStoryTree}")
+        currentStoryTree
+    }
+
+    // find the position of the second element in common between two stories
+    private static Integer getCutPos(Story first, Story second, Integer limitFirst = null) {
+        Integer limitSecond
+
+        if (limitFirst == null) {
+            limitFirst = first.steps.size()
+        } else {
+            limitFirst++
+        }
+        if (limitSecond == null) {
+            limitSecond = second.steps.size()
+        } else {
+            limitSecond++
+        }
+
+        log.trace("look for an element in common, with position below limits ${limitFirst} for first story, and ${limitSecond} for second story")
+
+        Integer cutPos = null
+        for (int i = limitFirst - 1; i > 0; i--) {
+            log.trace("first story step: " + i + ": " + first.steps[i])
+            for (int j = limitSecond - 1; j > 0; j--) {
+                log.trace("second story step: " + j + ": " + second.steps[j])
+                if (second.steps[j] == first.steps[i]) {
+                    if (i != limitFirst - 1 || j != limitSecond - 1) {
+                        log.trace("cut found - i: $i")
+                        cutPos = i
+                        break
+                    } else {
+                        log.trace("they share the last element: this is not valid")
+                    }
+                }
+            }
+            if (cutPos != null) break
+        }
+        cutPos
     }
 
     // single entry single exit tree decomposer`
@@ -112,11 +198,11 @@ class AnalysisSESEDecomposer {
 
         // store the current analysis
         StoryTree currentStoryTree = null
-        Integer currentPos
+        Integer currentPos = null
 
         for (int z = 0; z < stories.size(); z++) {
 
-            log.trace("currentStoryTree: "+currentStoryTree)
+            log.trace("### ${z} ### currentStoryTree: " + currentStoryTree)
 
             Story first, second
             first = stories[z]
@@ -126,85 +212,71 @@ class AnalysisSESEDecomposer {
 
             if (currentPos == null) {
                 currentPos = first.steps.size() - 1
-                log.trace("initializing current pos to "+currentPos)
+                log.trace("initializing current pos to " + currentPos)
             } else {
-                log.trace("current pos: "+currentPos)
+                log.trace("current pos: " + currentPos)
             }
 
             if (second == null) {
                 log.trace("no more stories available, attaching this story to the current decomposition.")
+
                 Story lastStory = cutAndSavePartialStory(first, 0, currentPos)
-                return integrateStoryInStoryTree(lastStory, currentStoryTree)
+                if (z > 0) {
+                    if (stories[z - 1].steps[0] != stories[z].steps[0]) {
+                        log.trace("the last story and the previous one do not share the same beginning ")
+                        return addAltStory(lastStory, currentStoryTree)
+                    } else {
+                        log.trace("the last story and the previous one share the same beginning ")
+                        return addSeqStoryBefore(lastStory, currentStoryTree)
+                    }
+                } else {
+                    log.trace("there is only one story, no need to specify the type.")
+                    return new StoryTree(story: first)
+                }
             }
 
             log.trace("second story: " + second)
             log.trace("second story last step: " + ": " + second.steps.last())
 
-            Integer firstCutPos, secondCutPos
+            Story seqStory, altStory1, altStory2
+            Integer cutPos = getCutPos(first, second)
 
-            Integer i
-            if (currentPos >= second.steps.size()) {
-                log.trace("the first part is longer/equal than the second one.")
-                for (i = currentPos - 1; i >= second.steps.size() - 1; i--) {
-                    log.trace("first story step: " + i + ": " + first.steps[i])
-                    if (second.steps.last() == first.steps[i]) {
-                        log.trace("first cut found - i: $i")
-                        firstCutPos = i
-                        break
-                    }
-                }
-            }
+            if (cutPos == currentPos) {
+                log.trace("the first cut occurs where the current pos is ")
 
-            if (firstCutPos != null) {
-                log.trace("the second story provides an internal variation to the first")
-                if (firstCutPos < first.steps.size() - 1) {
-                    log.trace("and they do not conclude in the same state (cutting from ${firstCutPos} to ${first.steps.size()}).")
-                    Story seqStory = cutAndSavePartialStory(first, firstCutPos, -1)
-                    currentStoryTree = integrateStoryInStoryTree(seqStory, currentStoryTree, StoryTreeType.SEQ)
+                altStory1 = cutAndSavePartialStory(second, cutPos, -1)
+                currentStoryTree = addAltStory(altStory1, currentStoryTree)
+
+            } else if (cutPos < currentPos) {
+                log.trace("the first cut occurs before the current pos")
+
+                if (cutPos == second.steps.size() - 1) {
+                    seqStory = cutAndSavePartialStory(first, cutPos, currentPos)
+                    currentPos = cutPos
+                    log.trace("additional research of other cut point")
+                    cutPos = getCutPos(first, second, cutPos)
+                    altStory1 = cutAndSavePartialStory(first, cutPos, currentPos)
+                    altStory2 = cutAndSavePartialStory(second, cutPos, -1)
+                    log.trace("attaching alt branch before")
+                    currentStoryTree = createAltBranch([altStory1, altStory2], currentStoryTree)
+                    log.trace("attaching seq branch after")
+                    currentStoryTree = addSeqStory(seqStory, currentStoryTree)
                 } else {
-                    log.trace("but they conclude in the same state.")
-                    firstCutPos = -1
+                    log.trace("creating alternative branch")
+                    altStory1 = cutAndSavePartialStory(first, cutPos, currentPos)
+                    altStory2 = cutAndSavePartialStory(second, cutPos, -1)
+                    currentStoryTree = createAltBranch([altStory1, altStory2], currentStoryTree)
                 }
+
+                currentPos = cutPos
+
             } else {
-                log.trace("the two stories do not share the final part")
-
-                if (first.steps.last() == second.steps.last()) {
-                    log.trace("although they conclude in the same state.")
-                    i = first.steps.size() - 1
-                } else {
-                    i = first.steps.size()
-                }
-                firstCutPos = -1
-            }
-
-            log.trace("first story cut position: " + firstCutPos)
-
-            if (i == null)
                 throw new RuntimeException("You should not be here")
-
-            Integer j
-            for (i = i - 1; i >= 0 && (secondCutPos == null); i--) {
-                log.trace("first story step: " + i + ": " + first.steps[i])
-                for (j = second.steps.size() - 1; j >= 0; j--) {
-                    log.trace("second story step: " + j + ": " + second.steps[j])
-                    if (second.steps[j] == first.steps[i]) {
-                        log.trace("cut found - $i for first story, $j for second story")
-                        secondCutPos = i
-                        break
-                    }
-                }
             }
 
-            if (secondCutPos == null) throw new RuntimeException("You shouldn't be here.")
-
-            log.trace("second cut position: " + secondCutPos)
-
-            Story altStory1 = cutAndSavePartialStory(first, secondCutPos, firstCutPos)
-            Story altStory2 = cutAndSavePartialStory(second, secondCutPos, -1)
-
-            currentStoryTree = integrateStoriesInStoryTree([altStory1, altStory2], currentStoryTree, StoryTreeType.ALT)
-            currentPos = secondCutPos
         }
+
+
 
         currentStoryTree
     }
