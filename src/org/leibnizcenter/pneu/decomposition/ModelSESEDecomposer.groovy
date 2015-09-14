@@ -6,19 +6,12 @@ import org.leibnizcenter.pneu.components.petrinet.Place
 
 // from Munoz-Gama2014
 
-/* It is well known that checking conformance of large logs and models is a challenging problem.
-The size of log and model and the complexity of the underlying process
-strongly influence the time needed to compute fitness and to create optimal alignments.
-Divide-and-conquer strategies are a way to address this problem.
-We do not just want to partition the traces in the event log (providing a trivial way to distribute
-conformance checking). The potential gains are much higher if also the model is
-decomposed and traces are split into smaller ones.
-To decompose conformance checking problems, the overall system net SN
-is broken down into a collection of subnets fSN1;SN2;…SNng such that the union of these subnets yields the original system net.
+/* It is well known that checking conformance of large logs and models is a challenging problem. The size of log and model and the complexity of the underlying process
+strongly influence the time needed to compute fitness and to create optimal alignments. Divide-and-conquer strategies are a way to address this problem. We do not just want to partition the traces in the event log (providing a trivial way to distribute
+conformance checking). The potential gains are much higher if also the model is decomposed and traces are split into smaller ones. To decompose conformance checking problems, the overall system net SN
+is broken down into a collection of subnets fSN1;SN2;…SNng such that the union of these subnets yields the original system net. */
 
- */
-
-class SESEDecomposer {
+class ModelSESEDecomposer {
 
     // A multi-terminal graph has to be transformed to a two-terminal graph
     // if there are more inputs they are all attached to a new input node

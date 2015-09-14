@@ -1,54 +1,133 @@
-# pneu
+# pneu 
 
-Petri Net pnEUmatics: *groovy libraries/scripts to tinker with Petri Nets*
-
-always valid guidelines:
-
-* keep the source code simple, readable with few comments
-* hopefully no documentation required
-* make tests for each component
+**Petri Net pnEUmatics**
+*groovy libraries/scripts to tinker with Petri Nets* 
 
 ## Components
 
-* parser of Yasper PNML (Petri Net Markup Language, XML based)
-* converter to tikz (LaTeX!)
-* converter to dot (graphviz, etc.)
-* simulator 
-* analyzer 
+* basic Petri nets model
+* brute-force simulator 
+* exporter to json (with current marking)
+* analyzer (depth-first search of execution path)
+* single-entry-single-exit (SESE) decomponser of traces
+* importer from Yasper PNML (Yasper is a visual editor for Petri Nets, PNML is the Petri Net Markup Language, XML-based)
+* exporter to tikz (LaTeX!) - absolute positions required
+* exporter to dot (graphviz, etc.) - no positions required
 
-## Usage
+## Usage examples
 
-**PNML parsing:**
+**basic Petri net creation:**
 ```
-#!groovy
-import org.leibnizcenter.pneu.components.petrinet.Net
-import org.leibnizcenter.pneu.parsers.pneu
-Net net = pneu.parseFile("examples/basic/0emptyplace.pnml")
-```
+Net net = new BasicNet()
+Transition tIn = net.createEmitterTransition()
+Place pA = net.createPlace("a")
+Place pB = net.createPlace("b")
+Place pC = net.createPlace("c")
+Place pD = net.createPlace("d")
+Place pE = net.createPlace("e")
 
-**tikz (LaTeX) conversion:**
-```
-#!groovy
-import org.leibnizcenter.pneu.builders.PN2LaTeX
-println(PN2LaTeX.convertabsolute(net)
-```
+net.createArc(tIn, pA)
+net.createBridge(pA, pB)
+net.createBridge(pB, pC)
+net.createBridge(pA, pD)
+net.createBridge(pD, pE)
 
-**dot conversion:**
-```
-#!groovy
-import org.leibnizcenter.pneu.builders.PN2dot
-println(PN2dot.simpleConversion(net))
+Transition tOut = net.createCollectorTransition()
+net.createArc(pC, tOut)
+net.createArc(pE, tOut)
+
+net.resetIds() 
 ```
 
 **monolithic simulation**
 ```
-#!groovy
-import org.leibnizcenter.pneu.animation.monolithic.PNRunner
-
-PNRunner runner = new PNRunner() // brute-force based animation
-runner.load(net) // load the petri net structure
-runner.run(100)  // run at most 100 steps (less if there are no more enabled transitions)
+NetRunner runner = new NetRunner()
+runner.load(net)
+runner.run(2)      // to make 2 discrete steps
 ```
+the executed net can be read on runner.execution.net
+
+**analysis**
+```
+NetRunner runner = new NetRunner()
+runner.load(net)
+runner.analyse()
+runner.analysis.exportToLog("readmeNet")
+```
+
+output: /out/log/analysis/readmeNet.analysis.log
+```
+Summary: 
+0: t0.t0, t1.t1, t2.t2.
+1: t0.t0, t3.t3, t4.t4.
+
+Stories: 
+(st0) -- [t0] -- (st1) -- [t1] -- (st2) -- [t2] -- (st3)
+(st0) -- [t0] -- (st1) -- [t3] -- (st4) -- [t4] -- (st5)
+
+States: 
+st0: [p0 (0), p1 (0), p2 (0), p3 (0), p4 (0)] / [t0 => (st1)] 
+st1: [p0 (1), p1 (0), p2 (0), p3 (0), p4 (0)] / [t1 => (st2), t3 => (st4)] 
+st2: [p0 (0), p1 (1), p2 (0), p3 (0), p4 (0)] / [t2 => (st3)] 
+st3: [p0 (0), p1 (0), p2 (1), p3 (0), p4 (0)] / [] 
+st4: [p0 (0), p1 (0), p2 (0), p3 (1), p4 (0)] / [t4 => (st5)] 
+st5: [p0 (0), p1 (0), p2 (0), p3 (0), p4 (1)] / [] 
+```
+
+**json export**
+```
+net.exportToJson("readmeNet")
+```
+
+output: /out/json/readmeNet.json
+```
+{
+  "places": [
+    {"id": "p0", "label": "a"},
+    {"id": "p1", "label": "b"},
+    {"id": "p2", "label": "c", "marking": [""]},
+    {"id": "p3", "label": "d"},
+    {"id": "p4", "label": "e"}
+  ],
+  "transitions": [
+    {"id": "t0"},
+    {"id": "t1"},
+    {"id": "t2"},
+    {"id": "t3"},
+    {"id": "t4"},
+    {"id": "t5"}
+  ],
+  "arcs": [
+    { "source": "t3", "target": "p0" },
+    { "source": "p0", "target": "t4" },
+    { "source": "t4", "target": "p1" },
+    { "source": "p1", "target": "t5" },
+    { "source": "t5", "target": "p2" },
+    { "source": "p0", "target": "t0" },
+    { "source": "t0", "target": "p3" },
+    { "source": "p3", "target": "t1" },
+    { "source": "t1", "target": "p4" },
+    { "source": "p2", "target": "t2" },
+    { "source": "p4", "target": "t2" }
+  ]
+} 
+```
+
+**dot export**
+```
+net.exportToDot("readmeNet")
+```
+
+**PNML parsing:**
+```
+net = BasicNet.importFromPNML("examples/basic/7reset.pnml")
+```
+
+**tikz conversion (for LaTeX):**
+```
+net.exportToLaTeX("7reset")
+```
+
 
 ## Contributing
 
@@ -57,3 +136,9 @@ runner.run(100)  // run at most 100 steps (less if there are no more enabled tra
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+always valid guidelines:
+
+* keep the source code simple, readable with few comments
+* hopefully no documentation required
+* make tests for each component

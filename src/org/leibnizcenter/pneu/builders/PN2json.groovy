@@ -33,19 +33,26 @@ class PN2json extends PN2abstract {
 
         if (placeList.size() > 0) {
             code += tab(level) + "\"places\": [\n"
-
-            Integer i = 0
             for (pl in placeList) {
                 code += tab(level + 1) + "{\"id\": \""+pl.id+"\", "
                 if (pl.isLink()) {
                     code += "\"link\": true"
-                } else {
+                } else if (pl.label() != "") {
                     code += "\"label\": \""+pl.label()+"\""
+                } else {
+                    code = code[0..-3]
                 }
-                i++
+
+                if (pl.marking.size() > 0) {
+                    code += ", \"marking\": ["
+                    for (token in pl.marking) {
+                        code += "\""+token.label()+"\", "
+                    }
+                    code = code[0..-3]
+                    code += "]"
+                }
 
                 code += "},\n"
-
             }
 
             code = code[0..-3] + "\n" + tab(level) + "],\n"
@@ -54,16 +61,16 @@ class PN2json extends PN2abstract {
         if (transitionList.size() > 0) {
             code += tab(level) + "\"transitions\": [\n"
 
-            Integer i = 0
             for (tr in transitionList) {
+
                 code += tab(level + 1) + "{\"id\": \""+tr.id+"\", "
                 if (tr.isLink()) {
                     code += "\"link\": true"
-                } else {
+                } else if (tr.label() != "") {
                     code += "\"label\": \""+tr.label()+"\""
+                } else {
+                    code = code[0..-3]
                 }
-                i++
-
                 code += "},\n"
             }
             code = code[0..-3] + "\n" + tab(level) + "],\n"
@@ -71,12 +78,10 @@ class PN2json extends PN2abstract {
 
         if (subNets.size() > 0) {
             code += tab(level) + "\"subnets\": [\n"
-            Integer i = 0
             for (subNet in net.subNets) {
                 if (!alreadyConvertedNets.contains(subNet)) {
                     code += innerConversion(subNet, level + 2, alreadyConvertedNets) + ""
                     code = code[0..-3] + ",\n"
-                    i++
                     alreadyConvertedNets << subNet
                 } else {
                     code += tab(level+1)+"{ \"id\": \""+net.function.id+"\"},\n"

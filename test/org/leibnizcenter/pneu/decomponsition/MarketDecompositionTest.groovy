@@ -2,7 +2,7 @@ package org.leibnizcenter.pneu.decomponsition
 
 import org.leibnizcenter.pneu.animation.monolithic.NetRunner
 import org.leibnizcenter.pneu.components.petrinet.Net
-import org.leibnizcenter.pneu.decomposition.SimpleSESEDecomposer
+import org.leibnizcenter.pneu.decomposition.AnalysisSESEDecomposer
 import org.leibnizcenter.pneu.decomposition.StoryTree
 import org.leibnizcenter.pneu.examples.MarketModel
 
@@ -13,7 +13,7 @@ class MarketDecompositionTest extends GroovyTestCase {
         runner.load(net)
         runner.analyse()
 
-        SimpleSESEDecomposer decomposer = new SimpleSESEDecomposer()
+        AnalysisSESEDecomposer decomposer = new AnalysisSESEDecomposer()
         StoryTree tree = decomposer.decompose(runner.analysis)
         tree.exportToDot(filename)
         tree.exportToLog(filename)

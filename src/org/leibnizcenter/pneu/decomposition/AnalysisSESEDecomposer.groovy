@@ -7,7 +7,7 @@ import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
 
 
 @Log4j
-class SimpleSESEDecomposer {
+class AnalysisSESEDecomposer {
 
     Map<State, Map<State, List<Story>>> partialStoriesBase = [:]
 

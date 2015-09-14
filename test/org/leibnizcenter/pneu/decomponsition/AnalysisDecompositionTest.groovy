@@ -5,17 +5,17 @@ import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
-import org.leibnizcenter.pneu.decomposition.SimpleSESEDecomposer
+import org.leibnizcenter.pneu.decomposition.AnalysisSESEDecomposer
 import org.leibnizcenter.pneu.decomposition.StoryTree
 
-class SimpleDecompositionTest extends GroovyTestCase {
+class AnalysisDecompositionTest extends GroovyTestCase {
 
     static StoryTree batchDecompose(Net net) {
         NetRunner runner = new NetRunner()
         runner.load(net)
         runner.analyse()
         runner.status()
-        SimpleSESEDecomposer decomposer = new SimpleSESEDecomposer()
+        AnalysisSESEDecomposer decomposer = new AnalysisSESEDecomposer()
         StoryTree tree = decomposer.decompose(runner.analysis)
 
         assert (runner.analysis.storyBase.base.size() <= tree.getStories().size())

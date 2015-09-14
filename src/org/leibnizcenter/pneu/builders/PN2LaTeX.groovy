@@ -344,6 +344,10 @@ class PN2LaTeX {
 
             Place pl = net.placeList.get(i)
 
+            if (pl.position == null) {
+                throw new RuntimeException("The place ${pl} does not have an absolute position.")
+            }
+
             code += "    \\node\t"
             code += "[place"
             int nMarking = pl.marking.size();
@@ -373,6 +377,10 @@ class PN2LaTeX {
         List<Arc> nonBiflowArcs = net.arcList - biflowArcs
 
         net.transitionList.each() { tr ->
+
+            if (tr.position == null) {
+                throw new RuntimeException("The transition ${tr} does not have an absolute position.")
+            }
 
             code += "    \\node\t"
             code += "[transition]\t"

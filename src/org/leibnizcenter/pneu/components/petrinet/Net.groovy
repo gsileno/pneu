@@ -1,6 +1,7 @@
 package org.leibnizcenter.pneu.components.petrinet
 
 import groovy.util.logging.Log4j
+import org.leibnizcenter.pneu.builders.PN2LaTeX
 import org.leibnizcenter.pneu.builders.PN2abstract
 import org.leibnizcenter.pneu.builders.PN2dot
 import org.leibnizcenter.pneu.builders.PN2json
@@ -235,6 +236,8 @@ abstract class Net {
             reifiedNet.exportToDot("testreified")
             reifiedNet.resetIds()
             reifiedNet
+        } else {
+            throw new RuntimeException("You should not be here.")
         }
     }
 
@@ -710,6 +713,25 @@ abstract class Net {
 
         new File(outputFile).withWriter {
             out -> out.println(PN2json.convert(net))
+        }
+    }
+
+    // tikz output for latex
+    void exportToLaTeX(String filename, String path = "out/tex/") {
+        exportToLaTeX(this, filename, path)
+    }
+
+    static void exportToLaTeX(Net net, String filename, String path = "out/tex/") {
+        File folder
+        String outputFile
+
+        folder = new File(path)
+        if (!folder.exists()) folder.mkdirs()
+
+        outputFile = path + filename + ".tex"
+
+        new File(outputFile).withWriter {
+            out -> out.println(PN2LaTeX.convertAbsolute(net))
         }
     }
 

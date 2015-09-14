@@ -241,5 +241,7 @@ class SubsumptionTest extends GroovyTestCase {
         assert Subsumption.subsumes(net0(), net1())
     }
 
-
+    void testSubsumption2() {
+        assert Subsumption.subsumes(net1(), net0())
+    }
 }
