@@ -70,13 +70,41 @@ class AnalysisSESEDecomposer {
         partialStory
     }
 
+
+    static StoryTree integrateStoryInStoryTree(Story story, StoryTree currentStoryTree, StoryTreeType type = null) {
+        integrateStoriesInStoryTree([story], currentStoryTree, type)
+    }
+
+    static StoryTree integrateStoriesInStoryTree(List<Story> stories, StoryTree currentStoryTree, StoryTreeType type = null) {
+
+        if (currentStoryTree == null) {
+            log.trace("I'm integrating ${stories} in a new story tree starting from a type $type")
+            log.trace("initializing story tree")
+            currentStoryTree = new StoryTree(type: type)
+            currentStoryTree.addLeaves(stories)
+        }
+        else {
+            log.trace("I'm integrating ${stories} in $currentStoryTree in a relation of type $type")
+            if (currentStoryTree.type == type) {
+                log.trace("current story tree type is the same of the one desired")
+            } else if (type != null) {
+                log.trace("current story tree type is different from the one desired ($type). create an encapsulating story tree.")
+                StoryTree parentStoryTree = new StoryTree(type: type)
+                currentStoryTree.parent = parentStoryTree
+                currentStoryTree = currentStoryTree.parent
+            } else {
+                log.trace("no desired type. adding to the current content.")
+                currentStoryTree.addLeaves(stories)
+            }
+        }
+        currentStoryTree
+    }
+
     // single entry single exit tree decomposer`
     // decompose the result of depth execution of petri net
     // a list of sequences of state and transition event
     // partially overlapping (see Analysis class)
-    StoryTree decompose(Analysis analysis, Story topic = null) {
-
-        StoryTree decomposition = new StoryTree(story: topic)
+    StoryTree decompose(Analysis analysis) {
 
         // those stories have been discovered through depth-first search
         // therefore they share a part in common, at least the root
@@ -84,6 +112,7 @@ class AnalysisSESEDecomposer {
 
         // store the current analysis
         StoryTree currentStoryTree = null
+        Integer currentPos
 
         for (int z = 0; z < stories.size(); z++) {
 
@@ -95,10 +124,17 @@ class AnalysisSESEDecomposer {
 
             log.trace("first story: " + first)
 
+            if (currentPos == null) {
+                currentPos = first.steps.size() - 1
+                log.trace("initializing current pos to "+currentPos)
+            } else {
+                log.trace("current pos: "+currentPos)
+            }
+
             if (second == null) {
                 log.trace("no more stories available, attaching this story to the current decomposition.")
-                decomposition.addLeave(first)
-                return decomposition
+                Story lastStory = cutAndSavePartialStory(first, 0, currentPos)
+                return integrateStoryInStoryTree(lastStory, currentStoryTree)
             }
 
             log.trace("second story: " + second)
@@ -107,10 +143,9 @@ class AnalysisSESEDecomposer {
             Integer firstCutPos, secondCutPos
 
             Integer i
-
-            if (first.steps.size() >= second.steps.size()) {
-                log.trace("the first story is longer/equal than the second one.")
-                for (i = first.steps.size() - 1; i >= second.steps.size() - 1; i--) {
+            if (currentPos >= second.steps.size()) {
+                log.trace("the first part is longer/equal than the second one.")
+                for (i = currentPos - 1; i >= second.steps.size() - 1; i--) {
                     log.trace("first story step: " + i + ": " + first.steps[i])
                     if (second.steps.last() == first.steps[i]) {
                         log.trace("first cut found - i: $i")
@@ -123,26 +158,29 @@ class AnalysisSESEDecomposer {
             if (firstCutPos != null) {
                 log.trace("the second story provides an internal variation to the first")
                 if (firstCutPos < first.steps.size() - 1) {
-                    log.trace("and they do not conclude in the same state (${firstCutPos}, ${first.steps.size()}).")
+                    log.trace("and they do not conclude in the same state (cutting from ${firstCutPos} to ${first.steps.size()}).")
                     Story seqStory = cutAndSavePartialStory(first, firstCutPos, -1)
-                    StoryTree seqStoryTree = StoryTree.createSeqStoryTree([seqStory])
-                    if (currentStoryTree == null) {
-                        log.trace("initializating the decomposition tree with a seq")
-                        decomposition.addLeave(seqStoryTree)
-                    }
-                    currentStoryTree = seqStoryTree
+                    currentStoryTree = integrateStoryInStoryTree(seqStory, currentStoryTree, StoryTreeType.SEQ)
                 } else {
                     log.trace("but they conclude in the same state.")
                     firstCutPos = -1
                 }
-                log.trace("first cut position: " + i)
-
             } else {
                 log.trace("the two stories do not share the final part")
-                i = first.steps.size()
+
+                if (first.steps.last() == second.steps.last()) {
+                    log.trace("although they conclude in the same state.")
+                    i = first.steps.size() - 1
+                } else {
+                    i = first.steps.size()
+                }
                 firstCutPos = -1
-                log.trace("first cut position: " + firstCutPos)
             }
+
+            log.trace("first story cut position: " + firstCutPos)
+
+            if (i == null)
+                throw new RuntimeException("You should not be here")
 
             Integer j
             for (i = i - 1; i >= 0 && (secondCutPos == null); i--) {
@@ -150,8 +188,8 @@ class AnalysisSESEDecomposer {
                 for (j = second.steps.size() - 1; j >= 0; j--) {
                     log.trace("second story step: " + j + ": " + second.steps[j])
                     if (second.steps[j] == first.steps[i]) {
-                        log.trace("cut found - i: $i, j: $j")
-                        secondCutPos = j
+                        log.trace("cut found - $i for first story, $j for second story")
+                        secondCutPos = i
                         break
                     }
                 }
@@ -164,54 +202,11 @@ class AnalysisSESEDecomposer {
             Story altStory1 = cutAndSavePartialStory(first, secondCutPos, firstCutPos)
             Story altStory2 = cutAndSavePartialStory(second, secondCutPos, -1)
 
-            // modify after the cut the second story, to avoid to save two times the same
-            stories[z + 1] = cutPartialStory(second, 0, secondCutPos)
-
-            // if the current tree has been initialized and
-            // we are already in a series of alternative branches, just add the last one
-            if (currentStoryTree != null && currentStoryTree.type == StoryTreeType.ALT && firstCutPos != -1) {
-//                if (currentStoryTree.leaves.last() != altStory1)
-//                    throw new RuntimeException("These stories should be the same: "+currentStoryTree.leaves.last()+" vs. "+altStory1)
-
-                log.trace("add the last alternative branch to the alt")
-                currentStoryTree.addLeave(altStory2)
-            } else {
-
-                StoryTree altStoryTree = StoryTree.buildAltStoryTree([altStory1, altStory2])
-                if (currentStoryTree == null) {
-                    log.trace("initializating the decomposition tree with an alt")
-                    decomposition.addLeave(altStoryTree)
-                } else {
-                    log.trace("add the alt tree within the seq")
-
-                    if (firstCutPos == -1) {
-                        currentStoryTree = currentStoryTree.parent
-                    }
-                    if (currentStoryTree.type != StoryTreeType.SEQ) {
-                        currentStoryTree.type = StoryTreeType.SEQ
-                    }
-                    currentStoryTree.addStoryTreeBefore(altStoryTree)
-                }
-
-                currentStoryTree = altStoryTree
-            }
-
-            // last part
-            if (z == stories.size() - 2) {
-                Story seqStory = cutAndSavePartialStory(second, 0, secondCutPos)
-                if (currentStoryTree.type == StoryTreeType.SEQ) {
-                    log.trace("current story tree type is already seq")
-                } else if (currentStoryTree.type == StoryTreeType.ALT) {
-                    log.trace("current story tree type is alt. backtracking to the parent")
-                    currentStoryTree = currentStoryTree.parent
-                }
-                currentStoryTree.addStoryBefore(seqStory)
-                break
-            }
-
+            currentStoryTree = integrateStoriesInStoryTree([altStory1, altStory2], currentStoryTree, StoryTreeType.ALT)
+            currentPos = secondCutPos
         }
 
-        decomposition
+        currentStoryTree
     }
 
 }

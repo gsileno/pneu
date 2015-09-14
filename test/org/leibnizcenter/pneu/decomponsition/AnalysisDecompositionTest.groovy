@@ -39,8 +39,33 @@ class AnalysisDecompositionTest extends GroovyTestCase {
 
         net.resetIds()
         StoryTree tree = batchDecompose(net)
-        tree.exportToDot("SDT.individualpath")
-        tree.exportToLog("SDT.individualpath")
+        tree.exportToDot("SDT.individualPath")
+        tree.exportToLog("SDT.individualPath")
+
+        assert tree.type == null
+        assert tree.leaves.size() == 1
+    }
+
+    // individual path with two collectors
+    void testIndividualPathWithTwoCollectors() {
+        Net net = new BasicNet()
+        Transition tIn = net.createEmitterTransition()
+        Place pA = net.createPlace("a")
+        Place pB = net.createPlace("b")
+        Place pC = net.createPlace("c")
+        Transition tOut1 = net.createCollectorTransition()
+        Transition tOut2 = net.createCollectorTransition()
+
+        net.createArc(tIn, pA)
+        net.createBridge(pA, pB)
+        net.createArc(pB, tOut1)
+        net.createBridge(pB, pC)
+        net.createArc(pC, tOut2)
+
+        net.resetIds()
+        StoryTree tree = batchDecompose(net)
+        tree.exportToDot("SDT.individualPathWithTwoCollectors")
+        tree.exportToLog("SDT.individualPathWithTwoCollectors")
     }
 
     // alt with output place
@@ -66,8 +91,8 @@ class AnalysisDecompositionTest extends GroovyTestCase {
 
         net.resetIds()
         StoryTree tree = batchDecompose(net)
-        tree.exportToDot("SDT.altwihtoutputplace")
-        tree.exportToLog("SDT.altwihtoutputplace")
+        tree.exportToDot("SDT.altWithOutputPlace")
+        tree.exportToLog("SDT.altWithOutputPlace")
     }
 
     // alt with output transition
@@ -92,8 +117,8 @@ class AnalysisDecompositionTest extends GroovyTestCase {
 
         net.resetIds()
         StoryTree tree = batchDecompose(net)
-        tree.exportToDot("SDT.altwihtoutputtransition")
-        tree.exportToLog("SDT.altwihtoutputtransition")
+        tree.exportToDot("SDT.altWihtOutputTransition")
+        tree.exportToLog("SDT.altWihtOutputTransition")
     }
 
     // alt with no output transition
