@@ -3,16 +3,21 @@
 **Petri Net pnEUmatics**
 *groovy libraries/scripts to tinker with Petri Nets* 
 
+(still quite a prototype)
+
 ## Components
 
-* basic Petri nets model
+* basic Petri nets model (not distinguishable tokens)
 * brute-force simulator 
 * exporter to json (with current marking)
 * analyzer (depth-first search of execution path)
 * single-entry-single-exit (SESE) decomponser of traces
-* importer from Yasper PNML (Yasper is a visual editor for Petri Nets, PNML is the Petri Net Markup Language, XML-based)
-* exporter to tikz (LaTeX!) - absolute positions required
-* exporter to dot (graphviz, etc.) - no positions required
+* importer from Yasper PNML 
+* exporter to tikz (LaTeX!) 
+* exporter to dot (graphviz, etc.) 
+
+Yasper is a visual editor for basic petri nets. http://yasper.org
+PNML is the Petri Net Markup Language, a XML-based format
 
 ## Usage examples
 
@@ -128,7 +133,6 @@ net = BasicNet.importFromPNML("examples/basic/7reset.pnml")
 net.exportToLaTeX("7reset")
 ```
 
-
 ## Contributing
 
 1. Fork it
@@ -136,9 +140,3 @@ net.exportToLaTeX("7reset")
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
-
-always valid guidelines:
-
-* keep the source code simple, readable with few comments
-* hopefully no documentation required
-* make tests for each component
