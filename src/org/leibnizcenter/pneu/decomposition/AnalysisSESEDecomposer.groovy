@@ -150,34 +150,25 @@ class AnalysisSESEDecomposer {
     }
 
     // find the position of the second element in common between two stories
-    private static Integer getCutPos(Story first, Story second, Integer limitFirst = null) {
-        Integer limitSecond
-
-        if (limitFirst == null) {
-            limitFirst = first.steps.size()
-        } else {
-            limitFirst++
-        }
-        if (limitSecond == null) {
-            limitSecond = second.steps.size()
-        } else {
-            limitSecond++
+    private static Integer getCutPos(Story first, Story second, Integer currentPos = null) {
+        if (currentPos == null) {
+            currentPos = 0
         }
 
-        log.trace("look for an element in common, with position below limits ${limitFirst} for first story, and ${limitSecond} for second story")
+        log.trace("look for an element in common, with position below limits ${currentPos} for first story, and ${limitSecond} for second story")
 
         Integer cutPos = null
-        for (int i = limitFirst - 1; i > 0; i--) {
+        for (int i = currentPos; i < first.steps.size() - 1; i++) {
             log.trace("first story step: " + i + ": " + first.steps[i])
-            for (int j = limitSecond - 1; j > 0; j--) {
+            for (int j =  currentPos; j < second.steps.size() - 1; j++) {
                 log.trace("second story step: " + j + ": " + second.steps[j])
                 if (second.steps[j] == first.steps[i]) {
-                    if (i != limitFirst - 1 || j != limitSecond - 1) {
+                    if (i != currentPos || j != currentPos) {
                         log.trace("cut found - i: $i")
                         cutPos = i
                         break
                     } else {
-                        log.trace("they share the last element: this is not valid")
+                        log.trace("they share the first element: this is not valid")
                     }
                 }
             }
@@ -200,34 +191,33 @@ class AnalysisSESEDecomposer {
         StoryTree currentStoryTree = null
         Integer currentPos = null
 
-        for (int z = 0; z < stories.size(); z++) {
+        for (int z = stories.size(); z >= 0; z--) {
 
             log.trace("### ${z} ### currentStoryTree: " + currentStoryTree)
 
             Story first, second
             first = stories[z]
-            second = stories[z + 1]
 
             log.trace("first story: " + first)
 
             if (currentPos == null) {
-                currentPos = first.steps.size() - 1
+                currentPos = 0
                 log.trace("initializing current pos to " + currentPos)
             } else {
                 log.trace("current pos: " + currentPos)
             }
 
-            if (second == null) {
+            if (z == 0) {
                 log.trace("no more stories available, attaching this story to the current decomposition.")
 
-                Story lastStory = cutAndSavePartialStory(first, 0, currentPos)
-                if (z > 0) {
-                    if (stories[z - 1].steps[0] != stories[z].steps[0]) {
+                Story lastStory = cutAndSavePartialStory(first, currentPos, -1)
+                if (stories.size() > 1) {
+                    if (stories[z - 1].steps[currentPos] != stories[z].steps[currentPos]) {
                         log.trace("the last story and the previous one do not share the same beginning ")
                         return addAltStory(lastStory, currentStoryTree)
                     } else {
                         log.trace("the last story and the previous one share the same beginning ")
-                        return addSeqStoryBefore(lastStory, currentStoryTree)
+                        return addSeqStory(lastStory, currentStoryTree)
                     }
                 } else {
                     log.trace("there is only one story, no need to specify the type.")
@@ -235,8 +225,9 @@ class AnalysisSESEDecomposer {
                 }
             }
 
+            second = stories[z - 1]
+
             log.trace("second story: " + second)
-            log.trace("second story last step: " + ": " + second.steps.last())
 
             Story seqStory, altStory1, altStory2
             Integer cutPos = getCutPos(first, second)
