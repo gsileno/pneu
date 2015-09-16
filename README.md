@@ -5,13 +5,16 @@
 
 (still quite a prototype)
 
+Groovy is a kind of "super-Java" for fast development: less verbose, script-oriented, fully compatible. See http://www.groovy-lang.org.
+The GVM, a full stack development environment based on groovy, can be found on http://gvmtool.net/.
+
 ## Components
 
 * basic Petri nets model (not distinguishable tokens)
 * brute-force simulator 
 * exporter to json (with current marking)
 * analyzer (depth-first search of execution path)
-* single-entry-single-exit (SESE) decomponser of traces
+* single-entry-single-exit (SESE) decomponser of output analysis
 * importer from Yasper PNML 
 * exporter to tikz (LaTeX!) 
 * exporter to dot (graphviz, etc.) 
