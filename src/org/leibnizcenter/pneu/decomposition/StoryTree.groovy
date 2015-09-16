@@ -76,6 +76,103 @@ public class StoryTree {
         addLeaveBefore(new StoryTree(story: story))
     }
 
+    void addSeqStory(Story story) {
+        if (type == null) type = StoryTreeType.SEQ
+
+        if (type == StoryTreeType.ALT) {
+            throw new RuntimeException("You should not be here")
+        } else {
+            if (leaves.size() > 0) {
+                if (leaves.last().story.steps.last() != story.steps.first())
+                    throw new RuntimeException("These stories are not in sequence!")
+            }
+            addStory(story)
+        }
+    }
+
+    void addAltStory(Story story) {
+        if (type == null) type = StoryTreeType.ALT
+
+        if (type == StoryTreeType.SEQ) {
+            throw new RuntimeException("You should not be here: this StoryTree is of SEQ type")
+        } else {
+            if (leaves.size() > 0) {
+                if (leaves.first().story.steps.first() != story.steps.first())
+                    throw new RuntimeException("These alternatives do no share the same beginning!")
+            }
+            addStory(story)
+        }
+    }
+
+    StoryTree createSeqBranch(Story story) {
+        StoryTree currentStoryTree = this
+
+        if (currentStoryTree.type == StoryTreeType.SEQ) {
+            currentStoryTree.addSeqStory(story)
+        } else {
+            if (currentStoryTree.parent != null) {
+                log.trace("but it has a parent: backtrack!")
+                currentStoryTree = currentStoryTree.parent
+            } else {
+                log.trace("and it has not a parent. create it, and backtrack!")
+                StoryTree parentStoryTree = new StoryTree(type: StoryTreeType.SEQ)
+                parentStoryTree.addLeave(currentStoryTree)
+                currentStoryTree = parentStoryTree
+            }
+            currentStoryTree.addSeqStory(story)
+        }
+        currentStoryTree
+    }
+
+    StoryTree addSeqStoryBefore(Story story) {
+        StoryTree currentStoryTree = this
+
+        if (currentStoryTree.type == StoryTreeType.SEQ) {
+            currentStoryTree.addStoryBefore(story)
+        } else {
+            if (currentStoryTree.parent != null) {
+                log.trace("but it has a parent: backtrack!")
+                currentStoryTree = currentStoryTree.parent
+            } else {
+                log.trace("and it has not a parent. create it, and backtrack!")
+                StoryTree parentStoryTree = new StoryTree(type: StoryTreeType.SEQ)
+                parentStoryTree.addLeave(currentStoryTree)
+                currentStoryTree = parentStoryTree
+            }
+            currentStoryTree.addStoryBefore(story)
+        }
+        currentStoryTree
+    }
+
+    StoryTree createAltBranch(Story story) {
+        StoryTree currentStoryTree = currentStoryTree = buildAltStoryTree(story)
+
+        if (currentStoryTree == null) {
+
+        } else {
+            if (currentStoryTree.type != StoryTreeType.SEQ) {
+                log.trace("current story tree is not a SEQ")
+                if (currentStoryTree.parent != null) {
+                    log.trace("but it has a parent: backtrack!")
+                    currentStoryTree = currentStoryTree.parent
+                } else {
+                    log.trace("and it has not a parent. create it, and backtrack!")
+                    StoryTree parentStoryTree = new StoryTree(type: StoryTreeType.SEQ)
+                    parentStoryTree.addLeave(currentStoryTree)
+                    currentStoryTree = parentStoryTree
+                }
+            } else {
+                log.trace("current story tree is a SEQ already")
+            }
+
+            StoryTree altStoryTree = StoryTree.buildAltStoryTree(stories)
+            log.trace("adding ${altStoryTree} to ${currentStoryTree}")
+            currentStoryTree.addLeave(altStoryTree)
+        }
+        log.trace("currentStoryTree: ${currentStoryTree}")
+    }
+
+
     static StoryTree buildAltStoryTree(List<Story> stories) {
         log.trace("build alt story tree from: " + stories)
         StoryTree tree = new StoryTree(type: StoryTreeType.ALT)
@@ -109,8 +206,6 @@ public class StoryTree {
 //        log.trace("root id after: ${id}")
 
     }
-
-
 
     // dot output for graphviz
     void exportToDot(String filename, String path = "out/dot/") {
