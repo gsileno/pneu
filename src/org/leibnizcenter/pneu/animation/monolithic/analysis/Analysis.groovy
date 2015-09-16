@@ -168,6 +168,31 @@ class Analysis {
         }
     }
 
+    static Boolean compare(Analysis source, Analysis target) {
+
+        if (source.storyBase.base.size() != target.storyBase.base.size()) {
+            log.trace("story bases with different sizes: "+source.storyBase.base.size()+" vs "+target.storyBase.base.size())
+            return false
+        }
+
+        for (sourceStory in source.storyBase.base) {
+            Boolean found = false
+            for (targetStory in target.storyBase.base) {
+                log.trace("comparing ${sourceStory} with ${targetStory}")
+                if (Story.compare(sourceStory, targetStory)) {
+                    found = true
+                    break
+                }
+            }
+            if (!found) return false
+        }
+
+        return true
+
+        // TODO: states, they are not handled by the inverse decomposition
+
+    }
+
 //    // for cache
 //
 //    // save to json file

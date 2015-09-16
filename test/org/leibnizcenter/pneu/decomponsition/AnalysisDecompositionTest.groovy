@@ -1,6 +1,8 @@
 package org.leibnizcenter.pneu.decomponsition
 
+import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.animation.monolithic.NetRunner
+import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
@@ -20,6 +22,10 @@ class AnalysisDecompositionTest extends GroovyTestCase {
         StoryTree tree = decomposer.decompose(runner.analysis)
 
         assert (runner.analysis.storyBase.base.size() <= tree.getStories().size())
+
+//      TODO: inverse decomposition
+//        Analysis analysis = AnalysisSESEDecomposer.compose(tree)
+//        assert (Analysis.compare(runner.analysis, analysis))
 
         tree
     }
@@ -72,6 +78,7 @@ class AnalysisDecompositionTest extends GroovyTestCase {
         assert tree.leaves[0].story.steps.size() == 3
         assert tree.leaves[1].leaves[0].story.steps.size() == 3
         assert tree.leaves[1].leaves[1].story.steps.size() == 2
+
     }
 
     // alt with output place

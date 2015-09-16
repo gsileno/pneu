@@ -43,4 +43,8 @@ class MarketDecompositionTest extends GroovyTestCase {
     void testGroundSaleNormativeModel() {
         batchDecompose(MarketModel.groundSaleNormativeModel(), "MDT.salenormativemodel")
     }
+
+    void testGroundSaleScriptModel() {
+        batchDecompose(MarketModel.groundSaleScriptModel(), "MDT.salescriptmodel")
+    }
 }

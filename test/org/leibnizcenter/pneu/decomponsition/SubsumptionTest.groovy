@@ -15,7 +15,12 @@ class SubsumptionTest extends GroovyTestCase {
 
     static Net net0() {
         Net net = new BasicNet()
+        Transition tIn = net.createEmitterTransition()
         Place pA = net.createPlace("a")
+        Transition tOut = net.createCollectorTransition()
+
+        net.createArc(tIn, pA)
+        net.createArc(pA, tOut)
         net.resetIds()
         net
     }
@@ -242,6 +247,6 @@ class SubsumptionTest extends GroovyTestCase {
     }
 
     void testSubsumption2() {
-        assert Subsumption.subsumes(net1(), net0())
+        assert !Subsumption.subsumes(net1(), net0())
     }
 }

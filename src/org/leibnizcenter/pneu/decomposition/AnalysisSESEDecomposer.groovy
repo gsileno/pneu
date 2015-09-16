@@ -291,4 +291,52 @@ class AnalysisSESEDecomposer {
         currentStoryTree.root()
     }
 
+//    static Analysis innerCompose(StoryTree tree) {
+//        Analysis analysis = new Analysis()
+//        analysis.storyBase = []
+//
+//        log.trace(tree.id + " || compose ${tree}")
+//
+//        if (tree.story) {
+//            analysis.storyBase.addStory(tree.story.minimalClone())
+//        } else {
+//            if (tree.type == StoryTreeType.ALT) {
+//                for (leave in tree.leaves) {
+//                    Analysis innerAnalysis = innerCompose(leave)
+//                    for (int i = 0; i < innerAnalysis.storyBase.base.size(); i++) {
+//                        Story newStory = innerAnalysis.storyBase.base[i]
+//                        log.trace(tree.id + " || adding story in ALT: "+newStory)
+//                        analysis.storyBase.addStory(newStory)
+//                    }
+//                }
+//            } else if (tree.type == StoryTreeType.SEQ) {
+//                Story currentStory = null, newCurrentStory = null
+//                for (leave in tree.leaves) {
+//                    log.trace(tree.id + " || current story in SEQ: "+currentStory)
+//                    Analysis innerAnalysis = innerCompose(leave)
+//                    for (int i = 0; i < innerAnalysis.storyBase.base.size(); i++) {
+//                        newCurrentStory = Story.append(currentStory, innerAnalysis.storyBase.base[i])
+//                    }
+//                    currentStory = newCurrentStory
+//                }
+//                analysis.storyBase.addStory(currentStory)
+//            }
+//        }
+//
+//        log.trace(tree.id + " || result analysis: "+analysis.storyBase.toLog())
+//
+//        analysis
+//    }
+//
+//    static Analysis compose(StoryTree tree) {
+//
+//        Analysis analysis = new Analysis()
+//        analysis.storyBase = []
+//
+//        analysis = innerCompose(tree)
+//        analysis.storyBase.base = analysis.storyBase.base.reverse()
+//
+//        analysis
+//    }
+
 }
