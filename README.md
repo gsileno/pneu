@@ -1,14 +1,13 @@
 # pneu 
 
 **Petri Net pnEUmatics**
-*groovy libraries/scripts to tinker with Petri Nets* 
+*Groovy library to tinker with Petri Nets* 
 
 (still quite a prototype)
 
 Petri nets are a well-known notation specifying distributed computation, and allowing to model concurrency. See https://wikipedia.org/wiki/Petri_net
 
-Groovy is a kind of "super-Java" for fast development: less verbose, script-oriented, fully compatible. See http://www.groovy-lang.org.
-The GVM, a full stack development environment based on groovy, can be found on http://gvmtool.net/.
+Groovy is a kind of "super-Java" designed for fast development: less verbose, script-oriented, fully compatible. See http://www.groovy-lang.org. A full stack development environment based on groovy, the GVM, can be found on http://gvmtool.net/.
 
 ## Components
 
@@ -19,9 +18,9 @@ The GVM, a full stack development environment based on groovy, can be found on h
 * single-entry-single-exit (SESE) decomponser of output analysis
 * importer from Yasper PNML 
 * exporter to tikz (LaTeX!) 
-* exporter to dot (graphviz, etc.) 
+* exporter to dot (graphviz, viz.js, etc.) 
 
-Yasper is a visual editor for basic petri nets. http://yasper.org. PNML is the Petri Net Markup Language, a XML-based format. 
+Yasper is a visual editor for basic petri nets, http://yasper.org. PNML is the Petri Net Markup Language, a standard  XML-based format, http://www.pnml.org.
 
 ## Usage examples
 
