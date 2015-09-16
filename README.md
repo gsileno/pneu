@@ -5,7 +5,7 @@
 
 (still quite a prototype)
 
-Petri nets are a well-known notation for specifying distributed computation, and allowing to model concurrency. See https://wikipedia.org/wiki/Petri_net
+Petri nets are a well-known notation for specifying distributed computation, and allowing to model concurrency. See https://wikipedia.org/wiki/Petri_net.
 
 Groovy is a kind of "super-Java" designed for fast development: less verbose, script-oriented, fully compatible. See http://www.groovy-lang.org. A full stack development environment based on groovy, the GVM, can be found on http://gvmtool.net/.
 
