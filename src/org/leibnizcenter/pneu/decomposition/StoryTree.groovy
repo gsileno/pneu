@@ -1,6 +1,7 @@
 package org.leibnizcenter.pneu.decomposition
 
 import groovy.util.logging.Log4j
+import org.leibnizcenter.pneu.animation.monolithic.analysis.State
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
 
 @Log4j
@@ -9,7 +10,7 @@ public class StoryTree {
     List<StoryTree> leaves = []
     StoryTree parent
     Story story
-    String id = "root"
+    String id = "nd"
 
     StoryTreeType type
 
@@ -76,112 +77,97 @@ public class StoryTree {
         addLeaveBefore(new StoryTree(story: story))
     }
 
-    void addSeqStory(Story story) {
+    StoryTree addSeqStory(Story story) {
+        log.trace("adding SEQ $story to $this")
+
         if (type == null) type = StoryTreeType.SEQ
 
         if (type == StoryTreeType.ALT) {
-            throw new RuntimeException("You should not be here")
+            return createSeqBranch(story)
         } else {
             if (leaves.size() > 0) {
-                if (leaves.last().story.steps.last() != story.steps.first())
+                if (getLastStep() != story.steps.first())
                     throw new RuntimeException("These stories are not in sequence!")
             }
             addStory(story)
         }
+        this
     }
 
-    void addAltStory(Story story) {
+    // return the first node of the last story of the story tree
+    State getFirstStep() {
+        getFirstStory().steps.first()
+    }
+
+    // return the first story of the story tree
+    Story getFirstStory() {
+        if (story != null) {
+            story
+        } else if (leaves.size() > 0) {
+            leaves.first().getFirstStory()
+        } else
+            null
+    }
+
+    // return the last node of the last story of the story tree
+    State getLastStep() {
+        getLastStory().steps.last()
+    }
+
+    // return the last story of the story tree
+    Story getLastStory() {
+        if (story != null) {
+            story
+        } else if (leaves.size() > 0) {
+            leaves.last().getLastStory()
+        } else
+            null
+    }
+
+    StoryTree addAltStory(Story story) {
+        log.trace("adding ALT $story to $this")
+
         if (type == null) type = StoryTreeType.ALT
 
         if (type == StoryTreeType.SEQ) {
-            throw new RuntimeException("You should not be here: this StoryTree is of SEQ type")
+            return createAltBranch(story)
         } else {
             if (leaves.size() > 0) {
-                if (leaves.first().story.steps.first() != story.steps.first())
+                if (leaves.first().getFirstStep() != story.steps.first())
                     throw new RuntimeException("These alternatives do no share the same beginning!")
             }
             addStory(story)
         }
+        this
     }
 
+    // add a seq story, if the current story is an alt, create an alt branch and returns it
     StoryTree createSeqBranch(Story story) {
         StoryTree currentStoryTree = this
-
-        if (currentStoryTree.type == StoryTreeType.SEQ) {
-            currentStoryTree.addSeqStory(story)
-        } else {
-            if (currentStoryTree.parent != null) {
-                log.trace("but it has a parent: backtrack!")
-                currentStoryTree = currentStoryTree.parent
-            } else {
-                log.trace("and it has not a parent. create it, and backtrack!")
-                StoryTree parentStoryTree = new StoryTree(type: StoryTreeType.SEQ)
-                parentStoryTree.addLeave(currentStoryTree)
-                currentStoryTree = parentStoryTree
-            }
-            currentStoryTree.addSeqStory(story)
-        }
-        currentStoryTree
+        StoryTree seqStoryTree = buildSeqStoryTree([story])
+        log.trace("adding SEQ ${seqStoryTree} to ${currentStoryTree}")
+        currentStoryTree.addLeave(seqStoryTree)
+        seqStoryTree
     }
 
-    StoryTree addSeqStoryBefore(Story story) {
-        StoryTree currentStoryTree = this
-
-        if (currentStoryTree.type == StoryTreeType.SEQ) {
-            currentStoryTree.addStoryBefore(story)
-        } else {
-            if (currentStoryTree.parent != null) {
-                log.trace("but it has a parent: backtrack!")
-                currentStoryTree = currentStoryTree.parent
-            } else {
-                log.trace("and it has not a parent. create it, and backtrack!")
-                StoryTree parentStoryTree = new StoryTree(type: StoryTreeType.SEQ)
-                parentStoryTree.addLeave(currentStoryTree)
-                currentStoryTree = parentStoryTree
-            }
-            currentStoryTree.addStoryBefore(story)
-        }
-        currentStoryTree
-    }
-
+    // create an alt branch from the current tree and returns it
     StoryTree createAltBranch(Story story) {
-        StoryTree currentStoryTree = currentStoryTree = buildAltStoryTree(story)
-
-        if (currentStoryTree == null) {
-
-        } else {
-            if (currentStoryTree.type != StoryTreeType.SEQ) {
-                log.trace("current story tree is not a SEQ")
-                if (currentStoryTree.parent != null) {
-                    log.trace("but it has a parent: backtrack!")
-                    currentStoryTree = currentStoryTree.parent
-                } else {
-                    log.trace("and it has not a parent. create it, and backtrack!")
-                    StoryTree parentStoryTree = new StoryTree(type: StoryTreeType.SEQ)
-                    parentStoryTree.addLeave(currentStoryTree)
-                    currentStoryTree = parentStoryTree
-                }
-            } else {
-                log.trace("current story tree is a SEQ already")
-            }
-
-            StoryTree altStoryTree = StoryTree.buildAltStoryTree(stories)
-            log.trace("adding ${altStoryTree} to ${currentStoryTree}")
-            currentStoryTree.addLeave(altStoryTree)
-        }
-        log.trace("currentStoryTree: ${currentStoryTree}")
+        StoryTree currentStoryTree = this
+        StoryTree altStoryTree = buildAltStoryTree([story])
+        log.trace("adding ALT ${altStoryTree} to ${currentStoryTree}")
+        currentStoryTree.addLeave(altStoryTree)
+        altStoryTree
     }
-
 
     static StoryTree buildAltStoryTree(List<Story> stories) {
-        log.trace("build alt story tree from: " + stories)
+        log.trace("build ALT story tree from: " + stories)
         StoryTree tree = new StoryTree(type: StoryTreeType.ALT)
         tree.addStories(stories)
         tree
     }
 
     static StoryTree buildSeqStoryTree(List<Story> stories) {
-        log.trace("build seq story tree from: " + stories)
+        log.trace("build SEQ story tree from: " + stories)
         StoryTree tree = new StoryTree(type: StoryTreeType.SEQ)
         tree.addStories(stories)
         tree
@@ -207,7 +193,7 @@ public class StoryTree {
 
     }
 
-    // dot output for graphviz
+// dot output for graphviz
     void exportToDot(String filename, String path = "out/dot/") {
         exportToDot(this, filename, path)
     }
@@ -226,7 +212,7 @@ public class StoryTree {
         }
     }
 
-    // dot output for graphviz
+// dot output for graphviz
     void exportToLog(String filename, String path = "out/log/") {
         exportToLog(this, filename, path)
     }
@@ -246,6 +232,7 @@ public class StoryTree {
     }
 
     String toString() {
+        // String output = "StoryTree@${hashCode()} " + id + ":"
         String output = id + ":"
 
         if (story != null)
@@ -254,6 +241,9 @@ public class StoryTree {
             output += type.toString()
         if (leaves.size() > 0)
             output += leaves.toString()
+
+        /* if (parent)
+            output += "[child of StoryTree@${parent.hashCode()}]" */
 
         output
     }
@@ -271,16 +261,87 @@ public class StoryTree {
     }
 
     String toLog() {
-        String output = "Summary: " + toString() + "\n"
+        String output = "Summary: \n" + toString() + "\n"
+
+        output += "------ hierarchical view ------\n"
+
+        output += toCheck() + "\n"
+
+        output += "------ flat view ------\n"
+
+        output += toFlatView() + "\n"
+
+        output += "------ stories ------\n"
 
         List<Story> stories = getStories()
 
-        output += "Stories: \n"
+        output += "\nStories: \n"
         for (int i = 0; i < stories.size(); i++) {
             output += i + " (" + stories[i].id + "): " + stories[i] + "\n"
         }
 
         output
+    }
+
+    String toFlatView(List<StoryTree> alreadyPrinted = []) {
+        String output = ""
+
+        // output += hashCode() + " | "
+        output += id + ": "
+
+        if (leaves.size() > 0) {
+            output += type.toString() + " " + leaves.size()
+        } else {
+            output += "--- " + story.steps.size()
+        }
+
+        if (parent) output += ", child of " + /* parent.hashCode() + " | " + */ parent.id + "\n"
+        else output += ", root\n"
+
+        alreadyPrinted << this
+
+        for (leave in leaves) {
+            if (!alreadyPrinted.contains(leave))
+                output += leave.toFlatView(alreadyPrinted)
+        }
+
+        if (parent != null) {
+            if (!alreadyPrinted.contains(parent))
+                output += parent.toFlatView(alreadyPrinted)
+        }
+
+        output
+    }
+
+    String toCheck(Integer level = 0) {
+        String output = ""
+
+        String pre = ""
+        for (int i = 0; i < level * 4; i++) {
+            pre += " "
+        }
+
+        if (leaves.size() > 0) {
+            output += pre + type + " " + leaves.size()
+            output += "\n"
+            for (leave in leaves) {
+                if (leave.parent != this)
+                    throw new RuntimeException("Error in tree")
+
+                output += leave.toCheck(level + 1)
+            }
+        } else {
+            output += pre + "--- " + story.steps.size() + "\n"
+        }
+        output
+    }
+
+    StoryTree root() {
+        if (parent == null) {
+            return this
+        } else {
+            parent.root()
+        }
     }
 
 }

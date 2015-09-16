@@ -11,11 +11,10 @@ class StoryTree2Dot {
     }
 
     static String innerConversion(StoryTree tree, Integer level = 1) {
-
         String code = ""
 
         if (tree.story != null) {
-            code += "\n" + tab(level) + "subgraph story {\n" + tab(level + 1) + "node [shape=circle,fixedsize=true,width=.5];\n"
+            code += "\n" + tab(level) + "subgraph story${tree.id} {\n" + tab(level + 1) + "node [shape=circle,fixedsize=true,width=.5];\n"
             String label = tree.story.id
             code += tab(level + 1) + tree.id + " [label=\"" + label + "\"] ;\n"
             code += tab(level) + "} \n"
@@ -33,7 +32,7 @@ class StoryTree2Dot {
 
                 code += "\n"
 
-                code += tab(level + 1) + "subgraph group {\n" + tab(level + 2) + "node [shape=rect,height=.5,width=.5];\n"
+                code += tab(level + 1) + "subgraph group${tree.id} {\n" + tab(level + 2) + "node [shape=rect,height=.5,width=.5];\n"
                 String label = tree.id
                 code += tab(level + 2) + tree.id + " [label=\"" + label + "\"] ;\n"
                 code += tab(level + 1) + "} \n"
