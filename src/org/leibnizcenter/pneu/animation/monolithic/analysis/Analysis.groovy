@@ -2,7 +2,9 @@ package org.leibnizcenter.pneu.animation.monolithic.analysis
 
 import groovy.json.JsonBuilder
 import groovy.util.logging.Log4j
+import org.leibnizcenter.pneu.animation.monolithic.NetRunner
 import org.leibnizcenter.pneu.animation.monolithic.execution.Execution
+import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.components.petrinet.TransitionEvent
@@ -165,6 +167,11 @@ class Analysis {
             out.println("Summary: \n" + storyBase.toLog())
             out.println("Stories: \n" + storyBase)
             out.println("States: \n" + stateBase)
+            out.println("Places:")
+
+            for (place in stateBase.base.first().placeList) {
+                out.println(place.id+": "+place.label())
+            }
         }
     }
 
@@ -191,6 +198,15 @@ class Analysis {
 
         // TODO: states, they are not handled by the inverse decomposition
 
+    }
+
+    // compute all possible executions in terms of states/transition events
+    // TODO: refcator NetRunner within Analysis class
+    static Analysis analyse(Net net) {
+        NetRunner netRunner = new NetRunner()
+        netRunner.load(net)
+        netRunner.analyse()
+        netRunner.analysis
     }
 
 //    // for cache

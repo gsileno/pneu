@@ -61,8 +61,6 @@ class AnalysisSESEDecomposer {
         partialStoriesBase[x][y] << story
 
         log.trace("story id: " + story.id)
-
-
     }
 
     private Story cutAndSavePartialStory(Story source, Integer stepi, Integer stepj) {

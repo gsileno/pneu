@@ -313,6 +313,30 @@ public class StoryTree {
         output
     }
 
+    // flatten all the sub-stories
+    List<Story> flatten(List<StoryTree> alreadyFlattened = []) {
+
+        alreadyFlattened << this
+
+        List<Story> flattened = []
+
+        if (story != null) {
+            flattened += [story]
+        }
+
+        for (leave in leaves) {
+            if (!alreadyFlattened.contains(leave))
+                flattened += leave.flatten(alreadyFlattened)
+        }
+
+        if (parent != null) {
+            if (!alreadyFlattened.contains(parent))
+                flattened += parent.flatten(alreadyFlattened)
+        }
+
+        flattened
+    }
+
     String toCheck(Integer level = 0) {
         String output = ""
 

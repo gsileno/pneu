@@ -30,12 +30,24 @@ class BasicPlace extends Place {
 
     static Boolean compare(Place p1, Place p2) {
         if (p1 == p2) return true
-        if (((BasicPlace) p1).name != ((BasicPlace) p2).name) return false
+
+        BasicPlace lp1 = (BasicPlace) p1
+        BasicPlace lp2 = (BasicPlace) p2
+
+        if (lp1.name != lp2.name) return false
+        if (lp1.id != lp2.id) return false
         return true
     }
 
     Boolean compare(Place p) {
         compare(this, p)
+    }
+
+    Boolean subsumes(Place p) {
+        BasicPlace lp = (BasicPlace) p
+
+        if (name != lp.name) return false
+        return true
     }
 
     Token createToken() {

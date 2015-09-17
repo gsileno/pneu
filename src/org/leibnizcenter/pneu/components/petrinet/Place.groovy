@@ -12,6 +12,7 @@ abstract class Place extends Node {
     // useful functions
     abstract Place minimalClone()
     abstract Boolean compare(Place other)
+    abstract Boolean subsumes(Place other)
     abstract Token createToken()
 
 }

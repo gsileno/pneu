@@ -9,6 +9,7 @@ import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.TransitionEvent
+import org.leibnizcenter.pneu.examples.CommonConstructs
 
 
 @Log4j
@@ -16,43 +17,54 @@ class Subsumption {
 
     Map<String, Map<String, String>> mapIdentifiers = [:]
 
-    // compute all possible executions in terms of states/transition events
-    static private Analysis analyze(Net net) {
-        NetRunner netRunner = new NetRunner()
-        netRunner.load(net)
-        netRunner.analyse()
-        netRunner.analysis
-    }
-
     // to check whether a "general" position (local state) concreteSubsumption a "specific" one
     Boolean concreteSubsumption(Place generalPlace, Place specificPlace) {
         log.trace("does local state " + generalPlace.label() + " subsume " + specificPlace.label() + "?")
+
+        if (!generalPlace.subsumes(specificPlace)) {
+            log.trace("no, local state " + generalPlace.label() + " does not subsume " + specificPlace.label() + " (because of its structure).")
+            return false
+        }
+
+        List<Token> generalTokens = generalPlace.marking
         List<Token> specificTokens = specificPlace.marking
 
-        // for all general tokens, there should be at least a *distinct* specific token which is subsumed
-        for (generalToken in generalPlace.marking) {
-            Token token
-            for (specificToken in specificTokens) {
-                if (generalToken.subsumes(specificToken, mapIdentifiers)) {
-                    token = specificToken
+        if (specificTokens.size() < generalTokens.size()) {
+            log.trace("no, as the specific state has less tokens than the generic one.")
+            return false
+        } else if (generalTokens.size() == 0) {
+            throw new RuntimeException("Not yet considered.")
+        } else {
+            // for all general tokens, there should be at least a *distinct* specific token which is subsumed
+            for (generalToken in generalPlace.marking) {
+                Token token
+                for (specificToken in specificTokens) {
+                    if (generalToken.subsumes(specificToken, mapIdentifiers)) {
+                        token = specificToken
+                    }
                 }
+                if (token == null) {
+                    log.trace("no, local state " + generalPlace.label() + " does not subsume " + specificPlace.label() + " (because of its content).")
+                    return false
+                }
+                specificTokens = specificTokens - token
             }
-            if (token == null) {
-                log.trace("no, local state " + generalPlace.label() + " does not subsume " + specificPlace.label() + ".")
-                return false
-            }
-            specificTokens = specificTokens - token
+            log.trace("yes, local state " + generalPlace.label() + " subsumes " + specificPlace.label() + ".")
+            return true
         }
-        log.trace("yes, local state " + generalPlace.label() + " subsumes " + specificPlace.label() + ".")
-        return true
     }
 
     // to check whether a "general" event concreteSubsumption a "specific" one
     Boolean concreteSubsumption(TransitionEvent generalEvent, TransitionEvent specificEvent) {
         log.trace("does event " + generalEvent.label() + " subsume " + specificEvent.label() + "?")
 
+        if (!generalEvent.transition.subsumes(specificEvent.transition)) {
+            log.trace("no, event " + generalEvent.label() + " does not subsume " + specificEvent.label() + " (because of its structure).")
+            return false
+        }
+
         if (!generalEvent.token.subsumes(specificEvent.token, mapIdentifiers)) {
-            log.trace("no, event " + generalEvent.label() + " does not subsume " + specificEvent.label() + ".")
+            log.trace("no, event " + generalEvent.label() + " does not subsume " + specificEvent.label() + " (because of its content).")
             return false
         }
         log.trace("yes, event " + generalEvent.label() + " subsumes " + specificEvent.label() + ".")
@@ -69,8 +81,12 @@ class Subsumption {
 
         // for all general places, there should be at least a *distinct* specific place which is subsumed
         for (generalPlace in generalState.placeList) {
+
             log.trace("checking general place: " + generalPlace)
-            if (!generalPlace.isLink()) {
+
+            if (generalPlace.marking.size() == 0) {
+                log.trace("the place is empty, jumping...")
+            } else {
                 Place p
 
                 for (specificPlace in specificPlaces) {
@@ -81,15 +97,42 @@ class Subsumption {
                     }
                 }
                 if (p == null) {
-                    log.trace("no, state " + generalState + " does not subsume " + specificState + ".")
+                    log.trace("no, general state " + generalState + " does not subsume specific state " + specificState + ".")
                     return false
                 }
                 specificPlaces = specificPlaces - p
-            } else {
-                log.trace("it is a link, jumping...")
             }
         }
-        log.trace("yes, state " + generalState + " subsumes " + specificState + ".")
+        log.trace("yes, general state " + generalState + " subsumes specific state " + specificState + ".")
+        return true
+    }
+
+    // to check whether a "general" state subsumes a "specific" one, in abstract terms,
+    // i.e. in checking only for the place labels
+    static Boolean abstractSubsumption(State generalState, State specificState) {
+        log.trace("does state " + generalState.placesToString() + " abstractly subsume " + specificState.placesToString() + "?")
+
+        List<Place> specificPlaces = specificState.placeList
+
+        // for all general places, there should be at least a *distinct* specific place which is subsumed
+        for (generalPlace in generalState.placeList) {
+
+            log.trace("checking general place: " + generalPlace)
+            Place p
+            for (specificPlace in specificPlaces) {
+                log.trace("considering specific place: " + specificPlace)
+                if (generalPlace.subsumes(specificPlace)) {
+                    p = specificPlace
+                    break
+                }
+            }
+            if (p == null) {
+                log.trace("no, general state " + generalState + " does not subsume specific state " + specificState + ".")
+                return false
+            }
+            specificPlaces = specificPlaces - p
+        }
+        log.trace("yes, general state " + generalState + " abstractly subsumes specific state " + specificState + ".")
         return true
     }
 
@@ -108,13 +151,18 @@ class Subsumption {
 
         Integer i = 0, j = 0
         for (; i < generalStory.steps.size() - 1; i++) {
-            for (; i < generalStory.steps.size() - 1; i++) {
-                if (!generalStory.eventsPerStep[i][0].transition.isLink()) {
-                    break
-                } else {
-                    log.trace("I have found a link transition on the general model, I jump it.")
+            log.trace("general story passes to step " + (i))
+
+            if (generalStory.eventsPerStep[i][0].transition.isLink()) {
+                log.trace("I have found a link transition on the general model, I jump it.")
+                for (i++; i < generalStory.steps.size() - 1; i++) {
+                    log.trace("general story passes to step " + (i))
+                    if (!generalStory.eventsPerStep[i][0].transition.isLink()) {
+                        break
+                    } else {
+                        log.trace("I have found a link transition on the general model, I jump it.")
+                    }
                 }
-                log.trace("general story passes to step " + (i + 1))
             }
 
             if (i == generalStory.steps.size() - 1) {
@@ -142,7 +190,6 @@ class Subsumption {
                 log.trace("no, story " + generalStory + " does not subsume " + specificStory + ".")
                 return false
             }
-            log.trace("general story passes to step " + (i + 1))
         }
 
         log.trace("yes, story " + generalStory + " subsumes " + specificStory + ".")
@@ -164,61 +211,57 @@ class Subsumption {
         }
 
         Integer i = 0, j = 0
-        Boolean found
         for (; i < generalStory.steps.size(); i++) {
+            log.trace("general story passes to step " + (i))
 
             Boolean stepFound = false
             for (; j < specificStory.steps.size(); j++) {
+                log.trace("specific story passes to step " + (j))
+
                 if (concreteSubsumption(generalStory.steps[i], specificStory.steps[j])) {
-                    log.trace("looking for a not event not related to a link transition")
-                    for (; i < generalStory.steps.size() - 1; i++) {
-                        if (!generalStory.eventsPerStep[i][0].transition.isLink()) {
-                            break
-                        } else {
+
+                    if (i < generalStory.steps.size() - 1) {
+                        log.trace("looking for an event not related to a link transition (step $i)")
+
+                        if (generalStory.eventsPerStep[i][0].transition.isLink()) {
                             log.trace("I have found a link transition on the general model, I jump it.")
-                        }
-                        if (i < generalStory.steps.size() - 2) {
-                            log.trace("general story passes to step " + (i + 1))
-                            if (!concreteSubsumption(generalStory.steps[i + 1], specificStory.steps[j])) {
-                                throw new RuntimeException("This general state does not subsume anymore the specific one")
+
+                            for (; i < generalStory.steps.size() - 1; i++) {
+                                log.trace("general story passes to step " + (i))
+                                if (!generalStory.eventsPerStep[i][0].transition.isLink()) {
+                                    break
+                                } else {
+                                    log.trace("I have found a link transition on the general model, I jump it.")
+                                }
                             }
                         }
-                    }
+                        if (i == generalStory.steps.size() - 1) {
+                            log.trace("found no events in the general story which is not related to a link transition")
 
-                    if (i == generalStory.steps.size() - 1) {
-                        log.trace("found no events in the general story which is not related to a link transition")
+                            for (; j < specificStory.steps.size() - 1; j++) {
+                                if (!specificStory.eventsPerStep[j][0].transition.isLink()) {
+                                    log.trace("but I found it in the specific story")
+                                    return false
+                                }
+                            }
+                            return true
+                        }
 
                         for (; j < specificStory.steps.size() - 1; j++) {
+                            log.trace("specific story passes to step " + (j))
                             if (!specificStory.eventsPerStep[j][0].transition.isLink()) {
-                                log.trace("but I found it in the specific story")
-                                return false
-                            }
-                            if (j < specificStory.steps.size() - 2) {
-                                if (!concreteSubsumption(generalStory.steps[i], specificStory.steps[j + 1])) {
-                                    throw new RuntimeException("This specific state is not subsumed anymore by the general one")
+                                if (concreteSubsumption(generalStory.eventsPerStep[i][0], specificStory.eventsPerStep[j][0])) {
+                                    stepFound = true
+                                    log.trace("specific story passes to step " + (j + 1))
+                                    j++
+                                    break
                                 }
+                            } else {
+                                log.trace("I have found a link transition on the specific model, I jump it.")
                             }
                         }
-                        return true
-                    }
-
-                    for (; j < specificStory.steps.size() - 1; j++) {
-                        if (!specificStory.eventsPerStep[j][0].transition.isLink()) {
-                            if (concreteSubsumption(generalStory.eventsPerStep[i][0], specificStory.eventsPerStep[j][0])) {
-                                stepFound = true
-                                log.trace("specific story passes to step " + (j + 1))
-                                j++
-                                break
-                            }
-                        } else {
-                            log.trace("I have found a link transition on the specific model, I jump it.")
-                            if (j < specificStory.steps.size() - 2) {
-                                log.trace("specific story passes to step " + (j + 1))
-                                if (!concreteSubsumption(generalStory.steps[i], specificStory.steps[j + 1])) {
-                                    throw new RuntimeException("This specific state is not subsumed anymore by the general one")
-                                }
-                            }
-                        }
+                    } else {
+                        stepFound = true
                     }
                 }
 
@@ -229,18 +272,22 @@ class Subsumption {
                 log.trace("no, story " + generalStory + " does not subsume " + specificStory + ".")
                 return false
             }
-            log.trace("general story passes to step " + (i + 1))
         }
 
         log.trace("yes, story " + generalStory + " subsumes " + specificStory + ".")
         return true
     }
 
-// to check whether a "general" net concreteSubsumption a "specific" one
+    // to check whether a "general" net subsumes a "specific" one
     Boolean concreteSubsumption(Net generalNet, Net specificNet) {
 
-        Analysis generalNetAnalysis = analyze(generalNet)
-        Analysis specificNetAnalysis = analyze(specificNet)
+        Analysis generalNetAnalysis = Analysis.analyse(generalNet)
+        Analysis specificNetAnalysis = Analysis.analyse(specificNet)
+
+        concreteSubsumption(generalNetAnalysis, specificNetAnalysis)
+    }
+
+    Boolean concreteSubsumption(Analysis generalNetAnalysis, Analysis specificNetAnalysis) {
 
         generalNetAnalysis.exportToLog("generalNet")
         specificNetAnalysis.exportToLog("specificNet")
@@ -277,4 +324,13 @@ class Subsumption {
         subsumption.concreteSubsumption(generalNet, specificNet)
     }
 
+    static Boolean subsumes(Analysis generalNetAnalysis, Analysis specificNetAnalysis) {
+        Subsumption subsumption = new Subsumption()
+        subsumption.concreteSubsumption(generalNetAnalysis, specificNetAnalysis)
+    }
+
+    static Boolean subsumes(Story generalStory, Story specificStory) {
+        Subsumption subsumption = new Subsumption()
+        subsumption.concreteSubsumption(generalStory, specificStory)
+    }
 }

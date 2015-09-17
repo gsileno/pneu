@@ -1,9 +1,16 @@
 package org.leibnizcenter.pneu.decomponsition
 
+import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
+import org.leibnizcenter.pneu.animation.monolithic.analysis.State
+import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
+import org.leibnizcenter.pneu.decomposition.Alignment
+import org.leibnizcenter.pneu.decomposition.AnalysisSESEDecomposer
+import org.leibnizcenter.pneu.decomposition.RelationType
+import org.leibnizcenter.pneu.decomposition.StoryTree
 import org.leibnizcenter.pneu.decomposition.Subsumption
 import org.leibnizcenter.pneu.examples.CommonConstructs
 
@@ -253,11 +260,19 @@ class SubsumptionTest extends GroovyTestCase {
     }
 
     void testSubsumption2() {
-        assert Subsumption.subsumes(CommonConstructs.inhibitorChoice2(), CommonConstructs.inhibitorChoice1())
+        assert !Subsumption.subsumes(CommonConstructs.inhibitorChoice2(), CommonConstructs.inhibitorChoice1())
     }
 
     void testSubsumption2bis() {
         assert !Subsumption.subsumes(CommonConstructs.inhibitorChoice1(), CommonConstructs.inhibitorChoice2())
+    }
+
+    void testAlignment() {
+
+        Map<Story, Map<Story, RelationType>> partialMap
+        partialMap = Alignment.partialAlignmentTest(CommonConstructs.inhibitorChoice1(), CommonConstructs.inhibitorChoice2())
+
+        println partialMap
     }
 
 }
