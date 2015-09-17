@@ -46,6 +46,7 @@ class BasicPlace extends Place {
 
     BasicPlace minimalClone() {
         return new BasicPlace(
+                name: name,
                 marking: marking.collect(),
                 id: id
         )

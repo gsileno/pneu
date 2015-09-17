@@ -30,7 +30,7 @@ class BasicTransition extends Transition {
     }
 
     Transition minimalClone() {
-        return new BasicTransition(name: name)
+        return new BasicTransition(name: name, id: id)
     }
 
     Boolean isLink() {

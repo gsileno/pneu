@@ -242,6 +242,9 @@ class Subsumption {
         Analysis generalNetAnalysis = analyze(generalNet)
         Analysis specificNetAnalysis = analyze(specificNet)
 
+        generalNetAnalysis.exportToLog("generalNet")
+        specificNetAnalysis.exportToLog("specificNet")
+
         log.trace("does this general model subsume the specific one?")
 
         // check if, all execution path in the specific story
@@ -267,6 +270,10 @@ class Subsumption {
 
     static Boolean subsumes(Net generalNet, Net specificNet) {
         Subsumption subsumption = new Subsumption()
+
+        generalNet.exportToLog("generalNet")
+        specificNet.exportToLog("specificNet")
+
         subsumption.concreteSubsumption(generalNet, specificNet)
     }
 
