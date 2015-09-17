@@ -5,6 +5,7 @@ import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.decomposition.Subsumption
+import org.leibnizcenter.pneu.examples.CommonConstructs
 
 class SubsumptionTest extends GroovyTestCase {
 
@@ -239,14 +240,24 @@ class SubsumptionTest extends GroovyTestCase {
         assert Subsumption.subsumes(net6(), net6())
         assert Subsumption.subsumes(net7(), net7())
         assert Subsumption.subsumes(net8(), net8())
+        assert Subsumption.subsumes(CommonConstructs.inhibitorChoice1(), CommonConstructs.inhibitorChoice1())
+        assert Subsumption.subsumes(CommonConstructs.inhibitorChoice2(), CommonConstructs.inhibitorChoice2())
     }
-
 
     void testSubsumption1() {
         assert Subsumption.subsumes(net0(), net1())
     }
 
-    void testSubsumption2() {
+    void testSubsumption1bis() {
         assert !Subsumption.subsumes(net1(), net0())
     }
+
+    void testSubsumption2() {
+        assert Subsumption.subsumes(CommonConstructs.inhibitorChoice2(), CommonConstructs.inhibitorChoice1())
+    }
+
+    void testSubsumption2bis() {
+        assert !Subsumption.subsumes(CommonConstructs.inhibitorChoice1(), CommonConstructs.inhibitorChoice2())
+    }
+
 }

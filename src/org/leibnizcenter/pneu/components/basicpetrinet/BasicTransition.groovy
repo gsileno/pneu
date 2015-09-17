@@ -33,14 +33,19 @@ class BasicTransition extends Transition {
         return new BasicTransition(name: name)
     }
 
+    Boolean isLink() {
+        name == null
+    }
+
     String toString() {
         if (name != null && name != "") name
-        else id
+        else id+(isLink()?"*":"")
     }
 
     String label() {
         if (name != null) name
-        else ""
+        else if (isLink()) "*"
+        else throw new RuntimeException("You should not be here")
     }
 
     //////////////////////////////

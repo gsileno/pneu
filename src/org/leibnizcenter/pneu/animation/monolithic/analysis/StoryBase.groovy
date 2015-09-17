@@ -25,8 +25,7 @@ class StoryBase {
             for (eventList in story.eventsPerStep) {
                 for (event in eventList) {
                     storyLog += event.transition.id
-                    if (event.label() != null)
-                            storyLog += "."+event.label()
+                    storyLog += "."+event.label()
                     storyLog +=", "
                 }
             }

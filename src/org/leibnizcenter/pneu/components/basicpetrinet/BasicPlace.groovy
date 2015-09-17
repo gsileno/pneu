@@ -11,12 +11,17 @@ class BasicPlace extends Place {
 
     String toString() {
         if (name != null) return name+" ("+marking.size()+")"
-        else return id+" ("+marking.size()+")"
+        else return id+(isLink()?"*":"")+" ("+marking.size()+")"
+    }
+
+    Boolean isLink() {
+        name == null
     }
 
     String label() {
         if (name != null) name
-        else ""
+        else if (isLink()) "*"
+        else throw new RuntimeException("You should not be here")
     }
 
     static Place build(String label) {

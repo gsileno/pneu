@@ -5,6 +5,7 @@ import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
+import org.leibnizcenter.pneu.examples.CommonConstructs
 import org.leibnizcenter.pneu.parsers.PNML2PN
 
 class SimulationTest extends GroovyTestCase {
@@ -78,6 +79,7 @@ class SimulationTest extends GroovyTestCase {
         test1TransitionBased(runner)
     }
 
+//    TODO: add other possible execution methods
 //    void test1TransitionEnabledTransitions() {
 //        PNRunner runner = new PNRunner(ExecutionMode.EnabledTransition)
 //        test1TransitionBased(runner)
@@ -134,11 +136,6 @@ class SimulationTest extends GroovyTestCase {
         test2TransitionBased(runner)
     }
 
-//    void test2ChainingEnabledTransitions() {
-//        PNRunner runner = new PNRunner(ExecutionMode.EnabledTransition)
-//        test2TransitionBased(runner)
-//    }
-
     // test for execution based on transitions
     static void test3TransitionBased(NetRunner runner) {
         Net net = PNML2PN.parseFile("examples/basic/3doublearc.pnml")
@@ -159,11 +156,6 @@ class SimulationTest extends GroovyTestCase {
         NetRunner runner = new NetRunner()
         test3TransitionBased(runner)
     }
-
-//    void test3DoubleArcEnabledTransitions() {
-//        PNRunner runner = new PNRunner(ExecutionMode.EnabledTransition)
-//        test3TransitionBased(runner)
-//    }
 
     // test for execution based on transitions
     static void test4TransitionBased(NetRunner runner) {
@@ -187,11 +179,6 @@ class SimulationTest extends GroovyTestCase {
         test4TransitionBased(runner)
     }
 
-//    void test4ConflictEnabledTransitions() {
-//        PNRunner runner = new PNRunner(ExecutionMode.EnabledTransition)
-//        test4TransitionBased(runner)
-//    }
-
     // test for execution based on transitions
     static void test5TransitionBased(NetRunner runner) {
         Net net = PNML2PN.parseFile("examples/basic/5inhibitor.pnml")
@@ -210,11 +197,6 @@ class SimulationTest extends GroovyTestCase {
         test5TransitionBased(runner)
     }
 
-//    void test5InhibitorEnabledTransitions() {
-//        PNRunner runner = new PNRunner(ExecutionMode.EnabledTransition)
-//        test5TransitionBased(runner)
-//    }
-
     // test for execution based on transitions
     static void test6TransitionBased(NetRunner runner) {
         Net net = PNML2PN.parseFile("examples/basic/6biflow.pnml")
@@ -226,10 +208,6 @@ class SimulationTest extends GroovyTestCase {
         NetRunner runner = new NetRunner()
         test6TransitionBased(runner)
     }
-//    void test6BiflowEnabledTransitions() {
-//        PNRunner runner = new PNRunner(ExecutionMode.EnabledTransition)
-//        test6TransitionBased(runner)
-//    }
 
     static void test7TransitionBased(NetRunner runner) {
         Net net = PNML2PN.parseFile("examples/basic/7reset.pnml")
@@ -242,8 +220,38 @@ class SimulationTest extends GroovyTestCase {
         test7TransitionBased(runner)
     }
 
-//    void test7ResetEnabledTransitions() {
-//        PNRunner runner = new PNRunner(ExecutionMode.EnabledTransition)
-//        test7TransitionBased(runner)
-//    }
+    void testInhibitorChoice1() {
+
+        Net net = CommonConstructs.inhibitorChoice1()
+
+        net.exportToDot("inhibitorChoice1")
+
+        NetRunner runner = new NetRunner()
+        runner.load(net)
+        runner.analyse()
+        runner.analysis.exportToLog("inhibitorChoice1")
+
+        assert runner.analysis.storyBase.getSize() == 2
+        assert runner.analysis.storyBase.base[0].steps.size() == 3
+        assert runner.analysis.storyBase.base[1].steps.size() == 4
+
+    }
+
+    void testInhibitorChoice2() {
+
+        Net net = CommonConstructs.inhibitorChoice2()
+
+        net.exportToDot("inhibitorChoice2")
+
+        NetRunner runner = new NetRunner()
+        runner.load(net)
+        runner.analyse()
+        runner.analysis.exportToLog("inhibitorChoice2")
+
+        assert runner.analysis.storyBase.getSize() == 2
+        assert runner.analysis.storyBase.base[0].steps.size() == 4
+        assert runner.analysis.storyBase.base[1].steps.size() == 4
+
+    }
+
 }

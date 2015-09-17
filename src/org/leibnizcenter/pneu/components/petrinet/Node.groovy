@@ -53,7 +53,7 @@ abstract class Node {
     }
 
     // for visualization purposes: for terminological connections
-    Boolean isLink() { return false }
+    abstract Boolean isLink()
 
     // for visualization purposes: the function of a net is represented by a node.
     // if it is cluster, this means the net counts as a cluster
