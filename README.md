@@ -95,7 +95,7 @@ output: out/json/readmeNet.json
 
 **analysis**
 
-The analysis function performs a depth-first search of the execution paths of the net. When an execution path (or *story*) is completed, it backtracks to the potential branch, and restart a new execution path from there. In practice, it pre-computes the reachability graph of the Petri net.
+The analysis function performs a depth-first search of the execution paths of the net. When an execution path (or *story*) is completed, it backtracks to the first unexplored firing choice, clone the first part of the story, and append a new execution path from there. In practice, it pre-computes the reachability graph of the Petri net.
 
 ```
 NetRunner runner = new NetRunner()
