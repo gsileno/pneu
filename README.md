@@ -11,14 +11,16 @@ Groovy is a kind of "super-Java" designed for fast development: less verbose, sc
 
 ## Components
 
-* basic Petri nets model (not distinguishable tokens)
+* basic Petri nets model 
 * brute-force simulator 
 * exporter to json (with current marking)
-* analyzer (depth-first search of execution path)
-* single-entry-single-exit (SESE) decomponser of output analysis
+* analyzer (depth-first search of execution paths)
+* single-entry-single-exit (SESE) decomponser of analysis outputs
 * importer from Yasper PNML 
 * exporter to tikz (LaTeX!) 
 * exporter to dot (graphviz, viz.js, etc.) 
+
+pneu provides a common kernel for petri net applications. For instance, LPPNs extend the basic Petri nets model to account declarative labeling on transition/places (https://github.com/s1l3n0/lppneu). 
 
 Yasper is a visual editor for basic petri nets, http://yasper.org. PNML is the Petri Net Markup Language, a standard  XML-based format, http://www.pnml.org.
 
