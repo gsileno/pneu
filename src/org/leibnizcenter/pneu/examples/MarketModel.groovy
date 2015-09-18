@@ -11,13 +11,11 @@ class MarketModel {
     static Net basicSaleInstance1() {
         Net sale = new BasicNet()
 
-        sale.function = BasicTransition.build("sells")
-
         Transition tIn = sale.createEmitterTransition()
-        Transition t1 = sale.createTransition("offers")
-        Transition t2 = sale.createTransition("accepts")
-        Transition t3 = sale.createTransition("pays")
-        Transition t4 = sale.createTransition("delivers")
+        Transition t1 = sale.createTransition("offer")
+        Transition t2 = sale.createTransition("accept")
+        Transition t3 = sale.createTransition("pay")
+        Transition t4 = sale.createTransition("deliver")
         Transition tOut = sale.createCollectorTransition()
 
         sale.createBridge(tIn, t1)
@@ -26,20 +24,20 @@ class MarketModel {
         sale.createBridge(t3, t4)
         sale.createBridge(t4, tOut)
 
+        sale.resetIds()
         sale.exportToLog("basicSaleInstance1")
+
         sale
     }
 
     static Net basicSaleInstance2() {
         Net sale = new BasicNet()
 
-        sale.function = BasicTransition.build("sells")
-
         Transition tIn = sale.createEmitterTransition()
-        Transition t1 = sale.createTransition("offers")
-        Transition t2 = sale.createTransition("accepts")
-        Transition t3 = sale.createTransition("pays")
-        Transition t4 = sale.createTransition("delivers")
+        Transition t1 = sale.createTransition("offer")
+        Transition t2 = sale.createTransition("accept")
+        Transition t3 = sale.createTransition("pay")
+        Transition t4 = sale.createTransition("deliver")
         Transition tOut = sale.createCollectorTransition()
 
         sale.createBridge(tIn, t1)
@@ -48,6 +46,7 @@ class MarketModel {
         sale.createBridge(t4, t3)
         sale.createBridge(t3, tOut)
 
+        sale.resetIds()
         sale.exportToLog("basicSaleInstance2")
         sale
     }
@@ -55,13 +54,11 @@ class MarketModel {
     static Net basicSaleModel() {
         Net sale = new BasicNet()
 
-        sale.function = BasicTransition.build("sells")
-
         Transition tIn = sale.createEmitterTransition()
-        Transition t1 = sale.createTransition("offers")
-        Transition t2 = sale.createTransition("accepts")
-        Transition t3 = sale.createTransition("pays")
-        Transition t4 = sale.createTransition("delivers")
+        Transition t1 = sale.createTransition("offer")
+        Transition t2 = sale.createTransition("accept")
+        Transition t3 = sale.createTransition("pay")
+        Transition t4 = sale.createTransition("deliver")
         Transition tOut = sale.createCollectorTransition()
 
         sale.createBridge(tIn, t1)
@@ -71,6 +68,7 @@ class MarketModel {
         sale.createBridge(t2, t4)
         sale.createBridge(t4, tOut)
 
+        sale.resetIds()
         sale.exportToLog("basicSale")
         sale
     }
@@ -78,15 +76,13 @@ class MarketModel {
     static Net basicSaleWith2Parties() {
         Net sale = new BasicNet()
 
-        sale.function = BasicTransition.build("sells")
-
         Transition tIn = sale.createEmitterTransition()
-        Transition t1s = sale.createTransition("offers")
+        Transition t1s = sale.createTransition("offer")
         Transition t1b = sale.propagateTransition(t1s)
-        Transition t2b = sale.createTransition("accepts")
+        Transition t2b = sale.createTransition("accept")
         Transition t2s = sale.propagateTransition(t2b)
-        Transition t3 = sale.createTransition("pays")
-        Transition t4 = sale.createTransition("delivers")
+        Transition t3 = sale.createTransition("pay")
+        Transition t4 = sale.createTransition("deliver")
         Transition tOut = sale.createCollectorTransition()
 
         sale.createBridge(tIn, t1s)
@@ -97,6 +93,7 @@ class MarketModel {
         sale.createBridge(t2s, t4)
         sale.createBridge(t4, tOut)
 
+        sale.resetIds()
         sale.exportToLog("basicSale2Parties")
         sale
     }
@@ -104,18 +101,16 @@ class MarketModel {
     static Net basicSaleWithWorld() {
         Net sale = new BasicNet()
 
-        sale.function = BasicTransition.build("sells")
-
         Transition tIn = sale.createEmitterTransition()
-        Transition t1s = sale.createTransition("offers")
+        Transition t1s = sale.createTransition("offer")
         Transition t1 = sale.propagateTransition(t1s)
         Transition t1b = sale.propagateTransition(t1)
-        Transition t2b = sale.createTransition("accepts")
+        Transition t2b = sale.createTransition("accept")
         Transition t2 = sale.propagateTransition(t2b)
         Transition t2s = sale.propagateTransition(t2)
-        Transition t3b = sale.createTransition("pays")
+        Transition t3b = sale.createTransition("pay")
         Transition t3 = sale.propagateTransition(t3b)
-        Transition t4s = sale.createTransition("delivers")
+        Transition t4s = sale.createTransition("deliver")
         Transition t4 = sale.propagateTransition(t4s)
         Transition tOut = sale.createCollectorTransition()
 
@@ -127,6 +122,7 @@ class MarketModel {
         sale.createBridge(t3, tOut)
         sale.createBridge(t4, tOut)
 
+        sale.resetIds()
         sale.exportToLog("basicSaleWithWorld")
         sale
     }
@@ -134,18 +130,16 @@ class MarketModel {
     static Net basicSaleWithWorldAndTimeline() {
         Net sale = new BasicNet()
 
-        sale.function = BasicTransition.build("sells")
-
         Transition tIn = sale.createEmitterTransition()
-        Transition t1s = sale.createTransition("offers")
+        Transition t1s = sale.createTransition("offer")
         Transition t1 = sale.propagateTransition(t1s)
         Transition t1b = sale.propagateTransition(t1)
-        Transition t2b = sale.createTransition("accepts")
+        Transition t2b = sale.createTransition("accept")
         Transition t2 = sale.propagateTransition(t2b)
         Transition t2s = sale.propagateTransition(t2)
-        Transition t3b = sale.createTransition("pays")
+        Transition t3b = sale.createTransition("pay")
         Transition t3 = sale.propagateTransition(t3b)
-        Transition t4s = sale.createTransition("delivers")
+        Transition t4s = sale.createTransition("deliver")
         Transition t4 = sale.propagateTransition(t4s)
         Transition tOut = sale.createCollectorTransition()
 
@@ -163,6 +157,7 @@ class MarketModel {
         sale.createBridge(t2, t4)
         sale.createBridge(t4, tOut)
 
+        sale.resetIds()
         sale.exportToLog("basicSaleWithWorldAndTimeline")
         sale
     }
@@ -170,19 +165,17 @@ class MarketModel {
     static Net basicSwapSale() {
         Net sale = new BasicNet()
 
-        sale.function = BasicTransition.build("sells")
-
         Transition tSellerIn = sale.createEmitterTransition()
         Transition tBuyerIn = sale.createEmitterTransition()
         Transition tSellerOut = sale.createCollectorTransition()
         Transition tBuyerOut = sale.createCollectorTransition()
 
-        Transition t1s = sale.createTransition("offers")
+        Transition t1s = sale.createTransition("offer")
         Transition t1b = sale.propagateTransition(t1s)
-        Transition t2b = sale.createTransition("accepts")
+        Transition t2b = sale.createTransition("accept")
         Transition t2s = sale.propagateTransition(t2b)
-        Transition t3 = sale.createTransition("pays")
-        Transition t4 = sale.createTransition("delivers")
+        Transition t3 = sale.createTransition("pay")
+        Transition t4 = sale.createTransition("deliver")
 
         sale.createBridge(tSellerIn, t1s)
         sale.createBridge(tBuyerIn, t1b)
@@ -206,6 +199,7 @@ class MarketModel {
         swap.createBridge((Transition) sale1.outputs[0], (Transition) sale2.outputs[1])
         swap.createBridge((Transition) sale1.outputs[1], (Transition) sale2.outputs[2])
 
+        swap.resetIds()
         swap
     }
 
@@ -303,7 +297,7 @@ class MarketModel {
     static Net groundSaleScriptModel() {
         Net sale = new BasicNet()
 
-        String commitmentBuyGood = "commit(buy)"
+        String commitmentBuyGood = "commits(buy)"
         String failureCommitmentBuyGood = "failure(commit(buy))"
         String successCommitmentBuyGood = "success(commit(buy))"
 
@@ -323,14 +317,14 @@ class MarketModel {
         String buyEvent = "buy"
         String negBuyEvent = "neg(buy)"
 
-        String offerEvent = "offers"
+        String offerEvent = "offer"
         String acceptEvent = "accept"
         String payEvent = "pay"
-        String deliverEvent = "delivers"
+        String deliverEvent = "deliver"
         String enforceEvent = "enforce"
 
-        String timeOutOffer = "timeout(offers)"
-        String timeOutDelivery = "timeout(delivers)"
+        String timeOutOffer = "timeout(offer)"
+        String timeOutDelivery = "timeout(deliver)"
 
         Place pCommitmentBuyGood = sale.createPlace(commitmentBuyGood)
         Place pFailureCommitmentBuyGood = sale.createPlace(failureCommitmentBuyGood)

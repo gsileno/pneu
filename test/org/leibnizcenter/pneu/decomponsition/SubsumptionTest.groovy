@@ -397,10 +397,12 @@ class SubsumptionTest extends GroovyTestCase {
         assert Subsumption.subsumes(CommonConstructs.inhibitorChoice2(), CommonConstructs.inhibitorChoice2())
     }
 
+    // a   vs   a - b - c
     void testSubsumption1() {
-        assert !Subsumption.subsumes(net0(), net1())
+        assert Subsumption.subsumes(net0(), net1())
     }
 
+    // a - b - c   vs   a
     void testSubsumption1bis() {
         assert !Subsumption.subsumes(net1(), net0())
     }
@@ -417,11 +419,12 @@ class SubsumptionTest extends GroovyTestCase {
 
         StorySubsumptionOutcome outcome
 
-        // choice 1 has inhibitor arcs
-        // choice 2 not, and use and explicit negative place
+        // the two models represent a binary mutually-exclusive choice
+        // choice 1 uses inhibitor arcs
+        // choice 2 don't, but use an explicit negative place
 
         // in principle the first should be more generic than the first one, as we don't use
-        // an explicit negative place
+        // an explicit negative place. this test shows that our definition of subsumption is correct
 
         Analysis inhibitorChoice1Analysis = Analysis.analyse(CommonConstructs.inhibitorChoice1())
         Analysis inhibitorChoice2Analysis = Analysis.analyse(CommonConstructs.inhibitorChoice2())
@@ -478,7 +481,7 @@ class SubsumptionTest extends GroovyTestCase {
 
         outcome = Subsumption.subsumes(generalStory, specificStory)
 
-        assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
+        assert outcome.type() == StorySubsumptionOutcome.Type.SUBSUMES
         assert outcome.leftGeneralLimit == 0
         assert outcome.rightGeneralLimit == 2
         assert outcome.leftSpecificLimit == 1
@@ -579,7 +582,7 @@ class SubsumptionTest extends GroovyTestCase {
 
         assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
         assert outcome.leftGeneralLimit == 1
-        assert outcome.rightGeneralLimit == 4
+        assert outcome.rightGeneralLimit == 3
         assert outcome.leftSpecificLimit == 0
         assert outcome.rightSpecificLimit == 3
 

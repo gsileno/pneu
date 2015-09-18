@@ -8,6 +8,9 @@ class StorySubsumptionOutcome {
     Story generalStory
     Story specificStory
 
+    // TODO: multiple mapping of identifiers may be possible
+    Map<String, Map<String, String>> mapIdentifiers
+
     // boundaries for subsumption
     Integer leftGeneralLimit
     Integer rightGeneralLimit
@@ -21,8 +24,7 @@ class StorySubsumptionOutcome {
     }
 
     Type type() {
-        if (leftGeneralLimit == 0 && rightGeneralLimit == generalStory.steps.size() - 1 &&
-                leftSpecificLimit == 0 && rightSpecificLimit == specificStory.steps.size() - 1)
+        if (leftGeneralLimit == 0 && rightGeneralLimit == generalStory.steps.size() - 1)
             return Type.SUBSUMES
         else if (leftGeneralLimit == null || rightGeneralLimit == null &&
                 leftSpecificLimit == null || rightSpecificLimit == null)
@@ -36,10 +38,12 @@ class StorySubsumptionOutcome {
 
         output += ""
 
-        output += generalStory.toString() + " <- \n" + specificStory.toString() + "\n"+ "? "+type()
+        output += generalStory.toString() + " <- " + specificStory.toString() + " ? " + type()
 
-        if (type() == Type.PARTIALLY_SUBSUMES) {
-            output += " (" + leftGeneralLimit + ", " + rightGeneralLimit + ") <- " + "(" + leftSpecificLimit + ", " + rightSpecificLimit + ")\n"
+        Type type = type()
+
+        if (type == Type.PARTIALLY_SUBSUMES || (type == Type.SUBSUMES && (leftSpecificLimit > 0 || rightSpecificLimit < specificStory.steps.size() - 1))) {
+            output += " (" + leftGeneralLimit + ", " + rightGeneralLimit + ") <- " + "(" + leftSpecificLimit + ", " + rightSpecificLimit + ")"
         }
 
         output

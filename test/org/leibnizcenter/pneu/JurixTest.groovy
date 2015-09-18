@@ -1,5 +1,7 @@
 package org.leibnizcenter.pneu
 
+import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
+import org.leibnizcenter.pneu.decomposition.Alignment
 import org.leibnizcenter.pneu.examples.MarketModel
 import org.leibnizcenter.pneu.animation.monolithic.NetRunner
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
@@ -61,28 +63,36 @@ class JurixTest extends GroovyTestCase {
         assert Subsumption.subsumes(MarketModel.groundSaleScriptModel(), MarketModel.groundSaleScriptModel())
     }
 
-    void testSubsumption1() {
-      assert Subsumption.subsumes(MarketModel.basicSaleInstance1(), MarketModel.basicSaleModel())
+    void testPatternSubsumesInstance() {
+        assert Subsumption.subsumes(MarketModel.basicSaleModel(), MarketModel.basicSaleInstance1())
     }
 
-    void testSubsumption1bis() {
-        assert !Subsumption.subsumes(MarketModel.basicSaleModel(), MarketModel.basicSaleInstance1())
+    void testInstanceDoesNotSubsumePattern() {
+        assert !Subsumption.subsumes(MarketModel.basicSaleInstance1(), MarketModel.basicSaleModel())
     }
 
-    void testSubsumption2() {
-        assert Subsumption.subsumes(MarketModel.groundSaleNormativeModel(), MarketModel.basicSaleModel())
+    void testPatternSubsumesBehaviouralMechanism() {
+        assert Subsumption.subsumes(MarketModel.basicSaleModel(), MarketModel.groundSaleScriptModel())
     }
 
-    void testSubsumption2bis() {
-        assert !Subsumption.subsumes(MarketModel.basicSaleModel(), MarketModel.groundSaleNormativeModel())
+    void testBehaviouralMechanismDoesNotSubsumePattern() {
+        assert !Subsumption.subsumes(MarketModel.groundSaleScriptModel(), MarketModel.basicSaleModel())
     }
 
-    void testSubsumption3() {
-        assert Subsumption.subsumes(MarketModel.groundSaleScriptModel(), MarketModel.groundSaleNormativeModel())
+    void testPatternSubsumesNormativeMechanism() {
+        assert Subsumption.subsumes(MarketModel.basicSaleModel(), MarketModel.groundSaleNormativeModel())
     }
 
-    void testSubsumption3bis() {
-        assert !Subsumption.subsumes(MarketModel.groundSaleNormativeModel(), MarketModel.groundSaleScriptModel())
+    void testNormativeMechanismDoesNotSubsumePattern() {
+        assert !Subsumption.subsumes(MarketModel.groundSaleNormativeModel(), MarketModel.basicSaleModel())
+    }
+
+    void testNormativeMechanismSubsumeBehaviouralMechanism() {
+        assert Subsumption.subsumes(MarketModel.groundSaleNormativeModel(), MarketModel.groundSaleScriptModel())
+    }
+
+    void testBehaviouralMechanismDoesNotSubsumeNormativeMechanism() {
+        assert !Subsumption.subsumes(MarketModel.groundSaleScriptModel(), MarketModel.groundSaleNormativeModel())
     }
 
 }

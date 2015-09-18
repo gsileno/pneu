@@ -8,16 +8,23 @@ import org.leibnizcenter.pneu.components.petrinet.Net
 @Log4j
 class Alignment {
 
-    static Map<Story, Map<Story, StorySubsumptionOutcome>> partialAlignmentTest(Net left, Net right) {
+    private void load(Alignment alignment) {
+        this.directPartialMap = alignment.directPartialMap
+        this.inversePartialMap = alignment.inversePartialMap
+    }
 
+    Map<Story, Map<Story, StorySubsumptionOutcome>> directPartialMap = [:]
+    Map<Story, Map<Story, StorySubsumptionOutcome>> inversePartialMap = [:]
+
+    Alignment(Net left, Net right) {
         // analyse
         Analysis leftAnalysis = Analysis.analyse(left)
         Analysis rightAnalysis = Analysis.analyse(right)
 
-        partialAlignmentTest(leftAnalysis, rightAnalysis)
+        load(new Alignment(leftAnalysis, rightAnalysis))
     }
 
-    static Map<Story, Map<Story, StorySubsumptionOutcome>> partialAlignmentTest(Analysis left, Analysis right) {
+    Alignment(Analysis left, Analysis right) {
 
         // decompose in partial stories
         AnalysisSESEDecomposer leftDecomposition = new AnalysisSESEDecomposer()
@@ -26,84 +33,58 @@ class Alignment {
         AnalysisSESEDecomposer rightDecomposition = new AnalysisSESEDecomposer()
         StoryTree rightTree = rightDecomposition.decompose(right)
 
-        partialAlignmentTest(leftTree, rightTree)
+        load(new Alignment(leftTree, rightTree))
     }
 
-    static Map<Story, Map<Story, StorySubsumptionOutcome>> partialAlignmentTest(StoryTree left, StoryTree right) {
+    Alignment(StoryTree left, StoryTree right) {
 
         // look for beginning/end subsumed
         List<Story> leftStories = left.flatten()
         List<Story> rightStories = right.flatten()
 
-        partialAlignmentTest(leftStories, rightStories)
+        load(new Alignment(leftStories, rightStories))
     }
 
-    static Map<Story, Map<Story, Map<Boolean, StorySubsumptionOutcome>>> partialAlignmentTest(List<Story> leftStories, List<Story> rightStories) {
-
-        Map<Story, Map<Story, Map<Boolean, StorySubsumptionOutcome>>> partialMap = [:]
-
+    Alignment(List<Story> leftStories, List<Story> rightStories) {
         for (leftStory in leftStories) {
             for (rightStory in rightStories) {
-                StorySubsumptionOutcome gs = Subsumption.subsumes(leftStory, rightStory)
-                StorySubsumptionOutcome sg = Subsumption.subsumes(rightStory, leftStory)
+                StorySubsumptionOutcome directSubsumption = Subsumption.subsumes(leftStory, rightStory)
 
-                if (gs.type() != StorySubsumptionOutcome.Type.NONE || sg.type() != StorySubsumptionOutcome.Type.NONE) {
-                    if (!partialMap.containsKey(leftStory)) {
-                        partialMap[leftStory] = [:]
-                    }
-                    if (!partialMap[leftStory].containsKey(rightStory)) {
-                        partialMap[leftStory][rightStory] = [:]
-                    }
+                StorySubsumptionOutcome inverseSubsumption = Subsumption.subsumes(rightStory, leftStory)
 
-                    if (gs.type() != StorySubsumptionOutcome.Type.NONE)
-                        partialMap[leftStory][rightStory][true] = gs
-                    if (sg.type() != StorySubsumptionOutcome.Type.NONE)
-                        partialMap[leftStory][rightStory][false] = sg
+                if (directSubsumption.type() != StorySubsumptionOutcome.Type.NONE) {
+                    if (!directPartialMap.containsKey(leftStory)) {
+                        directPartialMap[leftStory] = [:]
+                    }
+                    directPartialMap[leftStory][rightStory] = directSubsumption
+                }
+
+                if (inverseSubsumption.type() != StorySubsumptionOutcome.Type.NONE) {
+                    if (!inversePartialMap.containsKey(leftStory)) {
+                        inversePartialMap[leftStory] = [:]
+                    }
+                    inversePartialMap[leftStory][rightStory] = inverseSubsumption
                 }
             }
         }
-
-        partialMap
     }
 
-    static String mapToString(Map<Story, Map<Story, Map<Boolean, StorySubsumptionOutcome>>> alignment) {
-
+    private static String partialMapToString(Map<Story, Map<Story, StorySubsumptionOutcome>> partialMap) {
         String output = ""
-        String relation = ""
-
-        for (left in alignment.keySet()) {
-            for (right in alignment[left].keySet()) {
-
-                StorySubsumptionOutcome directOutcome = alignment[left][right][true]
-                StorySubsumptionOutcome inverseOutcome = alignment[left][right][false]
-
-                // left subsumes right?
-                if (alignment[left][right][true] != null) {
-
-                    relation = "(" + directOutcome.leftGeneralLimit + ", " + directOutcome.rightGeneralLimit + ") <- " + "(" + directOutcome.leftSpecificLimit + ", " + directOutcome.rightSpecificLimit + ")"
-
-                    // right subsumes left as well?
-                    if (alignment[left][right][false] != null) {
-                        relation += " && (" + inverseOutcome.leftGeneralLimit + ", " + inverseOutcome.rightGeneralLimit + ") -> " + "(" + inverseOutcome.leftSpecificLimit + ", " + inverseOutcome.rightSpecificLimit + ")"
-
-                        if (directOutcome.leftGeneralLimit == inverseOutcome.leftSpecificLimit &&
-                                directOutcome.leftSpecificLimit == inverseOutcome.leftGeneralLimit &&
-                                directOutcome.rightGeneralLimit == inverseOutcome.rightSpecificLimit &&
-                                directOutcome.rightSpecificLimit == inverseOutcome.rightGeneralLimit)
-                            relation = "(" + inverseOutcome.leftGeneralLimit + ", " + inverseOutcome.rightGeneralLimit + ") <-> " + "(" + inverseOutcome.leftSpecificLimit + ", " + inverseOutcome.rightSpecificLimit + ")"
-                    }
-
-                } else if (alignment[left][right][false] != null) {
-
-                    relation = "(" + inverseOutcome.leftGeneralLimit + ", " + inverseOutcome.rightGeneralLimit + ") -> " + "(" + inverseOutcome.leftSpecificLimit + ", " + inverseOutcome.rightSpecificLimit + ")"
-
-
-                }
-
-                output += left.toString() + " vs\n" + right.toString() + "\n"+ "= "+relation+"\n\n"
+        for (left in partialMap.keySet()) {
+            for (right in partialMap[left].keySet()) {
+                output += partialMap[left][right].toLog()+"\n"
             }
         }
+        output
+    }
 
+    String toLog() {
+        String output = ""
+        output += "Direct ---------------------\n"
+        output += partialMapToString(directPartialMap) + "\n"
+        output += "Inverse---------------------\n"
+        output += partialMapToString(inversePartialMap) + "\n"
         output
     }
 
