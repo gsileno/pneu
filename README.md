@@ -5,7 +5,7 @@
 
 (still quite a prototype)
 
-*pneu* provides a common kernel for petri net applications. For instance, LPPNs extend the basic Petri nets model to account declarative labeling on transition/places (https://github.com/s1l3n0/lppneu). 
+*pneu* provides a common kernel for petri net applications. For instance, *lppneu* - https://github.com/s1l3n0/lppneu- extends the basic Petri nets model to account declarative labeling on transition/places for narrative modeling.
 
 Petri nets are a well-known notation for specifying distributed computation, and allowing to model concurrency. See https://wikipedia.org/wiki/Petri_net.
 
