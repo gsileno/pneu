@@ -94,11 +94,18 @@ output: /out/json/readmeNet.json
 ```
 
 **analysis**
+The analysis function performs a depth-first search of the execution paths of the net. When an execution path (or *story*) is completed, it backtracks to the potential branch, and restart a new execution path from there. In practice, it pre-computes the reachability graph of the Petri net.
+
 ```
 NetRunner runner = new NetRunner()
 runner.load(net)
 runner.analyse()
 runner.analysis.exportToLog("readmeNet")
+```
+or
+```
+Analysis analysis = Analysis.analyze(net)
+analysis.exportToLog("readmeNet")
 ```
 
 output: /out/log/analysis/readmeNet.analysis.log
