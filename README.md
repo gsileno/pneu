@@ -59,7 +59,7 @@ runner.run(2) // to make 2 discrete steps
 net.exportToJson("readmeNet")
 ```
 
-output: /out/json/readmeNet.json
+output: out/json/readmeNet.json
 ```
 {
   "places": [
