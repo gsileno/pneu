@@ -7,7 +7,7 @@
 
 *pneu* provides a common kernel for petri net applications. See for instance *lppneu* (https://github.com/s1l3n0/lppneu) which extends it to allow declarative labels for *narrative modeling*.
 
-Petri nets are a well-known notation for specifying distributed computation, and allowing to model concurrency. See https://wikipedia.org/wiki/Petri_net.
+Petri nets are a well-known notation for specifying distributed computation, and modeling concurrency. See https://wikipedia.org/wiki/Petri_net.
 
 Groovy is a kind of "super-Java" designed for fast development: less verbose, script-oriented, fully compatible. See http://www.groovy-lang.org. A full stack development environment based on groovy, the GVM, can be found on http://gvmtool.net/.
 
