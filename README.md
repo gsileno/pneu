@@ -5,17 +5,19 @@
 
 (still quite a prototype)
 
-Petri nets are a well-known notation for specifying distributed computation, and allowing to model concurrency. See https://wikipedia.org/wiki/Petri_net.
+*pneu* provides a common kernel for petri net applications. See for instance *lppneu* (https://github.com/s1l3n0/lppneu) which extends it to allow declarative labels for *narrative modeling*.
+
+Petri nets are a well-known notation for specifying distributed computation, and modeling concurrency. See https://wikipedia.org/wiki/Petri_net.
 
 Groovy is a kind of "super-Java" designed for fast development: less verbose, script-oriented, fully compatible. See http://www.groovy-lang.org. A full stack development environment based on groovy, the GVM, can be found on http://gvmtool.net/.
 
 ## Components
 
-* basic Petri nets model (not distinguishable tokens)
+* basic Petri nets model 
 * brute-force simulator 
 * exporter to json (with current marking)
-* analyzer (depth-first search of execution path)
-* single-entry-single-exit (SESE) decomponser of output analysis
+* analyzer (depth-first search of execution paths)
+* single-entry-single-exit (SESE) decomponser of analysis outputs
 * importer from Yasper PNML 
 * exporter to tikz (LaTeX!) 
 * exporter to dot (graphviz, viz.js, etc.) 
@@ -59,7 +61,7 @@ runner.run(2) // to make 2 discrete steps
 net.exportToJson("readmeNet")
 ```
 
-output: /out/json/readmeNet.json
+output: out/json/readmeNet.json
 ```
 {
   "places": [
@@ -94,14 +96,22 @@ output: /out/json/readmeNet.json
 ```
 
 **analysis**
+
+The analysis function performs a depth-first search of the execution paths of the net. When an execution path (or *story*) is completed, it backtracks to the first unexplored firing choice, clone the first part of the story, and append a new execution path from there. In practice, it pre-computes the reachability graph of the Petri net.
+
 ```
 NetRunner runner = new NetRunner()
 runner.load(net)
 runner.analyse()
 runner.analysis.exportToLog("readmeNet")
 ```
+or
+```
+Analysis analysis = Analysis.analyze(net)
+analysis.exportToLog("readmeNet")
+```
 
-output: /out/log/analysis/readmeNet.analysis.log
+output: out/log/analysis/readmeNet.analysis.log
 ```
 Summary: 
 0: t0.t0, t1.t1, t2.t2.
