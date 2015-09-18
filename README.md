@@ -5,6 +5,8 @@
 
 (still quite a prototype)
 
+*pneu* provides a common kernel for petri net applications. For instance, LPPNs extend the basic Petri nets model to account declarative labeling on transition/places (https://github.com/s1l3n0/lppneu). 
+
 Petri nets are a well-known notation for specifying distributed computation, and allowing to model concurrency. See https://wikipedia.org/wiki/Petri_net.
 
 Groovy is a kind of "super-Java" designed for fast development: less verbose, script-oriented, fully compatible. See http://www.groovy-lang.org. A full stack development environment based on groovy, the GVM, can be found on http://gvmtool.net/.
@@ -19,8 +21,6 @@ Groovy is a kind of "super-Java" designed for fast development: less verbose, sc
 * importer from Yasper PNML 
 * exporter to tikz (LaTeX!) 
 * exporter to dot (graphviz, viz.js, etc.) 
-
-pneu provides a common kernel for petri net applications. For instance, LPPNs extend the basic Petri nets model to account declarative labeling on transition/places (https://github.com/s1l3n0/lppneu). 
 
 Yasper is a visual editor for basic petri nets, http://yasper.org. PNML is the Petri Net Markup Language, a standard  XML-based format, http://www.pnml.org.
 
