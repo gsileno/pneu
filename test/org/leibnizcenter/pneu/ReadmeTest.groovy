@@ -35,11 +35,6 @@ class ReadmeTest extends GroovyTestCase {
         runner.load(net)
         runner.run(3)
 
-//        NetRunner runner = new NetRunner()
-//        runner.load(net)
-//        runner.analyse()
-//        runner.analysis.exportToLog("readmeNet")
-
         net.exportToDot("readmeNet")
         net.exportToJson("readmeNet")
 

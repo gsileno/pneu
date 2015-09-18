@@ -51,23 +51,45 @@ class Alignment {
                 Boolean gs = Subsumption.subsumes(leftStory, rightStory)
                 Boolean sg = Subsumption.subsumes(rightStory, leftStory)
 
-                RelationType relation
-
-                if (gs && sg) relation = RelationType.EQUIVALENT
-                else if (gs) relation = RelationType.SUBSUMES
-                else if (sg) relation = RelationType.IS_SUBSUMED
-                else relation = RelationType.NONE
-
-                if (!partialMap.containsKey(leftStory)) {
-                    partialMap[leftStory] = [:]
-                }
-
-                if (relation != RelationType.NONE)
-                    partialMap[leftStory][rightStory] = relation
+//                RelationType relation
+//
+//                if (gs && sg) relation = RelationType.EQUIVALENT
+//                else if (gs) relation = RelationType.SUBSUMES
+//                else if (sg) relation = RelationType.IS_SUBSUMED
+//                else relation = RelationType.NONE
+//
+//                if (relation != RelationType.NONE) {
+//                    if (!partialMap.containsKey(leftStory)) {
+//                        partialMap[leftStory] = [:]
+//                    }
+//                    partialMap[leftStory][rightStory] = relation
+//                }
             }
         }
 
         partialMap
+    }
+
+    static String mapToString(Map<Story, Map<Story, RelationType>> alignment) {
+
+        String output = ""
+
+        for (left in alignment.keySet()) {
+            for (right in alignment[left].keySet()) {
+
+//                String relation = ""
+//                switch (alignment[left][right]) {
+//                    case RelationType.EQUIVALENT: relation = "<->"; break
+//                    case RelationType.SUBSUMES: relation = "<-"; break
+//                    case RelationType.IS_SUBSUMED: relation = "->"; break
+//                    case RelationType.NONE: relation = "???"
+//                }
+
+//                output += left.toString() + " " + relation + " " + right.toString() + "\n"
+            }
+        }
+
+        output
     }
 
 }

@@ -1,11 +1,22 @@
 package org.leibnizcenter.pneu.decomposition
 
-/**
- * Created by giovanni on 9/17/15.
- */
-enum RelationType {
-    NONE,
-    SUBSUMES,
-    IS_SUBSUMED,
-    EQUIVALENT
+
+class RelationType {
+
+    RelationFlag type
+
+    enum RelationFlag {
+        NONE,
+        SUBSUMES,
+        IS_SUBSUMED,
+        EQUIVALENT,
+        PARTIALLY_SUBSUMES,
+        IS_PARTIALLY_SUBSUMED,
+        IS_PARTIALLY_EQUIVALENT,
+    }
+
+    Integer leftLimit
+    Integer rightLimit
+
 }
+

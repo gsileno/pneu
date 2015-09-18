@@ -200,81 +200,111 @@ class Subsumption {
     Boolean concreteSubsumption(Story generalStory, Story specificStory) {
         log.trace("does story " + generalStory + " subsume " + specificStory + "?")
 
-        if (generalStory.eventsPerStep.size() == 0) {
-            log.trace("there are no events in the general story")
-            if (specificStory.eventsPerStep.size() == 0) {
-                log.trace("there are no events in the specific story as well")
-                log.trace("checking state subsumptions")
-                return concreteSubsumption(generalStory.steps[0], specificStory.steps[0])
-            }
-            return false
-        }
+        Boolean firstSpecific = true
+        Boolean firstGeneral = true
+        Integer leftGeneralLimit
+        Integer rightGeneralLimit
+        Integer leftSpecificLimit
+        Integer rightSpecificLimit
 
         Integer i = 0, j = 0
         for (; i < generalStory.steps.size(); i++) {
-            log.trace("general story passes to step " + (i))
 
-            Boolean stepFound = false
+            log.trace("general story passes to step " + (i))
+            Boolean alignmentFound = false
+
             for (; j < specificStory.steps.size(); j++) {
                 log.trace("specific story passes to step " + (j))
 
+                // check for subsumption of local states
                 if (concreteSubsumption(generalStory.steps[i], specificStory.steps[j])) {
 
-                    if (i < generalStory.steps.size() - 1) {
-                        log.trace("looking for an event not related to a link transition (step $i)")
+                    if (j == specificStory.steps.size() - 1) { // if we are in the last specific step
+                        log.trace("specific story has concluded. we cannot proceed further")
+                        alignmentFound = true
+                    } else if (i == generalStory.steps.size() - 1) { // if we are in the last general step
+                        log.trace("general story has concluded. we cannot proceed further")
+                        alignmentFound = true
+                    } else { // in the general case
 
+                        // if there is a transition link then jump to the next step
                         if (generalStory.eventsPerStep[i][0].transition.isLink()) {
-                            log.trace("I have found a link transition on the general model, I jump it.")
-
-                            for (; i < generalStory.steps.size() - 1; i++) {
-                                log.trace("general story passes to step " + (i))
-                                if (!generalStory.eventsPerStep[i][0].transition.isLink()) {
-                                    break
-                                } else {
-                                    log.trace("I have found a link transition on the general model, I jump it.")
-                                }
+                            log.trace("I have found a link transition on the general model, I jump the event.")
+                            if (specificStory.eventsPerStep.get(j) != null) {
+                                log.trace("the specific story has an event as well. we can override it.")
+                                alignmentFound = true
+                            } else {
+                                log.trace("the specific story has no remaining events. it cannot be subsumed.")
+                                throw new RuntimeException("To be checked")
                             }
-                        }
-                        if (i == generalStory.steps.size() - 1) {
-                            log.trace("found no events in the general story which is not related to a link transition")
-
+                        } else {
                             for (; j < specificStory.steps.size() - 1; j++) {
                                 if (!specificStory.eventsPerStep[j][0].transition.isLink()) {
-                                    log.trace("but I found it in the specific story")
-                                    return false
+                                    if (concreteSubsumption(generalStory.eventsPerStep[i][0], specificStory.eventsPerStep[j][0])) {
+                                        alignmentFound = true
+                                        log.trace("specific story passes to step " + (j + 1))
+                                        break
+                                    }
+                                } else {
+                                    log.trace("I have found a link transition on the specific model, I jump it.")
+                                    // there is an assumption there: that the subsumed model is at lower granularity than
+                                    // the other one. therefore where link transitions appears in the subsumed model,
+                                    // certainly there won't be specified transitions in the subsuming one.
+                                    // however, in general we could have mixed situations. TODO: to be better reflected
                                 }
                             }
-                            return true
                         }
-
-                        for (; j < specificStory.steps.size() - 1; j++) {
-                            log.trace("specific story passes to step " + (j))
-                            if (!specificStory.eventsPerStep[j][0].transition.isLink()) {
-                                if (concreteSubsumption(generalStory.eventsPerStep[i][0], specificStory.eventsPerStep[j][0])) {
-                                    stepFound = true
-                                    log.trace("specific story passes to step " + (j + 1))
-                                    j++
-                                    break
-                                }
-                            } else {
-                                log.trace("I have found a link transition on the specific model, I jump it.")
-                            }
-                        }
-                    } else {
-                        stepFound = true
                     }
                 }
 
-                if (stepFound) break
+                if (alignmentFound) {
+                    log.trace("alignment found: general $i vs specific $j")
+                    if (firstSpecific) {
+                        leftSpecificLimit = j
+                        firstSpecific = false
+                    }
+                    if (firstGeneral) {
+                        leftGeneralLimit = i
+                        firstGeneral = false
+                    }
+
+                    rightGeneralLimit = i
+                    rightSpecificLimit = j
+                    j++
+                    break
+                }
             }
 
-            if (!stepFound) {
-                log.trace("no, story " + generalStory + " does not subsume " + specificStory + ".")
-                return false
+            if (!alignmentFound) {
+                if (firstGeneral) {
+                    log.trace("no, story " + generalStory + " does not subsume " + specificStory + " from this step.")
+                    log.trace("attempting by changing the left general limit.")
+                } else {
+                    log.trace("no, story " + generalStory + " does not subsume " + specificStory + ".")
+
+                    if (leftGeneralLimit != null && rightGeneralLimit != null && leftSpecificLimit != null && rightSpecificLimit != null)
+                        log.trace("but well, story " + generalStory + " partially subsume " + specificStory + ": (" +
+                                leftGeneralLimit + ", " + rightGeneralLimit + ") vs (" +
+                                leftSpecificLimit + ", " + rightSpecificLimit + ")")
+                    log.trace("I cannot find correspondences for step " + generalStory.steps[i].placesToString() + " / event " + generalStory.eventsPerStep[i])
+                    return false
+                }
             }
         }
 
-        log.trace("yes, story " + generalStory + " subsumes " + specificStory + ".")
+        if (leftGeneralLimit != null && rightGeneralLimit != null && leftSpecificLimit != null && rightSpecificLimit != null) {
+            if (leftGeneralLimit == 0 && rightGeneralLimit == generalStory.steps.size() - 1
+                    && leftSpecificLimit == 0 && rightSpecificLimit == specificStory.steps.size() - 1) {
+                log.trace("yes, story " + generalStory + " subsumes " + specificStory + ".")
+            } else {
+                log.trace("well, story " + generalStory + " partially subsume " + specificStory + ": (" +
+                        leftGeneralLimit + ", " + rightGeneralLimit + ") vs (" +
+                        leftSpecificLimit + ", " + rightSpecificLimit + ")")
+            }
+        } else {
+            throw new RuntimeException("You should not be here.")
+        }
+
         return true
     }
 
@@ -306,7 +336,7 @@ class Subsumption {
                 }
             }
             if (!storyFound) {
-                log.trace("no, it does not. I cannot find any general story which subsume the specific story")
+                log.trace("no, it does not. I cannot find any general story which subsumes this specific story")
                 return false
             }
         }

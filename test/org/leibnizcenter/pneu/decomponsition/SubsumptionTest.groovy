@@ -1,16 +1,12 @@
 package org.leibnizcenter.pneu.decomponsition
 
-import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
-import org.leibnizcenter.pneu.animation.monolithic.analysis.State
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.decomposition.Alignment
-import org.leibnizcenter.pneu.decomposition.AnalysisSESEDecomposer
 import org.leibnizcenter.pneu.decomposition.RelationType
-import org.leibnizcenter.pneu.decomposition.StoryTree
 import org.leibnizcenter.pneu.decomposition.Subsumption
 import org.leibnizcenter.pneu.examples.CommonConstructs
 
@@ -234,6 +230,76 @@ class SubsumptionTest extends GroovyTestCase {
         net
     }
 
+    // a - b - c - d - e
+    static Net netSpecific() {
+        Net net = new BasicNet()
+        Transition tIn = net.createEmitterTransition()
+        Transition tOut = net.createCollectorTransition()
+        Place pA = net.createPlace("a")
+        Place pB = net.createPlace("b")
+        Place pC = net.createPlace("c")
+        Place pD = net.createPlace("d")
+        Place pE = net.createPlace("e")
+
+        net.createArc(tIn, pA)
+        net.createBridges([pA, pB, pC, pD, pE])
+        net.createArc(pE, tOut)
+
+        net.resetIds()
+        net
+    }
+
+    // a portion of the previous one: b - c - d
+    static Net netSpecificBis() {
+        Net net = new BasicNet()
+        Transition tIn = net.createEmitterTransition()
+        Transition tOut = net.createCollectorTransition()
+        Place pB = net.createPlace("b")
+        Place pC = net.createPlace("c")
+        Place pD = net.createPlace("d")
+
+        net.createArc(tIn, pB)
+        net.createBridges([pB, pC, pD])
+        net.createArc(pD, tOut)
+
+        net.resetIds()
+        net
+    }
+
+    // an abstraction of the previous one (b - d)
+    static Net netGeneral() {
+        Net net = new BasicNet()
+        Transition tIn = net.createEmitterTransition()
+        Transition tOut = net.createCollectorTransition()
+        Place pB = net.createPlace("b")
+        Place pD = net.createPlace("d")
+
+        net.createArc(tIn, pB)
+        net.createBridges([pB, pD])
+        net.createArc(pD, tOut)
+
+        net.resetIds()
+        net
+    }
+
+    // an abstraction of the previous one, with different terminals (a - b - d - e)
+    static Net netGeneralBis() {
+        Net net = new BasicNet()
+        Transition tIn = net.createEmitterTransition()
+        Transition tOut = net.createCollectorTransition()
+        Place pA = net.createPlace("a")
+        Place pB = net.createPlace("b")
+        Place pD = net.createPlace("d")
+        Place pE = net.createPlace("e")
+
+        net.createArc(tIn, pA)
+        net.createBridges([pA, pB, pD, pE])
+        net.createArc(pE, tOut)
+
+        net.resetIds()
+        net
+    }
+
     // I expect a net subsumed itself
 
     void testSubsumptionIdentity() {
@@ -272,7 +338,30 @@ class SubsumptionTest extends GroovyTestCase {
         Map<Story, Map<Story, RelationType>> partialMap
         partialMap = Alignment.partialAlignmentTest(CommonConstructs.inhibitorChoice1(), CommonConstructs.inhibitorChoice2())
 
-        println partialMap
+        println Alignment.mapToString(partialMap)
+    }
+
+    void testAlignment2() {
+
+        Map<Story, Map<Story, RelationType>> partialMap
+
+        partialMap = Alignment.partialAlignmentTest(netGeneral(), netSpecific())
+        println "################################"
+        println Alignment.mapToString(partialMap)
+        println "################################"
+        partialMap = Alignment.partialAlignmentTest(netGeneral(), netSpecificBis())
+        println "################################"
+        println Alignment.mapToString(partialMap)
+        println "################################"
+        partialMap = Alignment.partialAlignmentTest(netGeneralBis(), netSpecific())
+        println "################################"
+        println Alignment.mapToString(partialMap)
+        println "################################"
+        partialMap = Alignment.partialAlignmentTest(netGeneralBis(), netSpecificBis())
+        println "################################"
+        println Alignment.mapToString(partialMap)
+        println "################################"
+
     }
 
 }
