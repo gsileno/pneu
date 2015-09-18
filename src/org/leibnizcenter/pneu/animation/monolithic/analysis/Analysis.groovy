@@ -28,8 +28,8 @@ class Analysis {
         log.trace("recorded state: " + state)
 
         if (antecedent) {
-            log.trace("antecedent: "+antecedent)
-            log.trace("antecedent transition/state map: "+antecedent.transitionEventStateMap)
+            log.trace("antecedent: " + antecedent)
+            log.trace("antecedent transition/state map: " + antecedent.transitionEventStateMap)
         }
 
         currentStory.addStep(state)
@@ -53,10 +53,10 @@ class Analysis {
                     break;
                 } else {
                     if (!event.transition.compare(firedEvent.transition)) {
-                        log.trace("transitions are different! "+event.transition+" vs "+firedEvent.transition)
+                        log.trace("transitions are different! " + event.transition + " vs " + firedEvent.transition)
                     }
                     if (!event.token.compare(firedEvent.token)) {
-                        log.trace("tokens are different! "+event.token+" vs "+firedEvent.token)
+                        log.trace("tokens are different! " + event.token + " vs " + firedEvent.token)
                     }
 
                 }
@@ -84,7 +84,7 @@ class Analysis {
 
         // first type of completion:
         // the currentState has been already found in the past the story
-        Boolean complete = (currentStory.steps.findAll() { it == currentState}.size() > 1)
+        Boolean complete = (currentStory.steps.findAll() { it == currentState }.size() > 1)
         if (complete) {
             log.trace("state already found in the story, restarting again.")
         } else {
@@ -164,21 +164,29 @@ class Analysis {
         outputFile = path + '/' + filename + ".analysis.log"
 
         new File(outputFile).withWriter { out ->
-            out.println("Summary: \n" + storyBase.toLog())
-            out.println("Stories: \n" + storyBase)
-            out.println("States: \n" + stateBase)
-            out.println("Places:")
-
-            for (place in stateBase.base.first().placeList) {
-                out.println(place.id+": "+place.label())
-            }
+            out.println(toLog())
         }
+    }
+
+    String toLog() {
+        String output = ""
+
+        output += "Summary: \n" + storyBase.toLog() + "\n"
+        output += "Stories: \n" + storyBase + "\n"
+        output += "States: \n" + stateBase + "\n"
+        output += "Places: \n"
+
+        for (place in stateBase.base.first().placeList) {
+            output += place.id + ": " + place.label() + "\n"
+        }
+
+        output
     }
 
     static Boolean compare(Analysis source, Analysis target) {
 
         if (source.storyBase.base.size() != target.storyBase.base.size()) {
-            log.trace("story bases with different sizes: "+source.storyBase.base.size()+" vs "+target.storyBase.base.size())
+            log.trace("story bases with different sizes: " + source.storyBase.base.size() + " vs " + target.storyBase.base.size())
             return false
         }
 

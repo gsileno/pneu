@@ -569,7 +569,7 @@ abstract class Net {
         tBridge
     }
 
-    List<Transition> createBridges(List<Place> pList) {
+    List<Transition> createBridgesForPlaces(List<Place> pList) {
 
         List<Transition> tBridgeList= []
 
@@ -581,6 +581,20 @@ abstract class Net {
         }
 
         tBridgeList
+    }
+
+    List<Place> createsBridgesForTransitions(List<Transition> tList) {
+
+        List<Place> pBridgeList= []
+
+        if (tList.size() <= 1)
+            throw new RuntimeException("Error: you cannot build a bridge with just one transition")
+
+        for (int i = 0; i < tList.size() - 1; i++) {
+            pBridgeList << createBridge(tList[i], tList[i+1])
+        }
+
+        pBridgeList
     }
 
     // TODO: add checks for correct bindings

@@ -1,7 +1,6 @@
 package org.leibnizcenter.pneu.decomposition
 
 import groovy.util.logging.Log4j
-import org.leibnizcenter.pneu.animation.monolithic.NetRunner
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
 import org.leibnizcenter.pneu.animation.monolithic.analysis.State
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
@@ -9,7 +8,6 @@ import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Token
 import org.leibnizcenter.pneu.components.petrinet.TransitionEvent
-import org.leibnizcenter.pneu.examples.CommonConstructs
 
 
 @Log4j
@@ -86,6 +84,8 @@ class Subsumption {
 
             if (generalPlace.marking.size() == 0) {
                 log.trace("the place is empty, jumping...")
+            } else if (generalPlace.isLink()) {
+                log.trace("the place is a link place, jumping...")
             } else {
                 Place p
 
@@ -107,36 +107,8 @@ class Subsumption {
         return true
     }
 
-    // to check whether a "general" state subsumes a "specific" one, in abstract terms,
-    // i.e. in checking only for the place labels
-    static Boolean abstractSubsumption(State generalState, State specificState) {
-        log.trace("does state " + generalState.placesToString() + " abstractly subsume " + specificState.placesToString() + "?")
-
-        List<Place> specificPlaces = specificState.placeList
-
-        // for all general places, there should be at least a *distinct* specific place which is subsumed
-        for (generalPlace in generalState.placeList) {
-
-            log.trace("checking general place: " + generalPlace)
-            Place p
-            for (specificPlace in specificPlaces) {
-                log.trace("considering specific place: " + specificPlace)
-                if (generalPlace.subsumes(specificPlace)) {
-                    p = specificPlace
-                    break
-                }
-            }
-            if (p == null) {
-                log.trace("no, general state " + generalState + " does not subsume specific state " + specificState + ".")
-                return false
-            }
-            specificPlaces = specificPlaces - p
-        }
-        log.trace("yes, general state " + generalState + " abstractly subsumes specific state " + specificState + ".")
-        return true
-    }
-
-    // to check whether a "general" story subsumes a "specific" one
+    // to check whether a "general" story subsumes a "specific" one,
+    // only considering events and not states
     Boolean concreteEventSubsumption(Story generalStory, Story specificStory) {
         log.trace("does story " + generalStory + " subsume event-wise " + specificStory + "?")
 
@@ -197,24 +169,25 @@ class Subsumption {
     }
 
     // to check whether a "general" story subsumes a "specific" one
-    Boolean concreteSubsumption(Story generalStory, Story specificStory) {
+    StorySubsumptionOutcome concreteSubsumption(Story generalStory, Story specificStory) {
+
+        StorySubsumptionOutcome detail = new StorySubsumptionOutcome(generalStory: generalStory, specificStory: specificStory)
+
         log.trace("does story " + generalStory + " subsume " + specificStory + "?")
 
         Boolean firstSpecific = true
         Boolean firstGeneral = true
-        Integer leftGeneralLimit
-        Integer rightGeneralLimit
-        Integer leftSpecificLimit
-        Integer rightSpecificLimit
+        Boolean concludedSpecific = false
+        Boolean concludedGeneral = false
 
-        Integer i = 0, j = 0
-        for (; i < generalStory.steps.size(); i++) {
+        Integer curGeneralPos = 0, curSpecificPos = 0
+        for (int i = curGeneralPos; i < generalStory.steps.size(); i++) {
 
-            log.trace("general story passes to step " + (i))
+            log.trace("general story attempts to pass to step " + i)
             Boolean alignmentFound = false
 
-            for (; j < specificStory.steps.size(); j++) {
-                log.trace("specific story passes to step " + (j))
+            for (int j = curSpecificPos; j < specificStory.steps.size(); j++) {
+                log.trace("specific story attempts to pass to step " + j)
 
                 // check for subsumption of local states
                 if (concreteSubsumption(generalStory.steps[i], specificStory.steps[j])) {
@@ -222,9 +195,11 @@ class Subsumption {
                     if (j == specificStory.steps.size() - 1) { // if we are in the last specific step
                         log.trace("specific story has concluded. we cannot proceed further")
                         alignmentFound = true
+                        concludedSpecific = true
                     } else if (i == generalStory.steps.size() - 1) { // if we are in the last general step
                         log.trace("general story has concluded. we cannot proceed further")
                         alignmentFound = true
+                        concludedGeneral = true
                     } else { // in the general case
 
                         // if there is a transition link then jump to the next step
@@ -239,10 +214,10 @@ class Subsumption {
                             }
                         } else {
                             for (; j < specificStory.steps.size() - 1; j++) {
+                                log.trace("checking events between general step $i and specific step $j")
                                 if (!specificStory.eventsPerStep[j][0].transition.isLink()) {
                                     if (concreteSubsumption(generalStory.eventsPerStep[i][0], specificStory.eventsPerStep[j][0])) {
                                         alignmentFound = true
-                                        log.trace("specific story passes to step " + (j + 1))
                                         break
                                     }
                                 } else {
@@ -259,18 +234,23 @@ class Subsumption {
 
                 if (alignmentFound) {
                     log.trace("alignment found: general $i vs specific $j")
-                    if (firstSpecific) {
-                        leftSpecificLimit = j
-                        firstSpecific = false
-                    }
+
+                    curGeneralPos = i
+                    curSpecificPos = j
+
                     if (firstGeneral) {
-                        leftGeneralLimit = i
+                        detail.leftGeneralLimit = curGeneralPos
                         firstGeneral = false
                     }
+                    if (firstSpecific) {
+                        detail.leftSpecificLimit = curSpecificPos
+                        firstSpecific = false
+                    }
 
-                    rightGeneralLimit = i
-                    rightSpecificLimit = j
-                    j++
+                    detail.rightGeneralLimit = curGeneralPos
+                    detail.rightSpecificLimit = curSpecificPos
+
+                    if (!concludedSpecific && !concludedGeneral) curSpecificPos++ // adjustment for the next cycle
                     break
                 }
             }
@@ -282,30 +262,30 @@ class Subsumption {
                 } else {
                     log.trace("no, story " + generalStory + " does not subsume " + specificStory + ".")
 
-                    if (leftGeneralLimit != null && rightGeneralLimit != null && leftSpecificLimit != null && rightSpecificLimit != null)
+                    if (detail.leftGeneralLimit != null && detail.rightGeneralLimit != null && detail.leftSpecificLimit != null && detail.rightSpecificLimit != null)
                         log.trace("but well, story " + generalStory + " partially subsume " + specificStory + ": (" +
-                                leftGeneralLimit + ", " + rightGeneralLimit + ") vs (" +
-                                leftSpecificLimit + ", " + rightSpecificLimit + ")")
+                                detail.leftGeneralLimit + ", " + detail.rightGeneralLimit + ") vs (" +
+                                detail.leftSpecificLimit + ", " + detail.rightSpecificLimit + ")")
                     log.trace("I cannot find correspondences for step " + generalStory.steps[i].placesToString() + " / event " + generalStory.eventsPerStep[i])
-                    return false
+                    return detail
                 }
             }
         }
 
-        if (leftGeneralLimit != null && rightGeneralLimit != null && leftSpecificLimit != null && rightSpecificLimit != null) {
-            if (leftGeneralLimit == 0 && rightGeneralLimit == generalStory.steps.size() - 1
-                    && leftSpecificLimit == 0 && rightSpecificLimit == specificStory.steps.size() - 1) {
+        if (detail.leftGeneralLimit != null && detail.rightGeneralLimit != null && detail.leftSpecificLimit != null && detail.rightSpecificLimit != null) {
+            if (detail.leftGeneralLimit == 0 && detail.rightGeneralLimit == generalStory.steps.size() - 1
+                    && detail.leftSpecificLimit == 0 && detail.rightSpecificLimit == specificStory.steps.size() - 1) {
                 log.trace("yes, story " + generalStory + " subsumes " + specificStory + ".")
             } else {
                 log.trace("well, story " + generalStory + " partially subsume " + specificStory + ": (" +
-                        leftGeneralLimit + ", " + rightGeneralLimit + ") vs (" +
-                        leftSpecificLimit + ", " + rightSpecificLimit + ")")
+                        detail.leftGeneralLimit + ", " + detail.rightGeneralLimit + ") vs (" +
+                        detail.leftSpecificLimit + ", " + detail.rightSpecificLimit + ")")
             }
         } else {
             throw new RuntimeException("You should not be here.")
         }
 
-        return true
+        return detail
     }
 
     // to check whether a "general" net subsumes a "specific" one
@@ -330,7 +310,7 @@ class Subsumption {
             log.trace("considering specific story " + specificStory)
             Boolean storyFound = false
             for (generalStory in generalNetAnalysis.storyBase.base) {
-                if (concreteSubsumption(generalStory, specificStory)) {
+                if (concreteSubsumption(generalStory, specificStory).type() == StorySubsumptionOutcome.Type.SUBSUMES) {
                     storyFound = true
                     break
                 }
@@ -347,10 +327,8 @@ class Subsumption {
 
     static Boolean subsumes(Net generalNet, Net specificNet) {
         Subsumption subsumption = new Subsumption()
-
         generalNet.exportToLog("generalNet")
         specificNet.exportToLog("specificNet")
-
         subsumption.concreteSubsumption(generalNet, specificNet)
     }
 
@@ -359,7 +337,7 @@ class Subsumption {
         subsumption.concreteSubsumption(generalNetAnalysis, specificNetAnalysis)
     }
 
-    static Boolean subsumes(Story generalStory, Story specificStory) {
+    static StorySubsumptionOutcome subsumes(Story generalStory, Story specificStory) {
         Subsumption subsumption = new Subsumption()
         subsumption.concreteSubsumption(generalStory, specificStory)
     }

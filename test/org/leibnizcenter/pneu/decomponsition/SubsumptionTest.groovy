@@ -1,12 +1,13 @@
 package org.leibnizcenter.pneu.decomponsition
 
+import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
 import org.leibnizcenter.pneu.decomposition.Alignment
-import org.leibnizcenter.pneu.decomposition.RelationType
+import org.leibnizcenter.pneu.decomposition.StorySubsumptionOutcome
 import org.leibnizcenter.pneu.decomposition.Subsumption
 import org.leibnizcenter.pneu.examples.CommonConstructs
 
@@ -183,10 +184,10 @@ class SubsumptionTest extends GroovyTestCase {
 
         net.createArc(tIn, pAA)
         net.createBridge(pAA, pA)
-        net.createBridges([pA, pB, pC, pF])
-        net.createBridges([pA, pD, pE, pF])
+        net.createBridgesForPlaces([pA, pB, pC, pF])
+        net.createBridgesForPlaces([pA, pD, pE, pF])
         net.createBridge(pF, pG)
-        net.createBridges([pF, pH, pI, pL])
+        net.createBridgesForPlaces([pF, pH, pI, pL])
 
         net.resetIds()
         net
@@ -217,13 +218,13 @@ class SubsumptionTest extends GroovyTestCase {
 
         net.createArc(tIn, pAA)
         net.createBridge(pAA, pA)
-        net.createBridges([pA, pB, pC, pF])
-        net.createBridges([pA, pD, pE, pF])
+        net.createBridgesForPlaces([pA, pB, pC, pF])
+        net.createBridgesForPlaces([pA, pD, pE, pF])
         net.createBridge(pF, pG)
-        net.createBridges([pF, pH, pI, pL])
-        net.createBridges([pF, pM, pN, pO, pP, pQ])
+        net.createBridgesForPlaces([pF, pH, pI, pL])
+        net.createBridgesForPlaces([pF, pM, pN, pO, pP, pQ])
 
-        List<Transition> tList= net.createBridges([pN, pR, pS, pP])
+        List<Transition> tList= net.createBridgesForPlaces([pN, pR, pS, pP])
         net.createBridge(tList[0], pT, tList[1])
 
         net.resetIds()
@@ -231,7 +232,86 @@ class SubsumptionTest extends GroovyTestCase {
     }
 
     // a - b - c - d - e
-    static Net netSpecific() {
+    static Net transitionNetSpecific() {
+        Net net = new BasicNet()
+
+        Place pIn = net.createLinkPlace()
+        Place pOut = net.createLinkPlace()
+        pIn.createToken()
+
+        Transition tA = net.createTransition("a")
+        Transition tB = net.createTransition("b")
+        Transition tC = net.createTransition("c")
+        Transition tD = net.createTransition("d")
+        Transition tE = net.createTransition("e")
+
+        net.createArc(pIn, tA)
+        net.createArc(tE, pOut)
+
+        net.createsBridgesForTransitions([tA, tB, tC, tD, tE])
+        net.resetIds()
+        net
+    }
+
+    // b - c - d
+    static Net transitionNetSpecificBis() {
+        Net net = new BasicNet()
+
+        Place pIn = net.createLinkPlace()
+        Place pOut = net.createLinkPlace()
+        pIn.createToken()
+
+        Transition tB = net.createTransition("b")
+        Transition tC = net.createTransition("c")
+        Transition tD = net.createTransition("d")
+
+        net.createArc(pIn, tB)
+        net.createArc(tD, pOut)
+        net.createsBridgesForTransitions([tB, tC, tD])
+        net.resetIds()
+        net
+    }
+
+    // an abstraction of the previous one (b - d)
+    static Net transitionNetGeneral() {
+        Net net = new BasicNet()
+
+        Place pIn = net.createLinkPlace()
+        Place pOut = net.createLinkPlace()
+        pIn.createToken()
+
+        Transition tB = net.createTransition("b")
+        Transition tD = net.createTransition("d")
+
+        net.createArc(pIn, tB)
+        net.createArc(tD, pOut)
+        net.createsBridgesForTransitions([tB, tD])
+        net.resetIds()
+        net
+    }
+
+    // an abstraction of the previous one, with different terminals (a - b - d - e)
+    static Net transitionNetGeneralBis() {
+        Net net = new BasicNet()
+
+        Place pIn = net.createLinkPlace()
+        Place pOut = net.createLinkPlace()
+        pIn.createToken()
+
+        Transition tA = net.createTransition("a")
+        Transition tB = net.createTransition("b")
+        Transition tD = net.createTransition("d")
+        Transition tE = net.createTransition("e")
+
+        net.createArc(pIn, tA)
+        net.createArc(tE, pOut)
+        net.createsBridgesForTransitions([tA, tB, tD, tE])
+        net.resetIds()
+        net
+    }
+
+    // a - b - c - d - e
+    static Net placeNetSpecific() {
         Net net = new BasicNet()
         Transition tIn = net.createEmitterTransition()
         Transition tOut = net.createCollectorTransition()
@@ -242,7 +322,7 @@ class SubsumptionTest extends GroovyTestCase {
         Place pE = net.createPlace("e")
 
         net.createArc(tIn, pA)
-        net.createBridges([pA, pB, pC, pD, pE])
+        net.createBridgesForPlaces([pA, pB, pC, pD, pE])
         net.createArc(pE, tOut)
 
         net.resetIds()
@@ -250,7 +330,7 @@ class SubsumptionTest extends GroovyTestCase {
     }
 
     // a portion of the previous one: b - c - d
-    static Net netSpecificBis() {
+    static Net placeNetSpecificBis() {
         Net net = new BasicNet()
         Transition tIn = net.createEmitterTransition()
         Transition tOut = net.createCollectorTransition()
@@ -259,7 +339,7 @@ class SubsumptionTest extends GroovyTestCase {
         Place pD = net.createPlace("d")
 
         net.createArc(tIn, pB)
-        net.createBridges([pB, pC, pD])
+        net.createBridgesForPlaces([pB, pC, pD])
         net.createArc(pD, tOut)
 
         net.resetIds()
@@ -267,7 +347,7 @@ class SubsumptionTest extends GroovyTestCase {
     }
 
     // an abstraction of the previous one (b - d)
-    static Net netGeneral() {
+    static Net placeNetGeneral() {
         Net net = new BasicNet()
         Transition tIn = net.createEmitterTransition()
         Transition tOut = net.createCollectorTransition()
@@ -275,7 +355,7 @@ class SubsumptionTest extends GroovyTestCase {
         Place pD = net.createPlace("d")
 
         net.createArc(tIn, pB)
-        net.createBridges([pB, pD])
+        net.createBridgesForPlaces([pB, pD])
         net.createArc(pD, tOut)
 
         net.resetIds()
@@ -283,7 +363,7 @@ class SubsumptionTest extends GroovyTestCase {
     }
 
     // an abstraction of the previous one, with different terminals (a - b - d - e)
-    static Net netGeneralBis() {
+    static Net placeNetGeneralBis() {
         Net net = new BasicNet()
         Transition tIn = net.createEmitterTransition()
         Transition tOut = net.createCollectorTransition()
@@ -293,7 +373,7 @@ class SubsumptionTest extends GroovyTestCase {
         Place pE = net.createPlace("e")
 
         net.createArc(tIn, pA)
-        net.createBridges([pA, pB, pD, pE])
+        net.createBridgesForPlaces([pA, pB, pD, pE])
         net.createArc(pE, tOut)
 
         net.resetIds()
@@ -318,7 +398,7 @@ class SubsumptionTest extends GroovyTestCase {
     }
 
     void testSubsumption1() {
-        assert Subsumption.subsumes(net0(), net1())
+        assert !Subsumption.subsumes(net0(), net1())
     }
 
     void testSubsumption1bis() {
@@ -326,42 +406,190 @@ class SubsumptionTest extends GroovyTestCase {
     }
 
     void testSubsumption2() {
-        assert !Subsumption.subsumes(CommonConstructs.inhibitorChoice2(), CommonConstructs.inhibitorChoice1())
+        assert Subsumption.subsumes(CommonConstructs.inhibitorChoice1(), CommonConstructs.inhibitorChoice2())
     }
 
     void testSubsumption2bis() {
-        assert !Subsumption.subsumes(CommonConstructs.inhibitorChoice1(), CommonConstructs.inhibitorChoice2())
+        assert !Subsumption.subsumes(CommonConstructs.inhibitorChoice2(), CommonConstructs.inhibitorChoice1())
     }
 
-    void testAlignment() {
+    void testInhibitorChoiceSubsumption() {
 
-        Map<Story, Map<Story, RelationType>> partialMap
-        partialMap = Alignment.partialAlignmentTest(CommonConstructs.inhibitorChoice1(), CommonConstructs.inhibitorChoice2())
+        StorySubsumptionOutcome outcome
 
-        println Alignment.mapToString(partialMap)
+        // choice 1 has inhibitor arcs
+        // choice 2 not, and use and explicit negative place
+
+        // in principle the first should be more generic than the first one, as we don't use
+        // an explicit negative place
+
+        Analysis inhibitorChoice1Analysis = Analysis.analyse(CommonConstructs.inhibitorChoice1())
+        Analysis inhibitorChoice2Analysis = Analysis.analyse(CommonConstructs.inhibitorChoice2())
+
+        Story inhibitorChoice1Story = inhibitorChoice1Analysis.storyBase.base[0]
+        Story inhibitorChoice2Story = inhibitorChoice2Analysis.storyBase.base[1]
+
+        outcome = Subsumption.subsumes(inhibitorChoice1Story, inhibitorChoice2Story)
+
+        assert outcome.type() == StorySubsumptionOutcome.Type.SUBSUMES
+
+        outcome = Subsumption.subsumes(inhibitorChoice2Story, inhibitorChoice1Story)
+
+        // (st0) -- * -- (st1) -- not c -- (st4) -- e2 -- (st5) <-
+        // (st0) -- * -- (st1) -- e2 -- (st2)
+        // ? PARTIALLY_SUBSUMES (0, 0) <- (0, 0)
+
+        assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
+        assert outcome.leftGeneralLimit == 0
+        assert outcome.rightGeneralLimit == 0
+        assert outcome.leftSpecificLimit == 0
+        assert outcome.rightSpecificLimit == 0
+
+        println inhibitorChoice1Analysis.toLog()
+        println inhibitorChoice2Analysis.toLog()
+
+        inhibitorChoice1Story = inhibitorChoice1Analysis.storyBase.base[1]
+        inhibitorChoice2Story = inhibitorChoice2Analysis.storyBase.base[0]
+
+        outcome = Subsumption.subsumes(inhibitorChoice2Story, inhibitorChoice1Story)
+
+        assert outcome.type() == StorySubsumptionOutcome.Type.SUBSUMES
+
+        outcome = Subsumption.subsumes(inhibitorChoice1Story, inhibitorChoice2Story)
+
+        assert outcome.type() == StorySubsumptionOutcome.Type.SUBSUMES
+
     }
 
-    void testAlignment2() {
+    void testTransitionStorySubsumption() {
 
-        Map<Story, Map<Story, RelationType>> partialMap
+        StorySubsumptionOutcome outcome
 
-        partialMap = Alignment.partialAlignmentTest(netGeneral(), netSpecific())
-        println "################################"
-        println Alignment.mapToString(partialMap)
-        println "################################"
-        partialMap = Alignment.partialAlignmentTest(netGeneral(), netSpecificBis())
-        println "################################"
-        println Alignment.mapToString(partialMap)
-        println "################################"
-        partialMap = Alignment.partialAlignmentTest(netGeneralBis(), netSpecific())
-        println "################################"
-        println Alignment.mapToString(partialMap)
-        println "################################"
-        partialMap = Alignment.partialAlignmentTest(netGeneralBis(), netSpecificBis())
-        println "################################"
-        println Alignment.mapToString(partialMap)
-        println "################################"
+        Analysis generalAnalysis = Analysis.analyse(transitionNetGeneral())
+        Analysis specificAnalysis = Analysis.analyse(transitionNetSpecific())
+
+        assert generalAnalysis.storyBase.size == 1
+        assert specificAnalysis.storyBase.size == 1
+
+        // b - d    vs    a - b - c - d - e
+
+        Story generalStory = generalAnalysis.storyBase.base[0]
+        Story specificStory = specificAnalysis.storyBase.base[0]
+
+        outcome = Subsumption.subsumes(generalStory, specificStory)
+
+        assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
+        assert outcome.leftGeneralLimit == 0
+        assert outcome.rightGeneralLimit == 2
+        assert outcome.leftSpecificLimit == 1
+        assert outcome.rightSpecificLimit == 4
+
+        outcome = Subsumption.subsumes(specificStory, generalStory)
+
+        assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
+        assert outcome.leftGeneralLimit == 1
+        assert outcome.rightGeneralLimit == 1
+        assert outcome.leftSpecificLimit == 0
+        assert outcome.rightSpecificLimit == 0
 
     }
 
+    void testTransitionStorySubsumption2() {
+
+        Analysis generalAnalysis = Analysis.analyse(transitionNetGeneral())
+        Analysis specificAnalysis = Analysis.analyse(transitionNetSpecificBis())
+
+        assert generalAnalysis.storyBase.size == 1
+        assert specificAnalysis.storyBase.size == 1
+
+        // b - d    vs    b - c - d
+
+        Story generalStory = generalAnalysis.storyBase.base[0]
+        Story specificStory = specificAnalysis.storyBase.base[0]
+
+        StorySubsumptionOutcome outcome
+
+        outcome = Subsumption.subsumes(generalStory, specificStory)
+
+        assert outcome.type() == StorySubsumptionOutcome.Type.SUBSUMES
+        assert outcome.leftGeneralLimit == 0
+        assert outcome.rightGeneralLimit == 2
+        assert outcome.leftSpecificLimit == 0
+        assert outcome.rightSpecificLimit == 3
+
+        outcome = Subsumption.subsumes(specificStory, generalStory)
+
+        assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
+        assert outcome.leftGeneralLimit == 0
+        assert outcome.rightGeneralLimit == 0
+        assert outcome.leftSpecificLimit == 0
+        assert outcome.rightSpecificLimit == 0
+
+    }
+
+    void testTransitionStorySubsumption3() {
+
+        Analysis generalAnalysis = Analysis.analyse(transitionNetGeneralBis())
+        Analysis specificAnalysis = Analysis.analyse(transitionNetSpecific())
+
+        assert generalAnalysis.storyBase.size == 1
+        assert specificAnalysis.storyBase.size == 1
+
+        // a - b - d - e   vs    a - b - c - d - e
+
+        Story generalStory = generalAnalysis.storyBase.base[0]
+        Story specificStory = specificAnalysis.storyBase.base[0]
+
+        StorySubsumptionOutcome outcome
+
+        outcome = Subsumption.subsumes(generalStory, specificStory)
+
+        assert outcome.type() == StorySubsumptionOutcome.Type.SUBSUMES
+        assert outcome.leftGeneralLimit == 0
+        assert outcome.rightGeneralLimit == 4
+        assert outcome.leftSpecificLimit == 0
+        assert outcome.rightSpecificLimit == 5
+
+        outcome = Subsumption.subsumes(specificStory, generalStory)
+
+        assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
+        assert outcome.leftGeneralLimit == 0
+        assert outcome.rightGeneralLimit == 1
+        assert outcome.leftSpecificLimit == 0
+        assert outcome.rightSpecificLimit == 1
+
+    }
+
+    void testTransitionStorySubsumption4() {
+
+        Analysis generalAnalysis = Analysis.analyse(transitionNetGeneralBis())
+        Analysis specificAnalysis = Analysis.analyse(transitionNetSpecificBis())
+
+        assert generalAnalysis.storyBase.size == 1
+        assert specificAnalysis.storyBase.size == 1
+
+        // a - b - d - e   vs    b - c - d
+
+        Story generalStory = generalAnalysis.storyBase.base[0]
+        Story specificStory = specificAnalysis.storyBase.base[0]
+
+        StorySubsumptionOutcome outcome
+
+        outcome = Subsumption.subsumes(generalStory, specificStory)
+
+        assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
+        assert outcome.leftGeneralLimit == 1
+        assert outcome.rightGeneralLimit == 4
+        assert outcome.leftSpecificLimit == 0
+        assert outcome.rightSpecificLimit == 3
+
+        outcome = Subsumption.subsumes(specificStory, generalStory)
+
+        assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
+        assert outcome.leftGeneralLimit == 0
+        assert outcome.rightGeneralLimit == 0
+        assert outcome.leftSpecificLimit == 1
+        assert outcome.rightSpecificLimit == 1
+
+    }
 }

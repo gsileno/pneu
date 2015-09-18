@@ -1,8 +1,6 @@
 package org.leibnizcenter.pneu.decomponsition
 
-import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.animation.monolithic.NetRunner
-import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
@@ -262,10 +260,10 @@ class AnalysisDecompositionTest extends GroovyTestCase {
 
         net.createArc(tIn, pAA)
         net.createBridge(pAA, pA)
-        net.createBridges([pA, pB, pC, pF])
-        net.createBridges([pA, pD, pE, pF])
+        net.createBridgesForPlaces([pA, pB, pC, pF])
+        net.createBridgesForPlaces([pA, pD, pE, pF])
         net.createBridge(pF, pG)
-        net.createBridges([pF, pH, pI, pL])
+        net.createBridgesForPlaces([pF, pH, pI, pL])
 
         net.resetIds()
         StoryTree tree = batchDecompose(net)
@@ -313,13 +311,13 @@ class AnalysisDecompositionTest extends GroovyTestCase {
 
         net.createArc(tIn, pAA)
         net.createBridge(pAA, pA)
-        net.createBridges([pA, pB, pC, pF])
-        net.createBridges([pA, pD, pE, pF])
+        net.createBridgesForPlaces([pA, pB, pC, pF])
+        net.createBridgesForPlaces([pA, pD, pE, pF])
         net.createBridge(pF, pG)
-        net.createBridges([pF, pH, pI, pL])
-        net.createBridges([pF, pM, pN, pO, pP, pQ])
+        net.createBridgesForPlaces([pF, pH, pI, pL])
+        net.createBridgesForPlaces([pF, pM, pN, pO, pP, pQ])
 
-        List<Transition> tList= net.createBridges([pN, pR, pS, pP])
+        List<Transition> tList= net.createBridgesForPlaces([pN, pR, pS, pP])
         net.createBridge(tList[0], pT, tList[1])
 
         net.resetIds()

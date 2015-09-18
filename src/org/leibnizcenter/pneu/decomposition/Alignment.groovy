@@ -2,17 +2,13 @@ package org.leibnizcenter.pneu.decomposition
 
 import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
-import org.leibnizcenter.pneu.animation.monolithic.analysis.State
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
 import org.leibnizcenter.pneu.components.petrinet.Net
-import org.leibnizcenter.pneu.components.petrinet.Place
-import org.leibnizcenter.pneu.components.petrinet.Token
-import org.leibnizcenter.pneu.components.petrinet.TransitionEvent
 
 @Log4j
 class Alignment {
 
-    static Map<Story, Map<Story, RelationType>> partialAlignmentTest(Net left, Net right) {
+    static Map<Story, Map<Story, StorySubsumptionOutcome>> partialAlignmentTest(Net left, Net right) {
 
         // analyse
         Analysis leftAnalysis = Analysis.analyse(left)
@@ -21,7 +17,7 @@ class Alignment {
         partialAlignmentTest(leftAnalysis, rightAnalysis)
     }
 
-    static Map<Story, Map<Story, RelationType>> partialAlignmentTest(Analysis left, Analysis right) {
+    static Map<Story, Map<Story, StorySubsumptionOutcome>> partialAlignmentTest(Analysis left, Analysis right) {
 
         // decompose in partial stories
         AnalysisSESEDecomposer leftDecomposition = new AnalysisSESEDecomposer()
@@ -33,7 +29,7 @@ class Alignment {
         partialAlignmentTest(leftTree, rightTree)
     }
 
-    static Map<Story, Map<Story, RelationType>> partialAlignmentTest(StoryTree left, StoryTree right) {
+    static Map<Story, Map<Story, StorySubsumptionOutcome>> partialAlignmentTest(StoryTree left, StoryTree right) {
 
         // look for beginning/end subsumed
         List<Story> leftStories = left.flatten()
@@ -42,50 +38,69 @@ class Alignment {
         partialAlignmentTest(leftStories, rightStories)
     }
 
-    static Map<Story, Map<Story, RelationType>> partialAlignmentTest(List<Story> leftStories, List<Story> rightStories) {
+    static Map<Story, Map<Story, Map<Boolean, StorySubsumptionOutcome>>> partialAlignmentTest(List<Story> leftStories, List<Story> rightStories) {
 
-        Map<Story, Map<Story, RelationType>> partialMap = [:]
+        Map<Story, Map<Story, Map<Boolean, StorySubsumptionOutcome>>> partialMap = [:]
 
         for (leftStory in leftStories) {
             for (rightStory in rightStories) {
-                Boolean gs = Subsumption.subsumes(leftStory, rightStory)
-                Boolean sg = Subsumption.subsumes(rightStory, leftStory)
+                StorySubsumptionOutcome gs = Subsumption.subsumes(leftStory, rightStory)
+                StorySubsumptionOutcome sg = Subsumption.subsumes(rightStory, leftStory)
 
-//                RelationType relation
-//
-//                if (gs && sg) relation = RelationType.EQUIVALENT
-//                else if (gs) relation = RelationType.SUBSUMES
-//                else if (sg) relation = RelationType.IS_SUBSUMED
-//                else relation = RelationType.NONE
-//
-//                if (relation != RelationType.NONE) {
-//                    if (!partialMap.containsKey(leftStory)) {
-//                        partialMap[leftStory] = [:]
-//                    }
-//                    partialMap[leftStory][rightStory] = relation
-//                }
+                if (gs.type() != StorySubsumptionOutcome.Type.NONE || sg.type() != StorySubsumptionOutcome.Type.NONE) {
+                    if (!partialMap.containsKey(leftStory)) {
+                        partialMap[leftStory] = [:]
+                    }
+                    if (!partialMap[leftStory].containsKey(rightStory)) {
+                        partialMap[leftStory][rightStory] = [:]
+                    }
+
+                    if (gs.type() != StorySubsumptionOutcome.Type.NONE)
+                        partialMap[leftStory][rightStory][true] = gs
+                    if (sg.type() != StorySubsumptionOutcome.Type.NONE)
+                        partialMap[leftStory][rightStory][false] = sg
+                }
             }
         }
 
         partialMap
     }
 
-    static String mapToString(Map<Story, Map<Story, RelationType>> alignment) {
+    static String mapToString(Map<Story, Map<Story, Map<Boolean, StorySubsumptionOutcome>>> alignment) {
 
         String output = ""
+        String relation = ""
 
         for (left in alignment.keySet()) {
             for (right in alignment[left].keySet()) {
 
-//                String relation = ""
-//                switch (alignment[left][right]) {
-//                    case RelationType.EQUIVALENT: relation = "<->"; break
-//                    case RelationType.SUBSUMES: relation = "<-"; break
-//                    case RelationType.IS_SUBSUMED: relation = "->"; break
-//                    case RelationType.NONE: relation = "???"
-//                }
+                StorySubsumptionOutcome directOutcome = alignment[left][right][true]
+                StorySubsumptionOutcome inverseOutcome = alignment[left][right][false]
 
-//                output += left.toString() + " " + relation + " " + right.toString() + "\n"
+                // left subsumes right?
+                if (alignment[left][right][true] != null) {
+
+                    relation = "(" + directOutcome.leftGeneralLimit + ", " + directOutcome.rightGeneralLimit + ") <- " + "(" + directOutcome.leftSpecificLimit + ", " + directOutcome.rightSpecificLimit + ")"
+
+                    // right subsumes left as well?
+                    if (alignment[left][right][false] != null) {
+                        relation += " && (" + inverseOutcome.leftGeneralLimit + ", " + inverseOutcome.rightGeneralLimit + ") -> " + "(" + inverseOutcome.leftSpecificLimit + ", " + inverseOutcome.rightSpecificLimit + ")"
+
+                        if (directOutcome.leftGeneralLimit == inverseOutcome.leftSpecificLimit &&
+                                directOutcome.leftSpecificLimit == inverseOutcome.leftGeneralLimit &&
+                                directOutcome.rightGeneralLimit == inverseOutcome.rightSpecificLimit &&
+                                directOutcome.rightSpecificLimit == inverseOutcome.rightGeneralLimit)
+                            relation = "(" + inverseOutcome.leftGeneralLimit + ", " + inverseOutcome.rightGeneralLimit + ") <-> " + "(" + inverseOutcome.leftSpecificLimit + ", " + inverseOutcome.rightSpecificLimit + ")"
+                    }
+
+                } else if (alignment[left][right][false] != null) {
+
+                    relation = "(" + inverseOutcome.leftGeneralLimit + ", " + inverseOutcome.rightGeneralLimit + ") -> " + "(" + inverseOutcome.leftSpecificLimit + ", " + inverseOutcome.rightSpecificLimit + ")"
+
+
+                }
+
+                output += left.toString() + " vs\n" + right.toString() + "\n"+ "= "+relation+"\n\n"
             }
         }
 
