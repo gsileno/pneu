@@ -108,7 +108,7 @@ Analysis analysis = Analysis.analyze(net)
 analysis.exportToLog("readmeNet")
 ```
 
-output: /out/log/analysis/readmeNet.analysis.log
+output: out/log/analysis/readmeNet.analysis.log
 ```
 Summary: 
 0: t0.t0, t1.t1, t2.t2.
