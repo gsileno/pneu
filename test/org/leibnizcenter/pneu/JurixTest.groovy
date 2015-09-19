@@ -1,12 +1,10 @@
 package org.leibnizcenter.pneu
 
-import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
-import org.leibnizcenter.pneu.decomposition.Alignment
 import org.leibnizcenter.pneu.examples.MarketModel
 import org.leibnizcenter.pneu.animation.monolithic.NetRunner
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
 import org.leibnizcenter.pneu.components.petrinet.Net
-import org.leibnizcenter.pneu.decomposition.Subsumption
+import org.leibnizcenter.pneu.subsumption.Subsumption
 
 class JurixTest extends GroovyTestCase {
 

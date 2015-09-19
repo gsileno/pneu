@@ -1,9 +1,11 @@
-package org.leibnizcenter.pneu.decomposition
+package org.leibnizcenter.pneu.subsumption
 
 import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
 import org.leibnizcenter.pneu.components.petrinet.Net
+import org.leibnizcenter.pneu.decomposition.AnalysisSESEDecomposer
+import org.leibnizcenter.pneu.decomposition.StoryTree
 
 @Log4j
 class Alignment {
@@ -13,8 +15,8 @@ class Alignment {
         this.inversePartialMap = alignment.inversePartialMap
     }
 
-    Map<Story, Map<Story, StorySubsumptionOutcome>> directPartialMap = [:]
-    Map<Story, Map<Story, StorySubsumptionOutcome>> inversePartialMap = [:]
+    Map<Story, Map<Story, StorySubsumption>> directPartialMap = [:]
+    Map<Story, Map<Story, StorySubsumption>> inversePartialMap = [:]
 
     Alignment(Net left, Net right) {
         // analyse
@@ -48,18 +50,17 @@ class Alignment {
     Alignment(List<Story> leftStories, List<Story> rightStories) {
         for (leftStory in leftStories) {
             for (rightStory in rightStories) {
-                StorySubsumptionOutcome directSubsumption = Subsumption.subsumes(leftStory, rightStory)
+                StorySubsumption directSubsumption = new StorySubsumption(leftStory, rightStory)
+                StorySubsumption inverseSubsumption = new StorySubsumption(rightStory, leftStory)
 
-                StorySubsumptionOutcome inverseSubsumption = Subsumption.subsumes(rightStory, leftStory)
-
-                if (directSubsumption.type() != StorySubsumptionOutcome.Type.NONE) {
+                if (directSubsumption.type() != StorySubsumption.Type.NONE) {
                     if (!directPartialMap.containsKey(leftStory)) {
                         directPartialMap[leftStory] = [:]
                     }
                     directPartialMap[leftStory][rightStory] = directSubsumption
                 }
 
-                if (inverseSubsumption.type() != StorySubsumptionOutcome.Type.NONE) {
+                if (inverseSubsumption.type() != StorySubsumption.Type.NONE) {
                     if (!inversePartialMap.containsKey(leftStory)) {
                         inversePartialMap[leftStory] = [:]
                     }
@@ -69,7 +70,7 @@ class Alignment {
         }
     }
 
-    private static String partialMapToString(Map<Story, Map<Story, StorySubsumptionOutcome>> partialMap) {
+    private static String partialMapToString(Map<Story, Map<Story, StorySubsumption>> partialMap) {
         String output = ""
         for (left in partialMap.keySet()) {
             for (right in partialMap[left].keySet()) {

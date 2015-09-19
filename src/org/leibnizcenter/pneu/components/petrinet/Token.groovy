@@ -11,5 +11,6 @@ abstract class Token {
     abstract String label()
 
     abstract Boolean subsumes(Token t, Map<String, Map<String, String>> mapIdentifiers)
+    abstract Boolean subsumes(Token t, Map<String, Map<String, String>> mapIdentifiers, Boolean negateHead)
 
 }

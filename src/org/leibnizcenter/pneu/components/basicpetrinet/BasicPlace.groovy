@@ -43,11 +43,18 @@ class BasicPlace extends Place {
         compare(this, p)
     }
 
-    Boolean subsumes(Place p) {
+    // TODO: check negative subsumption (p -> not q)
+    Boolean subsumes(Place p, Boolean negateHead = false) {
         BasicPlace lp = (BasicPlace) p
 
-        if (name != lp.name) return false
+        if (!negateHead) {
+            if (name != lp.name) return false
+        } else {
+            if ("-"+name != lp.name && name != "-"+lp.name) return false // TODO: very basic solution
+        }
+
         return true
+
     }
 
     Token createToken() {

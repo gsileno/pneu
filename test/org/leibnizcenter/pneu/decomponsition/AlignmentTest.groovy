@@ -1,14 +1,10 @@
 package org.leibnizcenter.pneu.decomponsition
 
-import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
-import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
 import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
-import org.leibnizcenter.pneu.decomposition.Alignment
-import org.leibnizcenter.pneu.decomposition.StorySubsumptionOutcome
-import org.leibnizcenter.pneu.decomposition.Subsumption
+import org.leibnizcenter.pneu.subsumption.Alignment
 import org.leibnizcenter.pneu.examples.CommonConstructs
 
 class AlignmentTest extends GroovyTestCase {

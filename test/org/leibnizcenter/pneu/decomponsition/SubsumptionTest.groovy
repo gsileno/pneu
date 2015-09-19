@@ -6,9 +6,8 @@ import org.leibnizcenter.pneu.components.basicpetrinet.BasicNet
 import org.leibnizcenter.pneu.components.petrinet.Net
 import org.leibnizcenter.pneu.components.petrinet.Place
 import org.leibnizcenter.pneu.components.petrinet.Transition
-import org.leibnizcenter.pneu.decomposition.Alignment
-import org.leibnizcenter.pneu.decomposition.StorySubsumptionOutcome
-import org.leibnizcenter.pneu.decomposition.Subsumption
+import org.leibnizcenter.pneu.subsumption.StorySubsumption
+import org.leibnizcenter.pneu.subsumption.Subsumption
 import org.leibnizcenter.pneu.examples.CommonConstructs
 
 class SubsumptionTest extends GroovyTestCase {
@@ -417,7 +416,7 @@ class SubsumptionTest extends GroovyTestCase {
 
     void testInhibitorChoiceSubsumption() {
 
-        StorySubsumptionOutcome outcome
+        StorySubsumption outcome
 
         // the two models represent a binary mutually-exclusive choice
         // choice 1 uses inhibitor arcs
@@ -432,17 +431,17 @@ class SubsumptionTest extends GroovyTestCase {
         Story inhibitorChoice1Story = inhibitorChoice1Analysis.storyBase.base[0]
         Story inhibitorChoice2Story = inhibitorChoice2Analysis.storyBase.base[1]
 
-        outcome = Subsumption.subsumes(inhibitorChoice1Story, inhibitorChoice2Story)
+        outcome = new StorySubsumption(inhibitorChoice1Story, inhibitorChoice2Story)
 
-        assert outcome.type() == StorySubsumptionOutcome.Type.SUBSUMES
+        assert outcome.type() == StorySubsumption.Type.SUBSUMES
 
-        outcome = Subsumption.subsumes(inhibitorChoice2Story, inhibitorChoice1Story)
+        outcome = new StorySubsumption(inhibitorChoice2Story, inhibitorChoice1Story)
 
         // (st0) -- * -- (st1) -- not c -- (st4) -- e2 -- (st5) <-
         // (st0) -- * -- (st1) -- e2 -- (st2)
         // ? PARTIALLY_SUBSUMES (0, 0) <- (0, 0)
 
-        assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
+        assert outcome.type() == StorySubsumption.Type.PARTIALLY_SUBSUMES
         assert outcome.leftGeneralLimit == 0
         assert outcome.rightGeneralLimit == 0
         assert outcome.leftSpecificLimit == 0
@@ -454,19 +453,19 @@ class SubsumptionTest extends GroovyTestCase {
         inhibitorChoice1Story = inhibitorChoice1Analysis.storyBase.base[1]
         inhibitorChoice2Story = inhibitorChoice2Analysis.storyBase.base[0]
 
-        outcome = Subsumption.subsumes(inhibitorChoice2Story, inhibitorChoice1Story)
+        outcome = new StorySubsumption(inhibitorChoice2Story, inhibitorChoice1Story)
 
-        assert outcome.type() == StorySubsumptionOutcome.Type.SUBSUMES
+        assert outcome.type() == StorySubsumption.Type.SUBSUMES
 
-        outcome = Subsumption.subsumes(inhibitorChoice1Story, inhibitorChoice2Story)
+        outcome = new StorySubsumption(inhibitorChoice1Story, inhibitorChoice2Story)
 
-        assert outcome.type() == StorySubsumptionOutcome.Type.SUBSUMES
+        assert outcome.type() == StorySubsumption.Type.SUBSUMES
 
     }
 
     void testTransitionStorySubsumption() {
 
-        StorySubsumptionOutcome outcome
+        StorySubsumption outcome
 
         Analysis generalAnalysis = Analysis.analyse(transitionNetGeneral())
         Analysis specificAnalysis = Analysis.analyse(transitionNetSpecific())
@@ -479,17 +478,17 @@ class SubsumptionTest extends GroovyTestCase {
         Story generalStory = generalAnalysis.storyBase.base[0]
         Story specificStory = specificAnalysis.storyBase.base[0]
 
-        outcome = Subsumption.subsumes(generalStory, specificStory)
+        outcome = new StorySubsumption(generalStory, specificStory)
 
-        assert outcome.type() == StorySubsumptionOutcome.Type.SUBSUMES
+        assert outcome.type() == StorySubsumption.Type.SUBSUMES
         assert outcome.leftGeneralLimit == 0
         assert outcome.rightGeneralLimit == 2
         assert outcome.leftSpecificLimit == 1
         assert outcome.rightSpecificLimit == 4
 
-        outcome = Subsumption.subsumes(specificStory, generalStory)
+        outcome = new StorySubsumption(specificStory, generalStory)
 
-        assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
+        assert outcome.type() == StorySubsumption.Type.PARTIALLY_SUBSUMES
         assert outcome.leftGeneralLimit == 1
         assert outcome.rightGeneralLimit == 1
         assert outcome.leftSpecificLimit == 0
@@ -510,19 +509,19 @@ class SubsumptionTest extends GroovyTestCase {
         Story generalStory = generalAnalysis.storyBase.base[0]
         Story specificStory = specificAnalysis.storyBase.base[0]
 
-        StorySubsumptionOutcome outcome
+        StorySubsumption outcome
 
-        outcome = Subsumption.subsumes(generalStory, specificStory)
+        outcome = new StorySubsumption(generalStory, specificStory)
 
-        assert outcome.type() == StorySubsumptionOutcome.Type.SUBSUMES
+        assert outcome.type() == StorySubsumption.Type.SUBSUMES
         assert outcome.leftGeneralLimit == 0
         assert outcome.rightGeneralLimit == 2
         assert outcome.leftSpecificLimit == 0
         assert outcome.rightSpecificLimit == 3
 
-        outcome = Subsumption.subsumes(specificStory, generalStory)
+        outcome = new StorySubsumption(specificStory, generalStory)
 
-        assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
+        assert outcome.type() == StorySubsumption.Type.PARTIALLY_SUBSUMES
         assert outcome.leftGeneralLimit == 0
         assert outcome.rightGeneralLimit == 0
         assert outcome.leftSpecificLimit == 0
@@ -543,19 +542,19 @@ class SubsumptionTest extends GroovyTestCase {
         Story generalStory = generalAnalysis.storyBase.base[0]
         Story specificStory = specificAnalysis.storyBase.base[0]
 
-        StorySubsumptionOutcome outcome
+        StorySubsumption outcome
 
-        outcome = Subsumption.subsumes(generalStory, specificStory)
+        outcome = new StorySubsumption(generalStory, specificStory)
 
-        assert outcome.type() == StorySubsumptionOutcome.Type.SUBSUMES
+        assert outcome.type() == StorySubsumption.Type.SUBSUMES
         assert outcome.leftGeneralLimit == 0
         assert outcome.rightGeneralLimit == 4
         assert outcome.leftSpecificLimit == 0
         assert outcome.rightSpecificLimit == 5
 
-        outcome = Subsumption.subsumes(specificStory, generalStory)
+        outcome = new StorySubsumption(specificStory, generalStory)
 
-        assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
+        assert outcome.type() == StorySubsumption.Type.PARTIALLY_SUBSUMES
         assert outcome.leftGeneralLimit == 0
         assert outcome.rightGeneralLimit == 1
         assert outcome.leftSpecificLimit == 0
@@ -576,19 +575,19 @@ class SubsumptionTest extends GroovyTestCase {
         Story generalStory = generalAnalysis.storyBase.base[0]
         Story specificStory = specificAnalysis.storyBase.base[0]
 
-        StorySubsumptionOutcome outcome
+        StorySubsumption outcome
 
-        outcome = Subsumption.subsumes(generalStory, specificStory)
+        outcome = new StorySubsumption(generalStory, specificStory)
 
-        assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
+        assert outcome.type() == StorySubsumption.Type.PARTIALLY_SUBSUMES
         assert outcome.leftGeneralLimit == 1
         assert outcome.rightGeneralLimit == 3
         assert outcome.leftSpecificLimit == 0
         assert outcome.rightSpecificLimit == 3
 
-        outcome = Subsumption.subsumes(specificStory, generalStory)
+        outcome = new StorySubsumption(specificStory, generalStory)
 
-        assert outcome.type() == StorySubsumptionOutcome.Type.PARTIALLY_SUBSUMES
+        assert outcome.type() == StorySubsumption.Type.PARTIALLY_SUBSUMES
         assert outcome.leftGeneralLimit == 0
         assert outcome.rightGeneralLimit == 0
         assert outcome.leftSpecificLimit == 1

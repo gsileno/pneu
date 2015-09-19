@@ -30,6 +30,7 @@ class CommonConstructs {
         net
     }
 
+    // we consider a very primitive propositional logic for labels: "-" for negation.
     static Net inhibitorChoice2() {
         Net net = new BasicNet()
 
@@ -37,9 +38,9 @@ class CommonConstructs {
         Transition e1 = net.createTransition("e1")
         Transition e2 = net.createTransition("e2")
         Place pc = net.createPlace("c")
-        Place pnc = net.createPlace("not c")
+        Place pnc = net.createPlace("-c")
         Transition tc = net.createTransition("c")
-        Transition tnc = net.createTransition("not c")
+        Transition tnc = net.createTransition("-c")
         Place o1 = net.createPlace("o1")
         Place o2 = net.createPlace("o2")
         net.createPlaceNexus([tIn], [tc, tnc], [], [], [])

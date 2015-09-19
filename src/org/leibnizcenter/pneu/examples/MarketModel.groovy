@@ -229,8 +229,8 @@ class MarketModel {
         String payEvent = "pay"
         String deliverEvent = "deliver"
 
-        String negPayEvent = "neg(pay)"
-        String negDeliverEvent = "neg(deliver)"
+        String negPayEvent = "-pay"
+        String negDeliverEvent = "-deliver"
 
         Place pSellerPowerOffer = sale.createPlace(sellerPowerOffer)
         Place pBuyerPowerAccept = sale.createPlace(buyerPowerAccept)
@@ -294,6 +294,7 @@ class MarketModel {
         sale
     }
 
+    // we consider a very primitive propositional logic for labels: "-" for negation.
     static Net groundSaleScriptModel() {
         Net sale = new BasicNet()
 
@@ -315,7 +316,7 @@ class MarketModel {
         String ownsMoney = "owns"
 
         String buyEvent = "buy"
-        String negBuyEvent = "neg(buy)"
+        String negBuyEvent = "-buy"
 
         String offerEvent = "offer"
         String acceptEvent = "accept"

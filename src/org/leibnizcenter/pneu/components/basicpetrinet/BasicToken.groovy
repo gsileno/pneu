@@ -11,7 +11,8 @@ class BasicToken extends Token {
         true
     }
 
-    Boolean subsumes(Token t, Map<String, Map<String, String>> mapAnonymousIdentifiers = [:]) {
+    // TODO: check negative subsumption (p -> not q)
+    Boolean subsumes(Token t, Map<String, Map<String, String>> mapAnonymousIdentifiers = [:], Boolean negateHead = false) {
         true
     }
 
