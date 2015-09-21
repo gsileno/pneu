@@ -1,4 +1,4 @@
-package org.leibnizcenter.pneu.decomponsition
+package org.leibnizcenter.pneu.subsumption
 
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Story

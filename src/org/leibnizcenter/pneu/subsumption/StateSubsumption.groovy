@@ -9,7 +9,7 @@ class StateSubsumption {
 
     State generalState
     State specificState
-    State ancillaryState
+    State ancillarySpecificState
 
     Type type
 
@@ -68,37 +68,39 @@ class StateSubsumption {
             log.trace("yes, general state " + generalState + " subsumes specific state " + specificState + ".")
             type = Type.SUBSUMES
         } else {
-            type = Type.NONE
+            // type = Type.NONE
 
-//            // weak or necessary condition:
-//            // for all general places there should be no specific place which subsume its negation
-//
-//            // I can consider only the missing places
-//            // the problem is that we cannot define negation in basic petri nets!!!
-//
-//            for (generalPlace in missingPlaces) {
-//                for (specificPlace in specificPlaces) {
-//
-//                    LocalStateSubsumption localStateSubsumption = new LocalStateSubsumption(generalPlace, specificPlace, mapIdentifiers, true)
-//
-//                    if (localStateSubsumption.type == LocalStateSubsumption.Type.SUBSUMES) {
-//                        log.trace("no, general state " + generalState + " is explicitly refuted by specific state " + specificState + ".")
-//                        type = Type.NONE
-//                        return
-//                    }
-//                }
-//            }
-//
-//            // the remaining places can be used for ancillary alignment
-//            // for further refinement.
-//
-//            for (generalPlace in missingPlaces) {
-//                for (specificPlace in specificPlaces) {
-//                    // TODO
-//                    throw new RuntimeException("Not yet implemented")
-//                }
-//            }
+            // weak or necessary condition:
+            // for all general places there should be no specific place which subsume its negation
 
+            // I can consider only the missing places
+            // the problem is that we cannot define negation in basic petri nets!!!
+
+            for (generalPlace in missingPlaces) {
+                for (specificPlace in specificPlaces) {
+
+                    LocalStateSubsumption localStateSubsumption = new LocalStateSubsumption(generalPlace, specificPlace, mapIdentifiers, true)
+
+                    if (localStateSubsumption.type == LocalStateSubsumption.Type.SUBSUMES) {
+                        log.trace("no, general state " + generalState + " is explicitly refuted by specific state " + specificState + ".")
+                        type = Type.NONE
+                        return
+                    }
+                }
+            }
+
+            // the remaining places can be used for ancillary alignment
+            // i.e. specific places are created using the functors from the general places,
+            // and the mapping from the specific one
+
+            List<Place> ancillaryPlaces = []
+            for (generalPlace in missingPlaces) {
+                Place ancillaryPlace = generalPlace.minimalClone()
+                ancillaryPlace.createToken() // TO BE DONE: use mapIdentifiers
+                ancillaryPlaces << ancillaryPlace
+            }
+
+            ancillarySpecificState = new State(ancillaryPlaces)
         }
     }
 
@@ -110,7 +112,7 @@ class StateSubsumption {
         output += generalState.toString() + " <- " + specificState.toString() + " ? " + type
 
         if (type == Type.ANCILLARY_SUBSUMES) {
-            output += " (ancillary: ${ancillaryState.toString()})"
+            output += " (ancillary to specific: ${ancillarySpecificState.toString()})"
         }
 
         output

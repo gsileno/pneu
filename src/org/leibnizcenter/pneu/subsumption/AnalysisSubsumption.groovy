@@ -2,6 +2,7 @@ package org.leibnizcenter.pneu.subsumption
 
 import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
+import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
 
 @Log4j
 class AnalysisSubsumption {
@@ -13,19 +14,23 @@ class AnalysisSubsumption {
 
     Type type
 
+    Map<Story, Map<Story, StorySubsumption>> generalSpecificStorySubsumptionMap = [:]
+
     enum Type {
         NONE,
         SUBSUMES,
-        ANCILLARY_SUBSUMES
+        PARTIALLY_SUBSUMES,
     }
 
-    AnalysisSubsumption(Analysis inputGeneralAnalysis, Analysis inputSpecificAnalysis) {
+    AnalysisSubsumption(Analysis inputGeneralAnalysis, Analysis inputSpecificAnalysis, Boolean fullAnalysis = false) {
 
         generalAnalysis = inputGeneralAnalysis
         specificAnalysis = inputSpecificAnalysis
 
         generalAnalysis.exportToLog("generalNet")
         specificAnalysis.exportToLog("specificNet")
+
+        type = Type.NONE
 
         log.trace("does this general model subsume the specific one?")
 
@@ -39,21 +44,34 @@ class AnalysisSubsumption {
                 StorySubsumption eval = new StorySubsumption(generalStory, specificStory, mapIdentifiers)
                 log.debug(eval.toLog())
 
-                if (eval.type() == StorySubsumption.Type.SUBSUMES) {
-                    storyFound = true
-                    break
+                if (eval.type() != StorySubsumption.Type.NONE) {
+                    if (generalSpecificStorySubsumptionMap[generalStory] == null) {
+                        generalSpecificStorySubsumptionMap[generalStory] = [:]
+                    }
+                    generalSpecificStorySubsumptionMap[generalStory][specificStory] = eval
+                    if (eval.type() == StorySubsumption.Type.SUBSUMES) {
+                        if (type != Type.PARTIALLY_SUBSUMES) type = Type.SUBSUMES
+                        storyFound = true
+                        if (!fullAnalysis) break // FOR optimization: find only the first one
+                    } else {
+                        type = Type.PARTIALLY_SUBSUMES
+                    }
                 }
             }
 
-            if (!storyFound) {
+            if (!fullAnalysis && !storyFound) {
                 log.trace("no, it does not. I cannot find any general story which subsumes this specific story")
                 type = Type.NONE
                 return
             }
         }
-        log.trace("yes, it does.")
-        type = Type.SUBSUMES
+
+        if (!fullAnalysis) {
+            log.trace("yes, it does.")
+            type = Type.SUBSUMES
+        }
     }
+
 
 }
 

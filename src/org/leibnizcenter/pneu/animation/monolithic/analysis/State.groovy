@@ -17,9 +17,15 @@ class State {
     List<Place> placeList
     List<Transition> transitionList
 
-    State() {}
+    State(List<Place> places, List<Transition> transitions = []) {
 
-    State(List<Place> places) {
+        placeList = []
+        transitionList = []
+        for (place in places)
+            placeList << place.minimalClone()
+        for (transition in transitions)
+            transitionList << transition.minimalClone()
+
         placeIdTokensMap = [:]
 
         // clone the marking, maintaining the reference to the place
@@ -48,6 +54,7 @@ class State {
         String output = ""
         if (id) output += id +": "
         output += placeIdTokensMap.size() + ", " + transitionEventStateMap.size()
+        output
     }
 
     TransitionEvent findNextEvent() {
@@ -137,4 +144,7 @@ class State {
                 transitionEventStateMap: transitionEventStateMap
         )
     }
+
+    private State() {}
+
 }

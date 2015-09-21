@@ -11,18 +11,9 @@ class StateBase {
 
     State save(Execution execution) {
 
-        List<Place> places = execution.places
-
         // create a new state with the places and add to the database
-        State newState = new State(places)
+        State newState = new State(execution.net.placeList, execution.net.transitionList)
         log.trace("attempt to record a new state: " + places)
-
-        newState.placeList = []
-        newState.transitionList = []
-        for (place in execution.net.placeList)
-            newState.placeList << place.minimalClone()
-        for (transition in execution.net.transitionList)
-            newState.transitionList << transition.minimalClone()
 
         // for each state in the database
         for (state in base) {

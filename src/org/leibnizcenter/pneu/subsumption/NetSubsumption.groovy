@@ -15,7 +15,7 @@ class NetSubsumption {
     enum Type {
         NONE,
         SUBSUMES,
-        ANCILLARY_SUBSUMES
+        PARTIALLY_SUBSUMES
     }
 
     NetSubsumption(Net inputGeneralNet, Net inputSpecificNet) {
@@ -34,6 +34,9 @@ class NetSubsumption {
         if (eval.type == AnalysisSubsumption.Type.SUBSUMES) type = Type.SUBSUMES
         else if (eval.type == AnalysisSubsumption.Type.NONE) type = Type.NONE
         else throw new RuntimeException('Yet to be implemented')
+
+        // ~ you could reconstruct the partial network which allow subsumtion
+        // by removing the arcs of the last triggered transition... to be reflected later
     }
 
 }

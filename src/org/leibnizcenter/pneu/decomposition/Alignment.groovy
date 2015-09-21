@@ -1,11 +1,10 @@
-package org.leibnizcenter.pneu.subsumption
+package org.leibnizcenter.pneu.decomposition
 
 import groovy.util.logging.Log4j
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Analysis
 import org.leibnizcenter.pneu.animation.monolithic.analysis.Story
 import org.leibnizcenter.pneu.components.petrinet.Net
-import org.leibnizcenter.pneu.decomposition.AnalysisSESEDecomposer
-import org.leibnizcenter.pneu.decomposition.StoryTree
+import org.leibnizcenter.pneu.subsumption.StorySubsumption
 
 @Log4j
 class Alignment {
@@ -84,7 +83,7 @@ class Alignment {
         String output = ""
         output += "Direct ---------------------\n"
         output += partialMapToString(directPartialMap) + "\n"
-        output += "Inverse---------------------\n"
+        output += "Inverse --------------------\n"
         output += partialMapToString(inversePartialMap) + "\n"
         output
     }
