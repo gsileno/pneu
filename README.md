@@ -5,7 +5,7 @@
 
 (still quite a prototype)
 
-*pneu* provides a common kernel for petri net applications. See for instance *lppneu* (https://github.com/s1l3n0/lppneu) which extends it to allow declarative labels for *narrative modeling*.
+*pneu* provides a common kernel for petri net applications. See for instance *lppneu* (https://github.com/s1l3n0/lppneu) which extends it to allow declarative labels for *positional modeling*.
 
 Petri nets are a well-known notation for specifying distributed computation, and modeling concurrency. See https://wikipedia.org/wiki/Petri_net.
 
@@ -26,7 +26,7 @@ Yasper is a visual editor for basic petri nets, http://yasper.org. PNML is the P
 
 ## Dependencies
 
-In order to use the library, the following .jar have to be addedat compile time:
+In order to use the library, the following jars have to be added at compile time:
 
 * groovy (tested with *groovy-2.4.3*)
 * antlr4 (tested with *antlr-4.5-complete*) 
