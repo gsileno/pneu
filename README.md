@@ -24,10 +24,12 @@ Groovy is a kind of "super-Java" designed for fast development: less verbose, sc
 
 Yasper is a visual editor for basic petri nets, http://yasper.org. PNML is the Petri Net Markup Language, a standard  XML-based format, http://www.pnml.org.
 
-## Module Dependencies
+## Dependencies
+
+In order to use the library, the following .jar have to be addedat compile time:
 
 * groovy (tested with *groovy-2.4.3*)
-* antlr4 (tested with *antlr4.5-complete*) 
+* antlr4 (tested with *antlr-4.5-complete*) 
 * log4j (tested with *log4j-1.2.17*)
 
 ## Usage examples
