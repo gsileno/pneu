@@ -9,7 +9,7 @@
 
 Petri nets are a well-known notation for specifying distributed computation, and modeling concurrency. See https://wikipedia.org/wiki/Petri_net.
 
-Groovy is a kind of "super-Java" designed for fast development: less verbose, script-oriented, fully compatible. See http://www.groovy-lang.org. A full stack development environment based on groovy, the GVM, can be found on http://gvmtool.net/.
+Groovy is a kind of "super-Java" designed for fast development: less verbose, script-oriented, fully compatible. See http://www.groovy-lang.org. On Linux and Mac, you can easily install groovy and all related stack development environment via SDKMAN, http://sdkman.io/.
 
 ## Components
 
