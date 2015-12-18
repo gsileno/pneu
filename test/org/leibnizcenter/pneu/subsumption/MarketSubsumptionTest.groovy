@@ -39,4 +39,5 @@ class MarketSubsumptionTest extends GroovyTestCase {
         assert outcome.type() == StorySubsumption.Type.PARTIALLY_SUBSUMES
 
     }
+
 }
