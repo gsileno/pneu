@@ -324,9 +324,9 @@ class PN2LaTeX {
     }
 
     static convertAbsolute(Net net,
-                           Float zoomXRatio = 0.4, Float zoomYRatio = 0.4, // grid zoom
-                           Float minPlaceSize = 5, // min size for nodes (in mm)
-                           Float minTransitionSize = 5, // min size for nodes (in mm)
+                           Float zoomXRatio = 0.5, Float zoomYRatio = 0.5, // grid zoom
+                           Float minPlaceSize = 3, // min size for nodes (in mm)
+                           Float minTransitionSize = 4, // min size for nodes (in mm)
                            Float inputDotGranularity = 33) {
 
         Grid grid = new Grid(zoomXRatio: zoomXRatio, zoomYRatio: zoomYRatio, inputDotGranularity: inputDotGranularity)
@@ -472,16 +472,20 @@ class PN2LaTeX {
     // preambles
 
     static String header(Float minPlaceSize, Float minTransitionSize) { // add thick to have stronger design
-        return """\\begin{tikzpicture}[node distance=1.3cm,>=stealth',shorten >=1pt,bend angle=45,auto]
-  \\tikzstyle{place}=[circle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=3.0mm]
-  \\tikzstyle{transition}=[rectangle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=4.0mm]
+        return """\\begin{tikzpicture}[node distance=1.3cm,>=stealth',shorten >=1pt,bend angle=45,auto,scale=1, every node/.style={transform shape}]
+  \\tikzstyle{place}=[circle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=${minPlaceSize}mm]
+  \\tikzstyle{transition}=[rectangle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=${minTransitionSize}mm]
 
-  \\tikzstyle{every label}=[font=\\scriptsize,align=center,black]"""
+  \\tikzstyle{every label}=[font=\\footnotesize,align=center,black]
+"""
+//        return """\\begin{tikzpicture}[node distance=1.3cm,>=stealth',shorten >=1pt,bend angle=45,auto]
+//  \\tikzstyle{place}=[circle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=3.0mm]
+//  \\tikzstyle{transition}=[rectangle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=4.0mm]
+//  \\tikzstyle{every label}=[font=\\scriptsize,align=center,black]"""
 
 //        return """\\begin{tikzpicture}[node distance=1.3cm,>=stealth',shorten >=1pt,bend angle=45,auto]
 //  \\tikzstyle{place}=[circle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=${minPlaceSize}mm]
 //  \\tikzstyle{transition}=[rectangle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=${minTransitionSize}mm]
-//
 //  \\tikzstyle{every label}=[font=\\scriptsize,align=center,black]"""
     }
 

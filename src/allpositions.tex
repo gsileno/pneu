@@ -1,0 +1,108 @@
+\begin{tikzpicture}[node distance=1.3cm,>=stealth',shorten >=1pt,bend angle=45,auto,scale=1, every node/.style={transform shape}]
+  \tikzstyle{place}=[circle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=3.0mm]
+  \tikzstyle{transition}=[rectangle,drop shadow={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},draw=black!100,fill=white!20,minimum size=4.0mm]
+
+  \tikzstyle{every label}=[font=\footnotesize,align=center,black]
+
+  \begin{scope}
+    \node	[place]	(pl1)	[label={below:command}]	 at (1, 1)	{};
+    \node	[place]	(pl3)	[label={below:acquire\\cohesion}]	 at (1, 3)	{};
+    \node	[place]	(pl5)	[label={below:prevent\\disaggregation}]	 at (1, -1)	{};
+    \node	[place]	(pl6)	[label={below:liability}]	 at (3, 2)	{};
+    \node	[place]	(pl7)	[label={below:negative\\liability}]	 at (3, 0)	{};
+    \node	[place]	(pl12)	[label={below:duty}]	 at (5, 2)	{};
+    \node	[place]	(pl13)	[label={below:prohibition}]	 at (5, 0)	{};
+    \node	[place]	(pl17)	[label={below:acquire\\conformance}]	 at (5, 3)	{};
+    \node	[place]	(pl18)	[label={below:prevent\\violation}]	 at (5, -1)	{};
+    \node	[place]	(pl19)	[label={below:intent}]	 at (7, 2)	{};
+    \node	[place]	(pl21)	[label={below:action\\avoidance}]	 at (7, 0)	{};
+    \node	[place]	(pl24)	[label={below:intent failure}]	 at (8, 3)	{};
+    \node	[place]	(pl25)	[label={below:perceived\\power}]	 at (9, 2)	{};
+    \node	[place]	(pl28)	[label={below:action}]	 at (9, 1)	{};
+    \node	[place]	(pl29)	[label={below:action failure}]	 at (10, 2)	{};
+    \node	[place]	(pl30)	[label={below:actual power}]	 at (11, 1)	{};
+    \node	[place]	(pl32)	[label={below:intended\\outcome}]	 at (11, 0)	{};
+
+    \node	[transition]	(tr1)	 at (0, 1)	[label={below:receive\\command to\\perform action}]	{}
+      edge	[post]	(pl1);
+
+
+    \node	[transition]	(tr11)	 at (4, 0)	{}
+      edge	[pre]	(pl7);
+
+    \draw	[pre]	(tr11)	 -- (3, 1) -- (pl1);
+
+    \node	[transition]	(tr19)	 at (4, 0)	{}
+      edge	[post]	(pl13);
+
+
+    \node	[transition]	(tr2)	 at (2, 2)	{}
+      edge	[<->]	(pl1)
+      edge	[pre]	(pl3)
+      edge	[post]	(pl6);
+
+
+    \node	[transition]	(tr20)	 at (6, 0)	{}
+      edge	[pre]	(pl13)
+      edge	[pre]	(pl18)
+      edge	[post]	(pl21);
+
+
+    \node	[transition]	(tr22)	 at (6, 2)	{}
+      edge	[pre]	(pl12)
+      edge	[pre]	(pl17)
+      edge	[post]	(pl19);
+
+
+    \node	[transition]	(tr29)	 at (8, 2)	{}
+      edge	[pre]	(pl19)
+      edge	[o-]	(pl25)
+      edge	[post]	(pl24);
+
+
+    \node	[transition]	(tr30)	 at (7, 3)	[label={below:independently\\generate\\intent}]	{}
+      edge	[post]	(pl19);
+
+
+    \node	[transition]	(tr32)	 at (7, -1)	[label={below:independently\\generate\\constraint}]	{}
+      edge	[post]	(pl21);
+
+
+    \node	[transition]	(tr4)	 at (2, 0)	{}
+      edge	[<->]	(pl1)
+      edge	[pre]	(pl5)
+      edge	[post]	(pl7);
+
+
+    \node	[transition]	(tr46)	 at (8, 1)	{}
+      edge	[pre]	(pl25)
+      edge	[pre]	(pl19)
+      edge	[o-]	(pl21)
+      edge	[post]	(pl28);
+
+
+    \node	[transition]	(tr47)	 at (10, 1)	{}
+      edge	[pre]	(pl28)
+      edge	[o-]	(pl30)
+      edge	[post]	(pl29);
+
+
+    \node	[transition]	(tr51)	 at (10, 0)	{}
+      edge	[pre]	(pl30)
+      edge	[pre]	(pl28);
+
+
+    \node	[transition]	(tr54)	 at (10, 0)	{}
+      edge	[post]	(pl32);
+
+
+    \node	[transition]	(tr9)	 at (4, 2)	{}
+      edge	[pre]	(pl6)
+      edge	[post]	(pl12);
+
+    \draw	[<->]	(tr9)	 -- (3, 1) -- (pl1);
+
+  \end{scope}
+
+\end{tikzpicture}
+

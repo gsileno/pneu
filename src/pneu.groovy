@@ -65,16 +65,19 @@ if (options.arguments().size() == 0) {
             if (options.L) {
                 if (outputFile == 'false') outputFile = file.replaceFirst(~/\.[^\.]+$/, '') + ".tex"
                 new File(outputFile).withWriter { out ->
-                    out.println(PN2LaTeX.convertAbsolute(net, zoomXRatio, zoomYRatio, minPlaceSize, minTransitionSize, showId))
+                    out.println(PN2LaTeX.convertAbsolute(net))
+
+                            // net, zoomXRatio, zoomYRatio, minPlaceSize, minTransitionSize, showId))
                 }
                 print("lpetri net exported to " + outputFile)
-                if (zoomXRatio.toString() != defaultRatio.toString() || zoomYRatio.toString() != defaultRatio.toString() || minSize.toString() != defaultSize.toString())
-                    print(" (zoom ratio: "+zoomXRatio+"/"+zoomYRatio+", place size: "+minPlaceSize+", transition size: "+minTransitionSize+")")
+//                if (zoomXRatio.toString() != defaultRatio.toString() || zoomYRatio.toString() != defaultRatio.toString() || minSize.toString() != defaultSize.toString())
+//                    print(" (zoom ratio: "+zoomXRatio+"/"+zoomYRatio+", place size: "+minPlaceSize+", transition size: "+minTransitionSize+")")
             }
 
             if (options.r) {
                 println("running the lpetri net model... TODO")
             }
         }
+        print("\n")
     }
 }

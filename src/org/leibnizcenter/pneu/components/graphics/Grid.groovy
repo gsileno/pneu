@@ -79,7 +79,7 @@ class Grid {
     // TODO: it is wrong
     String printScaled(Point point) {
         point = scalePoint(point)
-        return Math.round(((Float) point.x) * 50)/100 +", "+ Math.round((Float) point.y*50)/100
+        return Math.round(((Float) point.x) * zoomXRatio * 100)/100 +", "+ Math.round((Float) point.y*zoomYRatio * 100)/100
     }
 
     Point inverseScalePoint(Point point) {

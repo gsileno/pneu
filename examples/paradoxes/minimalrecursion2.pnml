@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do1">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <transition id="tr4">
+      <name>
+        <text>violation</text>
+      </name>
+      <graphics>
+        <position x="264" y="297" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr11">
+      <name>
+        <text>initiation</text>
+      </name>
+      <graphics>
+        <position x="396" y="297" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr14">
+      <name>
+        <text>satisfaction</text>
+      </name>
+      <graphics>
+        <position x="396" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr18">
+      <name>
+        <text>start passing</text>
+      </name>
+      <graphics>
+        <position x="198" y="429" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr19">
+      <name>
+        <text>end passing</text>
+      </name>
+      <graphics>
+        <position x="330" y="429" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr1">
+      <name>
+        <text>violation</text>
+      </name>
+      <graphics>
+        <position x="693" y="495" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr2">
+      <name>
+        <text>initiation</text>
+      </name>
+      <graphics>
+        <position x="825" y="495" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr3">
+      <name>
+        <text>satisfaction</text>
+      </name>
+      <graphics>
+        <position x="825" y="561" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr5">
+      <name>
+        <text>start passing</text>
+      </name>
+      <graphics>
+        <position x="627" y="627" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr6">
+      <name>
+        <text>end passing</text>
+      </name>
+      <graphics>
+        <position x="759" y="627" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl1">
+      <name>
+        <text>forb passing</text>
+      </name>
+      <graphics>
+        <position x="198" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+    </place>
+    <place id="pl5">
+      <name>
+        <text>passing</text>
+      </name>
+      <graphics>
+        <position x="264" y="429" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl6">
+      <graphics>
+        <position x="330" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl8">
+      <name>
+        <text>obl passing</text>
+      </name>
+      <graphics>
+        <position x="462" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl16">
+      <name>
+        <text>passed</text>
+      </name>
+      <graphics>
+        <position x="396" y="429" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl2">
+      <name>
+        <text>forb passing</text>
+      </name>
+      <graphics>
+        <position x="627" y="495" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+    </place>
+    <place id="pl3">
+      <name>
+        <text>passing</text>
+      </name>
+      <graphics>
+        <position x="693" y="627" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl4">
+      <graphics>
+        <position x="759" y="495" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl7">
+      <name>
+        <text>obl passing</text>
+      </name>
+      <graphics>
+        <position x="891" y="561" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl9">
+      <name>
+        <text>passed</text>
+      </name>
+      <graphics>
+        <position x="825" y="627" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <arc id="a1" source="tr4" target="pl6" />
+    <arc id="a2" source="pl6" target="tr11" />
+    <arc id="a3" source="tr11" target="pl8" />
+    <arc id="a4" source="tr18" target="pl5" />
+    <arc id="a5" source="pl5" target="tr19" />
+    <arc id="a6" source="tr19" target="pl16" />
+    <arc id="a7" source="pl16" target="tr14" />
+    <arc id="a8" source="tr14" target="pl16" />
+    <arc id="a11" source="pl8" target="tr14" />
+    <arc id="a13" source="pl1" target="tr4" />
+    <arc id="a14" source="pl5" target="tr4" />
+    <arc id="a17" source="tr4" target="pl5" />
+    <arc id="a18" source="tr14" target="pl1">
+      <graphics>
+        <position x="198" y="363" />
+      </graphics>
+    </arc>
+    <arc id="a19" source="tr1" target="pl4" />
+    <arc id="a21" source="pl4" target="tr2" />
+    <arc id="a22" source="tr2" target="pl7" />
+    <arc id="a23" source="tr5" target="pl3" />
+    <arc id="a24" source="pl3" target="tr6" />
+    <arc id="a25" source="tr6" target="pl9" />
+    <arc id="a27" source="pl7" target="tr3" />
+    <arc id="a28" source="pl2" target="tr1" />
+    <arc id="a29" source="tr1" target="pl2" />
+    <arc id="a30" source="tr3" target="pl2">
+      <graphics>
+        <position x="627" y="561" />
+      </graphics>
+    </arc>
+    <arc id="a31" source="pl9" target="tr3" />
+    <arc id="a32" source="pl3" target="tr1" />
+    <arc id="a34" source="tr1" target="pl3" />
+  </net>
+</pnml>

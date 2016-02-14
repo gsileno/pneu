@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do689">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <transition id="tr1">
+      <name>
+        <text>receive command to perform action</text>
+      </name>
+      <graphics>
+        <position x="66" y="198" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr2">
+      <graphics>
+        <position x="198" y="132" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr4">
+      <graphics>
+        <position x="198" y="264" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr9">
+      <graphics>
+        <position x="330" y="132" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr11">
+      <graphics>
+        <position x="330" y="264" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr19">
+      <graphics>
+        <position x="330" y="264" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr20">
+      <graphics>
+        <position x="462" y="264" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr22">
+      <graphics>
+        <position x="462" y="132" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr29">
+      <graphics>
+        <position x="594" y="132" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr30">
+      <name>
+        <text>independently generate intent</text>
+      </name>
+      <graphics>
+        <position x="528" y="66" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr32">
+      <name>
+        <text>independently generate constraint</text>
+      </name>
+      <graphics>
+        <position x="528" y="330" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr46">
+      <graphics>
+        <position x="594" y="198" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr47">
+      <graphics>
+        <position x="726" y="198" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr51">
+      <graphics>
+        <position x="726" y="264" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr54">
+      <graphics>
+        <position x="726" y="264" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl1">
+      <name>
+        <text>command</text>
+      </name>
+      <graphics>
+        <position x="132" y="198" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl3">
+      <name>
+        <text>acquire cohesion</text>
+      </name>
+      <graphics>
+        <position x="132" y="66" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl5">
+      <name>
+        <text>prevent disaggregation</text>
+      </name>
+      <graphics>
+        <position x="132" y="330" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl6">
+      <name>
+        <text>liability</text>
+      </name>
+      <graphics>
+        <position x="264" y="132" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl7">
+      <name>
+        <text>negative liability</text>
+      </name>
+      <graphics>
+        <position x="264" y="264" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl12">
+      <name>
+        <text>duty</text>
+      </name>
+      <graphics>
+        <position x="396" y="132" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl13">
+      <name>
+        <text>prohibition</text>
+      </name>
+      <graphics>
+        <position x="396" y="264" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl17">
+      <name>
+        <text>acquire conformance</text>
+      </name>
+      <graphics>
+        <position x="396" y="66" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl18">
+      <name>
+        <text>prevent violation</text>
+      </name>
+      <graphics>
+        <position x="396" y="330" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl19">
+      <name>
+        <text>intent</text>
+      </name>
+      <graphics>
+        <position x="528" y="132" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl21">
+      <name>
+        <text>action avoidance</text>
+      </name>
+      <graphics>
+        <position x="528" y="264" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl24">
+      <name>
+        <text>intent failure</text>
+      </name>
+      <graphics>
+        <position x="594" y="66" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl25">
+      <name>
+        <text>perceived power</text>
+      </name>
+      <graphics>
+        <position x="660" y="132" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl28">
+      <name>
+        <text>action</text>
+      </name>
+      <graphics>
+        <position x="660" y="198" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl29">
+      <name>
+        <text>action failure</text>
+      </name>
+      <graphics>
+        <position x="726" y="132" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl30">
+      <name>
+        <text>actual power</text>
+      </name>
+      <graphics>
+        <position x="792" y="198" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl32">
+      <name>
+        <text>intended outcome</text>
+      </name>
+      <graphics>
+        <position x="792" y="264" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <arc id="a1" source="tr1" target="pl1" />
+    <arc id="a2" source="pl1" target="tr2" />
+    <arc id="a3" source="tr2" target="pl1" />
+    <arc id="a4" source="pl1" target="tr4" />
+    <arc id="a5" source="tr4" target="pl1" />
+    <arc id="a6" source="pl3" target="tr2" />
+    <arc id="a7" source="pl5" target="tr4" />
+    <arc id="a8" source="pl6" target="tr9" />
+    <arc id="a9" source="tr2" target="pl6" />
+    <arc id="a10" source="pl7" target="tr11" />
+    <arc id="a11" source="tr4" target="pl7" />
+    <arc id="a12" source="pl1" target="tr9">
+      <graphics>
+        <position x="264" y="198" />
+      </graphics>
+    </arc>
+    <arc id="a13" source="tr9" target="pl1">
+      <graphics>
+        <position x="264" y="198" />
+      </graphics>
+    </arc>
+    <arc id="a14" source="pl1" target="tr11">
+      <graphics>
+        <position x="264" y="198" />
+      </graphics>
+    </arc>
+    <arc id="a15" source="tr9" target="pl12" />
+    <arc id="a16" source="tr19" target="pl13" />
+    <arc id="a17" source="pl13" target="tr20" />
+    <arc id="a18" source="pl12" target="tr22" />
+    <arc id="a19" source="pl17" target="tr22" />
+    <arc id="a20" source="pl18" target="tr20" />
+    <arc id="a21" source="pl19" target="tr29" />
+    <arc id="a22" source="tr22" target="pl19" />
+    <arc id="a23" source="tr30" target="pl19" />
+    <arc id="a24" source="tr32" target="pl21" />
+    <arc id="a25" source="tr20" target="pl21" />
+    <arc id="a26" source="tr29" target="pl24" />
+    <arc id="a27" source="tr29" target="pl25">
+      <type>
+        <text>inhibitor</text>
+      </type>
+    </arc>
+    <arc id="a28" source="tr46" target="pl28" />
+    <arc id="a29" source="pl28" target="tr47" />
+    <arc id="a30" source="pl25" target="tr46" />
+    <arc id="a31" source="pl19" target="tr46" />
+    <arc id="a32" source="tr46" target="pl21">
+      <type>
+        <text>inhibitor</text>
+      </type>
+    </arc>
+    <arc id="a33" source="tr47" target="pl29" />
+    <arc id="a34" source="pl30" target="tr51" />
+    <arc id="a35" source="tr47" target="pl30">
+      <type>
+        <text>inhibitor</text>
+      </type>
+    </arc>
+    <arc id="a36" source="pl28" target="tr51" />
+    <arc id="a37" source="tr54" target="pl32" />
+  </net>
+</pnml>

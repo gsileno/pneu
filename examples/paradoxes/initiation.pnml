@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do1">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <transition id="tr11">
+      <name>
+        <text>recognize initiation reference</text>
+      </name>
+      <graphics>
+        <position x="330" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl9">
+      <name>
+        <text>obl $alfa$</text>
+      </name>
+      <graphics>
+        <position x="264" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl23">
+      <name>
+        <text>$beta$</text>
+      </name>
+      <graphics>
+        <position x="330" y="165" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <transition id="tr35">
+      <name>
+        <text>recognize violation</text>
+      </name>
+      <graphics>
+        <position x="330" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr39">
+      <name>
+        <text>recognize satisfaction</text>
+      </name>
+      <graphics>
+        <position x="198" y="363" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl29">
+      <name>
+        <text>$alfa$</text>
+      </name>
+      <graphics>
+        <position x="198" y="429" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl31">
+      <name>
+        <text>not $alfa$</text>
+      </name>
+      <graphics>
+        <position x="330" y="429" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <arc id="a1" source="tr11" target="pl9" />
+    <arc id="a2" source="pl23" target="tr11" />
+    <arc id="a3" source="pl9" target="tr35" />
+    <arc id="a4" source="tr35" target="pl9" />
+    <arc id="a5" source="pl9" target="tr39" />
+    <arc id="a6" source="tr39" target="pl9" />
+    <arc id="a7" source="pl29" target="tr39" />
+    <arc id="a8" source="pl31" target="tr35" />
+  </net>
+</pnml>

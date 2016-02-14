@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do1480">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <place id="pl1">
+      <name>
+        <text>mechanism 1</text>
+      </name>
+      <graphics>
+        <position x="114" y="114" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl2">
+      <name>
+        <text>mechanism 2</text>
+      </name>
+      <graphics>
+        <position x="180" y="246" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl3">
+      <name>
+        <text>mechanism 3</text>
+      </name>
+      <graphics>
+        <position x="246" y="378" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <transition id="tr1">
+      <name>
+        <text>initiate mechanism 2</text>
+      </name>
+      <graphics>
+        <position x="114" y="180" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr2">
+      <name>
+        <text>removal mechanism 1</text>
+      </name>
+      <graphics>
+        <position x="180" y="48" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr3">
+      <graphics>
+        <position x="246" y="180" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr4">
+      <name>
+        <text>initiate mechanism 3</text>
+      </name>
+      <graphics>
+        <position x="180" y="312" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr5">
+      <graphics>
+        <position x="312" y="312" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr6">
+      <graphics>
+        <position x="48" y="48" />
+        <dimension x="32" y="32" />
+      </graphics>
+      <toolspecific tool="Yasper" version="1.2.4020.34351">
+        <emitor xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <text>true</text>
+        </emitor>
+        <processingTime xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec">
+          <mean>
+            <text>1</text>
+          </mean>
+          <deviation>
+            <text>0</text>
+          </deviation>
+        </processingTime>
+      </toolspecific>
+    </transition>
+    <arc id="a1" source="tr1" target="pl2" />
+    <arc id="a2" source="pl1" target="tr2" />
+    <arc id="a3" source="pl2" target="tr3" />
+    <arc id="a4" source="pl3" target="tr5" />
+    <arc id="a5" source="tr4" target="pl3" />
+    <arc id="a6" source="tr6" target="pl1" />
+    <arc id="a7" source="pl3" target="tr3" />
+    <arc id="a8" source="pl1" target="tr1" />
+    <arc id="a9" source="tr1" target="pl1" />
+    <arc id="a10" source="pl2" target="tr4" />
+    <arc id="a11" source="tr4" target="pl2" />
+  </net>
+</pnml>
