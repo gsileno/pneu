@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do1">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <place id="pl1">
+      <name>
+        <text>obligation</text>
+      </name>
+      <graphics>
+        <position x="264" y="99" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl5">
+      <name>
+        <text>intent</text>
+      </name>
+      <graphics>
+        <position x="330" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl6">
+      <name>
+        <text>perceived affordance</text>
+      </name>
+      <graphics>
+        <position x="462" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl7">
+      <name>
+        <text>action</text>
+      </name>
+      <graphics>
+        <position x="396" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl9">
+      <name>
+        <text>actual affordance</text>
+      </name>
+      <graphics>
+        <position x="528" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl10">
+      <name>
+        <text>consequences</text>
+      </name>
+      <graphics>
+        <position x="462" y="495" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl4">
+      <name>
+        <text>prohibition</text>
+      </name>
+      <graphics>
+        <position x="726" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl12">
+      <name>
+        <text>institutional failure</text>
+      </name>
+      <graphics>
+        <position x="198" y="231" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl15">
+      <graphics>
+        <position x="561" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl17">
+      <name>
+        <text>institutional failure</text>
+      </name>
+      <graphics>
+        <position x="660" y="363" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl24">
+      <name>
+        <text>institutional success</text>
+      </name>
+      <graphics>
+        <position x="330" y="495" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <transition id="tr1">
+      <graphics>
+        <position x="330" y="165" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr4">
+      <graphics>
+        <position x="396" y="297" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr7">
+      <graphics>
+        <position x="462" y="429" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr11">
+      <graphics>
+        <position x="198" y="165" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr17">
+      <graphics>
+        <position x="660" y="297" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr19">
+      <graphics>
+        <position x="660" y="297" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr29">
+      <graphics>
+        <position x="330" y="429" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr6">
+      <name>
+        <text>independenly generate intent</text>
+      </name>
+      <graphics>
+        <position x="396" y="165" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl11">
+      <graphics>
+        <position x="396" y="429" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <arc id="a11" source="pl5" target="tr4" />
+    <arc id="a12" source="tr1" target="pl5" />
+    <arc id="a13" source="pl6" target="tr4" />
+    <arc id="a14" source="tr4" target="pl7" />
+    <arc id="a15" source="pl7" target="tr7" />
+    <arc id="a16" source="pl9" target="tr7" />
+    <arc id="a17" source="tr7" target="pl10" />
+    <arc id="a18" source="pl1" target="tr11" />
+    <arc id="a19" source="tr11" target="pl12" />
+    <arc id="a22" source="pl15" target="tr17" />
+    <arc id="a23" source="tr4" target="pl15" />
+    <arc id="a24" source="tr17" target="pl17" />
+    <arc id="a25" source="tr29" target="pl24" />
+    <arc id="a26" source="tr6" target="pl5">
+      <graphics>
+        <position x="363" y="198" />
+      </graphics>
+    </arc>
+    <arc id="a29" source="pl1" target="tr1" />
+    <arc id="a30" source="tr1" target="pl1" />
+    <arc id="a31" source="pl4" target="tr19" />
+    <arc id="a32" source="tr19" target="pl4" />
+    <arc id="a33" source="pl1" target="tr29">
+      <graphics>
+        <position x="264" y="363" />
+      </graphics>
+    </arc>
+    <arc id="a34" source="tr7" target="pl11" />
+    <arc id="a35" source="pl11" target="tr29" />
+  </net>
+</pnml>

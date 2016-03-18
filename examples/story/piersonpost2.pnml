@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do1">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <place id="pl12">
+      <graphics>
+        <position x="132" y="66" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl13">
+      <graphics>
+        <position x="264" y="66" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <transition id="tr7">
+      <name>
+        <text>Pierson intercepts the fox</text>
+      </name>
+      <graphics>
+        <position x="66" y="66" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr8">
+      <name>
+        <text>Pierson kills the fox</text>
+      </name>
+      <graphics>
+        <position x="198" y="66" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr9">
+      <name>
+        <text>Pierson takes the fox</text>
+      </name>
+      <graphics>
+        <position x="330" y="66" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <arc id="a1" source="tr7" target="pl12" />
+    <arc id="a2" source="pl12" target="tr8" />
+    <arc id="a3" source="pl13" target="tr9" />
+    <arc id="a4" source="tr8" target="pl13" />
+  </net>
+</pnml>

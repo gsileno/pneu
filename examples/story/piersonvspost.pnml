@@ -1,0 +1,364 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do1">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <transition id="tr1">
+      <graphics>
+        <position x="297" y="330" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr4">
+      <graphics>
+        <position x="429" y="462" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr7">
+      <graphics>
+        <position x="759" y="528" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr2">
+      <graphics>
+        <position x="297" y="462" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr6">
+      <graphics>
+        <position x="363" y="594" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr5">
+      <graphics>
+        <position x="495" y="528" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr10">
+      <graphics>
+        <position x="627" y="528" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr15">
+      <name>
+        <text>fox appears</text>
+      </name>
+      <graphics>
+        <position x="231" y="759" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr12">
+      <graphics>
+        <position x="429" y="198" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr20">
+      <graphics>
+        <position x="165" y="396" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl1">
+      <name>
+        <text>hunting foxes</text>
+      </name>
+      <graphics>
+        <position x="231" y="264" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl3">
+      <name>
+        <text>there is a fox</text>
+      </name>
+      <graphics>
+        <position x="231" y="396" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl5">
+      <name>
+        <text>intent of becoming owner of the fox</text>
+      </name>
+      <graphics>
+        <position x="363" y="396" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl6">
+      <name>
+        <text>affordance</text>
+      </name>
+      <graphics>
+        <position x="495" y="396" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl7">
+      <name>
+        <text>intercepting the fox</text>
+      </name>
+      <graphics>
+        <position x="429" y="528" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl9">
+      <name>
+        <text>correct disposition</text>
+      </name>
+      <graphics>
+        <position x="759" y="462" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl10">
+      <name>
+        <text>owns the fox</text>
+      </name>
+      <graphics>
+        <position x="759" y="594" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl8">
+      <name>
+        <text>intent failure</text>
+      </name>
+      <graphics>
+        <position x="297" y="528" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl11">
+      <name>
+        <text>action failure</text>
+      </name>
+      <graphics>
+        <position x="363" y="660" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl13">
+      <name>
+        <text>killing the fox</text>
+      </name>
+      <graphics>
+        <position x="561" y="528" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl17">
+      <name>
+        <text>taking the fox</text>
+      </name>
+      <graphics>
+        <position x="693" y="528" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl14">
+      <name>
+        <text>the fox is a fera naturae</text>
+      </name>
+      <graphics>
+        <position x="99" y="396" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl22">
+      <name>
+        <text>foxes are ferae naturae</text>
+      </name>
+      <graphics>
+        <position x="165" y="330" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+    </place>
+    <place id="pl2">
+      <name>
+        <text>power of becoming owner of a fera naturae by taking it</text>
+      </name>
+      <graphics>
+        <position x="429" y="132" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+    </place>
+    <place id="pl18">
+      <name>
+        <text>power of becoming owner of the fox by taking it</text>
+      </name>
+      <graphics>
+        <position x="495" y="198" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <transition id="tr9">
+      <graphics>
+        <position x="495" y="264" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl21">
+      <name>
+        <text>there is a person in pursuit of a fera naturae</text>
+      </name>
+      <graphics>
+        <position x="429" y="957" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <transition id="tr18">
+      <graphics>
+        <position x="429" y="891" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl25">
+      <name>
+        <text>someone in pursuit of a fera naturae has exclusive right on taking it</text>
+      </name>
+      <graphics>
+        <position x="429" y="825" />
+        <dimension x="20" y="20" />
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+    </place>
+    <transition id="tr22">
+      <graphics>
+        <position x="561" y="891" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl27">
+      <name>
+        <text>that person has exclusive right on taking the fox</text>
+      </name>
+      <graphics>
+        <position x="495" y="891" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl30">
+      <name>
+        <text>prohibition of taking the fox</text>
+      </name>
+      <graphics>
+        <position x="627" y="891" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <transition id="tr27">
+      <graphics>
+        <position x="627" y="726" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl32">
+      <name>
+        <text>institutional failure</text>
+      </name>
+      <graphics>
+        <position x="693" y="726" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl33">
+      <graphics>
+        <position x="627" y="627" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl34">
+      <name>
+        <text>I'm not that person</text>
+      </name>
+      <graphics>
+        <position x="561" y="825" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <arc id="a1" source="pl1" target="tr1" />
+    <arc id="a2" source="pl3" target="tr1" />
+    <arc id="a3" source="tr1" target="pl5" />
+    <arc id="a4" source="pl6" target="tr4" />
+    <arc id="a5" source="tr4" target="pl7" />
+    <arc id="a6" source="pl9" target="tr7" />
+    <arc id="a7" source="tr7" target="pl10" />
+    <arc id="a8" source="pl5" target="tr2" />
+    <arc id="a9" source="tr2" target="pl8" />
+    <arc id="a12" source="tr6" target="pl11" />
+    <arc id="a13" source="pl7" target="tr6" />
+    <arc id="a17" source="pl5" target="tr7">
+      <graphics>
+        <position x="429" y="330" />
+        <position x="891" y="330" />
+        <position x="891" y="528" />
+      </graphics>
+    </arc>
+    <arc id="a19" source="pl5" target="tr4" />
+    <arc id="a20" source="tr4" target="pl5" />
+    <arc id="a21" source="pl7" target="tr5" />
+    <arc id="a22" source="tr5" target="pl13" />
+    <arc id="a23" source="pl13" target="tr10" />
+    <arc id="a24" source="tr10" target="pl17" />
+    <arc id="a30" source="pl17" target="tr7" />
+    <arc id="a31" source="tr15" target="pl3" />
+    <arc id="a34" source="pl14" target="tr12">
+      <graphics>
+        <position x="99" y="198" />
+      </graphics>
+    </arc>
+    <arc id="a35" source="pl22" target="tr20" />
+    <arc id="a36" source="tr20" target="pl14" />
+    <arc id="a37" source="pl2" target="tr12" />
+    <arc id="a38" source="tr12" target="pl2" />
+    <arc id="a39" source="tr12" target="pl18" />
+    <arc id="a40" source="pl3" target="tr20">
+      <graphics>
+        <position x="198" y="396" />
+        <position x="198" y="396" />
+      </graphics>
+    </arc>
+    <arc id="a41" source="pl18" target="tr9" />
+    <arc id="a42" source="tr9" target="pl6" />
+    <arc id="a43" source="tr9" target="pl9">
+      <graphics>
+        <position x="759" y="264" />
+      </graphics>
+    </arc>
+    <arc id="a44" source="pl21" target="tr18" />
+    <arc id="a45" source="pl25" target="tr18" />
+    <arc id="a46" source="pl27" target="tr22" />
+    <arc id="a47" source="tr18" target="pl27" />
+    <arc id="a48" source="tr22" target="pl30" />
+    <arc id="a49" source="pl30" target="tr27" />
+    <arc id="a50" source="tr27" target="pl30" />
+    <arc id="a51" source="tr27" target="pl32" />
+    <arc id="a52" source="tr10" target="pl33" />
+    <arc id="a53" source="pl33" target="tr27" />
+    <arc id="a54" source="pl14" target="tr18">
+      <graphics>
+        <position x="99" y="891" />
+      </graphics>
+    </arc>
+    <arc id="a55" source="pl34" target="tr22" />
+  </net>
+</pnml>

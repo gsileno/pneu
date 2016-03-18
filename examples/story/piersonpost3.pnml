@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do1">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <place id="pl6">
+      <name>
+        <text>Post is in a uninhabitated land</text>
+      </name>
+      <graphics>
+        <position x="198" y="132" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl7">
+      <name>
+        <text>Post is catching the fox</text>
+      </name>
+      <graphics>
+        <position x="198" y="198" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl8">
+      <name>
+        <text>Pierson conscious of Post's pursuit</text>
+      </name>
+      <graphics>
+        <position x="198" y="264" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl9">
+      <name>
+        <text>Post has an exclusive right on the fox</text>
+      </name>
+      <graphics>
+        <position x="363" y="198" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <transition id="tr5">
+      <graphics>
+        <position x="297" y="198" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <arc id="a5" source="pl8" target="tr5">
+      <graphics>
+        <position x="231" y="264" />
+        <position x="231" y="198" />
+      </graphics>
+    </arc>
+    <arc id="a6" source="pl6" target="tr5">
+      <graphics>
+        <position x="231" y="132" />
+        <position x="231" y="198" />
+      </graphics>
+    </arc>
+    <arc id="a7" source="pl7" target="tr5">
+      <graphics>
+        <position x="231" y="198" />
+        <position x="231" y="198" />
+        <position x="231" y="198" />
+      </graphics>
+    </arc>
+    <arc id="a8" source="tr5" target="pl9" />
+  </net>
+</pnml>
