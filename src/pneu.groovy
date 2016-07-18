@@ -1,6 +1,6 @@
-import org.leibnizcenter.pneu.components.petrinet.Net
-import org.leibnizcenter.pneu.builders.PN2LaTeX
-import org.leibnizcenter.pneu.parsers.PNML2PN
+import pneu.components.petrinet.Net
+import pneu.builders.PN2LaTeX
+import pneu.parsers.PNML2PN
 
 // grid scaling ratio in latex export
 double defaultRatio = 0.65

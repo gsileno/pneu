@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pnml>
+  <net type="http://www.yasper.org/specs/epnml-1.1" id="do228">
+    <toolspecific tool="Yasper" version="1.2.4020.34351">
+      <roles xmlns="http://www.yasper.org/specs/epnml-1.1/toolspec" />
+    </toolspecific>
+    <transition id="tr1">
+      <graphics>
+        <position x="363" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <transition id="tr2">
+      <graphics>
+        <position x="429" y="231" />
+        <dimension x="32" y="32" />
+      </graphics>
+    </transition>
+    <place id="pl1">
+      <name>
+        <text>Obl(q|p)</text>
+      </name>
+      <graphics>
+        <position x="363" y="165" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl2">
+      <name>
+        <text>obl(q)</text>
+      </name>
+      <graphics>
+        <position x="363" y="297" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <place id="pl3">
+      <name>
+        <text>p</text>
+      </name>
+      <graphics>
+        <position x="429" y="165" />
+        <dimension x="20" y="20" />
+      </graphics>
+    </place>
+    <arc id="a1" source="pl1" target="tr1" />
+    <arc id="a2" source="tr1" target="pl2" />
+    <arc id="a3" source="pl3" target="tr2" />
+    <arc id="a4" source="tr2" target="pl2" />
+    <arc id="a5" source="pl1" target="tr2" />
+  </net>
+</pnml>
